@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Skolerute</string>
     <string name="finn_n_rmeste_skole">Finn nærmeste Skole</string>
+    <string name="knapp_finn_nærmeste">Finn nærmeste skole</string>
 </resources>
