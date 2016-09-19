@@ -19,6 +19,7 @@ public class DummyStorage implements StorageInterface {
 
     @Override
     public SchoolInfo[] GetSchoolInfo() {
+        
         return (SchoolInfo[])schoolInfo.toArray();
     }
 
