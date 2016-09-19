@@ -5,6 +5,7 @@ import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by espen on 19.09.16.
@@ -16,6 +17,8 @@ public class DummyStorage implements StorageInterface {
     public DummyStorage() {
         for(int i = 0; i < 10; i++) {
             SchoolInfo dummySchool = new SchoolInfo();
+            SchoolVacationDay dummyVacationDay = new SchoolVacationDay();
+
             dummySchool.setNorth(1234567.11);
             dummySchool.setEast(7654321.99);
             dummySchool.setLatitude(58.946442);
@@ -25,6 +28,16 @@ public class DummyStorage implements StorageInterface {
             dummySchool.setHomePage("www.school" + i +".com");
             dummySchool.setSudents("ELEVER/TRINN 1.-51  2.-68  3.-51  4.- 69  5.-49  6.-45  7.-41");
             dummySchool.setCapacity("" + 10+i + "klasserom");
+
+            Date todayDate = new Date(System.currentTimeMillis());
+            dummyVacationDay.setDate(todayDate);
+            dummyVacationDay.setName("Skole " + i);
+            dummyVacationDay.setStudentDay(i % 2 == 0);
+            dummyVacationDay.setSfoDay(i % 2 != 0);
+            dummyVacationDay.setTeacherDay(true);
+
+            schoolInfo.add(dummySchool);
+            schoolVacationDay.add(dummyVacationDay);
         }
     }
 
