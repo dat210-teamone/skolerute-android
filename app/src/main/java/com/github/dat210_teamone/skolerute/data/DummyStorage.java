@@ -46,12 +46,12 @@ public class DummyStorage implements StorageInterface {
     @Override
     public SchoolInfo[] GetSchoolInfo() {
         
-        return (SchoolInfo[])schoolInfo.toArray();
+        return schoolInfo.toArray(new SchoolInfo[schoolInfo.size()]);
     }
 
     @Override
     public SchoolVacationDay[] GetVacationDays() {
-        return (SchoolVacationDay[])schoolVacationDay.toArray();
+        return (SchoolVacationDay[])schoolVacationDay.toArray(new SchoolVacationDay[schoolVacationDay.size()]);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class DummyStorage implements StorageInterface {
                 filter.add(obj);
             }
         }
-        return (SchoolInfo[])filter.toArray();
+        return filter.toArray(new SchoolInfo[filter.size()]);
     }
 
     @Override
@@ -75,6 +75,6 @@ public class DummyStorage implements StorageInterface {
                 filter.add(obj);
             }
         }
-        return (SchoolVacationDay[])filter.toArray();
+        return (SchoolVacationDay[])filter.toArray(new SchoolVacationDay[filter.size()]);
     }
 }
