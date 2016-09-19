@@ -3,6 +3,7 @@ package com.github.dat210_teamone.skolerute;
 import com.github.dat210_teamone.skolerute.data.DummyStorage;
 import com.github.dat210_teamone.skolerute.data.StorageInterface;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
+import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,17 +15,26 @@ import java.util.Date;
  */
 public class StorageInterfaceTest {
     @Test
-    public void TestRetrieveAll() throws Exception{
+    public void TestRetrieveAllSchools() throws Exception{
         StorageInterface si = new DummyStorage();
-
         SchoolInfo[] test = si.GetSchoolInfo();
         Assert.assertEquals(10, test.length);
     }
 
     @Test
-    public void TestSchoolFilter() throws Exception{
+    public void TestSchoolFilter() throws Exception {
         StorageInterface si = new DummyStorage();
-        SchoolInfo[] infos = si.GetSchoolInfo((test) -> { return test.getSchoolName().equals("Skole 2"); });
+        SchoolInfo[] infos = si.GetSchoolInfo((test) -> {
+            return test.getSchoolName().equals("Skole 2");
+        });
         Assert.assertEquals(1, infos.length);
+    }
+
+    @Test
+    public void TestRetrieveAllVacationDays() throws Exception{
+        StorageInterface si = new DummyStorage();
+
+        SchoolVacationDay[] test = si.GetVacationDays();
+        Assert.assertEquals(10, test.length);
     }
 }
