@@ -20,4 +20,11 @@ public class StorageInterfaceTest {
         SchoolInfo[] test = si.GetSchoolInfo();
         Assert.assertEquals(10, test.length);
     }
+
+    @Test
+    public void TestSchoolFilter() throws Exception{
+        StorageInterface si = new DummyStorage();
+        SchoolInfo[] infos = si.GetSchoolInfo((test) -> { return test.getSchoolName().equals("Skole 2"); });
+        Assert.assertEquals(1, infos.length);
+    }
 }
