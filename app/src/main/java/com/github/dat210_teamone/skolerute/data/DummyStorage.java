@@ -15,6 +15,8 @@ public class DummyStorage implements StorageInterface {
     private ArrayList<SchoolVacationDay> schoolVacationDay;
 
     public DummyStorage() {
+        schoolInfo = new ArrayList<>();
+        schoolVacationDay = new ArrayList<>();
         for(int i = 0; i < 10; i++) {
             SchoolInfo dummySchool = new SchoolInfo();
             SchoolVacationDay dummyVacationDay = new SchoolVacationDay();
