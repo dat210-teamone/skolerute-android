@@ -13,12 +13,4 @@ public class calendar extends AppCompatActivity {
         setContentView(R.layout.activity_calendar);
     }
 
-    public void changeView(View view) {
-        Intent myIntent = new Intent(this, CalendarList.class);
-        startActivity(myIntent);
-    }
-
-    public void showSchools(View view) {
-
-    }
 }

@@ -24,4 +24,13 @@ public class MainActivity extends AppCompatActivity {
         Intent myIntent = new Intent(this, AddSchoolActivity.class);
         startActivity(myIntent);
     }
+
+    public void changeView(View view) {
+        Intent myIntent = new Intent(this, CalendarList.class);
+        startActivity(myIntent);
+    }
+
+    public void showSchools(View view) {
+
+    }
 }
