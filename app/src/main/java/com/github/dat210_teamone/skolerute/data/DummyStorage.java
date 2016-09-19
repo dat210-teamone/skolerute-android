@@ -25,6 +25,11 @@ public class DummyStorage implements StorageInterface {
             dummySchool.setEast(7654321.99);
             dummySchool.setLatitude(58.946442);
             dummySchool.setLongitude(5.726693);
+            dummySchool.setId(i+1);
+            dummySchool.setObjectType("Bygning");
+            dummySchool.setKomm(1103);
+            dummySchool.setByggTyp_NBR(613);
+            dummySchool.setInformation((i+1 % 2) == 0 ? "Kommunal" : "Fylkeskommunal");
             dummySchool.setSchoolName("Skole " + i);
             dummySchool.setAddress("Address " + i);
             dummySchool.setHomePage("www.school" + i +".com");
