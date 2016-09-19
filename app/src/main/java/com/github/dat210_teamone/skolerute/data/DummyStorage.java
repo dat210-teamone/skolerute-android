@@ -36,8 +36,8 @@ public class DummyStorage implements StorageInterface {
             dummyVacationDay.setSfoDay(i % 2 != 0);
             dummyVacationDay.setTeacherDay(true);
 
-            this.schoolInfo.add(dummySchool);
-            this.schoolVacationDay.add(dummyVacationDay);
+            schoolInfo.add(dummySchool);
+            schoolVacationDay.add(dummyVacationDay);
         }
     }
 
