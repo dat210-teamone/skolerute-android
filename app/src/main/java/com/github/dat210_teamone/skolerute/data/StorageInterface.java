@@ -9,9 +9,9 @@ import java.util.function.Function;
  * Created by Nicolas on 19.09.2016.
  */
 public interface StorageInterface {
-    SchoolInfo[] GetSchoolInfo();
-    SchoolVacationDay[] GetVacationDays();
+    SchoolInfo[] getSchoolInfo();
+    SchoolVacationDay[] getVacationDays();
 
-    SchoolInfo[] GetSchoolInfo(Predicate<SchoolInfo> func);
-    SchoolVacationDay[] GetVacationDays(Predicate<SchoolVacationDay> func);
+    SchoolInfo[] getSchoolInfo(Predicate<SchoolInfo> func);
+    SchoolVacationDay[] getVacationDays(Predicate<SchoolVacationDay> func);
 }

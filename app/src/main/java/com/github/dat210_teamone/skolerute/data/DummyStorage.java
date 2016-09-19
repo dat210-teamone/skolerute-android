@@ -29,7 +29,7 @@ public class DummyStorage implements StorageInterface {
             dummySchool.setObjectType("Bygning");
             dummySchool.setKomm(1103);
             dummySchool.setByggTyp_NBR(613);
-            dummySchool.setInformation((i+1 % 2) == 0 ? "Kommunal" : "Fylkeskommunal");
+            dummySchool.setInformation(((i+1) % 2) == 0 ? "Kommunal" : "Fylkeskommunal");
             dummySchool.setSchoolName("Skole " + i);
             dummySchool.setAddress("Address " + i);
             dummySchool.setHomePage("www.school" + i +".com");
@@ -49,18 +49,18 @@ public class DummyStorage implements StorageInterface {
     }
 
     @Override
-    public SchoolInfo[] GetSchoolInfo() {
+    public SchoolInfo[] getSchoolInfo() {
         
         return schoolInfo.toArray(new SchoolInfo[schoolInfo.size()]);
     }
 
     @Override
-    public SchoolVacationDay[] GetVacationDays() {
+    public SchoolVacationDay[] getVacationDays() {
         return (SchoolVacationDay[])schoolVacationDay.toArray(new SchoolVacationDay[schoolVacationDay.size()]);
     }
 
     @Override
-    public SchoolInfo[] GetSchoolInfo(Predicate<SchoolInfo> func) {
+    public SchoolInfo[] getSchoolInfo(Predicate<SchoolInfo> func) {
         ArrayList<SchoolInfo> filter = new ArrayList<SchoolInfo>();
         for (SchoolInfo obj : schoolInfo)
         {
@@ -72,7 +72,7 @@ public class DummyStorage implements StorageInterface {
     }
 
     @Override
-    public SchoolVacationDay[] GetVacationDays(Predicate<SchoolVacationDay> func) {
+    public SchoolVacationDay[] getVacationDays(Predicate<SchoolVacationDay> func) {
         ArrayList<SchoolVacationDay> filter = new ArrayList<SchoolVacationDay>();
         for (SchoolVacationDay obj : schoolVacationDay)
         {

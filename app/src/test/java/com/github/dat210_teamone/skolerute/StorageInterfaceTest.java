@@ -8,33 +8,53 @@ import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Date;
-
 /**
  * Created by Nicolas on 19.09.2016.
  */
 public class StorageInterfaceTest {
+    StorageInterface si = new DummyStorage();
+    public StorageInterfaceTest()
+    {
+
+    }
+
     @Test
     public void TestRetrieveAllSchools() throws Exception{
-        StorageInterface si = new DummyStorage();
-        SchoolInfo[] test = si.GetSchoolInfo();
+        SchoolInfo[] test = si.getSchoolInfo();
         Assert.assertEquals(10, test.length);
     }
 
     @Test
     public void TestSchoolFilter() throws Exception {
-        StorageInterface si = new DummyStorage();
-        SchoolInfo[] infos = si.GetSchoolInfo((test) -> {
+        SchoolInfo[] infos = si.getSchoolInfo((test) -> {
             return test.getSchoolName().equals("Skole 2");
         });
         Assert.assertEquals(1, infos.length);
     }
 
     @Test
-    public void TestRetrieveAllVacationDays() throws Exception{
-        StorageInterface si = new DummyStorage();
+    public void TestManySchoolFilter() throws Exception{
+        SchoolInfo[] infos = si.getSchoolInfo((test) -> {
+            return test.getInformation().equals("Kommunal");
+        });
+        Assert.assertEquals(5, infos.length);
+    }
 
-        SchoolVacationDay[] test = si.GetVacationDays();
+    @Test
+    public void TestRetrieveAllVacationDays() throws Exception{
+        SchoolVacationDay[] test = si.getVacationDays();
         Assert.assertEquals(10, test.length);
     }
+
+    @Test
+    public void TestVacationDaysFilter() throws Exception{
+        SchoolVacationDay[] infos = si.getVacationDays((test) -> test.getName().equals("Skole 3"));
+        Assert.assertEquals(1, infos.length);
+    }
+    @Test
+    public void TestManyVacationDaysFilter() throws Exception{
+        SchoolVacationDay[] infos = si.getVacationDays((test) -> test.isStudentDay());
+        Assert.assertEquals(5, infos.length);
+    }
+
 }
