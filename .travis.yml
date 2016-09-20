@@ -1,0 +1,27 @@
+language: android
+sudo: false
+
+jdk:
+  - oraclejdk8
+  
+
+env:
+  global:
+    - GRADLE_OPTS="-Xmx2048m -Xms512m"
+    
+cache:
+  directories:
+    - $HOME/.gradle
+  
+android:
+  components:
+    - tools
+    - tools
+    - build-tools-24.0.2
+    - android-24   
+    - platform-tools
+    - extra-android-m2repository
+#  licenses:
+#    - android-sdk-license-.+
+script:
+  - ./gradlew build check

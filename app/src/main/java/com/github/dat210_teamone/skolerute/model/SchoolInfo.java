@@ -5,10 +5,10 @@ package com.github.dat210_teamone.skolerute.model;
  */
 public class SchoolInfo {
     int id;
-    int north;
-    int east;
-    int latitude;
-    int longitude;
+    double north;
+    double east;
+    double latitude;
+    double longitude;
     String objectType;
     int komm;
     int byggTyp_NBR;
@@ -27,35 +27,35 @@ public class SchoolInfo {
         this.id = id;
     }
 
-    public int getNorth() {
+    public double getNorth() {
         return north;
     }
 
-    public void setNorth(int north) {
+    public void setNorth(double north) {
         this.north = north;
     }
 
-    public int getEast() {
+    public double getEast() {
         return east;
     }
 
-    public void setEast(int east) {
+    public void setEast(double east) {
         this.east = east;
     }
 
-    public int getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(int latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public int getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(int longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
