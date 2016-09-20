@@ -8,6 +8,10 @@ jdk:
 env:
   global:
     - GRADLE_OPTS="-Xmx2048m -Xms512m"
+    
+cache:
+  directories:
+    - $HOME/.gradle
   
 android:
   components:
