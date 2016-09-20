@@ -1,4 +1,10 @@
 language: android
+jdk:
+  - oraclejdk8
+  
+cache:
+  directories:
+    - $HOME/.gradle
 android:
   components:
     - build-tools-24.0.2
@@ -7,4 +13,4 @@ android:
     - tools
     - platform-tools
 script:
-  - ./gradlew build connectedCheck
+  - ./gradlew build
