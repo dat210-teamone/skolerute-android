@@ -33,6 +33,7 @@ public class StorageInterfaceTest {
     @Test
     public void TestManySchoolFilter() throws Exception {
         SchoolInfo[] infos = si.getSchoolInfo((test) -> test.getInformation().equals("Kommunal"));
+        
         Assert.assertEquals(5, infos.length);
     }
 
