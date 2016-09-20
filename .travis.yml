@@ -4,6 +4,11 @@ sudo: false
 jdk:
   - oraclejdk8
   
+
+env:
+  global:
+    - GRADLE_OPTS="-Xmx2048m -Xms512m"
+  
 android:
   components:
     - tools
