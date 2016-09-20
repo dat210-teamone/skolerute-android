@@ -26,7 +26,7 @@ public class StorageInterfaceTest {
 
     @Test
     public void TestSchoolFilter() throws Exception {
-        SchoolInfo[] infos = si.getSchoolInfo((test) -> test.getSchoolName().equals("Skole 2"))
+        SchoolInfo[] infos = si.getSchoolInfo((test) -> test.getSchoolName().equals("Skole 2"));
         Assert.assertEquals(1, infos.length);
     }
 
