@@ -3,3 +3,7 @@ android:
   components:
     - build-tools-24.0.2
     - android-15
+	- tools
+    - platform-tools
+script:
+  - ./gradlew build connectedCheck
