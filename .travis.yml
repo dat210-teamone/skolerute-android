@@ -12,7 +12,7 @@ android:
     - android-24   
     - platform-tools
     - extra-android-m2repository
-  licenses:
-    - android-sdk-license-.+
-script:
-  - ./gradlew build
+#  licenses:
+#    - android-sdk-license-.+
+#script:
+#  - ./gradlew build
