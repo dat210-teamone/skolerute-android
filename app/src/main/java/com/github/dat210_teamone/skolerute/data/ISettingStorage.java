@@ -5,7 +5,7 @@ package com.github.dat210_teamone.skolerute.data;
  */
 
 public interface ISettingStorage {
-    public String[] get();
-    public void add(String s);
-    public boolean delete(String s);
+    String[] get();
+    void add(String s);
+    boolean delete(String s);
 }
