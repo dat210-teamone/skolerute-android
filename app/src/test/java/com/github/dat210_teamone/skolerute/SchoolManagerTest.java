@@ -7,7 +7,7 @@ import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import org.junit.Test;
 
 /**
- * Created by MAIN on 21.09.2016.
+ * Created by Fredrik Wigsnes on 21.09.2016.
  */
 
 public class SchoolManagerTest {
@@ -15,4 +15,6 @@ public class SchoolManagerTest {
     public SchoolManagerTest() {
 
     }
+
+    
 }
