@@ -1,7 +1,7 @@
 package com.github.dat210_teamone.skolerute;
 
 import com.github.dat210_teamone.skolerute.data.DummyStorage;
-import com.github.dat210_teamone.skolerute.data.StorageInterface;
+import com.github.dat210_teamone.skolerute.data.IStorage;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
@@ -12,7 +12,7 @@ import org.junit.Test;
  * Created by Nicolas on 19.09.2016.
  */
 public class StorageInterfaceTest {
-    StorageInterface si = new DummyStorage();
+    IStorage si = new DummyStorage();
     public StorageInterfaceTest()
     {
 
