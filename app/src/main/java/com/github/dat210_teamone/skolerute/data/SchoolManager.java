@@ -12,16 +12,29 @@ import java.util.Arrays;
 
 public class SchoolManager {
     IStorage storage;
+    ISettingStorage settings;
     ArrayList<String> selectedSchools;
 
-    public SchoolManager(IStorage storage){
-        this.storage = storage;
-        selectedSchools = new ArrayList<>();
-        selectedSchools.add("Skole 2");
-        selectedSchools.add("Skole 6");
+    public SchoolManager()
+    {
+        this(InterfaceManager.getStorage(), InterfaceManager.getSettings());
     }
 
-    public boolean CheckName(String name){
+    public SchoolManager(IStorage storage, ISettingStorage settings){
+        this.storage = storage;
+        this.settings = settings;
+        selectedSchools = new ArrayList<>();
+        addAll(settings.get());
+    }
+
+    private void addAll(String[] names){
+        selectedSchools.clear();
+        for(String s : names){
+            selectedSchools.add(s);
+        }
+    }
+
+    public boolean checkName(String name){
         for (String val : selectedSchools) {
             if (name.equals(val))
                 return true;
@@ -29,12 +42,12 @@ public class SchoolManager {
         return false;
     }
 
-    public SchoolInfo[] GetSelectedSchools(){
-        return  storage.getSchoolInfo(info -> CheckName(info.getSchoolName()));
+    public SchoolInfo[] getSelectedSchools(){
+        return  storage.getSchoolInfo(info -> checkName(info.getSchoolName()));
     }
 
-    public SchoolVacationDay[] GetSelectedSchoolDays(){
-        SchoolVacationDay[] days = storage.getVacationDays(info -> CheckName(info.getName()));
+    public SchoolVacationDay[] getSelectedSchoolDays(){
+        SchoolVacationDay[] days = storage.getVacationDays(info -> checkName(info.getName()));
         Arrays.sort(days, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         return days;
     }
