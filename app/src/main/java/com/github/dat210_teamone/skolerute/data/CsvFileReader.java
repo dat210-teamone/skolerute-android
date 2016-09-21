@@ -6,19 +6,24 @@ import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by espen on 21.09.16.
  */
 
 public class CsvFileReader {
-    private ArrayList<SchoolInfo> schoolInfo;
-    private ArrayList<SchoolVacationDay> schoolVacationDay;
+    private ArrayList<SchoolInfo> schoolInfos;
+    private ArrayList<SchoolVacationDay> schoolVacationDays;
 
-    public CsvFileReader(String fileName) {
-        schoolInfo = new ArrayList<>();
-        readSchoolInfoCsv(fileName);
+    public CsvFileReader(String schoolInfoFileName, String vacationDayFileName) {
+        schoolInfos = new ArrayList<>();
+        schoolVacationDays = new ArrayList<>();
+        readSchoolInfoCsv(schoolInfoFileName);
+        readSchoolVacationDayCsv(vacationDayFileName);
     }
 
     private void readSchoolInfoCsv(String fileName) {
@@ -27,8 +32,8 @@ public class CsvFileReader {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             br.readLine();
             while((line = br.readLine()) != null) {
-                SchoolInfo tmpInfo = new SchoolInfo();
                 String[] attribs = line.split(",");
+                SchoolInfo tmpInfo = new SchoolInfo();
                 tmpInfo.setNorth(Double.parseDouble(attribs[0]));
                 tmpInfo.setEast(Double.parseDouble((attribs[1])));
                 tmpInfo.setLatitude(Double.parseDouble(attribs[2]));
@@ -43,11 +48,36 @@ public class CsvFileReader {
                 tmpInfo.setHomePage(attribs[11]);
                 tmpInfo.setSudents(attribs[12]);
                 tmpInfo.setCapacity(attribs[13]);
-                schoolInfo.add(tmpInfo);
+                schoolInfos.add(tmpInfo);
             }
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
 
+    private void readSchoolVacationDayCsv(String fileName) {
+        String line;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
+            br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] attrib = line.split(",");
+                SchoolVacationDay tmpVacationDay = new SchoolVacationDay();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                tmpVacationDay.setDate(formatter.parse(attrib[0]));
+                tmpVacationDay.setName(attrib[1]);
+                tmpVacationDay.setStudentDay(attrib[2].equals("Ja"));
+                tmpVacationDay.setTeacherDay(attrib[3].equals("Ja"));
+                tmpVacationDay.setSfoDay(attrib[4].equals("Ja"));
+                if(attrib.length == 6) {
+                    tmpVacationDay.setComment(attrib[5]);
+                } else {
+                    tmpVacationDay.setComment("");
+                }
+                schoolVacationDays.add(tmpVacationDay);
+            }
+        } catch(IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
 }

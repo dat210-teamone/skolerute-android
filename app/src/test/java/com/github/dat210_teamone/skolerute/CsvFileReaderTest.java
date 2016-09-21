@@ -10,9 +10,10 @@ import org.junit.Test;
  */
 
 public class CsvFileReaderTest {
-    private CsvFileReader csvFileReader = new CsvFileReader("/home/espen/Downloads/skoler.csv");
+    private CsvFileReader csvFileReader = new CsvFileReader("/home/espen/Downloads/skoler.csv", "/home/espen/Downloads/skolerute-2016-17.csv");
 
     @Test
     public void TestCsvFileReader() throws Exception {
+        Assert.assertEquals(1,1);
     }
 }
