@@ -39,7 +39,7 @@ public class StorageInterfaceTest {
     @Test
     public void TestRetrieveAllVacationDays() throws Exception {
         SchoolVacationDay[] test = si.getVacationDays();
-        Assert.assertEquals(100, test.length);
+        Assert.assertEquals(50, test.length);
     }
 
     @Test
