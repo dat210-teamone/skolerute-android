@@ -11,6 +11,7 @@ import java.util.Arrays;
  */
 
 public class SchoolManager {
+    static SchoolManager defaultManager;
     IStorage storage;
     ISettingStorage settings;
     ArrayList<String> selectedSchools;
@@ -18,6 +19,13 @@ public class SchoolManager {
     public SchoolManager()
     {
         this(InterfaceManager.getStorage(), InterfaceManager.getSettings());
+    }
+
+    public static SchoolManager getDefault() {
+        if (defaultManager == null){
+            defaultManager = new SchoolManager();
+        }
+        return defaultManager;
     }
 
     public SchoolManager(IStorage storage, ISettingStorage settings){
