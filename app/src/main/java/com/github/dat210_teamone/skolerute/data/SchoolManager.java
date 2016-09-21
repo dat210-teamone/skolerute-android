@@ -59,4 +59,14 @@ public class SchoolManager {
         Arrays.sort(days, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         return days;
     }
+
+    public void addDefault(String name) {
+        settings.add(name);
+        addAll(settings.get());
+    }
+
+    public void removeDefault(String name){
+        settings.delete(name);
+        addAll(settings.get());
+    }
 }
