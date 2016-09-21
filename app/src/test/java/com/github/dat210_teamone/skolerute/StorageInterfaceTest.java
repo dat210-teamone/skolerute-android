@@ -1,7 +1,7 @@
 package com.github.dat210_teamone.skolerute;
 
 import com.github.dat210_teamone.skolerute.data.DummyStorage;
-import com.github.dat210_teamone.skolerute.data.StorageInterface;
+import com.github.dat210_teamone.skolerute.data.IStorage;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
@@ -12,7 +12,7 @@ import org.junit.Test;
  * Created by Nicolas on 19.09.2016.
  */
 public class StorageInterfaceTest {
-    StorageInterface si = new DummyStorage();
+    IStorage si = new DummyStorage();
     public StorageInterfaceTest()
     {
 
@@ -33,25 +33,24 @@ public class StorageInterfaceTest {
     @Test
     public void TestManySchoolFilter() throws Exception {
         SchoolInfo[] infos = si.getSchoolInfo((test) -> test.getInformation().equals("Kommunal"));
-
         Assert.assertEquals(5, infos.length);
     }
 
     @Test
     public void TestRetrieveAllVacationDays() throws Exception {
         SchoolVacationDay[] test = si.getVacationDays();
-        Assert.assertEquals(10, test.length);
+        Assert.assertEquals(100, test.length);
     }
 
     @Test
     public void TestVacationDaysFilter() throws Exception {
         SchoolVacationDay[] infos = si.getVacationDays((test) -> test.getName().equals("Skole 3"));
-        Assert.assertEquals(1, infos.length);
+        Assert.assertEquals(5, infos.length);
     }
     @Test
     public void TestManyVacationDaysFilter() throws Exception {
         SchoolVacationDay[] infos = si.getVacationDays((test) -> test.isStudentDay());
-        Assert.assertEquals(5, infos.length);
+        Assert.assertEquals(25, infos.length);
     }
 
 }
