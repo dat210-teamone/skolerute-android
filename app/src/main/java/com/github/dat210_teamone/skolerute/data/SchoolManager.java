@@ -21,7 +21,7 @@ public class SchoolManager {
         selectedSchools.add("Skole 6");
     }
 
-    private boolean CheckName(String name){
+    public boolean CheckName(String name){
         for (String val : selectedSchools) {
             if (name.equals(val))
                 return true;
