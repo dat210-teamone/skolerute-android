@@ -8,7 +8,7 @@ import java.util.function.Function;
 /**
  * Created by Nicolas on 19.09.2016.
  */
-public interface StorageInterface {
+public interface IStorage {
     SchoolInfo[] getSchoolInfo();
     SchoolVacationDay[] getVacationDays();
 
