@@ -21,7 +21,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".calendar" />
         <activity android:name=".CalendarList" />
-        <activity android:name=".StoredSchools"></activity>
+        <activity android:name=".StoredSchools" />
+        <activity android:name=".NearestSchool"></activity>
     </application>
 
 </manifest>

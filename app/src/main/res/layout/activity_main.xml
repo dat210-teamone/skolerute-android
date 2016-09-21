@@ -13,12 +13,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/knapp_finn_nærmeste"
+        android:text="@string/knapp_finn_nermeste"
         android:id="@+id/button_alle"
         android:layout_marginTop="139dp"
         android:layout_below="@+id/seekBar"
         android:layout_centerHorizontal="true"
-        android:onClick="changeActivity"/>
+        android:onClick="findSchool"/>
 
     <SeekBar
         android:layout_width="wrap_content"
