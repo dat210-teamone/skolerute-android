@@ -5,6 +5,7 @@ import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Created by Nicolas on 21.09.2016.
@@ -58,6 +59,14 @@ public class SchoolManager {
         SchoolVacationDay[] days = storage.getVacationDays(info -> checkName(info.getName()));
         Arrays.sort(days, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         return days;
+    }
+
+    public SchoolVacationDay getNextVacationDay(String name) {
+        SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().equals(name) && info.getDate().after(new Date(System.currentTimeMillis())));
+        if (svd.length == 0) {
+            return null;
+        }
+        return svd[0];
     }
 
     public void addDefault(String name) {
