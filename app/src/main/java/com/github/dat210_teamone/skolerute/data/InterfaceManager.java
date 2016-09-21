@@ -9,8 +9,12 @@ public final class InterfaceManager {
 
     }
 
-    public static IStorage GetStorage()
+    public static IStorage getStorage()
     {
         return new DummyStorage();
+    }
+
+    public static ISettingStorage getSettings(){
+        return null;
     }
 }
