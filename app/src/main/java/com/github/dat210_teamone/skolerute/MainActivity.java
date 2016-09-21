@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /** Called when the user clicks the Send button */
     public void changeActivity(View view) {
         Intent myIntent = new Intent(this, AddSchoolActivity.class);
         startActivity(myIntent);
