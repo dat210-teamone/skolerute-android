@@ -12,6 +12,7 @@ import java.util.Date;
  */
 
 public class SchoolManager {
+    static SchoolManager defaultManager;
     IStorage storage;
     ISettingStorage settings;
     ArrayList<String> selectedSchools;
@@ -19,6 +20,13 @@ public class SchoolManager {
     public SchoolManager()
     {
         this(InterfaceManager.getStorage(), InterfaceManager.getSettings());
+    }
+
+    public static SchoolManager getDefault() {
+        if (defaultManager == null){
+            defaultManager = new SchoolManager();
+        }
+        return defaultManager;
     }
 
     public SchoolManager(IStorage storage, ISettingStorage settings){
@@ -55,9 +63,19 @@ public class SchoolManager {
 
     public SchoolVacationDay getNextVacationDay(String name) {
         SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().equals(name) && info.getDate().after(new Date(System.currentTimeMillis())));
-        if (svd.length == 0){
+        if (svd.length == 0) {
             return null;
         }
         return svd[0];
+    }
+
+    public void addDefault(String name) {
+        settings.add(name);
+        addAll(settings.get());
+    }
+
+    public void removeDefault(String name){
+        settings.delete(name);
+        addAll(settings.get());
     }
 }

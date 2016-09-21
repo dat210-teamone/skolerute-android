@@ -1,5 +1,7 @@
 package com.github.dat210_teamone.skolerute;
 
+import com.android.internal.util.Predicate;
+
 import com.github.dat210_teamone.skolerute.data.DummySettingStorage;
 import com.github.dat210_teamone.skolerute.data.DummyStorage;
 import com.github.dat210_teamone.skolerute.data.ISettingStorage;
@@ -13,18 +15,21 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.github.dat210_teamone.skolerute.data.OneUtils.Contains;
+
 /**
  * Created by Fredrik Wigsnes on 21.09.2016.
  */
 
 public class SchoolManagerTest {
 
+    IStorage si = new DummyStorage();
+    ISettingStorage iss = new DummySettingStorage();
+
     private SchoolManager sm;
 
     public SchoolManagerTest() {
-        IStorage ds = new DummyStorage();
-        ISettingStorage dss = new DummySettingStorage();
-        this.sm = new SchoolManager(ds,dss);
+        this.sm = new SchoolManager(si,iss);
     }
 
     @Test
@@ -33,6 +38,13 @@ public class SchoolManagerTest {
         boolean cn2 = sm.checkName("Skole 3");
         Assert.assertTrue("Name not in selected schools", cn1);
         Assert.assertFalse("Name in selected schools", cn2);
+    }
+
+    @Test
+    public void TestAddDefault() throws Exception {
+        Assert.assertFalse("Skole 4 is already in the array", Contains(sm.getSelectedSchools(), item -> item.getSchoolName().equals("Skole 4")));
+        sm.addDefault("Skole 4");
+        Assert.assertTrue("Skole 4 is not added to array", Contains(sm.getSelectedSchools(), item -> item.getSchoolName().equals("Skole 4")));
     }
 
     @Test
