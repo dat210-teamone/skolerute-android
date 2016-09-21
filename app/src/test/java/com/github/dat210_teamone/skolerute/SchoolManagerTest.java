@@ -5,4 +5,5 @@ package com.github.dat210_teamone.skolerute;
  */
 
 public class SchoolManagerTest {
+
 }
