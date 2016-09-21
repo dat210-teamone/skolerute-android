@@ -1,5 +1,6 @@
 package com.github.dat210_teamone.skolerute.data;
 
+import com.android.internal.util.Predicate;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
@@ -15,13 +16,13 @@ import java.util.Locale;
  * Created by espen on 21.09.16.
  */
 
-public class CsvFileReader {
+public class CsvFileReader implements IStorage {
     private ArrayList<SchoolInfo> schoolInfos;
-    private ArrayList<SchoolVacationDay> schoolVacationDays;
+    private ArrayList<SchoolVacationDay> vacationDays;
 
     public CsvFileReader(String schoolInfoFileName, String vacationDayFileName) {
         schoolInfos = new ArrayList<>();
-        schoolVacationDays = new ArrayList<>();
+        vacationDays = new ArrayList<>();
         readSchoolInfoCsv(schoolInfoFileName);
         readSchoolVacationDayCsv(vacationDayFileName);
     }
@@ -61,6 +62,8 @@ public class CsvFileReader {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             br.readLine();
             while ((line = br.readLine()) != null) {
+                if(line.equals(""))
+                    break;
                 String[] attrib = line.split(",");
                 SchoolVacationDay tmpVacationDay = new SchoolVacationDay();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -74,10 +77,44 @@ public class CsvFileReader {
                 } else {
                     tmpVacationDay.setComment("");
                 }
-                schoolVacationDays.add(tmpVacationDay);
+                vacationDays.add(tmpVacationDay);
             }
         } catch(IOException | ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public SchoolInfo[] getSchoolInfo() {
+        return schoolInfos.toArray(new SchoolInfo[schoolInfos.size()]);
+    }
+
+    @Override
+    public SchoolVacationDay[] getVacationDays() {
+        return vacationDays.toArray(new SchoolVacationDay[vacationDays.size()]);
+    }
+
+    @Override
+    public SchoolInfo[] getSchoolInfo(Predicate<SchoolInfo> func) {
+        ArrayList<SchoolInfo> filter = new ArrayList<>();
+        for (SchoolInfo obj : schoolInfos)
+        {
+            if (func.apply(obj)) {
+                filter.add(obj);
+            }
+        }
+        return filter.toArray(new SchoolInfo[filter.size()]);
+    }
+
+    @Override
+    public SchoolVacationDay[] getVacationDays(Predicate<SchoolVacationDay> func) {
+        ArrayList<SchoolVacationDay> filter = new ArrayList<>();
+        for (SchoolVacationDay obj : vacationDays)
+        {
+            if (func.apply(obj)) {
+                filter.add(obj);
+            }
+        }
+        return filter.toArray(new SchoolVacationDay[filter.size()]);
     }
 }
