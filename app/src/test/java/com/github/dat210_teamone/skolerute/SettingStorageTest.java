@@ -13,7 +13,7 @@ import org.junit.Test;
 public class SettingStorageTest {
     ISettingStorage settingStorage;
 
-    public SettingStorageTest {
+    public SettingStorageTest() {
         settingStorage = new DummySettingStorage();
         settingStorage.add("Skole 1");
         settingStorage.add("Skole 5");
@@ -21,5 +21,7 @@ public class SettingStorageTest {
     }
 
     @Test
+    public void TestGet() throws Exception {
 
+    }
 }
