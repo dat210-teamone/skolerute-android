@@ -18,7 +18,10 @@
         <activity
             android:name=".AddSchoolActivity"
             android:label="@string/title_activity_add_school"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".calendar" />
+        <activity android:name=".CalendarList" />
+        <activity android:name=".StoredSchools"></activity>
     </application>
 
 </manifest>

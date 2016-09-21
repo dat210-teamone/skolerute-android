@@ -11,12 +11,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        if(5<2){
+            setContentView(R.layout.activity_main);
+        }else {
+            setContentView(R.layout.activity_calendar);
+        }
+
     }
 
-    /** Called when the user clicks the Send button */
     public void changeActivity(View view) {
         Intent myIntent = new Intent(this, AddSchoolActivity.class);
         startActivity(myIntent);
+    }
+
+    public void changeView(View view) {
+        Intent myIntent = new Intent(this, CalendarList.class);
+        startActivity(myIntent);
+    }
+
+    public void showSchools(View view) {
+
     }
 }
