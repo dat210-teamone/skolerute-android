@@ -10,17 +10,17 @@ public class DummySettingStorage implements ISettingStorage {
     private ArrayList<String> selectedSchools;
 
     @Override
-    public String[] Get() {
+    public String[] get() {
         return selectedSchools.toArray(new String[selectedSchools.size()]);
     }
 
     @Override
-    public void Add(String s) {
+    public void add(String s) {
         selectedSchools.add(s);
     }
 
     @Override
-    public boolean Delete(String s) {
+    public boolean delete(String s) {
         return selectedSchools.remove(s);
     }
 }
