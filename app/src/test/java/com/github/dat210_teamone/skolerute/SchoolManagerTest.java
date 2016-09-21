@@ -67,4 +67,17 @@ public class SchoolManagerTest {
         Assert.assertTrue("Date comes before today", new Date(System.currentTimeMillis()).before(svd.getDate()));
         Assert.assertNotNull("Date is set to null", svd);
     }
+
+    @Test
+    public void TestaddDefault() {
+        sm.addDefault("Skole 99");
+        Assert.assertTrue("Skole 99 is not correctly added", sm.checkName("Skole 99"));
+    }
+
+    @Test
+    public void TestRemoveDefault() {
+        sm.addDefault("Skole 99");
+        sm.removeDefault("Skole 99");
+        Assert.assertFalse("Skole 99 is not correctly deleted", sm.checkName("Skole 99"));
+    }
 }
