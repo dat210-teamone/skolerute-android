@@ -11,12 +11,25 @@ import org.junit.Test;
  */
 
 public class SettingStorageTest {
-    ISettingStorage settingStorage = new DummySettingStorage();
-
+    private ISettingStorage settingStorage = new DummySettingStorage();
 
     @Test
     public void TestGet() throws Exception {
-        String[] names = {"Skole 1", "Skole 5", "Skole 3"};
-        Assert.assertArrayEquals(names, settingStorage.get());
+        String[] testNames = {"Skole 2", "Skole 6"};
+        Assert.assertArrayEquals(testNames, settingStorage.get());
+    }
+
+    @Test
+    public void TestAdd() throws Exception {
+        String[] testNames = {"Skole 2", "Skole 6", "Skole 4"};
+        settingStorage.add("Skole 4");
+        Assert.assertArrayEquals(testNames, settingStorage.get());
+    }
+
+    @Test
+    public void TestDelete() throws Exception {
+        String[] testNames = {"Skole 6"};
+        settingStorage.delete("Skole 2");
+        Assert.assertArrayEquals(testNames, settingStorage.get());
     }
 }
