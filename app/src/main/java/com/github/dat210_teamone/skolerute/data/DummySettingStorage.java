@@ -9,6 +9,12 @@ import java.util.ArrayList;
 public class DummySettingStorage implements ISettingStorage {
     private ArrayList<String> selectedSchools;
 
+    public DummySettingStorage() {
+        selectedSchools = new ArrayList<>();
+        selectedSchools.add("Skole 2");
+        selectedSchools.add("Skole 6");
+    }
+
     @Override
     public String[] get() {
         return selectedSchools.toArray(new String[selectedSchools.size()]);
