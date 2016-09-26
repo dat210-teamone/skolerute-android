@@ -6,4 +6,17 @@
     tools:context="com.github.dat210_teamone.skolerute.Fragments.AddSchools">
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Dine skoler"
+        android:id="@+id/textView2"
+        android:layout_gravity="center_horizontal" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/storedSchoolsList"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

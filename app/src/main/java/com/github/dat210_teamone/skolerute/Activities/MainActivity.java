@@ -15,6 +15,7 @@ import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.DummyStorage;
+import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 
@@ -22,9 +23,9 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
 
 
-    public DummyStorage alfa=new DummyStorage();
-    public SchoolInfo[] beta=alfa.getSchoolInfo();
-    public String[] noe= new String[beta.length];
+    public SchoolManager alfa = SchoolManager.getDefault();
+    public SchoolInfo[] beta = alfa.getSelectedSchools();
+    public String[] noe = new String[beta.length];
 
 
 
@@ -37,8 +38,10 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         FragmentManager manager = getSupportFragmentManager();
         Fragment fragment = manager.findFragmentById(R.id.fragment_container);
 
+
+
         if (fragment == null) {
-            if(5>2) {
+            if(beta.length == 2) {
                 fragment = new AddSchools();
             } else {
                 fragment = new StoredSchools();

@@ -37,7 +37,7 @@ public class AddSchools extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ListView skolerListe;
+    private ListView schoolsList;
 
 
     private OnAddSchoolsInteractionListener mListener;
@@ -90,8 +90,8 @@ public class AddSchools extends Fragment {
         ArrayAdapter<String> itemsAdapter =
                 new ArrayAdapter<String>(mA, android.R.layout.simple_list_item_1, mA.noe);
 
-        skolerListe = (ListView)view.findViewById(R.id.skolerListe);
-        skolerListe.setAdapter(itemsAdapter);
+        schoolsList = (ListView)view.findViewById(R.id.schoolsList);
+        schoolsList.setAdapter(itemsAdapter);
 
         // Inflate the layout for this fragment
         return view;
