@@ -23,17 +23,19 @@ public class CsvFileReader implements IStorage {
     public CsvFileReader() {
         schoolInfos = new ArrayList<>();
         vacationDays = new ArrayList<>();
+    }
+
+    public CsvFileReader(String schoolInfoFileName, String vacationDayFileName) {
+        this();
+        readSchoolInfoCsv(schoolInfoFileName);
+        readSchoolVacationDayCsv(vacationDayFileName);
+    }
+
+    public void initializeReader() {
         BufferedReader schoolInfoReader = CsvFileGetter.getFileReader("http://open.stavanger.kommune.no/dataset/8f8ac030-0d03-46e2-8eb7-844ee11a6203/resource/0371a1db-7074-4568-a0cc-499a5dccfe98/download/skoler.csv");
         readSchoolInfoCsv(schoolInfoReader);
         BufferedReader vacationDayReader = CsvFileGetter.getFileReader("http://open.stavanger.kommune.no/dataset/86d3fe44-111e-4d82-be5a-67a9dbfbfcbb/resource/32d52130-ce7c-4282-9d37-3c68c7cdba92/download/skolerute-2016-17.csv");
         readSchoolVacationDayCsv(vacationDayReader);
-    }
-
-    public CsvFileReader(String schoolInfoFileName, String vacationDayFileName) {
-        schoolInfos = new ArrayList<>();
-        vacationDays = new ArrayList<>();
-        readSchoolInfoCsv(schoolInfoFileName);
-        readSchoolVacationDayCsv(vacationDayFileName);
     }
 
     private void readSchoolInfoCsv(BufferedReader reader) {
@@ -58,8 +60,8 @@ public class CsvFileReader implements IStorage {
                 tmpInfo.setSudents(attribs[12]);
                 tmpInfo.setCapacity(attribs[13]);
                 schoolInfos.add(tmpInfo);
-                reader.close();
             }
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -95,8 +97,8 @@ public class CsvFileReader implements IStorage {
                     tmpVacationDay.setComment("");
                 }
                 vacationDays.add(tmpVacationDay);
-                reader.close();
             }
+            reader.close();
         } catch(IOException | ParseException e) {
             e.printStackTrace();
         }
