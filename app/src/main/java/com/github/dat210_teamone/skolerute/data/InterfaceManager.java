@@ -19,4 +19,8 @@ public final class InterfaceManager {
     public static ISettingStorage getSettings(){
         return null;
     }
+
+    public static ICsvGetter getBufferGetter() {
+        return new CsvReaderGetter();
+    }
 }
