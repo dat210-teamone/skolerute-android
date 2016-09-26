@@ -20,7 +20,7 @@ import java.util.Locale;
 public class CsvFileReader implements IStorage {
     private ArrayList<SchoolInfo> schoolInfos;
     private ArrayList<SchoolVacationDay> vacationDays;
-    ICsvGetter bufferGetter;
+    private ICsvGetter bufferGetter;
 
     public CsvFileReader() {
         this(InterfaceManager.getBufferGetter());
