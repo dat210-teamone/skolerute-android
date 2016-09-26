@@ -7,8 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
@@ -88,6 +90,24 @@ public class StoredSchools extends Fragment {
         storedSchoolsList = (ListView)view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(itemsAdapter);
 
+        AdapterView.OnItemClickListener
+                mMessageClickedHandler =
+                new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView parent,
+                                            View v,
+                                            int position,
+                                            long id) {
+
+                        String schoolName = mA.noe[(int)id];
+                        ((TextView)v).setText(schoolName + " er valgt");
+
+                        // Metode som bytter til kalender-fragment basert på valgt skole
+
+                    }
+                };
+
+        storedSchoolsList.setOnItemClickListener(
+                mMessageClickedHandler);
 
 
         return view;
