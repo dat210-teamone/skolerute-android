@@ -30,6 +30,7 @@ public class CsvFileReader implements IStorage {
     {
         schoolInfos = new ArrayList<>();
         vacationDays = new ArrayList<>();
+        bufferGetter = getter;
     }
 
     public void initializeReader() {
