@@ -43,15 +43,13 @@ public class CsvReaderGetter implements ICsvGetter {
                 byte[] bytes =  new byte[input.available()];
                 dis.readFully(bytes);
                 String s = new String(bytes);
-                String searchString = "class=\"resource-item\" data-id=\"";
-                int i = s.lastIndexOf(searchString);
-                int begin = s.indexOf("<a href=\"http://open.stavanger.kommune.no/", i) + 9;
-                int end = s.indexOf('"', begin);
 
 
-                PageInfo info = new PageInfo(url, s.substring(begin, end), "");
+
+                PageInfo info = new PageInfo(url,lastCsvUrl(s) , lastUpdated(s));
 
                 infoCache.put(url, info);
+                return info;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -60,26 +58,19 @@ public class CsvReaderGetter implements ICsvGetter {
     }
 
     public static String getFileUrl(String url) {
-        try {
-            URL u = new URL(url);
-            InputStream input = u.openStream();
-            DataInputStream dis = new DataInputStream(new BufferedInputStream(input));
-            byte[] bytes =  new byte[input.available()];
-            dis.readFully(bytes);
-            String s = new String(bytes);
-            String searchString = "class=\"resource-item\" data-id=\"";
-            int i = s.lastIndexOf(searchString);
-            int begin = s.indexOf("<a href=\"http://open.stavanger.kommune.no/", i) + 9;
-            int end = s.indexOf('"', begin);
-            return s.substring(begin, end);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return getInfo(url).getCsvURL();
     }
 
-    public static boolean fileHasBeenUpdated(String s) {
-        return (lastUpdated(s) == "september 21, 2016, 14:46 (CEST)");
+    public static boolean fileHasBeenUpdated(String url) {
+        return (getInfo(url).getLastUpdated() == "september 21, 2016, 14:46 (CEST)");
+    }
+
+    private static String lastCsvUrl(String s){
+        String searchString = "class=\"resource-item\" data-id=\"";
+        int i = s.lastIndexOf(searchString);
+        int begin = s.indexOf("<a href=\"http://open.stavanger.kommune.no/", i) + 9;
+        int end = s.indexOf('"', begin);
+        return s.substring(begin, end);
     }
 
     public static String lastUpdated(String s){
