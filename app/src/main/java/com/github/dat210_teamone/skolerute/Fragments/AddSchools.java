@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -90,8 +92,34 @@ public class AddSchools extends Fragment {
         ArrayAdapter<String> itemsAdapter =
                 new ArrayAdapter<String>(mA, android.R.layout.simple_list_item_1, mA.noe);
 
+
+
+
+
         schoolsList = (ListView)view.findViewById(R.id.schoolsList);
         schoolsList.setAdapter(itemsAdapter);
+
+
+
+        AdapterView.OnItemClickListener
+                mMessageClickedHandler =
+                new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView parent,
+                                            View v,
+                                            int position,
+                                            long id) {
+
+                        String schoolName = mA.noe[(int)id];
+                        ((TextView)v).setText(schoolName + " er valgt");
+
+
+                    }
+                };
+
+        schoolsList.setOnItemClickListener(
+                mMessageClickedHandler);
+
+
 
         // Inflate the layout for this fragment
         return view;
