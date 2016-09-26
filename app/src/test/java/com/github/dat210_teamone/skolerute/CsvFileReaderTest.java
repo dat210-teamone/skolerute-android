@@ -1,6 +1,7 @@
 package com.github.dat210_teamone.skolerute;
 
 import com.github.dat210_teamone.skolerute.data.CsvFileReader;
+import com.github.dat210_teamone.skolerute.data.dummy.DummyCsvReaderGetter;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
@@ -12,19 +13,22 @@ import org.junit.Test;
  */
 
 public class CsvFileReaderTest {
-    private CsvFileReader csvFileReader = new CsvFileReader();
+    private CsvFileReader csvFileReader;// = new CsvFileReader();
+
+    public CsvFileReaderTest(){
+        csvFileReader = new CsvFileReader(new DummyCsvReaderGetter());
+        csvFileReader.initializeReader();
+    }
 
     @Test
     public void TestSchoolInfoFilter() {
-        csvFileReader.initializeReader();
         SchoolInfo[] infos = csvFileReader.getSchoolInfo((test) -> test.getSchoolName().equals("Auglend skole"));
         Assert.assertEquals(1, infos.length);
     }
 
     @Test
     public void TestVacationDaysFilter() {
-        csvFileReader.initializeReader();
         SchoolVacationDay[] infos = csvFileReader.getVacationDays((test) -> test.getName().equals("Auglend skole"));
-        Assert.assertEquals(365, infos.length);
+        Assert.assertEquals(10, infos.length);
     }
 }
