@@ -14,11 +14,17 @@ import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.data.DummyStorage;
+import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 
 public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
 
 
+
+    public DummyStorage alfa=new DummyStorage();
+    public SchoolInfo[] beta=alfa.getSchoolInfo();
+    public String[] noe= new String[beta.length];
 
 
 

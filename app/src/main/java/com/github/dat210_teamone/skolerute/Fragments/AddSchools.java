@@ -7,8 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +36,9 @@ public class AddSchools extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ListView skolerListe;
+
 
     private OnAddSchoolsInteractionListener mListener;
 
@@ -64,8 +76,25 @@ public class AddSchools extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_add_schools, container, false);
+
+
+        MainActivity mA = (MainActivity)getActivity();
+
+        for (int x=0; x< mA.beta.length; x++){
+            mA.noe[x]=mA.beta[x].getSchoolName();
+        }
+
+
+        ArrayAdapter<String> itemsAdapter =
+                new ArrayAdapter<String>(mA, android.R.layout.simple_list_item_1, mA.noe);
+
+        skolerListe = (ListView)view.findViewById(R.id.skolerListe);
+        skolerListe.setAdapter(itemsAdapter);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_schools, container, false);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
