@@ -5,8 +5,6 @@ import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,16 +18,16 @@ import java.util.Locale;
 public class CsvFileReader implements IStorage {
     private ArrayList<SchoolInfo> schoolInfos;
     private ArrayList<SchoolVacationDay> vacationDays;
-    ICsvGetter bufferGetter;
+    private ICsvGetter bufferGetter;
 
     public CsvFileReader() {
         this(InterfaceManager.getBufferGetter());
     }
 
-    public CsvFileReader(ICsvGetter getter)
-    {
+    public CsvFileReader(ICsvGetter getter) {
         schoolInfos = new ArrayList<>();
         vacationDays = new ArrayList<>();
+        this.bufferGetter = getter;
     }
 
     public void initializeReader() {
