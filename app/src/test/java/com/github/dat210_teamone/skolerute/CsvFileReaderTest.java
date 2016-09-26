@@ -16,12 +16,14 @@ public class CsvFileReaderTest {
 
     @Test
     public void TestSchoolInfoFilter() {
+        csvFileReader.initializeReader();
         SchoolInfo[] infos = csvFileReader.getSchoolInfo((test) -> test.getSchoolName().equals("Auglend skole"));
         Assert.assertEquals(1, infos.length);
     }
 
     @Test
     public void TestVacationDaysFilter() {
+        csvFileReader.initializeReader();
         SchoolVacationDay[] infos = csvFileReader.getVacationDays((test) -> test.getName().equals("Auglend skole"));
         Assert.assertEquals(365, infos.length);
     }
