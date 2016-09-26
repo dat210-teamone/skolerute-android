@@ -78,6 +78,18 @@ public class CsvReaderGetter implements ICsvGetter {
         return null;
     }
 
+    public static boolean fileHasBeenUpdated(String s) {
+        return (lastUpdated(s) == "september 21, 2016, 14:46 (CEST)");
+    }
+
+    public static String lastUpdated(String s){
+        String searchString = "<th scope=\"row\" class=\"dataset-label\">Last Updated</th>";
+        int i = s.indexOf(searchString);
+        int begin = s.indexOf("<span class=\"automatic-local-datetime\" data-datetime=\"", i) + 80;
+        int end = s.indexOf("<", begin);
+        return s.substring(begin, end);
+    }
+
     @Override
     public BufferedReader getSchoolReader() {
         return getFileReader(getFileUrl("http://open.stavanger.kommune.no/dataset/skoler-stavanger"));
