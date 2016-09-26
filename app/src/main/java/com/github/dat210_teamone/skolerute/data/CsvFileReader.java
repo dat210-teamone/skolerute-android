@@ -58,6 +58,7 @@ public class CsvFileReader implements IStorage {
                 tmpInfo.setSudents(attribs[12]);
                 tmpInfo.setCapacity(attribs[13]);
                 schoolInfos.add(tmpInfo);
+                reader.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -114,6 +115,7 @@ public class CsvFileReader implements IStorage {
                     tmpVacationDay.setComment("");
                 }
                 vacationDays.add(tmpVacationDay);
+                reader.close();
             }
         } catch(IOException | ParseException e) {
             e.printStackTrace();
