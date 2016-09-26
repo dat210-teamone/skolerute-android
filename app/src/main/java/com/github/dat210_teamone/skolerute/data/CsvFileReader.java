@@ -23,9 +23,9 @@ public class CsvFileReader implements IStorage {
     public CsvFileReader() {
         schoolInfos = new ArrayList<>();
         vacationDays = new ArrayList<>();
-        BufferedReader schoolInfoReader = CsvFileGetter.getFileReader("http://open.stavanger.kommune.no/dataset/8f8ac030-0d03-46e2-8eb7-844ee11a6203/resource/0371a1db-7074-4568-a0cc-499a5dccfe98/download/skoler.csv");
+        BufferedReader schoolInfoReader = CsvUrlGetter.getFileReader("http://open.stavanger.kommune.no/dataset/8f8ac030-0d03-46e2-8eb7-844ee11a6203/resource/0371a1db-7074-4568-a0cc-499a5dccfe98/download/skoler.csv");
         readSchoolInfoCsv(schoolInfoReader);
-        BufferedReader vacationDayReader = CsvFileGetter.getFileReader("http://open.stavanger.kommune.no/dataset/86d3fe44-111e-4d82-be5a-67a9dbfbfcbb/resource/32d52130-ce7c-4282-9d37-3c68c7cdba92/download/skolerute-2016-17.csv");
+        BufferedReader vacationDayReader = CsvUrlGetter.getFileReader("http://open.stavanger.kommune.no/dataset/86d3fe44-111e-4d82-be5a-67a9dbfbfcbb/resource/32d52130-ce7c-4282-9d37-3c68c7cdba92/download/skolerute-2016-17.csv");
         readSchoolVacationDayCsv(vacationDayReader);
     }
 
