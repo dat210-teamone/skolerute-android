@@ -1,5 +1,7 @@
 package com.github.dat210_teamone.skolerute.data;
 
+import com.github.dat210_teamone.skolerute.data.dummy.DummyStorage;
+
 /**
  * Created by Nicolas on 21.09.2016.
  */

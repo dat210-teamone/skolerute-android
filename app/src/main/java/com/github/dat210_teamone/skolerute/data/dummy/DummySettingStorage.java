@@ -1,4 +1,6 @@
-package com.github.dat210_teamone.skolerute.data;
+package com.github.dat210_teamone.skolerute.data.dummy;
+
+import com.github.dat210_teamone.skolerute.data.ISettingStorage;
 
 import java.util.ArrayList;
 

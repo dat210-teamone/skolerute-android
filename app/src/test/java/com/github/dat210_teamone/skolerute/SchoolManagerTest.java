@@ -1,9 +1,7 @@
 package com.github.dat210_teamone.skolerute;
 
-import com.android.internal.util.Predicate;
-
-import com.github.dat210_teamone.skolerute.data.DummySettingStorage;
-import com.github.dat210_teamone.skolerute.data.DummyStorage;
+import com.github.dat210_teamone.skolerute.data.dummy.DummySettingStorage;
+import com.github.dat210_teamone.skolerute.data.dummy.DummyStorage;
 import com.github.dat210_teamone.skolerute.data.ISettingStorage;
 import com.github.dat210_teamone.skolerute.data.IStorage;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
