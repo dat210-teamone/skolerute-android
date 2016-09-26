@@ -12,7 +12,7 @@ import java.net.URL;
  * Created by Fredrik Wigsnes on 26.09.2016.
  */
 
-public class CsvUrlGetter {
+public class CsvReaderGetter implements ICsvGetter {
 
     static BufferedReader getFileReader(String url) {
         try {
@@ -43,5 +43,15 @@ public class CsvUrlGetter {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public BufferedReader getSchoolReader() {
+        return getFileReader(getFileUrl("http://open.stavanger.kommune.no/dataset/skoler-stavanger"));
+    }
+
+    @Override
+    public BufferedReader getSchoolDayReader() {
+        return getFileReader(getFileUrl("http://open.stavanger.kommune.no/dataset/skolerute-stavanger"));
     }
 }

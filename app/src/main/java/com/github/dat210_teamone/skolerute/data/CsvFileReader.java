@@ -5,6 +5,7 @@ import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
@@ -19,23 +20,21 @@ import java.util.Locale;
 public class CsvFileReader implements IStorage {
     private ArrayList<SchoolInfo> schoolInfos;
     private ArrayList<SchoolVacationDay> vacationDays;
+    ICsvGetter bufferGetter;
 
     public CsvFileReader() {
+        this(InterfaceManager.getBufferGetter());
+    }
+
+    public CsvFileReader(ICsvGetter getter)
+    {
         schoolInfos = new ArrayList<>();
         vacationDays = new ArrayList<>();
     }
 
-    public CsvFileReader(String schoolInfoFileName, String vacationDayFileName) {
-        this();
-        readSchoolInfoCsv(schoolInfoFileName);
-        readSchoolVacationDayCsv(vacationDayFileName);
-    }
-
     public void initializeReader() {
-        BufferedReader schoolInfoReader = CsvFileGetter.getFileReader("http://open.stavanger.kommune.no/dataset/8f8ac030-0d03-46e2-8eb7-844ee11a6203/resource/0371a1db-7074-4568-a0cc-499a5dccfe98/download/skoler.csv");
-        readSchoolInfoCsv(schoolInfoReader);
-        BufferedReader vacationDayReader = CsvFileGetter.getFileReader("http://open.stavanger.kommune.no/dataset/86d3fe44-111e-4d82-be5a-67a9dbfbfcbb/resource/32d52130-ce7c-4282-9d37-3c68c7cdba92/download/skolerute-2016-17.csv");
-        readSchoolVacationDayCsv(vacationDayReader);
+        readSchoolInfoCsv(bufferGetter.getSchoolReader());
+        readSchoolVacationDayCsv(bufferGetter.getSchoolDayReader());
     }
 
     private void readSchoolInfoCsv(BufferedReader reader) {
@@ -67,15 +66,6 @@ public class CsvFileReader implements IStorage {
         }
     }
 
-    private void readSchoolInfoCsv(String fileName) {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(fileName));
-            readSchoolInfoCsv(br);
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void readSchoolVacationDayCsv(BufferedReader reader) {
         String line;
         try {
@@ -100,15 +90,6 @@ public class CsvFileReader implements IStorage {
             }
             reader.close();
         } catch(IOException | ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void readSchoolVacationDayCsv(String fileName) {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(fileName));
-            readSchoolVacationDayCsv(br);
-        } catch(IOException e) {
             e.printStackTrace();
         }
     }

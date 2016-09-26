@@ -1,6 +1,6 @@
 package com.github.dat210_teamone.skolerute;
 
-import com.github.dat210_teamone.skolerute.data.DummySettingStorage;
+import com.github.dat210_teamone.skolerute.data.dummy.DummySettingStorage;
 import com.github.dat210_teamone.skolerute.data.ISettingStorage;
 
 import org.junit.Assert;
