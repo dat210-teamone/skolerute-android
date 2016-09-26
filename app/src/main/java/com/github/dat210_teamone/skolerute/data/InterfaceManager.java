@@ -15,6 +15,6 @@ public final class InterfaceManager {
     }
 
     public static ISettingStorage getSettings(){
-        return null;
+        return new DummySettingStorage();
     }
 }
