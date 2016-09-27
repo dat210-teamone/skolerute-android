@@ -3,4 +3,9 @@
     <string name="finn_n_rmeste_skole">Finn nærmeste Skole</string>
     <string name="knapp_finn_nermeste">Finn nærmeste skole</string>
     <string name="title_activity_add_school">AddSchoolActivit</string>
+    <string name="alle_skoler">Alle skoler</string>
+    <string name="listevisning">Listevisning</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
