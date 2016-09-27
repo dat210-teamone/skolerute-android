@@ -1,5 +1,6 @@
 package com.github.dat210_teamone.skolerute.data;
 
+import com.github.dat210_teamone.skolerute.data.dummy.DummySettingStorage;
 import com.github.dat210_teamone.skolerute.data.dummy.DummyStorage;
 
 /**
