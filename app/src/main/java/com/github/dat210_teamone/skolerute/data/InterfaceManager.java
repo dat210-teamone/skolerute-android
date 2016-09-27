@@ -1,5 +1,6 @@
 package com.github.dat210_teamone.skolerute.data;
 
+import com.github.dat210_teamone.skolerute.data.dummy.DummySettingStorage;
 import com.github.dat210_teamone.skolerute.data.dummy.DummyStorage;
 
 /**
@@ -17,7 +18,7 @@ public final class InterfaceManager {
     }
 
     public static ISettingStorage getSettings(){
-        return null;
+        return new DummySettingStorage();
     }
 
     public static ICsvGetter getBufferGetter() {
