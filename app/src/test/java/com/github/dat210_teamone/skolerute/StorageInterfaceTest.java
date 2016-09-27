@@ -1,6 +1,6 @@
 package com.github.dat210_teamone.skolerute;
 
-import com.github.dat210_teamone.skolerute.data.DummyStorage;
+import com.github.dat210_teamone.skolerute.data.dummy.DummyStorage;
 import com.github.dat210_teamone.skolerute.data.IStorage;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
