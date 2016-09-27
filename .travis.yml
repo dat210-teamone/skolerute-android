@@ -1,0 +1,23 @@
+language: android
+sudo: false
+jdk:
+- oraclejdk8
+env:
+  global:
+  - GRADLE_OPTS="-Xmx2048m -Xms512m"
+cache:
+  directories:
+  - "$HOME/.gradle"
+android:
+  components:
+  - tools
+  - tools
+  - build-tools-24.0.2
+  - android-24
+  - platform-tools
+  - extra-android-m2repository
+script:
+- "./gradlew build check"
+notifications:
+  slack:
+    secure: iYoyEsRHKPS4Xe5rYRizIv5iHB/tbgYJ9k9DXo3R9aiLjlWluos2/2nhJoR2HmCJXzPDnMysJxL0MBQ8hS3lYYR6UqGOdRGPWe2wll6qRyvw/sadJaW7PPtBbyLaEtamcBH2T0P4mHiLGwI1DW2+fQMUrNfY4IgAvd4tdif9IfRB+KuLtXk4izcsQE5Z5rGWgEU8mbqJ1bvkGgJkf7jNqA4XddnzfmwQwO5hvEswcSr5xd/6eVsyfdD1HyT0fCu360j8EJy4Zv/2by5ht4OAbJ0CLuC32rKqnXQKyn+zkZU6U53/7lB1YA/gsah4uOBJT3+twq6G3LiuKjMI9w19+xGFW2UdT0jmT8B/ju1v1k9GdZMCLUu+muqUVIq9q53cmypFck0tKP8yKDN0Ji0PjkOgXZ5M+oMKAuD0aTcxDNhVnBeNSDIQciJt1YcAGBArkklwvCZDptpQag7MeUUhtzkThkvBU6NwZHwTF+8s+2IOBIrWcZQrez613kcd7XPbe7etFEfw/S6ffPVX3sfksr47Jm8TcDHgQBA+xpzG4JRJGld3tP8PgR8Ya/m53Qv6xgHaF06GEZTPyR0xbtlIC+JGeC6/JlrJrfnIlQK6SCD4izI8XRAW+jqS3C+9s4xF/yBEFieRbBUzM6jFmBKVcoZQG4nxhNGkKeTNGKzjgK4=
