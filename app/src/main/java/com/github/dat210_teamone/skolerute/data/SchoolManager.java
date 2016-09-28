@@ -1,5 +1,7 @@
 package com.github.dat210_teamone.skolerute.data;
 
+import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
+import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
@@ -33,7 +35,7 @@ public class SchoolManager {
         this.storage = storage;
         this.settings = settings;
         selectedSchools = new ArrayList<>();
-        addAll(settings.get());
+        addAll(settings.getSelectedSchools());
     }
 
     private void addAll(String[] names){
@@ -70,13 +72,13 @@ public class SchoolManager {
     }
 
     public void addDefault(String name) {
-        settings.add(name);
-        addAll(settings.get());
+        settings.addSelectedSchool(name);
+        addAll(settings.getSelectedSchools());
     }
 
     public void removeDefault(String name){
-        settings.delete(name);
-        addAll(settings.get());
+        settings.deleteSelectedSchool(name);
+        addAll(settings.getSelectedSchools());
     }
 
     public SchoolInfo[] getSchoolInfo(){

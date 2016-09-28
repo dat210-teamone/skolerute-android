@@ -1,4 +1,4 @@
-package com.github.dat210_teamone.skolerute.data;
+package com.github.dat210_teamone.skolerute.data.interfaces;
 
 import java.io.BufferedReader;
 

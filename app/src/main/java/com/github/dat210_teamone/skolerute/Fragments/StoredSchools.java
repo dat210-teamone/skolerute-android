@@ -16,8 +16,6 @@ import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
 
-import java.util.List;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -80,12 +78,12 @@ public class StoredSchools extends Fragment {
 
         MainActivity mainActivity = (MainActivity)getActivity();
 
-        for (int x=0; x< mainActivity.beta.length; x++){
-            mainActivity.noe[x]= mainActivity.beta[x].getSchoolName();
+        for (int x=0; x< mainActivity.allSchools.length; x++){
+            mainActivity.allSchoolNames[x] = mainActivity.allSchools[x].getSchoolName();
         }
 
 
-        StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, mainActivity.noe);
+        StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, mainActivity.allSchoolNames);
 
         storedSchoolsList = (ListView)view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(storedSchoolsAdapter);
@@ -98,7 +96,8 @@ public class StoredSchools extends Fragment {
                                             int position,
                                             long id) {
 
-                        String schoolName = mainActivity.noe[(int)id];
+                        String schoolName = mainActivity.allSchoolNames[(int)id];
+
                         ((TextView)v).setText(schoolName + " er valgt");
 
                         // Metode som bytter til kalender-fragment basert på valgt skole
