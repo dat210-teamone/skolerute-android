@@ -16,6 +16,8 @@ import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
 
+import java.util.Date;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -78,12 +80,20 @@ public class StoredSchools extends Fragment {
 
         MainActivity mainActivity = (MainActivity)getActivity();
 
-        for (int x=0; x< mainActivity.allSchools.length; x++){
-            mainActivity.allSchoolNames[x] = mainActivity.allSchools[x].getSchoolName();
+        String[] storedSchoolNames = new String[mainActivity.selectedSchools.length];
+        Date[] storedSchoolVacationDays = new Date[mainActivity.selectedSchools.length];
+
+        for (int x=0; x< mainActivity.selectedSchools.length; x++){
+            storedSchoolNames[x] = mainActivity.selectedSchools[x].getSchoolName();
+            storedSchoolVacationDays[x] = mainActivity.schoolManager.getNextVacationDay(storedSchoolNames[x]).getDate();
+        }
+
+        for (int x=0; x< mainActivity.selectedSchools.length; x++){
+            storedSchoolNames[x] = mainActivity.selectedSchools[x].getSchoolName();
         }
 
 
-        StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, mainActivity.allSchoolNames);
+        StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames, storedSchoolVacationDays);
 
         storedSchoolsList = (ListView)view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(storedSchoolsAdapter);
