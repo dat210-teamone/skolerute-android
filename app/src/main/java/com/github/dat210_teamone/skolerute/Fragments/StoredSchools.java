@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
 
 import java.util.List;
 
@@ -77,18 +78,17 @@ public class StoredSchools extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stored_schools, container, false);
 
-        MainActivity mA = (MainActivity)getActivity();
+        MainActivity mainActivity = (MainActivity)getActivity();
 
-        for (int x=0; x< mA.beta.length; x++){
-            mA.noe[x]=mA.beta[x].getSchoolName();
+        for (int x=0; x< mainActivity.beta.length; x++){
+            mainActivity.noe[x]= mainActivity.beta[x].getSchoolName();
         }
 
 
-        ArrayAdapter<String> itemsAdapter =
-                new ArrayAdapter<String>(mA, android.R.layout.simple_list_item_1, mA.noe);
+        StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, mainActivity.noe);
 
         storedSchoolsList = (ListView)view.findViewById(R.id.storedSchoolsList);
-        storedSchoolsList.setAdapter(itemsAdapter);
+        storedSchoolsList.setAdapter(storedSchoolsAdapter);
 
         AdapterView.OnItemClickListener
                 mMessageClickedHandler =
@@ -98,7 +98,7 @@ public class StoredSchools extends Fragment {
                                             int position,
                                             long id) {
 
-                        String schoolName = mA.noe[(int)id];
+                        String schoolName = mainActivity.noe[(int)id];
                         ((TextView)v).setText(schoolName + " er valgt");
 
                         // Metode som bytter til kalender-fragment basert på valgt skole
