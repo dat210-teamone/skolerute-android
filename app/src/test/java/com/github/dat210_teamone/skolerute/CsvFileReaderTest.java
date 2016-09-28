@@ -8,6 +8,8 @@ import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 /**
  * Created by espen on 21.09.16.
  */

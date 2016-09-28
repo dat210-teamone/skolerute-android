@@ -7,7 +7,12 @@ import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,7 +25,13 @@ import java.util.Locale;
 public class CsvFileReader implements IStorage {
     private ArrayList<SchoolInfo> schoolInfos;
     private ArrayList<SchoolVacationDay> vacationDays;
+
     private ICsvGetter bufferGetter;
+
+    private enum SerializeType {
+        SCHOOL_INFO,
+        VACATION_DAYS,
+    }
 
     public CsvFileReader() {
         this(InterfaceManager.getBufferGetter());
@@ -33,8 +44,17 @@ public class CsvFileReader implements IStorage {
     }
 
     public void initializeReader() {
-        readSchoolInfoCsv(bufferGetter.getSchoolReader());
-        readSchoolVacationDayCsv(bufferGetter.getSchoolDayReader());
+        // TODO: File may need to be stored somewhere else on Android
+        File serialisedSchoolInfo = new File("schoolInfo.ser");
+        File serializedVacationDays = new File("vacationDays.ser");
+        if(serialisedSchoolInfo.exists() && !serialisedSchoolInfo.isDirectory())
+            deserializeSchoolObjects(SerializeType.SCHOOL_INFO);
+        else
+            readSchoolInfoCsv(bufferGetter.getSchoolReader());
+        if(serializedVacationDays.exists() && !serializedVacationDays.isDirectory())
+            deserializeSchoolObjects(SerializeType.VACATION_DAYS);
+        else
+            readSchoolVacationDayCsv(bufferGetter.getSchoolDayReader());
     }
 
     private void readSchoolInfoCsv(BufferedReader reader) {
@@ -61,6 +81,7 @@ public class CsvFileReader implements IStorage {
                 schoolInfos.add(tmpInfo);
             }
             reader.close();
+            serializeSchoolObjects(SerializeType.SCHOOL_INFO);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -89,7 +110,35 @@ public class CsvFileReader implements IStorage {
                 vacationDays.add(tmpVacationDay);
             }
             reader.close();
+            serializeSchoolObjects(SerializeType.VACATION_DAYS);
         } catch(IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void serializeSchoolObjects(SerializeType selector) {
+        try {
+            String filename = (selector == SerializeType.SCHOOL_INFO) ? "schoolInfo.ser" : "vacationDays.ser";
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(filename));
+            objectOutputStream.writeObject((selector == SerializeType.SCHOOL_INFO) ? schoolInfos : vacationDays);
+            objectOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deserializeSchoolObjects(SerializeType selector) {
+        try {
+            String filename = (selector == SerializeType.SCHOOL_INFO) ? "schoolInfo.ser" : "vacationDays.ser";
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(filename));
+            if(selector == SerializeType.SCHOOL_INFO)
+                schoolInfos = (ArrayList<SchoolInfo>) objectInputStream.readObject();
+            else if(selector == SerializeType.VACATION_DAYS)
+                vacationDays = (ArrayList<SchoolVacationDay>) objectInputStream.readObject();
+            else
+                System.err.println("Deserialize error");
+            objectInputStream.close();
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
