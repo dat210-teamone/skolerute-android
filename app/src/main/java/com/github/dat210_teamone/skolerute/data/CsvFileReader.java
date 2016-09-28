@@ -44,13 +44,15 @@ public class CsvFileReader implements IStorage {
     }
 
     public void initializeReader() {
-        // TODO: File may need to be stored somewhere else on Android
+        // TODO: CHECK: File may need to be stored somewhere else on Android
         File serialisedSchoolInfo = new File("schoolInfo.ser");
         File serializedVacationDays = new File("vacationDays.ser");
+
         if(serialisedSchoolInfo.exists() && !serialisedSchoolInfo.isDirectory())
             deserializeSchoolObjects(SerializeType.SCHOOL_INFO);
         else
             readSchoolInfoCsv(bufferGetter.getSchoolReader());
+
         if(serializedVacationDays.exists() && !serializedVacationDays.isDirectory())
             deserializeSchoolObjects(SerializeType.VACATION_DAYS);
         else
