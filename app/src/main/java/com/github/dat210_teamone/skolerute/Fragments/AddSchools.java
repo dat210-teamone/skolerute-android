@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.adapters.AddSchoolsAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,15 +77,14 @@ public class AddSchools extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_schools, container, false);
 
 
-        MainActivity mA = (MainActivity)getActivity();
+        MainActivity mainActivity = (MainActivity)getActivity();
 
-        for (int x = 0; x< mA.allSchools.length; x++){
-            mA.allSchoolNames[x]=mA.allSchools[x].getSchoolName();
+        for (int x = 0; x< mainActivity.allSchools.length; x++){
+            mainActivity.allSchoolNames[x]=mainActivity.allSchools[x].getSchoolName();
         }
 
-
-        ArrayAdapter<String> itemsAdapter =
-                new ArrayAdapter<String>(mA, android.R.layout.simple_list_item_1, mA.allSchoolNames);
+        AddSchoolsAdapter itemsAdapter =
+                new AddSchoolsAdapter(mainActivity, mainActivity.allSchoolNames);
 
 
 
@@ -102,11 +102,8 @@ public class AddSchools extends Fragment {
                                             View v,
                                             int position,
                                             long id) {
-
-                        String schoolName = mA.allSchoolNames[(int)id];
+                        String schoolName = mainActivity.allSchoolNames[(int)id];
                         ((TextView)v).setText(schoolName + " er valgt");
-
-
                     }
                 };
 
