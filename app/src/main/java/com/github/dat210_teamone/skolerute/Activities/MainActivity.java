@@ -1,6 +1,5 @@
 package com.github.dat210_teamone.skolerute.Activities;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,25 +13,23 @@ import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 
 public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
 
-
-
-    public SchoolManager alfa = SchoolManager.getDefault();
-    public SchoolInfo[] beta = alfa.getSelectedSchools();
-    public String[] noe = new String[beta.length];
-
-
-
+    public SchoolManager schoolManager = SchoolManager.getDefault();
+    public SchoolInfo[] allSchools = schoolManager.getSchoolInfo();
+    public SchoolInfo[] selectedSchools = schoolManager.getSelectedSchools();
+    public String[] allSchoolNames = new String[allSchools.length];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        InterfaceManager.SetMainActivity(this);
         setContentView(R.layout.activity_main);
         FragmentManager manager = getSupportFragmentManager();
         Fragment fragment = manager.findFragmentById(R.id.fragment_container);
@@ -40,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
 
         if (fragment == null) {
-            if(beta.length == 2) {
+            if(selectedSchools.length == 0) {
                 fragment = new AddSchools();
             } else {
                 fragment = new StoredSchools();
@@ -52,18 +49,10 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             frag_trans.commit();
         }
     }
-
-
-
-
-
+    
     public void showSchools(View view) {
 
     }
-
-
-
-
 
     // Abstract methods from fragments
     @Override

@@ -15,12 +15,6 @@ import android.widget.TextView;
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -84,13 +78,13 @@ public class AddSchools extends Fragment {
 
         MainActivity mA = (MainActivity)getActivity();
 
-        for (int x=0; x< mA.beta.length; x++){
-            mA.noe[x]=mA.beta[x].getSchoolName();
+        for (int x = 0; x< mA.allSchools.length; x++){
+            mA.allSchoolNames[x]=mA.allSchools[x].getSchoolName();
         }
 
 
         ArrayAdapter<String> itemsAdapter =
-                new ArrayAdapter<String>(mA, android.R.layout.simple_list_item_1, mA.noe);
+                new ArrayAdapter<String>(mA, android.R.layout.simple_list_item_1, mA.allSchoolNames);
 
 
 
@@ -109,7 +103,7 @@ public class AddSchools extends Fragment {
                                             int position,
                                             long id) {
 
-                        String schoolName = mA.noe[(int)id];
+                        String schoolName = mA.allSchoolNames[(int)id];
                         ((TextView)v).setText(schoolName + " er valgt");
 
 
@@ -174,17 +168,17 @@ public class AddSchools extends Fragment {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DummyStorage alfa=new DummyStorage();
-        SchoolInfo[] beta=alfa.getSchoolInfo();
-        String[] noe= new String[beta.length];
-        for(int x=0; x<beta.length; x++){
-            noe[x]=beta[x].getSchoolName();
+        DummyStorage schoolManager=new DummyStorage();
+        SchoolInfo[] allSchools=schoolManager.getSchoolInfo();
+        String[] allSchoolNames= new String[allSchools.length];
+        for(int x=0; x<allSchools.length; x++){
+            allSchoolNames[x]=allSchools[x].getSchoolName();
         }
 
         ListView listet=(ListView)findViewById(R.id.listview);
         ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < noe.length; ++i) {
-            list.add(noe[i]);
+        for (int i = 0; i < allSchoolNames.length; ++i) {
+            list.addSelectedSchool(allSchoolNames[i]);
         }
         StableArrayAdapter adapter = new StableArrayAdapter(this,
                 android.R.layout.simple_list_item_1, list);
@@ -198,14 +192,14 @@ public class AddSchools extends Fragment {
                                   List<String> objects) {
             super(context, textViewResourceId, objects);
             for (int i = 0; i < objects.size(); ++i) {
-                mIdMap.put(objects.get(i), i);
+                mIdMap.put(objects.getSelectedSchools(i), i);
             }
         }
 
         @Override
         public long getItemId(int position) {
             String item = getItem(position);
-            return mIdMap.get(item);
+            return mIdMap.getSelectedSchools(item);
         }
 
         @Override

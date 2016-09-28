@@ -1,5 +1,6 @@
 package com.github.dat210_teamone.skolerute.data;
 
+import com.github.dat210_teamone.skolerute.data.interfaces.ICsvGetter;
 import com.github.dat210_teamone.skolerute.model.PageInfo;
 
 import java.io.BufferedInputStream;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 
 public class CsvReaderGetter implements ICsvGetter {
     private static HashMap<String, PageInfo> infoCache = new HashMap<>();
-    static BufferedReader getFileReader(String url) {
+    public static BufferedReader getFileReader(String url) {
         try {
             URL u = new URL(url);
             //String test = u.getFile();
@@ -62,10 +63,10 @@ public class CsvReaderGetter implements ICsvGetter {
     }
 
     public static boolean fileHasBeenUpdated(String url) {
-        return (getInfo(url).getLastUpdated() == "september 21, 2016, 14:46 (CEST)");
+        return (getInfo(url).getLastUpdated() == "september 21, 2016, 14:46 (CEST)"); //TODO: change this to a variable.
     }
 
-    private static String lastCsvUrl(String s){
+    public static String lastCsvUrl(String s){
         String searchString = "class=\"resource-item\" data-id=\"";
         int i = s.lastIndexOf(searchString);
         int begin = s.indexOf("<a href=\"http://open.stavanger.kommune.no/", i) + 9;
