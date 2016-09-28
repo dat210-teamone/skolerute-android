@@ -78,4 +78,8 @@ public class SchoolManager {
         settings.delete(name);
         addAll(settings.get());
     }
+
+    public SchoolInfo[] getSchoolInfo(){
+        return storage.getSchoolInfo();
+    }
 }
