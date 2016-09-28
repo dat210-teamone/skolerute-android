@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
 
         if (fragment == null) {
-            if(beta.length == 2) {
+            if(beta.length != 2) {
                 fragment = new AddSchools();
             } else {
                 fragment = new StoredSchools();
