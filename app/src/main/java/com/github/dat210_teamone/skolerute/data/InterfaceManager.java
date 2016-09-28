@@ -30,7 +30,7 @@ public final class InterfaceManager {
 
 
     public static ISettingStorage getSettings(){
-        return new DummySettingStorage();
+        return new DummySettingStorage(true);
     }
 
     public static ICsvGetter getBufferGetter() {

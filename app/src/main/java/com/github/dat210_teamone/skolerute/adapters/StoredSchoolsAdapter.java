@@ -37,5 +37,4 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
 
         return rowView;
     }
-
 }
