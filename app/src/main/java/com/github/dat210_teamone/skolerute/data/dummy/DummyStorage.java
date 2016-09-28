@@ -1,6 +1,7 @@
-package com.github.dat210_teamone.skolerute.data;
+package com.github.dat210_teamone.skolerute.data.dummy;
 
 import com.android.internal.util.Predicate;
+import com.github.dat210_teamone.skolerute.data.IStorage;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
