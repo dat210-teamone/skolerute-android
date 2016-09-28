@@ -1,7 +1,6 @@
 package com.github.dat210_teamone.skolerute.data.dummy;
 
-import com.github.dat210_teamone.skolerute.data.CsvReaderGetter;
-import com.github.dat210_teamone.skolerute.data.ICsvGetter;
+import com.github.dat210_teamone.skolerute.data.interfaces.ICsvGetter;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
