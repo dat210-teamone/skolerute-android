@@ -3,7 +3,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.github.dat210_teamone.skolerute.Fragments.AddSchools">
+    tools:context="com.github.dat210_teamone.skolerute.Fragments.AddSchools"
+    android:layout_marginBottom="0dp"
+    android:layout_marginTop="0dp">
 
     <SearchView
         android:layout_width="match_parent"
@@ -16,7 +18,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorTitle">
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,7 +29,7 @@
             android:text="Skoler i nærheten"
             android:textAlignment="center"
             android:layout_gravity="center_horizontal"
-            android:textColor="#000000" />
+            android:textColor="@color/colorBrightText" />
     </LinearLayout>
 
 
@@ -48,7 +51,8 @@
         android:id="@+id/finished_container"
         android:gravity="center_vertical|center_horizontal"
         android:layout_marginBottom="0dp"
-        android:layout_height="60dp">
+        android:layout_height="50dp"
+        android:background="@color/colorClickable">
 
         <TextView
             android:layout_width="wrap_content"

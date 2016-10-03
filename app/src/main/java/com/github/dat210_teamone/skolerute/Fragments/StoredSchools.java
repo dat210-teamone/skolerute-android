@@ -15,7 +15,9 @@ import android.widget.TextView;
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
+import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -77,8 +79,17 @@ public class StoredSchools extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stored_schools, container, false);
+/*
+        public SchoolManager schoolManager = SchoolManager.getDefault();
+        public SchoolInfo[] allSchools = schoolManager.getSchoolInfo();
+        public SchoolInfo[] selectedSchools = schoolManager.getSelectedSchools();
+        public String[] allSchoolNames = new String[allSchools.length];
+ */
+
 
         MainActivity mainActivity = (MainActivity)getActivity();
+
+        mainActivity.selectedSchools = mainActivity.schoolManager.getSelectedSchools();
 
         String[] storedSchoolNames = new String[mainActivity.selectedSchools.length];
         Date[] storedSchoolVacationDays = new Date[mainActivity.selectedSchools.length];
@@ -92,32 +103,10 @@ public class StoredSchools extends Fragment {
             storedSchoolNames[x] = mainActivity.selectedSchools[x].getSchoolName();
         }
 
-
         StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames, storedSchoolVacationDays);
 
         storedSchoolsList = (ListView)view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(storedSchoolsAdapter);
-
-        AdapterView.OnItemClickListener
-                mMessageClickedHandler =
-                new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView parent,
-                                            View v,
-                                            int position,
-                                            long id) {
-
-                        String schoolName = mainActivity.allSchoolNames[(int)id];
-
-                        ((TextView)v).setText(schoolName + " er valgt");
-
-                        // Metode som bytter til kalender-fragment basert på valgt skole
-
-                    }
-                };
-
-        storedSchoolsList.setOnItemClickListener(
-                mMessageClickedHandler);
-
 
         return view;
     }

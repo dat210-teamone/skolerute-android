@@ -3,4 +3,17 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="colorClickable">#554348</color>
+    <color name="colorMainTitleBar">#93B7BE</color>
+    <color name="colorTitle">#8C9A9E</color>
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorHighlight">#D4F5F5</color>
+    <color name="colorBrightText">#FFFFFF</color>
+    <color name="colorDarkText">#000000</color>
 </resources>
+
+<!--
+
+
+-->

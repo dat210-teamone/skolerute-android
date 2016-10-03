@@ -7,19 +7,25 @@
     android:layout_height="match_parent"
     tools:context=".Activities.MainActivity"
     android:id="@+id/main_container"
-    android:backgroundTint="#FFFFFF">
+    android:backgroundTint="#FFFFFF"
+    android:background="@color/colorBackground">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
-        android:id="@+id/top_bar">
+        android:id="@+id/top_bar"
+        android:background="@color/colorMainTitleBar">
 
-        <Button
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:id="@+id/go_to_add"
-            android:paddingLeft="10dp" />
+        <TextView
+            android:text="+"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="12dp"
+            android:textSize="30dp"
+            android:padding="7dp"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/go_to_add" />
 
         <TextView
             android:text="Skoleruter"
@@ -36,7 +42,7 @@
             android:paddingBottom="7dp"
             android:paddingRight="20dp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
     <LinearLayout

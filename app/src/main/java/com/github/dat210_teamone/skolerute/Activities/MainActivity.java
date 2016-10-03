@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Fragments.AddSchools;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     public SchoolInfo[] allSchools = schoolManager.getSchoolInfo();
     public SchoolInfo[] selectedSchools = schoolManager.getSelectedSchools();
     public String[] allSchoolNames = new String[allSchools.length];
+    public FragmentManager manager = getSupportFragmentManager();
+    public Fragment fragment = manager.findFragmentById(R.id.fragment_container);
+    public FragmentTransaction fragTrans =  manager.beginTransaction();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +35,14 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         super.onCreate(savedInstanceState);
         InterfaceManager.SetMainActivity(this);
         setContentView(R.layout.activity_main);
-        FragmentManager manager = getSupportFragmentManager();
-        Fragment fragment = manager.findFragmentById(R.id.fragment_container);
 
-
+        TextView goToAdd = (TextView)findViewById(R.id.go_to_add);
+        goToAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToAddSchools();
+            }
+        });
 
         if (fragment == null) {
             if(selectedSchools.length != 0) {
@@ -42,16 +50,28 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             } else {
                 fragment = new StoredSchools();
             }
-
-            FragmentTransaction frag_trans =  manager.beginTransaction();
             // Add container and fragment for the container
-            frag_trans.add(R.id.fragment_container, fragment);
-            frag_trans.commit();
+            fragTrans.add(R.id.fragment_container, fragment);
+            fragTrans.commit();
         }
     }
     
     public void showSchools(View view) {
 
+    }
+
+    public void goToStoredSchools() {
+        fragment = new StoredSchools();
+        fragTrans = manager.beginTransaction();
+        fragTrans.replace(R.id.fragment_container, fragment);
+        fragTrans.commit();
+    }
+
+    public void goToAddSchools() {
+        fragment = new AddSchools();
+        fragTrans = manager.beginTransaction();
+        fragTrans.replace(R.id.fragment_container, fragment);
+        fragTrans.commit();
     }
 
     // Abstract methods from fragments
