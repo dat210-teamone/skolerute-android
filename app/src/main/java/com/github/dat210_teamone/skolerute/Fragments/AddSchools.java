@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,9 @@ import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.adapters.AddSchoolsAdapter;
 
 import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +38,7 @@ public class AddSchools extends Fragment {
     private String mParam2;
 
     private ListView schoolsList;
-
+    private TextView finished;
 
     private OnAddSchoolsInteractionListener mListener;
 
@@ -81,45 +79,49 @@ public class AddSchools extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_add_schools, container, false);
 
+        MainActivity mainActivity = (MainActivity)getActivity();
 
-        MainActivity mA = (MainActivity)getActivity();
-
-        for (int x=0; x< mA.beta.length; x++){
-            mA.noe[x]=mA.beta[x].getSchoolName();
+        for (int x = 0; x< mainActivity.allSchools.length; x++){
+            mainActivity.allSchoolNames[x]=mainActivity.allSchools[x].getSchoolName();
         }
 
 
-        ArrayAdapter<String> itemsAdapter =
-                new ArrayAdapter<String>(mA, android.R.layout.simple_list_item_1, mA.noe);
+
+        AddSchoolsAdapter itemsAdapter =
+                new AddSchoolsAdapter(mainActivity, mainActivity.allSchoolNames);
 
 
+        finished = (TextView)view.findViewById(R.id.finished);
+        finished.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                mainActivity.goToStoredSchools();
 
+            }
+        });
 
         schoolsList = (ListView)view.findViewById(R.id.schoolsList);
         schoolsList.setAdapter(itemsAdapter);
 
 
 
-        AdapterView.OnItemClickListener
+     /*   AdapterView.OnItemClickListener
                 mMessageClickedHandler =
                 new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView parent,
                                             View v,
                                             int position,
                                             long id) {
-
-                        String schoolName = mA.noe[(int)id];
+                        String schoolName = mainActivity.allSchoolNames[(int)id];
                         ((TextView)v).setText(schoolName + " er valgt");
-
-
                     }
                 };
 
         schoolsList.setOnItemClickListener(
                 mMessageClickedHandler);
 
-
+    */
 
         // Inflate the layout for this fragment
         return view;
@@ -141,6 +143,10 @@ public class AddSchools extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    public void onAddClicked () {
+
     }
 
     @Override
@@ -174,17 +180,17 @@ public class AddSchools extends Fragment {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DummyStorage alfa=new DummyStorage();
-        SchoolInfo[] beta=alfa.getSchoolInfo();
-        String[] noe= new String[beta.length];
-        for(int x=0; x<beta.length; x++){
-            noe[x]=beta[x].getSchoolName();
+        DummyStorage schoolManager=new DummyStorage();
+        SchoolInfo[] allSchools=schoolManager.getSchoolInfo();
+        String[] allSchoolNames= new String[allSchools.length];
+        for(int x=0; x<allSchools.length; x++){
+            allSchoolNames[x]=allSchools[x].getSchoolName();
         }
 
         ListView listet=(ListView)findViewById(R.id.listview);
         ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < noe.length; ++i) {
-            list.add(noe[i]);
+        for (int i = 0; i < allSchoolNames.length; ++i) {
+            list.addSelectedSchool(allSchoolNames[i]);
         }
         StableArrayAdapter adapter = new StableArrayAdapter(this,
                 android.R.layout.simple_list_item_1, list);
@@ -198,14 +204,14 @@ public class AddSchools extends Fragment {
                                   List<String> objects) {
             super(context, textViewResourceId, objects);
             for (int i = 0; i < objects.size(); ++i) {
-                mIdMap.put(objects.get(i), i);
+                mIdMap.put(objects.getSelectedSchools(i), i);
             }
         }
 
         @Override
         public long getItemId(int position) {
             String item = getItem(position);
-            return mIdMap.get(item);
+            return mIdMap.getSelectedSchools(item);
         }
 
         @Override

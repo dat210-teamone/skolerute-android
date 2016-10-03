@@ -1,14 +1,26 @@
 package com.github.dat210_teamone.skolerute.Fragments;
 
 import android.content.Context;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
+import android.widget.Toast;
 
+import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.adapters.CalendarViewer;
+import com.github.dat210_teamone.skolerute.model.SchoolInfo;
+import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashSet;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,12 +31,13 @@ import com.github.dat210_teamone.skolerute.R;
  * create an instance of this fragment.
  */
 public class CalendarStandard extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+    private CalendarViewer calView;
+    private HashSet<Date> events ;
+
     private String mParam1;
     private String mParam2;
 
@@ -64,8 +77,37 @@ public class CalendarStandard extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calendar_standard, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_calendar_standard, container, false);
+
+        events = new HashSet<>();
+        events.add(new Date());
+
+        MainActivity mainActivity = (MainActivity)getActivity();
+
+        SchoolInfo school=mainActivity.selectedSchools[0];
+        SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getSelectedSchoolDays();
+        Date[] days=new Date[vacationDays.length];
+
+
+        for (int x=0; x<vacationDays.length; x++){
+            days[x]=vacationDays[x].getDate();
+        }
+
+        calView= ((CalendarViewer)view.findViewById(R.id.cal_view));
+        calView.updateCalendar(events);
+
+
+        calView.setEventHandler(new CalendarViewer.EventHandler() {
+            @Override
+            public void onDayLongPress(Date date)
+            {
+                DateFormat df = SimpleDateFormat.getDateInstance();
+                Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

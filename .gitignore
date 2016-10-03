@@ -13,6 +13,7 @@
 bin/
 gen/
 out/
+*.ser
 
 # Gradle files
 .gradle/
@@ -38,6 +39,7 @@ captures/
 .idea/gradle.xml
 .idea/workspace.xml
 .idea/libraries
+projectFilesBackup*
 
 # Keystore files
 *.jks

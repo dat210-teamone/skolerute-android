@@ -2,6 +2,8 @@ package com.github.dat210_teamone.skolerute.data;
 
 import com.android.internal.util.Predicate;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 
 /**
@@ -21,6 +23,20 @@ public final class OneUtils {
     public static String getFileName(URL url){
         String[] test = url.getFile().split("/");
         return test[test.length - 1];
+    }
 
+    public static void copy(InputStream inputStream, OutputStream outputStream) throws Exception{
+        int available = inputStream.available();
+        while (available > 0){
+            byte[] bytes;
+            if (available > 2048) {
+                bytes = new byte[2048];
+            }else{
+                bytes = new byte[available];
+            }
+            inputStream.read(bytes);
+            outputStream.write(bytes);
+            available = inputStream.available();
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.github.dat210_teamone.skolerute.data;
+package com.github.dat210_teamone.skolerute.data.interfaces;
 
 import com.android.internal.util.Predicate;
 import com.github.dat210_teamone.skolerute.model.*;
