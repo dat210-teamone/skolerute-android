@@ -56,16 +56,16 @@ public class CsvFileReader implements IStorage {
             File serialisedSchoolInfo = new File(dir, "schoolInfo.ser");
             File serializedVacationDays = new File(dir, "vacationDays.ser");
 
-            if (serialisedSchoolInfo.exists() && !serialisedSchoolInfo.isDirectory()) {
-                deserializeSchoolObjects(SerializeType.SCHOOL_INFO);
-            } else {
-                readSchoolInfoCsv(bufferGetter.getSchoolReader());
-            }
-
             if (serializedVacationDays.exists() && !serializedVacationDays.isDirectory()) {
                 deserializeSchoolObjects(SerializeType.VACATION_DAYS);
             } else {
                 readSchoolVacationDayCsv(bufferGetter.getSchoolDayReader());
+            }
+
+            if (serialisedSchoolInfo.exists() && !serialisedSchoolInfo.isDirectory()) {
+                deserializeSchoolObjects(SerializeType.SCHOOL_INFO);
+            } else {
+                readSchoolInfoCsv(bufferGetter.getSchoolReader());
             }
         }
         else{
@@ -96,7 +96,10 @@ public class CsvFileReader implements IStorage {
                 tmpInfo.setHomePage(attribs[11]);
                 tmpInfo.setSudents(attribs[12]);
                 tmpInfo.setCapacity(attribs[13]);
-                schoolInfos.add(tmpInfo);
+                if (loadedSchools.length == 0 || OneUtils.Contains(loadedSchools, (a) -> a.equals(tmpInfo.getSchoolName()))) {
+                    schoolInfos.add(tmpInfo);
+                }
+
             }
             reader.close();
             serializeSchoolObjects(SerializeType.SCHOOL_INFO);
@@ -104,14 +107,17 @@ public class CsvFileReader implements IStorage {
             e.printStackTrace();
         }
     }
-
+    private String[] loadedSchools = new String[0];
     private void readSchoolVacationDayCsv(BufferedReader reader) {
         String line;
         try {
+            ArrayList<String> tempSchools = new ArrayList<>();
             reader.readLine();
+            String last = "";
             while ((line = reader.readLine()) != null) {
                 if(line.equals(""))
                     break;
+
                 String[] attrib = line.split(",");
                 SchoolVacationDay tmpVacationDay = new SchoolVacationDay();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -129,8 +135,14 @@ public class CsvFileReader implements IStorage {
                     continue;
                 if (tmpVacationDay.getComment().length() == 6)
                     continue;
+                if (!last.equals(tmpVacationDay.getName())) {
+                    tempSchools.add(tmpVacationDay.getName());
+                    last = tmpVacationDay.getName();
+                }
                 vacationDays.add(tmpVacationDay);
             }
+            loadedSchools = new String[tempSchools.size()];
+            tempSchools.toArray(loadedSchools);
             reader.close();
             serializeSchoolObjects(SerializeType.VACATION_DAYS);
         } catch(IOException | ParseException e) {
