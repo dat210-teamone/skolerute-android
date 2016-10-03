@@ -5,6 +5,9 @@ import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
+import java.util.List;
+import java.util.regex.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -83,5 +86,25 @@ public class SchoolManager {
 
     public SchoolInfo[] getSchoolInfo(){
         return storage.getSchoolInfo();
+    }
+
+
+    public SchoolVacationDay[] getSchoolVecationInfo()
+    {
+        return storage.getVacationDays();
+    }
+
+    public List getMatchingSchools(String query) {
+        List<SchoolInfo> m = new ArrayList<>();
+        Pattern p = Pattern.compile("(?i)" + query);
+        for (SchoolInfo s : getSchoolInfo()) {
+            if(p.matcher(s.getSchoolName()).find()) {
+                m.add(s);
+            }
+            if(p.matcher(Integer.toString(s.getKomm())).find()) {
+                m.add(s);
+            }
+        }
+        return m;
     }
 }
