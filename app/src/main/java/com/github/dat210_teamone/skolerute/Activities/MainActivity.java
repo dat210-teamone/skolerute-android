@@ -16,20 +16,27 @@ import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
+import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 
 public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
 
-    public SchoolManager schoolManager = SchoolManager.getDefault();
-    public SchoolInfo[] allSchools = schoolManager.getSchoolInfo();
-    public SchoolInfo[] selectedSchools = schoolManager.getSelectedSchools();
-    public String[] allSchoolNames = new String[allSchools.length];
+    public SchoolManager schoolManager;// = SchoolManager.getDefault();
+    public SchoolInfo[] allSchools;// = schoolManager.getSchoolInfo();
+    public SchoolInfo[] selectedSchools;// = schoolManager.getSelectedSchools();
+    public String[] allSchoolNames;// = new String[allSchools.length];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         InterfaceManager.SetMainActivity(this);
+        schoolManager = SchoolManager.getDefault();
+        allSchools = schoolManager.getSchoolInfo();
+        selectedSchools = schoolManager.getSelectedSchools();
+        allSchoolNames = new String[allSchools.length];
+
         setContentView(R.layout.activity_main);
         FragmentManager manager = getSupportFragmentManager();
         Fragment fragment = manager.findFragmentById(R.id.fragment_container);

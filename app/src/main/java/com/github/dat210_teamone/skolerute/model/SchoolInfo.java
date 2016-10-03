@@ -3,21 +3,21 @@ package com.github.dat210_teamone.skolerute.model;
 /**
  * Created by Nicolas on 14.09.2016.
  */
-public class SchoolInfo {
-    int id;
-    double north;
-    double east;
-    double latitude;
-    double longitude;
-    String objectType;
-    int komm;
-    int byggTyp_NBR;
-    String information;
-    String schoolName;
-    String address;
-    String homePage;
-    String sudents;
-    String capacity;
+public class SchoolInfo implements java.io.Serializable {
+    private int id;
+    private double north;
+    private double east;
+    private double latitude;
+    private double longitude;
+    private String objectType;
+    private int komm;
+    private int byggTyp_NBR;
+    private String information;
+    private String schoolName;
+    private String address;
+    private String homePage;
+    private String sudents;
+    private String capacity;
 
     public int getId() {
         return id;
