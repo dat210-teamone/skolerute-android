@@ -27,10 +27,9 @@ public class SettingManager implements ISettingStorage {
 
     @Override
     public String[] getSelectedSchools() {
-//        mainActivity.getPreferences(Context.MODE_PRIVATE)
-
-        preferences.getStringSet(SELECTEDSCHOOLS, defaults);
-        return new String[0];
+        Set<String> set = preferences.getStringSet(SELECTEDSCHOOLS, defaults);
+        String[] array = new String[set.size()];
+        return set.toArray(array);
     }
 
     @Override
@@ -38,8 +37,10 @@ public class SettingManager implements ISettingStorage {
         Set<String> set = preferences.getStringSet(SELECTEDSCHOOLS, defaults);
         set.add(s);
         SharedPreferences.Editor editor =  preferences.edit();
+        editor.remove(SELECTEDSCHOOLS);
+        editor.apply();
         editor.putStringSet(SELECTEDSCHOOLS, set);
-        editor.commit();
+        editor.apply();
     }
 
     @Override
@@ -48,8 +49,10 @@ public class SettingManager implements ISettingStorage {
         boolean found = false;
         found = set.remove(s);
         SharedPreferences.Editor editor =  preferences.edit();
+        editor.remove(SELECTEDSCHOOLS);
+        editor.apply();
         editor.putStringSet(SELECTEDSCHOOLS, set);
-        editor.commit();
+        editor.apply();
         return found;
     }
 
@@ -61,7 +64,8 @@ public class SettingManager implements ISettingStorage {
     @Override
     public void setLastUpdateTime(String time) {
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(SELECTEDSCHOOLS, time);
-        editor.commit();
+        editor.remove(LASTUPDATEDATE);
+        editor.putString(LASTUPDATEDATE, time);
+        editor.apply();
     }
 }
