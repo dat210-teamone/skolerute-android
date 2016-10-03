@@ -95,6 +95,9 @@ public class SchoolManager {
             if(p.matcher(s.getSchoolName()).find()) {
                 m.add(s);
             }
+            if(p.matcher(Integer.toString(s.getKomm())).find()) {
+                m.add(s);
+            }
         }
         return m;
     }

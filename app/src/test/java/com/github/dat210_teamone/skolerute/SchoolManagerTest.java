@@ -82,7 +82,7 @@ public class SchoolManagerTest {
 
     @Test
     public void TestGetMatchingSchools() {
-        String q = "Skole 1";
+        String q = "Skole 0";
         List<SchoolInfo> l = sm.getMatchingSchools(q);
 
         if(l.size() == 0){
