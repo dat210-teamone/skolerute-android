@@ -84,7 +84,7 @@ public class CalendarStandard extends Fragment {
             days[x]=vacationDays[x].getDate();
         }
 
-        calView = (CalendarView) view.findViewById(R.id.cal_view);
+        calView = (CalendarView)view.findViewById(R.id.cal_view);
         calView.setMinDate(01/01/2010);
         calView.setMaxDate(01/01/2050);
         return view;

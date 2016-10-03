@@ -23,7 +23,6 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
 
     private final Context context;
     private final String[] values;
-    private Boolean alreadyStored;
 
     public AddSchoolsAdapter(Context context, String[] values) {
         super(context, -1, values);
@@ -31,28 +30,49 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
         this.values = values;
     }
 
+    public class AddSchoolObject {
+
+        private Boolean alreadyStored;
+
+        AddSchoolObject (Boolean alreadyStored) {
+            this.alreadyStored = alreadyStored;
+        }
+
+        public Boolean getAlreadyStored() {
+            return alreadyStored;
+        }
+
+        public void setAlreadyStored(Boolean alreadyStored) {
+            this.alreadyStored = alreadyStored;
+        }
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.add_schools_layout, parent, false);
+
+        AddSchoolObject addSchoolObject = new AddSchoolObject(SchoolManager.getDefault().checkName(values[position]));
+
         TextView schoolName = (TextView) rowView.findViewById(R.id.school_name);
         schoolName.setText(values[position]);
-        alreadyStored = SchoolManager.getDefault().checkName(values[position]); // Replace with method
         Button addSchool = (Button) rowView.findViewById(R.id.add_button);
-        if (alreadyStored) {
+
+        if (addSchoolObject.getAlreadyStored()) {
             addSchool.setText("Fjern");
         }
+
         addSchool.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!alreadyStored) {
+                if (!addSchoolObject.getAlreadyStored()) {
                     SchoolManager.getDefault().addDefault(values[position]);
-                    alreadyStored = true;
+                    addSchoolObject.setAlreadyStored(true);
                     addSchool.setText("Fjern");
                 } else {
                     SchoolManager.getDefault().removeDefault(values[position]);
-                    alreadyStored = false;
+                    addSchoolObject.setAlreadyStored(false);
                     addSchool.setText("Lagre");
                 }
             }
