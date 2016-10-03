@@ -1,6 +1,7 @@
 package com.github.dat210_teamone.skolerute.Fragments;
 
 import android.content.Context;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -85,8 +86,7 @@ public class CalendarStandard extends Fragment {
         }
 
         calView = (CalendarView) view.findViewById(R.id.cal_view);
-        calView.setMinDate(01/01/2010);
-        calView.setMaxDate(01/01/2050);
+
         return view;
     }
 
