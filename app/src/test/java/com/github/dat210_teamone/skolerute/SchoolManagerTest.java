@@ -9,6 +9,7 @@ import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -77,5 +78,17 @@ public class SchoolManagerTest {
         sm.addDefault("Skole 99");
         sm.removeDefault("Skole 99");
         Assert.assertFalse("Skole 99 is not correctly deleted", sm.checkName("Skole 99"));
+    }
+
+    @Test
+    public void TestGetMatchingSchools() {
+        String q = "Skole 1";
+        List<SchoolInfo> l = sm.getMatchingSchools(q);
+
+        if(l.size() == 0){
+            Assert.assertTrue("No elements in arrayList.", false);
+        }else {
+            Assert.assertEquals(q, l.get(0).getSchoolName());
+        }
     }
 }

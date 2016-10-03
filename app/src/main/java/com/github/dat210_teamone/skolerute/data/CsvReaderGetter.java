@@ -44,9 +44,7 @@ public class CsvReaderGetter implements ICsvGetter {
                 dis.readFully(bytes);
                 String s = new String(bytes);
 
-
-
-                PageInfo info = new PageInfo(url,lastCsvUrl(s) , lastUpdated(s));
+                PageInfo info = new PageInfo(url, lastCsvUrl(s), lastUpdated(s));
 
                 infoCache.put(url, info);
                 return info;
