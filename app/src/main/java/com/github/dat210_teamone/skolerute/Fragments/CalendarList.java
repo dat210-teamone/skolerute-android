@@ -7,22 +7,29 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
+import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
+import com.github.dat210_teamone.skolerute.model.SchoolInfo;
+import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CalendarList.OnCalendarListInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CalendarList#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Date;
+
 public class CalendarList extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private ListView calendarList;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,7 +72,49 @@ public class CalendarList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calendar_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_calendar_list, container, false);
+
+        MainActivity mainActivity = (MainActivity)getActivity();
+
+        SchoolInfo school=mainActivity.selectedSchools[0];
+        SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getSelectedSchoolDays();
+        Date[] days=new Date[vacationDays.length];
+        String date[]=new String[days.length];
+
+        for (int x=0; x<vacationDays.length; x++){
+            days[x]=vacationDays[x].getDate();
+            date[x]=days[x].toString();
+        }
+
+
+
+        ArrayAdapter calendarListAdapter = new ArrayAdapter(mainActivity, android.R.layout.simple_list_item_1, date);
+
+        calendarList = (ListView)view.findViewById(R.id.calendar_list);
+        calendarList.setAdapter(calendarListAdapter);
+
+        AdapterView.OnItemClickListener
+                mMessageClickedHandler =
+                new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView parent,
+                                            View v,
+                                            int position,
+                                            long id) {
+
+                        String schoolName = mainActivity.allSchoolNames[(int)id];
+
+                        ((TextView)v).setText(schoolName + " er valgt");
+
+                        // Metode som bytter til kalender-fragment basert på valgt skole
+
+                    }
+                };
+
+        calendarList.setOnItemClickListener(
+                mMessageClickedHandler);
+
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

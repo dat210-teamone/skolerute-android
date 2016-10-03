@@ -89,13 +89,14 @@ public class CalendarStandard extends Fragment {
         SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getSelectedSchoolDays();
         Date[] days=new Date[vacationDays.length];
 
-        calView= ((CalendarViewer)view.findViewById(R.id.cal_view));
-        calView.updateCalendar(events);
-
 
         for (int x=0; x<vacationDays.length; x++){
             days[x]=vacationDays[x].getDate();
         }
+
+        calView= ((CalendarViewer)view.findViewById(R.id.cal_view));
+        calView.updateCalendar(events);
+
 
         calView.setEventHandler(new CalendarViewer.EventHandler() {
             @Override

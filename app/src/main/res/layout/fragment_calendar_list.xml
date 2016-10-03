@@ -3,7 +3,20 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.github.dat210_teamone.skolerute.Fragments.AddSchools">
+    tools:context="com.github.dat210_teamone.skolerute.Fragments.CalendarList">
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Fri dagene"
+        android:id="@+id/textView3"
+        android:layout_gravity="center_horizontal" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/calendar_list"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>
