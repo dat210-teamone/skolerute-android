@@ -76,7 +76,6 @@ public class AddSchools extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_add_schools, container, false);
 
-
         MainActivity mainActivity = (MainActivity)getActivity();
 
         for (int x = 0; x< mainActivity.allSchools.length; x++){
@@ -88,14 +87,12 @@ public class AddSchools extends Fragment {
 
 
 
-
-
         schoolsList = (ListView)view.findViewById(R.id.schoolsList);
         schoolsList.setAdapter(itemsAdapter);
 
 
 
-        AdapterView.OnItemClickListener
+     /*   AdapterView.OnItemClickListener
                 mMessageClickedHandler =
                 new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView parent,
@@ -110,7 +107,7 @@ public class AddSchools extends Fragment {
         schoolsList.setOnItemClickListener(
                 mMessageClickedHandler);
 
-
+    */
 
         // Inflate the layout for this fragment
         return view;
@@ -132,6 +129,10 @@ public class AddSchools extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    public void onAddClicked () {
+
     }
 
     @Override
