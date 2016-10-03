@@ -11,10 +11,6 @@ import android.widget.TextView;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by Alex on 289//16.
  */
