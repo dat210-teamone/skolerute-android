@@ -5,13 +5,13 @@ import java.util.Date;
 /**
  * Created by Nicolas on 14.09.2016.
  */
-public class SchoolVacationDay {
-    Date date;
-    String name;
-    boolean studentDay;
-    boolean teacherDay;
-    boolean sfoDay;
-    String comment;
+public class SchoolVacationDay implements java.io.Serializable {
+    private Date date;
+    private String name;
+    private boolean studentDay;
+    private boolean teacherDay;
+    private boolean sfoDay;
+    private String comment;
 
     public Date getDate() {
         return date;

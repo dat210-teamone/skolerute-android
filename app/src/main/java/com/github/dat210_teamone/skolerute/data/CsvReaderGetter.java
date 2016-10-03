@@ -1,5 +1,6 @@
 package com.github.dat210_teamone.skolerute.data;
 
+import com.github.dat210_teamone.skolerute.data.interfaces.ICsvGetter;
 import com.github.dat210_teamone.skolerute.model.PageInfo;
 
 import java.io.BufferedInputStream;

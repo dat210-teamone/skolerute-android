@@ -2,8 +2,8 @@ package com.github.dat210_teamone.skolerute;
 
 import com.github.dat210_teamone.skolerute.data.dummy.DummySettingStorage;
 import com.github.dat210_teamone.skolerute.data.dummy.DummyStorage;
-import com.github.dat210_teamone.skolerute.data.ISettingStorage;
-import com.github.dat210_teamone.skolerute.data.IStorage;
+import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
+import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
@@ -23,7 +23,7 @@ import static com.github.dat210_teamone.skolerute.data.OneUtils.Contains;
 public class SchoolManagerTest {
 
     IStorage si = new DummyStorage();
-    ISettingStorage iss = new DummySettingStorage();
+    ISettingStorage iss = new DummySettingStorage(true);
 
     private SchoolManager sm;
 
