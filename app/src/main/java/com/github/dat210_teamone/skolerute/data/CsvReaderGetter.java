@@ -77,6 +77,7 @@ public class CsvReaderGetter implements ICsvGetter {
         {
             try {
                 URL u = new URL(url);
+
                 GetPageInfoTask task = new GetPageInfoTask();
                 AsyncTask<URL, Void, String> test =  task.execute(u);
                 String s = test.get();
