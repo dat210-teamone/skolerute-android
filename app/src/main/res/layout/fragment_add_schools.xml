@@ -48,7 +48,7 @@
         android:id="@+id/finished_container"
         android:gravity="center_vertical|center_horizontal"
         android:layout_marginBottom="0dp"
-        android:layout_height="match_parent">
+        android:layout_height="60dp">
 
         <TextView
             android:layout_width="wrap_content"
