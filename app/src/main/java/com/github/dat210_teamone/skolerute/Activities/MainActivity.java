@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -84,6 +85,15 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container, fragment);
         fragTrans.commit();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 && fragment.getClass() != StoredSchools.class){
+            goToStoredSchools();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     // Abstract methods from fragments
