@@ -17,7 +17,7 @@ public class CsvFileReaderTest {
 
     public CsvFileReaderTest(){
         csvFileReader = new CsvFileReader(new DummyCsvReaderGetter());
-        csvFileReader.initializeReader();
+        csvFileReader.initializeReader(false);
     }
 
     @Test

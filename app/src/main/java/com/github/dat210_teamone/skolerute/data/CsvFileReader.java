@@ -27,6 +27,7 @@ public class CsvFileReader implements IStorage {
     private ArrayList<SchoolVacationDay> vacationDays;
 
     private ICsvGetter bufferGetter;
+    private boolean useCache = false;
 
     private enum SerializeType {
         SCHOOL_INFO,
@@ -43,23 +44,32 @@ public class CsvFileReader implements IStorage {
         this.bufferGetter = getter;
     }
 
-    public CsvFileReader initializeReader() {
+    public CsvFileReader initializeReader(){
+        return initializeReader(true);
+    }
+
+    public CsvFileReader initializeReader(boolean useCache) {
         // TODO: CHECK: File may need to be stored somewhere else on Android
-        File dir = InterfaceManager.getStoragePath();
-        File serialisedSchoolInfo = new File(dir, "schoolInfo.ser");
-        File serializedVacationDays = new File(dir, "vacationDays.ser");
+        this.useCache = useCache;
+        if (useCache) {
+            File dir = InterfaceManager.getStoragePath();
+            File serialisedSchoolInfo = new File(dir, "schoolInfo.ser");
+            File serializedVacationDays = new File(dir, "vacationDays.ser");
 
-        if(serialisedSchoolInfo.exists() && !serialisedSchoolInfo.isDirectory()) {
-            deserializeSchoolObjects(SerializeType.SCHOOL_INFO);
-        }
-        else {
-            readSchoolInfoCsv(bufferGetter.getSchoolReader());
-        }
+            if (serialisedSchoolInfo.exists() && !serialisedSchoolInfo.isDirectory()) {
+                deserializeSchoolObjects(SerializeType.SCHOOL_INFO);
+            } else {
+                readSchoolInfoCsv(bufferGetter.getSchoolReader());
+            }
 
-        if(serializedVacationDays.exists() && !serializedVacationDays.isDirectory()) {
-            deserializeSchoolObjects(SerializeType.VACATION_DAYS);
+            if (serializedVacationDays.exists() && !serializedVacationDays.isDirectory()) {
+                deserializeSchoolObjects(SerializeType.VACATION_DAYS);
+            } else {
+                readSchoolVacationDayCsv(bufferGetter.getSchoolDayReader());
+            }
         }
         else{
+            readSchoolInfoCsv(bufferGetter.getSchoolReader());
             readSchoolVacationDayCsv(bufferGetter.getSchoolDayReader());
         }
         return this;
@@ -129,6 +139,8 @@ public class CsvFileReader implements IStorage {
     }
 
     private void serializeSchoolObjects(SerializeType selector) {
+        if (!useCache)
+            return;
         try {
             String filename = (selector == SerializeType.SCHOOL_INFO) ? "schoolInfo.ser" : "vacationDays.ser";
             File dir = InterfaceManager.getStoragePath();

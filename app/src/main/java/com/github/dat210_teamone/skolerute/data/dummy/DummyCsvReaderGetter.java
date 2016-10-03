@@ -22,16 +22,16 @@ public class DummyCsvReaderGetter implements ICsvGetter {
 
         schoolDayTester =
                 "dato,skole,elevdag,laererdag,sfodag,kommentar\n" +
-                "2016-09-01,Auglend skole,Ja,Ja,Ja,\n" +
-                "2016-09-02,Auglend skole,Ja,Ja,Ja,\n" +
-                "2016-09-03,Auglend skole,Nei,Nei,Nei,Lørdag\n" +
-                "2016-09-04,Auglend skole,Nei,Nei,Nei,Søndag\n" +
-                "2016-09-05,Auglend skole,Ja,Ja,Ja,\n" +
-                "2016-09-06,Auglend skole,Ja,Ja,Ja,\n" +
-                "2016-09-07,Auglend skole,Ja,Ja,Ja,\n" +
-                "2016-09-08,Auglend skole,Ja,Ja,Ja,\n" +
-                "2016-09-09,Auglend skole,Ja,Ja,Ja,\n" +
-                "2016-09-10,Auglend skole,Nei,Nei,Nei,Lørdag";
+                "2016-09-01,Auglend skole,Nei,Ja,Ja,\n" +
+                "2016-09-02,Auglend skole,Nei,Ja,Ja,\n" +
+                "2016-09-03,Auglend skole,Nei,Nei,Nei,\n" +
+                "2016-09-04,Auglend skole,Nei,Nei,Nei,\n" +
+                "2016-09-05,Auglend skole,Nei,Ja,Ja,\n" +
+                "2016-09-06,Auglend skole,Nei,Ja,Ja,\n" +
+                "2016-09-07,Auglend skole,Nei,Ja,Ja,\n" +
+                "2016-09-08,Auglend skole,Nei,Ja,Ja,\n" +
+                "2016-09-09,Auglend skole,Nei,Ja,Ja,\n" +
+                "2016-09-10,Auglend skole,Nei,Nei,Nei,";
 
     }
 
