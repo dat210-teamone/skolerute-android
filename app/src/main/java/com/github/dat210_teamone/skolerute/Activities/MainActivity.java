@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 && fragment.getClass() != StoredSchools.class){
             goToStoredSchools();
             return true;
         }
