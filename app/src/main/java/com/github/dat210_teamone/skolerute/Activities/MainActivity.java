@@ -1,5 +1,6 @@
 package com.github.dat210_teamone.skolerute.Activities;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -36,6 +37,9 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
         super.onCreate(savedInstanceState);
 
+        /*SharedPreferences.Editor edit = this.getPreferences(0).edit();
+        edit.clear();
+        edit.apply();*/
         InterfaceManager.SetMainActivity(this);
         schoolManager = SchoolManager.getDefault();
         allSchools = schoolManager.getSchoolInfo();
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         });
 
         if (fragment == null) {
-            if(selectedSchools.length != 0) {
+            if(selectedSchools.length == 0) {
                 fragment = new AddSchools();
             } else {
                 fragment = new StoredSchools();

@@ -36,7 +36,8 @@ public final class InterfaceManager {
 
 
     public static ISettingStorage getSettings(){
-        return new DummySettingStorage(true);
+        //return new DummySettingStorage(true);
+        return new SettingManager(mainActivity.getSharedPreferences("data", 0));
     }
 
     public static ICsvGetter getBufferGetter() {
