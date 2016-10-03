@@ -8,6 +8,8 @@ import com.github.dat210_teamone.skolerute.data.interfaces.ICsvGetter;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
 
+import java.io.File;
+
 /**
  * Created by Nicolas on 21.09.2016.
  */
@@ -22,9 +24,13 @@ public final class InterfaceManager {
         mainActivity = activity;
     }
 
-    public static IStorage getStorage()
-    {
-        return new DummyStorage();
+    public static File getStoragePath(){
+        return mainActivity.getApplicationContext().getDir("data", 0);
+    }
+
+    public static IStorage getStorage() {
+        //return new DummyStorage();
+        return new CsvFileReader().initializeReader();
     }
 
 

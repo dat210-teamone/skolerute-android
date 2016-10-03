@@ -84,4 +84,6 @@ public class SchoolManager {
     public SchoolInfo[] getSchoolInfo(){
         return storage.getSchoolInfo();
     }
+
+    public SchoolVacationDay[] getSchoolVecationInfo(){ return storage.getVacationDays(); }
 }
