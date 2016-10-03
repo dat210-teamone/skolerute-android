@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,9 @@ import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.adapters.AddSchoolsAdapter;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +38,7 @@ public class AddSchools extends Fragment {
     private String mParam2;
 
     private ListView schoolsList;
-
+    private TextView finished;
 
     private OnAddSchoolsInteractionListener mListener;
 
@@ -75,45 +79,49 @@ public class AddSchools extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_add_schools, container, false);
 
+        MainActivity mainActivity = (MainActivity)getActivity();
 
-        MainActivity mA = (MainActivity)getActivity();
-
-        for (int x = 0; x< mA.allSchools.length; x++){
-            mA.allSchoolNames[x]=mA.allSchools[x].getSchoolName();
+        for (int x = 0; x< mainActivity.allSchools.length; x++){
+            mainActivity.allSchoolNames[x]=mainActivity.allSchools[x].getSchoolName();
         }
 
 
-        ArrayAdapter<String> itemsAdapter =
-                new ArrayAdapter<String>(mA, android.R.layout.simple_list_item_1, mA.allSchoolNames);
+
+        AddSchoolsAdapter itemsAdapter =
+                new AddSchoolsAdapter(mainActivity, mainActivity.allSchoolNames);
 
 
+        finished = (TextView)view.findViewById(R.id.finished);
+        finished.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                mainActivity.goToStoredSchools();
 
+            }
+        });
 
         schoolsList = (ListView)view.findViewById(R.id.schoolsList);
         schoolsList.setAdapter(itemsAdapter);
 
 
 
-        AdapterView.OnItemClickListener
+     /*   AdapterView.OnItemClickListener
                 mMessageClickedHandler =
                 new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView parent,
                                             View v,
                                             int position,
                                             long id) {
-
-                        String schoolName = mA.allSchoolNames[(int)id];
+                        String schoolName = mainActivity.allSchoolNames[(int)id];
                         ((TextView)v).setText(schoolName + " er valgt");
-
-
                     }
                 };
 
         schoolsList.setOnItemClickListener(
                 mMessageClickedHandler);
 
-
+    */
 
         // Inflate the layout for this fragment
         return view;
@@ -135,6 +143,10 @@ public class AddSchools extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    public void onAddClicked () {
+
     }
 
     @Override

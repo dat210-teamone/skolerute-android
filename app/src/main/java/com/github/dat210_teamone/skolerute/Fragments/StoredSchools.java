@@ -14,6 +14,11 @@ import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
+import com.github.dat210_teamone.skolerute.model.SchoolInfo;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,39 +79,34 @@ public class StoredSchools extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stored_schools, container, false);
+/*
+        public SchoolManager schoolManager = SchoolManager.getDefault();
+        public SchoolInfo[] allSchools = schoolManager.getSchoolInfo();
+        public SchoolInfo[] selectedSchools = schoolManager.getSelectedSchools();
+        public String[] allSchoolNames = new String[allSchools.length];
+ */
 
-        MainActivity mA = (MainActivity)getActivity();
 
-        for (int x = 0; x< mA.allSchools.length; x++){
-            mA.allSchoolNames[x]=mA.allSchools[x].getSchoolName();
+        MainActivity mainActivity = (MainActivity)getActivity();
+
+        mainActivity.selectedSchools = mainActivity.schoolManager.getSelectedSchools();
+
+        String[] storedSchoolNames = new String[mainActivity.selectedSchools.length];
+        Date[] storedSchoolVacationDays = new Date[mainActivity.selectedSchools.length];
+
+        for (int x=0; x< mainActivity.selectedSchools.length; x++){
+            storedSchoolNames[x] = mainActivity.selectedSchools[x].getSchoolName();
+            storedSchoolVacationDays[x] = mainActivity.schoolManager.getNextVacationDay(storedSchoolNames[x]).getDate();
         }
 
+        for (int x=0; x< mainActivity.selectedSchools.length; x++){
+            storedSchoolNames[x] = mainActivity.selectedSchools[x].getSchoolName();
+        }
 
-        ArrayAdapter<String> itemsAdapter =
-                new ArrayAdapter<String>(mA, android.R.layout.simple_list_item_1, mA.allSchoolNames);
+        StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames, storedSchoolVacationDays);
 
         storedSchoolsList = (ListView)view.findViewById(R.id.storedSchoolsList);
-        storedSchoolsList.setAdapter(itemsAdapter);
-
-        AdapterView.OnItemClickListener
-                mMessageClickedHandler =
-                new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView parent,
-                                            View v,
-                                            int position,
-                                            long id) {
-
-                        String schoolName = mA.allSchoolNames[(int)id];
-                        ((TextView)v).setText(schoolName + " er valgt");
-
-                        // Metode som bytter til kalender-fragment basert på valgt skole
-
-                    }
-                };
-
-        storedSchoolsList.setOnItemClickListener(
-                mMessageClickedHandler);
-
+        storedSchoolsList.setAdapter(storedSchoolsAdapter);
 
         return view;
     }
