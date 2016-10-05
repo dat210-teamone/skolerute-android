@@ -19,11 +19,13 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
 
     private final Context context;
     private final String[] values;
+    private String[] valuesToDisplay;
 
     public AddSchoolsAdapter(Context context, String[] values) {
         super(context, -1, values);
         this.context = context;
         this.values = values;
+        this.valuesToDisplay = values;
     }
 
     public class AddSchoolObject {
@@ -47,6 +49,10 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //if shoudln't be displayed, return null_item
+        if(!shouldSchoolNameBeDisplayed(values[position])){
+            return inflater.inflate(R.layout.null_item, null);
+        }
         View rowView = inflater.inflate(R.layout.add_schools_layout, parent, false);
 
         AddSchoolObject addSchoolObject = new AddSchoolObject(SchoolManager.getDefault().checkName(values[position]));
@@ -75,5 +81,20 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
         });
 
         return rowView;
+    }
+
+    //set school to be displayed and update view
+    public void setSchoolsToView(String[] schoolsToView){
+        valuesToDisplay = schoolsToView;
+        this.notifyDataSetChanged();
+    }
+    //used when checking if school should be displayed
+    private boolean shouldSchoolNameBeDisplayed(String schoolName){
+        for(int i=0; i<valuesToDisplay.length; i++) {
+            if (schoolName == valuesToDisplay[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 }
