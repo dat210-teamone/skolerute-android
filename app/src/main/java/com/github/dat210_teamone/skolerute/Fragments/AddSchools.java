@@ -4,21 +4,23 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.AddSchoolsAdapter;
+import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,7 +41,7 @@ public class AddSchools extends Fragment {
     private String mParam2;
 
     private ListView schoolsList;
-    private LinearLayout finished;
+    private TextView finished;
 
     private OnAddSchoolsInteractionListener mListener;
 
@@ -92,7 +94,7 @@ public class AddSchools extends Fragment {
                 new AddSchoolsAdapter(mainActivity, mainActivity.allSchoolNames);
 
 
-        finished = (LinearLayout)view.findViewById(R.id.finished_container);
+        finished = (TextView)view.findViewById(R.id.finished);
         finished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,7 +106,6 @@ public class AddSchools extends Fragment {
 
         schoolsList = (ListView)view.findViewById(R.id.schoolsList);
         schoolsList.setAdapter(itemsAdapter);
-
 
 
      /*   AdapterView.OnItemClickListener
@@ -123,7 +124,31 @@ public class AddSchools extends Fragment {
                 mMessageClickedHandler);
 
     */
+        SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String submitText) {
+                doSearch(submitText);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                doSearch(newText);
+                return true;
+            }
+            public void doSearch(String query) {
+                List<SchoolInfo> searchResult = new ArrayList<>();
+                searchResult = mainActivity.schoolManager.getMatchingSchools(query);
 
+                String[] searchSchoolName = new String[searchResult.size()];
+                for(int i=0; i<searchResult.size();i++){
+                    searchSchoolName[i] = searchResult.get(i).getSchoolName();
+                }
+
+                itemsAdapter.setSchoolsToView(searchSchoolName);
+            }
+
+        });
         // Inflate the layout for this fragment
         return view;
     }
