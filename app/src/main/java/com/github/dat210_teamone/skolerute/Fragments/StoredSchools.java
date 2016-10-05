@@ -106,16 +106,6 @@ public class StoredSchools extends Fragment {
 
         StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames, storedSchoolVacationDays);
 
-        finished = (TextView)view.findViewById(R.id.finished);
-        finished.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                mainActivity.goToCalendarList();
-
-            }
-        });
-
         storedSchoolsList = (ListView)view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(storedSchoolsAdapter);
 
