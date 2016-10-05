@@ -6,6 +6,7 @@ import android.location.Location;
  * Created by Nicolas on 14.09.2016.
  */
 public class SchoolInfo implements java.io.Serializable {
+    private static final long serialVersionUID = 8001578383494727861L;
     private int id;
     private double north;
     private double east;
@@ -139,4 +140,5 @@ public class SchoolInfo implements java.io.Serializable {
         location.setLongitude(getLongitude());
         return location;
     }
+
 }
