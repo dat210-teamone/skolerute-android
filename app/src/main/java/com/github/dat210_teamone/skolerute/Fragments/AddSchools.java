@@ -107,24 +107,8 @@ public class AddSchools extends Fragment {
         schoolsList = (ListView)view.findViewById(R.id.schoolsList);
         schoolsList.setAdapter(itemsAdapter);
 
-
-     /*   AdapterView.OnItemClickListener
-                mMessageClickedHandler =
-                new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView parent,
-                                            View v,
-                                            int position,
-                                            long id) {
-                        String schoolName = mainActivity.allSchoolNames[(int)id];
-                        ((TextView)v).setText(schoolName + " er valgt");
-                    }
-                };
-
-        schoolsList.setOnItemClickListener(
-                mMessageClickedHandler);
-
-    */
         SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
+        searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String submitText) {
