@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,7 +40,7 @@ public class StoredSchools extends Fragment {
     private String mParam2;
 
     private ListView storedSchoolsList;
-    private TextView finished;
+    private LinearLayout schoolName;
 
 
     private OnStoredSchoolsInteractionListener mListener;
@@ -78,14 +79,9 @@ public class StoredSchools extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stored_schools, container, false);
-/*
-        public SchoolManager schoolManager = SchoolManager.getDefault();
-        public SchoolInfo[] allSchools = schoolManager.getSchoolInfo();
-        public SchoolInfo[] selectedSchools = schoolManager.getSelectedSchools();
-        public String[] allSchoolNames = new String[allSchools.length];
- */
 
 
         MainActivity mainActivity = (MainActivity)getActivity();
@@ -106,17 +102,7 @@ public class StoredSchools extends Fragment {
 
         StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames, storedSchoolVacationDays);
 
-        finished = (TextView)view.findViewById(R.id.finished);
-        finished.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                mainActivity.goToCalendarList();
-
-            }
-        });
-
-        storedSchoolsList = (ListView)view.findViewById(R.id.storedSchoolsList);
+        storedSchoolsList = (ListView) view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(storedSchoolsAdapter);
 
         return view;
