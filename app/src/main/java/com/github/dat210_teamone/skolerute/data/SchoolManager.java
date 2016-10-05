@@ -107,4 +107,12 @@ public class SchoolManager {
         }
         return m;
     }
+
+    public String getLastUpdateTime() {
+        return settings.getLastUpdateTime();
+    }
+
+    public void setLastUpdateTime(String time) {
+        settings.setLastUpdateTime(time);
+    }
 }
