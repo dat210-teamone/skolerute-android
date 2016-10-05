@@ -1,5 +1,7 @@
 package com.github.dat210_teamone.skolerute.model;
 
+import android.location.Location;
+
 /**
  * Created by Nicolas on 14.09.2016.
  */
@@ -131,5 +133,8 @@ public class SchoolInfo implements java.io.Serializable {
         this.capacity = capacity;
     }
 
-
+    public Location getLocation(){
+        Location location = new Location("SchoolInfo model");
+        location.setLatitude(getLatitude());
+    }
 }
