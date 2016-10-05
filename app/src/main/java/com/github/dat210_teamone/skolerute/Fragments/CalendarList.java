@@ -77,7 +77,7 @@ public class CalendarList extends Fragment {
         MainActivity mainActivity = (MainActivity)getActivity();
 
         SchoolInfo school=mainActivity.selectedSchools[0];
-        SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getSelectedSchoolDays();
+        SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getNextVacationDays(school.getSchoolName());
         Date[] days=new Date[vacationDays.length];
         String date[]=new String[days.length];
 
@@ -86,33 +86,10 @@ public class CalendarList extends Fragment {
             date[x]=days[x].toString();
         }
 
-
-
         ArrayAdapter calendarListAdapter = new ArrayAdapter(mainActivity, android.R.layout.simple_list_item_1, date);
 
         calendarList = (ListView)view.findViewById(R.id.calendar_list);
         calendarList.setAdapter(calendarListAdapter);
-
-        AdapterView.OnItemClickListener
-                mMessageClickedHandler =
-                new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView parent,
-                                            View v,
-                                            int position,
-                                            long id) {
-
-                        String schoolName = mainActivity.allSchoolNames[(int)id];
-
-                        ((TextView)v).setText(schoolName + " er valgt");
-
-                        // Metode som bytter til kalender-fragment basert på valgt skole
-
-                    }
-                };
-
-        calendarList.setOnItemClickListener(
-                mMessageClickedHandler);
-
 
         return view;
     }
