@@ -1,6 +1,7 @@
 package com.github.dat210_teamone.skolerute.Activities;
 
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -37,13 +38,11 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        /*SharedPreferences.Editor edit = this.getPreferences(0).edit();
-        edit.clear();
-        edit.apply();*/
+        
         InterfaceManager.SetMainActivity(this);
         schoolManager = SchoolManager.getDefault();
         allSchools = schoolManager.getSchoolInfo();
+        //Location location = allSchools[0].getLocation();
         selectedSchools = schoolManager.getSelectedSchools();
         allSchoolNames = new String[allSchools.length];
 

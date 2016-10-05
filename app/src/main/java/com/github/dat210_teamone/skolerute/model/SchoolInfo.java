@@ -136,5 +136,7 @@ public class SchoolInfo implements java.io.Serializable {
     public Location getLocation(){
         Location location = new Location("SchoolInfo model");
         location.setLatitude(getLatitude());
+        location.setLongitude(getLongitude());
+        return location;
     }
 }
