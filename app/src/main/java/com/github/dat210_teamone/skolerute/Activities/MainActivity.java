@@ -87,6 +87,13 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         fragTrans.commit();
     }
 
+    public void goToCalendarList() {
+        fragment = new CalendarList();
+        fragTrans = manager.beginTransaction();
+        fragTrans.replace(R.id.fragment_container, fragment);
+        fragTrans.commit();
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 && fragment.getClass() != StoredSchools.class){
