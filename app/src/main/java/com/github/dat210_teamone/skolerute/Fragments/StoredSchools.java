@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,7 +40,7 @@ public class StoredSchools extends Fragment {
     private String mParam2;
 
     private ListView storedSchoolsList;
-    private TextView finished;
+    private LinearLayout finished;
 
 
     private OnStoredSchoolsInteractionListener mListener;
@@ -106,7 +107,7 @@ public class StoredSchools extends Fragment {
 
         StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames, storedSchoolVacationDays);
 
-        finished = (TextView)view.findViewById(R.id.finished);
+        finished = (LinearLayout)view.findViewById(R.id.school_name_container);
         finished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
