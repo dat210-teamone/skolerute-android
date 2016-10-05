@@ -5,8 +5,8 @@
     android:layout_height="70dp"
     android:orientation="horizontal"
     android:background="#FFFFFF"
-    android:gravity="right|center_vertical">
-    
+    android:gravity="right|center_vertical"
+    android:layout_marginBottom="@dimen/list_margin_bottom">
 
     <TextView
         android:id="@+id/school_name"

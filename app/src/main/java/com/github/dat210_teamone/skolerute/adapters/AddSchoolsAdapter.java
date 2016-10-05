@@ -1,6 +1,7 @@
 package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
 
     private final Context context;
     private final String[] values;
+
 
     public AddSchoolsAdapter(Context context, String[] values) {
         super(context, -1, values);
@@ -57,6 +59,7 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
 
         if (addSchoolObject.getAlreadyStored()) {
             addSchool.setText("Fjern");
+            addSchool.setBackgroundResource(R.color.colorClickableSecondary);
         }
 
         addSchool.setOnClickListener(new View.OnClickListener() {
@@ -66,10 +69,12 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
                     SchoolManager.getDefault().addDefault(values[position]);
                     addSchoolObject.setAlreadyStored(true);
                     addSchool.setText("Fjern");
+                    addSchool.setBackgroundResource(R.color.colorClickableSecondary);
                 } else {
                     SchoolManager.getDefault().removeDefault(values[position]);
                     addSchoolObject.setAlreadyStored(false);
                     addSchool.setText("Lagre");
+                    addSchool.setBackgroundResource(R.color.colorClickable);
                 }
             }
         });

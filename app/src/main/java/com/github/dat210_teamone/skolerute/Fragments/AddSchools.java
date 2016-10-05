@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,7 +39,7 @@ public class AddSchools extends Fragment {
     private String mParam2;
 
     private ListView schoolsList;
-    private TextView finished;
+    private LinearLayout finished;
 
     private OnAddSchoolsInteractionListener mListener;
 
@@ -91,7 +92,7 @@ public class AddSchools extends Fragment {
                 new AddSchoolsAdapter(mainActivity, mainActivity.allSchoolNames);
 
 
-        finished = (TextView)view.findViewById(R.id.finished);
+        finished = (LinearLayout)view.findViewById(R.id.finished_container);
         finished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
