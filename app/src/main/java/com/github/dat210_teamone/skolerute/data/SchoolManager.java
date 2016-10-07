@@ -1,5 +1,7 @@
 package com.github.dat210_teamone.skolerute.data;
 
+import android.util.Log;
+
 import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
@@ -104,6 +106,9 @@ public class SchoolManager {
         Pattern p = Pattern.compile("(?i)" + query);
         for (SchoolInfo s : getSchoolInfo()) {
             if(p.matcher(s.getSchoolName()).find()) {
+                m.add(s);
+            }
+            if(p.matcher(s.getAddress()).find()) {
                 m.add(s);
             }
             if(p.matcher(Integer.toString(s.getKomm())).find()) {

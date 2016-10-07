@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:id="@+id/searchView"
-        android:queryHint="Søk med skolenavn eller postnummer">
+        android:queryHint="Søk med skolenavn eller adresse">
     </SearchView>
 
     <LinearLayout
