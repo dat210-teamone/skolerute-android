@@ -30,6 +30,7 @@ public class CalendarList extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private ListView calendarList;
+    private TextView list;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -88,8 +89,20 @@ public class CalendarList extends Fragment {
 
         ArrayAdapter calendarListAdapter = new ArrayAdapter(mainActivity, android.R.layout.simple_list_item_1, date);
 
+        list = (TextView)view.findViewById(R.id.textView3);
+        list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mainActivity.goToCalendarView();
+
+            }
+        });
+
         calendarList = (ListView)view.findViewById(R.id.calendar_list);
         calendarList.setAdapter(calendarListAdapter);
+
+
 
         return view;
     }
