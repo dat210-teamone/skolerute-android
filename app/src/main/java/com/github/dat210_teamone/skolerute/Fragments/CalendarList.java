@@ -76,7 +76,9 @@ public class CalendarList extends Fragment {
 
         MainActivity mainActivity = (MainActivity)getActivity();
 
-        SchoolInfo school=mainActivity.selectedSchools[0];
+        int number=mainActivity.getPosisjon();
+
+        SchoolInfo school=mainActivity.selectedSchools[number];
         SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getNextVacationDays(school.getSchoolName());
         Date[] days=new Date[vacationDays.length];
         String date[]=new String[days.length];
