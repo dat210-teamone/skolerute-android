@@ -77,17 +77,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
 
         // START - Set up AlarmManager update service
-        Calendar updateTime = Calendar.getInstance();
-        updateTime.setTimeZone(TimeZone.getDefault());
-        updateTime.set(Calendar.HOUR_OF_DAY, 10);
-        updateTime.set(Calendar.MINUTE, 19);
-
-        Intent downloader = new Intent(this, UpdateReceiver.class);
-        downloader.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), 1000 * 60, pendingIntent);
-        Log.d("MainActivity", "Set alarmManager.setRepeating to: " + updateTime.getTime().toString());
+        setUpUpdateService();
         // END - Set up AlarmManager update service
     }
     
@@ -107,6 +97,27 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container, fragment);
         fragTrans.commit();
+    }
+
+    public void setUpUpdateService() {
+        // TODO: This probably needs some serious refactoring
+        Calendar updateTime = Calendar.getInstance();
+        updateTime.setTimeZone(TimeZone.getDefault());
+
+        // TODO: set check interval to One Month
+        //updateTime.add(Calendar.MONTH, 1);
+
+        updateTime.set(Calendar.HOUR_OF_DAY, 8);
+        updateTime.set(Calendar.MINUTE, 0);
+
+        Intent downloader = new Intent(this, UpdateReceiver.class);
+        downloader.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(),
+                1000 * 60 /* TODO Switch with proper value, AlarmManager.INTERVAL_DAY */,
+                pendingIntent);
+        Log.d("MainActivity", "Set alarmManager.setInexactRepeating to: " + updateTime.getTime().toString());
     }
 
     @Override

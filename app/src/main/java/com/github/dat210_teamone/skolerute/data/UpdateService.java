@@ -37,6 +37,7 @@ public class UpdateService extends IntentService {
     private class UpdateTask extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... strings) {
+            // TODO: This probably needs some serious refactoring
             Log.d("UpdateService", "Calling doInBackground within UpdateTask");
             Calendar calendar = Calendar.getInstance();
             SchoolManager schoolManager = SchoolManager.getDefault();
@@ -58,6 +59,7 @@ public class UpdateService extends IntentService {
         }
 
         private boolean newCsvUpdate() {
+            // TODO: This probably needs some serious refactoring
             SchoolManager schoolManager = SchoolManager.getDefault();
             String lastUpdate = schoolManager.settings.getLastUpdateTime();
             Calendar lastUpdateCal = Calendar.getInstance();
