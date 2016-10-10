@@ -1,23 +1,24 @@
 package com.github.dat210_teamone.skolerute.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
+import android.net.LinkAddress;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.AddSchoolsAdapter;
+import com.github.dat210_teamone.skolerute.adapters.SearchSchoolsAdapter;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +26,12 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AddSchools.OnAddSchoolsInteractionListener} interface
+ * {@link SearchSchools.OnSearchSchoolsInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AddSchools#newInstance} factory method to
+ * Use the {@link SearchSchools#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddSchools extends Fragment {
+public class SearchSchools extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -41,11 +42,11 @@ public class AddSchools extends Fragment {
     private String mParam2;
 
     private ListView schoolsList;
-    private LinearLayout finished;
+    private LinearLayout searchCloseContainer;
 
-    private OnAddSchoolsInteractionListener mListener;
+    private OnSearchSchoolsInteractionListener mListener;
 
-    public AddSchools() {
+    public SearchSchools() {
         // Required empty public constructor
     }
 
@@ -55,11 +56,11 @@ public class AddSchools extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AddSchools.
+     * @return A new instance of fragment SearchSchools.
      */
     // TODO: Rename and change types and number of parameters
-    public static AddSchools newInstance(String param1, String param2) {
-        AddSchools fragment = new AddSchools();
+    public static SearchSchools newInstance(String param1, String param2) {
+        SearchSchools fragment = new SearchSchools();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -80,7 +81,7 @@ public class AddSchools extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_add_schools, container, false);
+        View view = inflater.inflate(R.layout.fragment_search_schools, container, false);
 
         MainActivity mainActivity = (MainActivity)getActivity();
 
@@ -89,14 +90,17 @@ public class AddSchools extends Fragment {
             mainActivity.allSchoolNames[x]=mainActivity.allSchools[x].getSchoolName();
         }
 
-        AddSchoolsAdapter itemsAdapter =
-                new AddSchoolsAdapter(mainActivity, mainActivity.allSchoolNames);
+        SearchSchoolsAdapter itemsAdapter =
+                new SearchSchoolsAdapter(mainActivity, mainActivity.allSchoolNames);
 
-        finished = (LinearLayout)view.findViewById(R.id.finished_container);
-        finished.setOnClickListener(new View.OnClickListener() {
+        // Go to AddSchools fragment and hide keyboard
+        searchCloseContainer = (LinearLayout)view.findViewById(R.id.search_close_container);
+        searchCloseContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.goToStoredSchools();
+                InputMethodManager inputMethodManager = (InputMethodManager)mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_HIDDEN,0);
+                mainActivity.goToAddSchools();
             }
         });
 
@@ -105,12 +109,47 @@ public class AddSchools extends Fragment {
 
         SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
         searchView.setIconifiedByDefault(false);
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener(){
-            public void onFocusChange(View view, boolean has_focus){
-                mainActivity.goToSearchSchool();
+        searchView.requestFocus();
+
+        // Open keyboard when entering fragment
+        mainActivity.showKeyboard();
+
+        // Toggle keyboard based on searchView focus
+        /* searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    mainActivity.hideKeyboard();
+                } else {
+                    mainActivity.showKeyboard();
+                }
+            }
+        }); */
+
+
+        // Handlers for searchView
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String submitText) {
+                doSearch(submitText);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                doSearch(newText);
+                return true;
+            }
+            public void doSearch(String query) {
+                List<SchoolInfo> searchResult = new ArrayList<>();
+                searchResult = mainActivity.schoolManager.getMatchingSchools(query);
+
+                String[] searchSchoolName = new String[searchResult.size()];
+                for(int i=0; i<searchResult.size();i++){
+                    searchSchoolName[i] = searchResult.get(i).getSchoolName();
+                }
+                itemsAdapter.setSchoolsToView(searchSchoolName);
             }
         });
-
         // Inflate the layout for this fragment
         return view;
     }
@@ -119,23 +158,19 @@ public class AddSchools extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onAddSchoolsInteraction(uri);
+            mListener.onSearchSchoolsInteraction(uri);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnAddSchoolsInteractionListener) {
-            mListener = (OnAddSchoolsInteractionListener) context;
+        if (context instanceof OnSearchSchoolsInteractionListener) {
+            mListener = (OnSearchSchoolsInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-    }
-
-    public void onAddClicked () {
-
     }
 
     @Override
@@ -154,8 +189,8 @@ public class AddSchools extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnAddSchoolsInteractionListener {
+    public interface OnSearchSchoolsInteractionListener {
         // TODO: Update argument type and name
-        void onAddSchoolsInteraction(Uri uri);
+        void onSearchSchoolsInteraction(Uri uri);
     }
 }
