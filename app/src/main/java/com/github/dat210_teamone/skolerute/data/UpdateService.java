@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by espen on 10.10.16.
@@ -40,8 +41,8 @@ public class UpdateService extends IntentService {
             Calendar calendar = Calendar.getInstance();
             SchoolManager schoolManager = SchoolManager.getDefault();
 
-            // schoolManager.settings.setLastUpdateTime("Sun Oct 10 12:00:00 GMT+02:00 2016");
-            schoolManager.settings.setLastUpdateTime("Sun Oct 9 10:00:00 GMT+02:00 2016");
+            schoolManager.settings.setLastUpdateTime("Sun Oct 30 12:00:00 GMT+02:00 2099");
+            //schoolManager.settings.setLastUpdateTime("Sun Oct 9 10:00:00 GMT+02:00 2016");
 
             Log.d("UpdateService", "Last updated: "+ schoolManager.settings.getLastUpdateTime());
             if(newCsvUpdate()) {
@@ -61,7 +62,7 @@ public class UpdateService extends IntentService {
             String lastUpdate = schoolManager.settings.getLastUpdateTime();
             Calendar lastUpdateCal = Calendar.getInstance();
             Date now = Calendar.getInstance().getTime();
-            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.getDefault());
             try {
                 lastUpdateCal.setTime(sdf.parse(lastUpdate));
             } catch (ParseException e) {

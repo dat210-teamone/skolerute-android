@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         downloader.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), 1000 * 60, pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), 1000 * 60, pendingIntent);
         Log.d("MainActivity", "Set alarmManager.setRepeating to: " + updateTime.getTime().toString());
         // END - Set up AlarmManager update service
     }
