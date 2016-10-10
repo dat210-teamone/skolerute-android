@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             fragTrans.commit();
         }
     }
-    
+
     public void showSchools(View view) {
 
     }
