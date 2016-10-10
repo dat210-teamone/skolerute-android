@@ -4,6 +4,9 @@ package com.github.dat210_teamone.skolerute.Activities;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+
+import android.location.LocationManager;
+
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,7 +25,11 @@ import com.github.dat210_teamone.skolerute.Fragments.SearchSchools;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
+
 import com.github.dat210_teamone.skolerute.data.NotificationUtil;
+
+import com.github.dat210_teamone.skolerute.data.positionService.LocationFinder;
+
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
@@ -46,9 +53,15 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
         super.onCreate(savedInstanceState);
 
+
         /*SharedPreferences.Editor edit = this.getPreferences(0).edit();
         edit.clear();
         edit.apply();*/
+
+
+        //LocationFinder finder = new LocationFinder();
+        //LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        //manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60, 100, finder);
 
         InterfaceManager.SetMainActivity(this);
         schoolManager = SchoolManager.getDefault();

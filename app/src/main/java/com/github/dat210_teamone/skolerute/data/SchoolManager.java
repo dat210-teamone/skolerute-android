@@ -1,12 +1,18 @@
 package com.github.dat210_teamone.skolerute.data;
 
+
 import android.util.Log;
+
+import android.location.Location;
+
 
 import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
+import com.github.dat210_teamone.skolerute.model.PostLink;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.regex.*;
 
@@ -102,15 +108,37 @@ public class SchoolManager {
         return storage.getVacationDays();
     }
 
+    public SchoolInfo[] getClosestSchools(Location location) {
+        SchoolInfo[] data = storage.getSchoolInfo();
+        Arrays.sort(data, (a, b) -> Float.compare(a.getLocation().distanceTo(location), b.getLocation().distanceTo(location)));
+        return data;
+    }
+
     public List getMatchingSchools(String query) {
-        List<SchoolInfo> m = new ArrayList<>();
-        Pattern p = Pattern.compile("(?i)" + query);
-        for (SchoolInfo s : getSchoolInfo()) {
-            if(p.matcher(s.getSchoolName()).find()) {
-                m.add(s);
+        ArrayList<SchoolInfo> m = new ArrayList<>();
+        if (OneUtils.isNumber(query)){
+            PostLink link = OneUtils.Find(PostLink.getDefaultArray(), (p) -> p.getPostNumber().equals(query));
+            if (link != null)
+            {
+                Location l = new Location("Closes school");
+                l.setLongitude(link.getLng());
+                l.setLatitude(link.getLat());
+                SchoolInfo[] all = getClosestSchools(l);
+                for (int i = 0; i < all.length; i++){
+                    m.add(all[i]);
+                }
             }
-            if(p.matcher(s.getAddress()).find()) {
-                m.add(s);
+        }
+        else {
+
+            Pattern p = Pattern.compile("(?i)" + query);
+            for (SchoolInfo s : getSchoolInfo()) {
+                if (p.matcher(s.getSchoolName()).find()) {
+                    m.add(s);
+                }
+                if (p.matcher(s.getAddress()).find()) {
+                    m.add(s);
+                }
             }
         }
         return m;
