@@ -11,5 +11,15 @@
         android:layout_height="match_parent"
         />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Liste View"
+        android:id="@+id/vis_kalender"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="changeView"/>
+
 
 </LinearLayout>
