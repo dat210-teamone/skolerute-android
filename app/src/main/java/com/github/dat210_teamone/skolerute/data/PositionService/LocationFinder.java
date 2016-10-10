@@ -1,4 +1,4 @@
-package com.github.dat210_teamone.skolerute.data.PositionService;
+package com.github.dat210_teamone.skolerute.data.positionService;
 
 import android.location.Location;
 import android.location.LocationListener;

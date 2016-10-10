@@ -1,7 +1,5 @@
 package com.github.dat210_teamone.skolerute.Activities;
 
-import android.content.SharedPreferences;
-import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -19,11 +17,9 @@ import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
-import com.github.dat210_teamone.skolerute.data.OneUtils;
-import com.github.dat210_teamone.skolerute.data.PositionService.LocationFinder;
+import com.github.dat210_teamone.skolerute.data.positionService.LocationFinder;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
-import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 
 public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
