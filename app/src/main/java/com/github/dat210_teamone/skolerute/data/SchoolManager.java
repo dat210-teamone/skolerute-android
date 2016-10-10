@@ -67,12 +67,12 @@ public class SchoolManager {
     }
 
     public SchoolVacationDay[] getNextVacationDays(String name) {
-        SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().equals(name) && info.getDate().after(new Date(System.currentTimeMillis())));
+        SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().equals(name) && (info.getDate().after(new Date(System.currentTimeMillis())) || info.getDate().equals(new Date(System.currentTimeMillis()))));
         return svd;
     }
 
     public SchoolVacationDay getNextVacationDay(String name) {
-        SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().equals(name) && info.getDate().after(new Date(System.currentTimeMillis())));
+        SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().equals(name) && (info.getDate().after(new Date(System.currentTimeMillis())) || info.getDate().equals(new Date(System.currentTimeMillis()))));
         if (svd.length == 0) {
             return null;
         }

@@ -16,6 +16,7 @@ import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
+import com.github.dat210_teamone.skolerute.data.NotificationUtil;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             fragTrans.add(R.id.fragment_container, fragment);
             fragTrans.commit();
         }
+        NotificationUtil NU = new NotificationUtil(this);
     }
 
     public void showSchools(View view) {
