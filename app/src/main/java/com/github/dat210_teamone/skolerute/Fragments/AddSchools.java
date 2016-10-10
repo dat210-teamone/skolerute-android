@@ -5,12 +5,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
@@ -104,7 +106,13 @@ public class AddSchools extends Fragment {
         schoolsList.setAdapter(itemsAdapter);
 
         SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
+        int editTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView textView = (TextView) searchView.findViewById(editTextId);
+        textView.setTextColor(getResources().getColor(R.color.colorGreyText));
+        textView.setHintTextColor(getResources().getColor(R.color.colorGreyText));
+
         searchView.setIconifiedByDefault(false);
+
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener(){
             public void onFocusChange(View view, boolean has_focus){
                 mainActivity.goToSearchSchool();

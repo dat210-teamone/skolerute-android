@@ -5,6 +5,7 @@ import android.net.LinkAddress;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class SearchSchools extends Fragment {
 
     private ListView schoolsList;
     private LinearLayout searchCloseContainer;
+    private LinearLayout finished;
 
     private OnSearchSchoolsInteractionListener mListener;
 
@@ -93,13 +95,22 @@ public class SearchSchools extends Fragment {
         SearchSchoolsAdapter itemsAdapter =
                 new SearchSchoolsAdapter(mainActivity, mainActivity.allSchoolNames);
 
+        finished = (LinearLayout)view.findViewById(R.id.finished_container);
+        finished.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.goToStoredSchools();
+            }
+        });
+
         // Go to AddSchools fragment and hide keyboard
         searchCloseContainer = (LinearLayout)view.findViewById(R.id.search_close_container);
         searchCloseContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager inputMethodManager = (InputMethodManager)mainActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_HIDDEN,0);
+                if(mainActivity.inputMethodManager.isAcceptingText()){
+                    mainActivity.hideKeyboard();
+                }
                 mainActivity.goToAddSchools();
             }
         });
@@ -108,6 +119,10 @@ public class SearchSchools extends Fragment {
         schoolsList.setAdapter(itemsAdapter);
 
         SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
+        int editTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView textView = (TextView) searchView.findViewById(editTextId);
+        textView.setTextColor(getResources().getColor(R.color.colorGreyText));
+        textView.setHintTextColor(getResources().getColor(R.color.colorGreyText));
         searchView.setIconifiedByDefault(false);
         searchView.requestFocus();
 

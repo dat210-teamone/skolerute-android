@@ -95,9 +95,6 @@ public class CalendarStandard extends Fragment {
         }
 
 
-        calView = ((CalendarViewer)view.findViewById(R.id.calendar_view));
-        calView.updateCalendar(events);
-
 
         calView.setEventHandler(new CalendarViewer.EventHandler() {
             @Override
