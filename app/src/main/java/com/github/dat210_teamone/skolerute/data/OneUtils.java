@@ -8,6 +8,7 @@ import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by Nicolas on 21.09.2016.
@@ -67,5 +68,14 @@ public final class OneUtils {
                 return false;
         }
         return true;
+    }
+
+    public static <T> ArrayList<T> toArrayList(T[] items)
+    {
+        ArrayList<T> returnItems = new ArrayList<T>();
+        for (int i = 0; i < items.length; i++){
+            returnItems.add(items[i]);
+        }
+        return returnItems;
     }
 }
