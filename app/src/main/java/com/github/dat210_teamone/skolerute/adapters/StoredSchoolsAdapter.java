@@ -53,6 +53,7 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 if(context instanceof MainActivity){
+                    ((MainActivity)context).setPosisjon(position);
                     ((MainActivity)context).goToCalendarList();
                 }
             }
