@@ -95,6 +95,13 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         fragTrans.commit();
     }
 
+    public void goToCalendarView() {
+        fragment = new CalendarStandard();
+        fragTrans = manager.beginTransaction();
+        fragTrans.replace(R.id.fragment_container, fragment);
+        fragTrans.commit();
+    }
+
     public void setPosisjon(int a){
         posisjon=a;
     }
