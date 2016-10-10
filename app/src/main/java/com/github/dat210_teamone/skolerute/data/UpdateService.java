@@ -6,7 +6,10 @@ import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by espen on 10.10.16.
@@ -34,7 +37,37 @@ public class UpdateService extends IntentService {
         @Override
         protected Boolean doInBackground(String... strings) {
             Log.d("UpdateService", "Calling doInBackground within UpdateTask");
-            return false;
+            Calendar calendar = Calendar.getInstance();
+            SchoolManager schoolManager = SchoolManager.getDefault();
+
+            // schoolManager.settings.setLastUpdateTime("Sun Oct 10 12:00:00 GMT+02:00 2016");
+            schoolManager.settings.setLastUpdateTime("Sun Oct 9 10:00:00 GMT+02:00 2016");
+
+            Log.d("UpdateService", "Last updated: "+ schoolManager.settings.getLastUpdateTime());
+            if(newCsvUpdate()) {
+                Log.d("UpdateService", "New CSV update found");
+                CsvFileReader csvFileReader = new CsvFileReader();
+                csvFileReader.readSchoolInfoCsv(new CsvReaderGetter().getSchoolReader());
+                csvFileReader.readSchoolVacationDayCsv(new CsvReaderGetter().getSchoolDayReader());
+                Log.d("UpdateService", "Got updated CSV files");
+            } else {
+                Log.d("UpdateService", "CSV already at latest version");
+            }
+            return true;
+        }
+
+        private boolean newCsvUpdate() {
+            SchoolManager schoolManager = SchoolManager.getDefault();
+            String lastUpdate = schoolManager.settings.getLastUpdateTime();
+            Calendar lastUpdateCal = Calendar.getInstance();
+            Date now = Calendar.getInstance().getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            try {
+                lastUpdateCal.setTime(sdf.parse(lastUpdate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return now.after(lastUpdateCal.getTime());
         }
     }
 }
