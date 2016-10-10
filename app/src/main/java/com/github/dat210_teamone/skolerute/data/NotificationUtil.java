@@ -7,6 +7,7 @@ import android.support.v4.app.NotificationCompat;
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.model.PageInfo;
+import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.util.HashMap;
@@ -18,9 +19,10 @@ import java.util.HashMap;
 public class NotificationUtil extends MainActivity {
 
     private static HashMap<Integer, PageInfo> infoCache = new HashMap<>();
+    private SchoolManager SM;
 
     public NotificationUtil() {
-
+        this.SM = SchoolManager.getDefault();
     }
     //Get a schoolVacationDay and create a notification for it.
     public void createNotification(SchoolVacationDay SVD) {
@@ -32,6 +34,14 @@ public class NotificationUtil extends MainActivity {
     }
 
     //Get a schoolObj and create a notification for all the VacationDays.
+    public void createNotificationSchool(SchoolInfo SI) {
+        for (SchoolVacationDay x : SM.getSchoolVecationInfo()) {
+            createNotification(x);
+        }
+    }
 
     //get a list of SchoolObj and create a notification for all school VacationDays.
+    public void createNotificationSchools(SchoolInfo[] SIs) {
+
+    }
 }
