@@ -93,6 +93,7 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
         valuesToDisplay = schoolsToView;
         this.notifyDataSetChanged();
     }
+
     //used when checking if school should be displayed
     private boolean shouldSchoolNameBeDisplayed(String schoolName){
         for(int i=0; i<valuesToDisplay.length; i++) {
