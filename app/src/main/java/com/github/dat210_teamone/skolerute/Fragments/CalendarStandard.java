@@ -94,7 +94,8 @@ public class CalendarStandard extends Fragment {
             days[x]=vacationDays[x].getDate();
         }
 
-        calView= ((CalendarViewer)view.findViewById(R.id.cal_view));
+
+        calView = ((CalendarViewer)view.findViewById(R.id.calendar_view));
         calView.updateCalendar(events);
 
 
