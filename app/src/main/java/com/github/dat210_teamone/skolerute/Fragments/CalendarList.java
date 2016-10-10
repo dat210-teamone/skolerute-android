@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -30,6 +31,7 @@ public class CalendarList extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private ListView calendarList;
+    private Button list;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -76,8 +78,10 @@ public class CalendarList extends Fragment {
 
         MainActivity mainActivity = (MainActivity)getActivity();
 
-        SchoolInfo school=mainActivity.selectedSchools[0];
-        SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getSelectedSchoolDays();
+        int number=mainActivity.getPosisjon();
+
+        SchoolInfo school=mainActivity.selectedSchools[number];
+        SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getNextVacationDays(school.getSchoolName());
         Date[] days=new Date[vacationDays.length];
         String date[]=new String[days.length];
 
@@ -86,32 +90,21 @@ public class CalendarList extends Fragment {
             date[x]=days[x].toString();
         }
 
-
-
         ArrayAdapter calendarListAdapter = new ArrayAdapter(mainActivity, android.R.layout.simple_list_item_1, date);
+
+        list = (Button) view.findViewById(R.id.button_liste);
+        list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mainActivity.goToCalendarView();
+
+            }
+        });
 
         calendarList = (ListView)view.findViewById(R.id.calendar_list);
         calendarList.setAdapter(calendarListAdapter);
 
-        AdapterView.OnItemClickListener
-                mMessageClickedHandler =
-                new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView parent,
-                                            View v,
-                                            int position,
-                                            long id) {
-
-                        String schoolName = mainActivity.allSchoolNames[(int)id];
-
-                        ((TextView)v).setText(schoolName + " er valgt");
-
-                        // Metode som bytter til kalender-fragment basert på valgt skole
-
-                    }
-                };
-
-        calendarList.setOnItemClickListener(
-                mMessageClickedHandler);
 
 
         return view;
