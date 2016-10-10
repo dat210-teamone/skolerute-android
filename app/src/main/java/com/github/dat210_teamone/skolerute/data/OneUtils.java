@@ -23,6 +23,15 @@ public final class OneUtils {
         return false;
     }
 
+    public static <T> T Find(T[] data, Predicate<T> check){
+        for (T t : data){
+            if (check.apply(t)){
+                return t;
+            }
+        }
+        return null;
+    }
+
     public static String getFileName(URL url){
         String[] test = url.getFile().split("/");
         return test[test.length - 1];
@@ -48,5 +57,15 @@ public final class OneUtils {
         location.setLatitude(info.getLatitude());
         location.setLongitude(info.getLongitude());
         return location;
+    }
+
+    public static boolean isNumber(String s){
+
+        for (int i = 0; i < s.length(); i++)
+        {
+            if (!Character.isDigit(s.charAt(i)))
+                return false;
+        }
+        return true;
     }
 }
