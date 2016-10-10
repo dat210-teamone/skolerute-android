@@ -116,6 +116,17 @@
     <GridView
         android:id="@+id/calendar_grid"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="425dp"
         android:numColumns="7"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Liste View"
+        android:id="@+id/button_liste"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="changeView"/>
+
 </LinearLayout>

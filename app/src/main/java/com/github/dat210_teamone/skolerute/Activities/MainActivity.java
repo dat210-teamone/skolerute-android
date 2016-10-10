@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     public FragmentManager manager = getSupportFragmentManager();
     public Fragment fragment = manager.findFragmentById(R.id.fragment_container);
     public FragmentTransaction fragTrans =  manager.beginTransaction();
+    private int posisjon;
 
     public SchoolManager schoolManager;// = SchoolManager.getDefault();
     public SchoolInfo[] allSchools;// = schoolManager.getSchoolInfo();
@@ -122,6 +123,14 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container,fragment);
         fragTrans.commit();
+    }
+
+    public void setPosisjon(int a){
+        posisjon=a;
+    }
+
+    public int getPosisjon() {
+        return posisjon;
     }
 
     @Override

@@ -111,9 +111,6 @@ public class SchoolManager {
             if(p.matcher(s.getAddress()).find()) {
                 m.add(s);
             }
-            if(p.matcher(Integer.toString(s.getKomm())).find()) {
-                m.add(s);
-            }
         }
         return m;
     }
