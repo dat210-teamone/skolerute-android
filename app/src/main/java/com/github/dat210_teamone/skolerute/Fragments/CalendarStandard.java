@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ public class CalendarStandard extends Fragment {
 
     private CalendarViewer calView;
     private HashSet<Date> events ;
+    private Button calendarView;
+
 
     private String mParam1;
     private String mParam2;
@@ -94,7 +97,7 @@ public class CalendarStandard extends Fragment {
             days[x]=vacationDays[x].getDate();
         }
 
-        calView= ((CalendarViewer)view.findViewById(R.id.cal_view));
+        calView = ((CalendarViewer)view.findViewById(R.id.calendar_view));
         calView.updateCalendar(events);
 
 
@@ -104,6 +107,14 @@ public class CalendarStandard extends Fragment {
             {
                 DateFormat df = SimpleDateFormat.getDateInstance();
                 Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        calendarView = (Button)view.findViewById(R.id.vis_kalender);
+        calendarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.goToCalendarList();
             }
         });
 

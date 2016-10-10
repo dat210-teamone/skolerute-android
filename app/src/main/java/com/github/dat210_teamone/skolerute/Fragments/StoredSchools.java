@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -39,6 +40,7 @@ public class StoredSchools extends Fragment {
     private String mParam2;
 
     private ListView storedSchoolsList;
+    private TextView finished;
 
 
     private OnStoredSchoolsInteractionListener mListener;
@@ -86,8 +88,9 @@ public class StoredSchools extends Fragment {
         public String[] allSchoolNames = new String[allSchools.length];
  */
 
-
         MainActivity mainActivity = (MainActivity)getActivity();
+
+        //  mainActivity.inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_HIDDEN,0);
 
         mainActivity.selectedSchools = mainActivity.schoolManager.getSelectedSchools();
 
