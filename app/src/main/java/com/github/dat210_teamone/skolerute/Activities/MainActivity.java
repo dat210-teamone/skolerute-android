@@ -1,6 +1,5 @@
 package com.github.dat210_teamone.skolerute.Activities;
 
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,7 +18,6 @@ import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
-import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 
 public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
@@ -68,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             fragTrans.commit();
         }
     }
-    
+
     public void showSchools(View view) {
 
     }
