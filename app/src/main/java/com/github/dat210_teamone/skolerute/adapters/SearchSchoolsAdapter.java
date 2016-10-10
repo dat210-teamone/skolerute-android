@@ -10,31 +10,31 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.data.OneUtils;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 /**
- * Created by Alex on 289//16.
+ * Created by Alex on 1010//16.
  */
 
-public class AddSchoolsAdapter extends ArrayAdapter<String> {
+public class SearchSchoolsAdapter extends ArrayAdapter<String> {
 
     private final Context context;
-    private final String[] values;
+    private String[] values;
     private String[] valuesToDisplay;
 
-
-    public AddSchoolsAdapter(Context context, String[] values) {
-        super(context, -1, values);
+    public SearchSchoolsAdapter(Context context, String[] values) {
+        super(context, -1, OneUtils.toArrayList(values));
         this.context = context;
         this.values = values;
         this.valuesToDisplay = values;
     }
 
-    public class AddSchoolObject {
+    public class SearchSchoolObject {
 
         private Boolean alreadyStored;
 
-        AddSchoolObject (Boolean alreadyStored) {
+        SearchSchoolObject (Boolean alreadyStored) {
             this.alreadyStored = alreadyStored;
         }
 
@@ -51,15 +51,13 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        //if shoudln't be displayed, return null_item
+        //if should not be displayed, return null_item
         if(!shouldSchoolNameBeDisplayed(values[position])){
             return inflater.inflate(R.layout.null_item, null);
         }
-
         View rowView = inflater.inflate(R.layout.add_schools_layout, parent, false);
 
-        AddSchoolObject addSchoolObject = new AddSchoolObject(SchoolManager.getDefault().checkName(values[position]));
+        SearchSchoolObject addSchoolObject = new SearchSchoolObject(SchoolManager.getDefault().checkName(values[position]));
 
         TextView schoolName = (TextView) rowView.findViewById(R.id.school_name);
         schoolName.setText(values[position]);
@@ -93,6 +91,9 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
     //set school to be displayed and update view
     public void setSchoolsToView(String[] schoolsToView){
         valuesToDisplay = schoolsToView;
+        if (schoolsToView.length > 0) { //TODO: Temporary workaround to be able to sort the list
+            values = schoolsToView;
+        }
         this.notifyDataSetChanged();
     }
 
@@ -105,4 +106,7 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
         }
         return false;
     }
+
+
+
 }
