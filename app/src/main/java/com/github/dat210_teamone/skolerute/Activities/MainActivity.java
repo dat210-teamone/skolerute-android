@@ -1,12 +1,16 @@
 package com.github.dat210_teamone.skolerute.Activities;
 
-import android.content.SharedPreferences;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -16,10 +20,13 @@ import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.data.UpdateReceiver;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
-import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
+
+import java.util.Calendar;
+import java.util.TimeZone;
 
 
 public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
@@ -67,6 +74,21 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             fragTrans.add(R.id.fragment_container, fragment);
             fragTrans.commit();
         }
+
+
+        // START - Set up AlarmManager update service
+        Calendar updateTime = Calendar.getInstance();
+        updateTime.setTimeZone(TimeZone.getDefault());
+        updateTime.set(Calendar.HOUR_OF_DAY, 10);
+        updateTime.set(Calendar.MINUTE, 19);
+
+        Intent downloader = new Intent(this, UpdateReceiver.class);
+        downloader.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), 1000 * 60, pendingIntent);
+        Log.d("MainActivity", "Set alarmManager.setRepeating to: " + updateTime.getTime().toString());
+        // END - Set up AlarmManager update service
     }
     
     public void showSchools(View view) {
