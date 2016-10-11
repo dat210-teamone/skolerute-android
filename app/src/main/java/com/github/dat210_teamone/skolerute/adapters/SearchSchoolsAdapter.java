@@ -91,9 +91,11 @@ public class SearchSchoolsAdapter extends ArrayAdapter<String> {
     //set school to be displayed and update view
     public void setSchoolsToView(String[] schoolsToView){
         valuesToDisplay = schoolsToView;
-        if (schoolsToView.length > 0) { //TODO: Temporary workaround to be able to sort the list
+        if (schoolsToView.length > 1) { //TODO: Temporary workaround to be able to sort the list
             values = schoolsToView;
         }
+        clear();
+        addAll(schoolsToView);
         this.notifyDataSetChanged();
     }
 
