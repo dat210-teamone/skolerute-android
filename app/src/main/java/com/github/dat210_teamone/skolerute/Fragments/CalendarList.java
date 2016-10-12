@@ -101,9 +101,7 @@ public class CalendarList extends Fragment {
         list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 mainActivity.goToCalendarView();
-
             }
         });
 
