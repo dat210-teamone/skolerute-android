@@ -95,10 +95,6 @@ public class CalendarList extends Fragment {
             date_text[x] = formatter.format(date[x]);
         }
 
-
-
-
-
         ArrayAdapter calendarListAdapter = new ArrayAdapter(mainActivity, android.R.layout.simple_list_item_1, date);
 
         list = (Button) view.findViewById(R.id.button_liste);
@@ -113,8 +109,6 @@ public class CalendarList extends Fragment {
 
         calendarList = (ListView)view.findViewById(R.id.calendar_list);
         calendarList.setAdapter(calendarListAdapter);
-
-
 
         return view;
     }
