@@ -139,15 +139,15 @@ public class SchoolManager {
             }
         }
         else {
-
-            Pattern p = Pattern.compile("(?i)" + query);
-            for (SchoolInfo s : getSchoolInfo()) {
-                if (p.matcher(s.getSchoolName()).find()) {
-                    m.add(s);
+            try {
+                Pattern p = Pattern.compile("(?i)" + query);
+                for (SchoolInfo s : getSchoolInfo()) {
+                    if (p.matcher(s.getSchoolName()).find() || p.matcher(s.getAddress()).find()) {
+                        m.add(s);
+                    }
                 }
-                if (p.matcher(s.getAddress()).find()) {
-                    m.add(s);
-                }
+            }catch (Exception e){
+                m.clear();
             }
         }
         return m;
