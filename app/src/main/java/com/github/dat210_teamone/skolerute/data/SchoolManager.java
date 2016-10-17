@@ -29,6 +29,7 @@ public class SchoolManager {
     IStorage storage;
     ISettingStorage settings;
     ArrayList<String> selectedSchools;
+    Location knownPosition;
 
     public SchoolManager()
     {
@@ -102,6 +103,9 @@ public class SchoolManager {
     }
 
     public SchoolInfo[] getSchoolInfo(){
+        if (knownPosition != null){
+            return getClosestSchools(knownPosition);
+        }
         return storage.getSchoolInfo();
     }
 
@@ -120,7 +124,7 @@ public class SchoolManager {
     public List getMatchingSchools(String query) {
         ArrayList<SchoolInfo> m = new ArrayList<>();
         if (query.length() == 0)
-            m.addAll(OneUtils.toArrayList(storage.getSchoolInfo()));
+            m.addAll(OneUtils.toArrayList(getSchoolInfo()));
         else if (OneUtils.isNumber(query)){
             PostLink link = OneUtils.Find(PostLink.getDefaultArray(), (p) -> p.getPostNumber().equals(query));
             if (link != null)
@@ -155,5 +159,13 @@ public class SchoolManager {
 
     public void setLastUpdateTime(String time) {
         settings.setLastUpdateTime(time);
+    }
+
+    public void setKnownPosition(Location knownPosition) {
+        this.knownPosition = knownPosition;
+    }
+
+    public Location getKnownPosition(){
+        return this.knownPosition;
     }
 }
