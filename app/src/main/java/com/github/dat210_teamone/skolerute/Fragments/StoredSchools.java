@@ -139,27 +139,22 @@ public class StoredSchools extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        Log.i("event", "onDetach");
     }
 
     @Override
     public void onPause() {
         super.onPause();
         MainActivity mainActivity = (MainActivity)getActivity();
-        ImageView test = (ImageView) mainActivity.findViewById(R.id.notificationToggle);
-        test.setVisibility(View.INVISIBLE);
-
-        Log.i("event", "onPause");
+        ImageView notficationButton = (ImageView) mainActivity.findViewById(R.id.notificationToggle);
+        notficationButton.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         MainActivity mainActivity = (MainActivity)getActivity();
-        ImageView test = (ImageView) mainActivity.findViewById(R.id.notificationToggle);
-        test.setVisibility(View.VISIBLE);
-
-        Log.i("event", "onStart");
+        ImageView notficationButton = (ImageView) mainActivity.findViewById(R.id.notificationToggle);
+        notficationButton.setVisibility(View.VISIBLE);
     }
 
 

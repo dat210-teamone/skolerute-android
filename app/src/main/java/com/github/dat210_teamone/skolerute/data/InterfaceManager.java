@@ -16,6 +16,7 @@ import java.io.File;
 
 public final class InterfaceManager {
     private static Activity mainActivity;
+
     private  InterfaceManager(){
 
     }
