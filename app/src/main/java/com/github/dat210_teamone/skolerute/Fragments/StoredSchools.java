@@ -1,15 +1,18 @@
 package com.github.dat210_teamone.skolerute.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -136,7 +139,29 @@ public class StoredSchools extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        Log.i("event", "onDetach");
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MainActivity mainActivity = (MainActivity)getActivity();
+        ImageView test = (ImageView) mainActivity.findViewById(R.id.notificationToggle);
+        test.setVisibility(View.INVISIBLE);
+
+        Log.i("event", "onPause");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        MainActivity mainActivity = (MainActivity)getActivity();
+        ImageView test = (ImageView) mainActivity.findViewById(R.id.notificationToggle);
+        test.setVisibility(View.VISIBLE);
+
+        Log.i("event", "onStart");
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
