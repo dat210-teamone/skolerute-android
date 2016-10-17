@@ -18,6 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        // START - Required for update service
+        <service android:name=".data.UpdateService"></service>
+        <receiver android:name=".data.UpdateReceiver"></receiver>
+        // END - Required for update service
+
+
         <receiver
             android:name=".data.NotificationReceiver"
             android:exported="true" >
