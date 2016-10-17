@@ -65,6 +65,7 @@ public class SettingManager implements ISettingStorage {
     public void setLastUpdateTime(String time) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove(LASTUPDATEDATE);
+        editor.apply();
         editor.putString(LASTUPDATEDATE, time);
         editor.apply();
     }

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.data.OneUtils;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 /**
@@ -19,11 +20,11 @@ import com.github.dat210_teamone.skolerute.data.SchoolManager;
 public class SearchSchoolsAdapter extends ArrayAdapter<String> {
 
     private final Context context;
-    private final String[] values;
+    private String[] values;
     private String[] valuesToDisplay;
 
     public SearchSchoolsAdapter(Context context, String[] values) {
-        super(context, -1, values);
+        super(context, -1, OneUtils.toArrayList(values));
         this.context = context;
         this.values = values;
         this.valuesToDisplay = values;
@@ -50,7 +51,7 @@ public class SearchSchoolsAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //if shoudln't be displayed, return null_item
+        //if should not be displayed, return null_item
         if(!shouldSchoolNameBeDisplayed(values[position])){
             return inflater.inflate(R.layout.null_item, null);
         }
@@ -90,6 +91,9 @@ public class SearchSchoolsAdapter extends ArrayAdapter<String> {
     //set school to be displayed and update view
     public void setSchoolsToView(String[] schoolsToView){
         valuesToDisplay = schoolsToView;
+        if (schoolsToView.length > 0) { //TODO: Temporary workaround to be able to sort the list
+            values = schoolsToView;
+        }
         this.notifyDataSetChanged();
     }
 
