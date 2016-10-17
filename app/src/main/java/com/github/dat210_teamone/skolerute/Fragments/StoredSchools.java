@@ -145,7 +145,9 @@ public class StoredSchools extends Fragment {
     public void onPause() {
         super.onPause();
         MainActivity mainActivity = (MainActivity)getActivity();
+        TextView addSchoolButton = (TextView) mainActivity.findViewById(R.id.go_to_add);
         ImageView notficationButton = (ImageView) mainActivity.findViewById(R.id.notificationToggle);
+        addSchoolButton.setVisibility(View.INVISIBLE);
         notficationButton.setVisibility(View.INVISIBLE);
     }
 
@@ -153,7 +155,9 @@ public class StoredSchools extends Fragment {
     public void onStart() {
         super.onStart();
         MainActivity mainActivity = (MainActivity)getActivity();
+        TextView addSchoolButton = (TextView) mainActivity.findViewById(R.id.go_to_add);
         ImageView notficationButton = (ImageView) mainActivity.findViewById(R.id.notificationToggle);
+        addSchoolButton.setVisibility(View.VISIBLE);
         notficationButton.setVisibility(View.VISIBLE);
     }
 
