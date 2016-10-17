@@ -1,11 +1,15 @@
 package com.github.dat210_teamone.skolerute.data;
 
+import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * Created by espen on 10.10.16.
@@ -31,10 +35,6 @@ public class UpdateService extends IntentService {
         protected Boolean doInBackground(String... strings) {
             // TODO: This probably needs some serious refactoring
             Log.d("UpdateService", "Calling doInBackground within UpdateTask");
-
-            // TODO: Need to actually set inital update time somewhere
-            //InterfaceManager.getSettings().setLastUpdateTime("september 21, 2016, 14:46 (CEST)");
-
             Log.d("UpdateService", "Last updated: "+ InterfaceManager.getSettings().getLastUpdateTime());
             if(CsvReaderGetter.fileHasBeenUpdated("http://open.stavanger.kommune.no/dataset/skolerute-stavanger")) {
                 Log.d("UpdateService", "New CSV update found");
@@ -48,5 +48,35 @@ public class UpdateService extends IntentService {
             }
             return true;
         }
+    }
+
+    public static void setUpUpdateService() {
+        // TODO: Need to actually set inital update time somewhere, maybe not here
+        if(InterfaceManager.getSettings().getLastUpdateTime().equals("")) {
+            String lastUpdated = CsvReaderGetter
+                    .getInfo("http://open.stavanger.kommune.no/dataset/skolerute-stavanger")
+                    .getLastUpdated();
+            Log.d("UpdateService", "Setting initial update date: " + lastUpdated);
+            InterfaceManager.getSettings().setLastUpdateTime(lastUpdated);
+        }
+        // TODO: This probably needs some serious refactoring
+        Calendar updateTime = Calendar.getInstance();
+        updateTime.setTimeZone(TimeZone.getDefault());
+
+        // TODO: set check interval to One Month
+        //updateTime.add(Calendar.MONTH, 1);
+
+        updateTime.set(Calendar.HOUR_OF_DAY, 8);
+        updateTime.set(Calendar.MINUTE, 0);
+
+        Context context = InterfaceManager.getContext();
+        Intent downloader = new Intent(context, UpdateReceiver.class);
+        downloader.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(),
+                1000 * 60 /* TODO Switch with proper value, AlarmManager.INTERVAL_DAY */,
+                pendingIntent);
+        Log.d("MainActivity", "Set alarmManager.setInexactRepeating to: " + updateTime.getTime().toString());
     }
 }
