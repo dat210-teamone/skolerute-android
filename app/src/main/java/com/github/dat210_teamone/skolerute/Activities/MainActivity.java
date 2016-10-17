@@ -11,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 
+import android.location.LocationProvider;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -40,6 +41,8 @@ import com.github.dat210_teamone.skolerute.data.locationService.LocationFinder;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, SearchSchools.OnSearchSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
 
@@ -65,14 +68,41 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         /*if (checkCallingOrSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[] { Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
         }*/
+
         int permissinCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
         if (permissinCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         }
         else if(permissinCheck == PackageManager.PERMISSION_GRANTED){
             LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+            List<String> providers = manager.getAllProviders();
+            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    int a = 5;
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                    int a = 5;
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+                    int a = 5;
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+                    int a = 5;
+                }
+            });
             try {
-                lastKnownLocation = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                boolean provider = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                while(lastKnownLocation == null) {
+                    lastKnownLocation = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                }
+
             }
             catch (SecurityException e){
                 e.printStackTrace();
