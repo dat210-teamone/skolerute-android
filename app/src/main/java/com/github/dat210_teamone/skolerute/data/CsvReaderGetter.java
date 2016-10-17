@@ -63,8 +63,7 @@ public class CsvReaderGetter implements ICsvGetter {
         return null;
     }
 
-    public static PageInfo getInfo(String url)
-    {
+    public static PageInfo getInfo(String url) {
         if (infoCache.isEmpty()){
             initData();
         }

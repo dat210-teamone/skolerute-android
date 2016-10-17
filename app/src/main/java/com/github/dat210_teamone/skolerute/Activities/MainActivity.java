@@ -71,11 +71,9 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             getLastKnownPosition();
         }
 
-        allSchools = schoolManager.getSchoolInfo();
-        selectedSchools = schoolManager.getSelectedSchools();
-        allSchoolNames = new String[allSchools.length];
-        inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        initSchoolData();
 
+        inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
         setContentView(R.layout.activity_main);
 
@@ -87,19 +85,20 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             }
         });
 
-        if (fragment == null) {
-            if(selectedSchools.length == 0) {
-                fragment = new AddSchools();
-            } else {
-                fragment = new StoredSchools();
-            }
-            // Add container and fragment for the container
-            fragTrans.add(R.id.fragment_container, fragment);
-            fragTrans.commit();
-        }
+        if (selectedSchools.length == 0)
+            goToAddSchools();
+        else
+            goToStoredSchools();
+
         NotificationUtil NU = new NotificationUtil(this);
         NU.createNotification();
 
+    }
+
+    private void initSchoolData(){
+        allSchools = schoolManager.getSchoolInfo();
+        selectedSchools = schoolManager.getSelectedSchools();
+        allSchoolNames = new String[allSchools.length];
     }
 
     private boolean getAndCheckPermission(String permission) {
@@ -139,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
         switch (requestCode){
             case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -147,10 +145,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
                 }
                 break;
         }
-    }
-
-    public void showSchools(View view) {
-
     }
 
     public void hideKeyboard() {
