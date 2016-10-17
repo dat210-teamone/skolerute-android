@@ -40,10 +40,14 @@ public class NotificationReceiver extends BroadcastReceiver {
         String comment = "";
         SchoolVacationDay SVD;
         for (SchoolInfo x : SM.getSelectedSchools()) {
-            SVD = SM.getNextVacationDay(x.getSchoolName(),true);
-            if (SVD.getDate().after(new Date(System.currentTimeMillis())) && SVD.getDate().before(new Date(System.currentTimeMillis() + 86400000 * 2))) {
-                title += SVD.getName();
-                comment += SVD.getComment();
+            SVD = SM.getNextVacationDay(x.getSchoolName(), false);
+            Date Today = new Date(System.currentTimeMillis());
+            Date NextVacation = SVD.getDate();
+            Date TwoDays = new Date(System.currentTimeMillis() + 86400000 * 2);
+
+            if (NextVacation.after(Today) && NextVacation.before(TwoDays)) {
+                title += SVD.getName() + " ";
+                comment += SVD.getComment() + " ";
             }
         }
         mBuilder.setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setContentText(comment);

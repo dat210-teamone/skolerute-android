@@ -46,7 +46,7 @@ public class NotificationUtil {
 
     public void createNotification() {
         for (SchoolInfo s : SM.getSelectedSchools()) {
-            for (SchoolVacationDay v : SM.getNextVacationDays(s.getSchoolName(), true)) {
+            for (SchoolVacationDay v : SM.getNextVacationDays(s.getSchoolName())) {
                 createNotification(v);
             }
         }
@@ -57,12 +57,12 @@ public class NotificationUtil {
     public void createNotification(SchoolVacationDay SVD) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(SVD.getDate());
-        calendar.set(Calendar.HOUR, 8);
-        calendar.set(Calendar.MINUTE, 15);
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        calendar.set(Calendar.MINUTE, 20);
         calendar.set(Calendar.SECOND, 0);
 
         Intent i = new Intent(con, NotificationReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(con, 1233, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getBroadcast(con, SVD.hashCode(), i, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager am = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);
