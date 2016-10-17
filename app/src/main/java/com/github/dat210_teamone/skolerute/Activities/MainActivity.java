@@ -63,59 +63,13 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
         super.onCreate(savedInstanceState);
 
-
-        //checkCallingPermission()
-        /*if (checkCallingOrSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(new String[] { Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
-        }*/
-
-        int permissinCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
-        if (permissinCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-        }
-        else if(permissinCheck == PackageManager.PERMISSION_GRANTED){
-            LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-            List<String> providers = manager.getAllProviders();
-            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    int a = 5;
-                }
-
-                @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) {
-                    int a = 5;
-                }
-
-                @Override
-                public void onProviderEnabled(String provider) {
-                    int a = 5;
-                }
-
-                @Override
-                public void onProviderDisabled(String provider) {
-                    int a = 5;
-                }
-            });
-            try {
-                boolean provider = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-                while(lastKnownLocation == null) {
-                    lastKnownLocation = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                }
-
-            }
-            catch (SecurityException e){
-                e.printStackTrace();
-            }
-        }
-
-
-        //LocationFinder finder = new LocationFinder();
-        //LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        //manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60, 100, finder);
-
         InterfaceManager.SetMainActivity(this);
         schoolManager = SchoolManager.getDefault();
+
+        if (getAndCheckPermission(Manifest.permission.ACCESS_FINE_LOCATION)){
+            getLastKnownPosition();
+        }
+
         allSchools = schoolManager.getSchoolInfo();
         selectedSchools = schoolManager.getSelectedSchools();
         allSchoolNames = new String[allSchools.length];
@@ -145,21 +99,48 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         NotificationUtil NU = new NotificationUtil(this);
     }
 
+    private boolean getAndCheckPermission(String permission) {
+        int permissinCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissinCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return false;
+        }
+        return true;
+    }
+
+    private void getLastKnownPosition(){
+        LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        LocationListener listner = new LocationFinder();
+        List<String> providers = manager.getAllProviders();
+        try {
+            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, listner);
+            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, listner);
+            for(String s: providers) {
+
+                Location loc = manager.getLastKnownLocation(s);
+                if (loc == null)
+                    continue;;
+                if (lastKnownLocation == null){
+                    lastKnownLocation = loc;
+                }
+                else if (lastKnownLocation.getTime() < loc.getTime()){
+                    lastKnownLocation = loc;
+                }
+            }
+            schoolManager.setKnownPosition(lastKnownLocation);
+        }
+        catch (SecurityException e){
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         switch (requestCode){
             case 1:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-                    try {
-                        lastKnownLocation = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    }
-                    catch (SecurityException e){
-                        e.printStackTrace();
-                    }
-
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getLastKnownPosition();
                 }
                 break;
         }
@@ -178,37 +159,29 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     public void goToStoredSchools() {
-        fragment = new StoredSchools();
-        fragTrans = manager.beginTransaction();
-        fragTrans.replace(R.id.fragment_container, fragment);
-        fragTrans.commit();
+        goTo(new StoredSchools());
     }
 
     public void goToAddSchools() {
-        fragment = new AddSchools();
-        fragTrans = manager.beginTransaction();
-        fragTrans.replace(R.id.fragment_container, fragment);
-        fragTrans.commit();
+        goTo(new AddSchools());
     }
 
     public void goToCalendarList() {
-        fragment = new CalendarList();
-        fragTrans = manager.beginTransaction();
-        fragTrans.replace(R.id.fragment_container, fragment);
-        fragTrans.commit();
+        goTo(new CalendarList());
     }
 
     public void goToCalendarView() {
-        fragment = new CalendarStandard();
-        fragTrans = manager.beginTransaction();
-        fragTrans.replace(R.id.fragment_container, fragment);
-        fragTrans.commit();
+        goTo(new CalendarStandard());
     }
 
     public void goToSearchSchool() {
-        fragment = new SearchSchools();
+        goTo(new SearchSchools());
+    }
+
+    public void goTo(Fragment fragment){
+        this.fragment = fragment;
         fragTrans = manager.beginTransaction();
-        fragTrans.replace(R.id.fragment_container,fragment);
+        fragTrans.replace(R.id.fragment_container, fragment);
         fragTrans.commit();
     }
 
@@ -228,10 +201,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
-
-
 
     // Abstract methods from fragments
     @Override
