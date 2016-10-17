@@ -50,6 +50,10 @@ public class UpdateService extends IntentService {
         }
     }
 
+    private boolean shouldDoUpdate() {
+        return true;
+    }
+
     public static void setUpUpdateService() {
         // TODO: Need to actually set initial update time somewhere, maybe not here
         if(InterfaceManager.getSettings().getLastUpdateTime().equals("")) {
@@ -69,13 +73,15 @@ public class UpdateService extends IntentService {
         updateTime.set(Calendar.HOUR_OF_DAY, 8);
         updateTime.set(Calendar.MINUTE, 0);
 
+        final long MONTH = 2628000000L;
+
         Context context = InterfaceManager.getContext();
         Intent downloader = new Intent(context, UpdateReceiver.class);
         downloader.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(),
-                1000 * 60 /* TODO Switch with proper value, AlarmManager.INTERVAL_DAY */,
+                /*1000 * 60*/ /* TODO Switch with proper value, AlarmManager.INTERVAL_DAY */ MONTH,
                 pendingIntent);
         Log.d("MainActivity", "Set alarmManager.setInexactRepeating to: " + updateTime.getTime().toString());
     }
