@@ -116,13 +116,13 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
                     notificationToggle.setTag("alarm_on");
                     notificationToggle.setImageResource(R.drawable.alarm_on);
 
-                    text = "Notifications on!";
+                    text = "Alarmvarsling på.";
                 } else{
                     notificationToggle.setTag("alarm_off");
                     //notificationToggle.setVisibility(View.INVISIBLE);
                     notificationToggle.setImageResource(R.drawable.alarm_off);
 
-                    text = "Notifications off!";
+                    text = "Alarmvarsling av.";
                 }
 
                 Toast toast = Toast.makeText(context, text, duration);
