@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="fill_parent"
     tools:context=".Activities.MainActivity"
@@ -14,7 +14,8 @@
         android:layout_height="60dp"
         android:orientation="horizontal"
         android:id="@+id/top_bar"
-        android:background="@color/colorMainTitleBar">
+        android:background="@color/colorMainTitleBar"
+        android:weightSum="1">
 
         <TextView
             android:text="+"
@@ -39,7 +40,16 @@
             android:layout_centerVertical="true"
             android:paddingLeft="20dp"
             android:paddingBottom="7dp"
-            android:paddingRight="20dp" />
+            android:paddingRight="20dp"
+            android:layout_weight="0.83" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/alarm_off"
+            android:id="@+id/notificationToggle"
+            android:visibility="invisible"
+            android:tag="alarm_off"/>
 
     </LinearLayout>
 
