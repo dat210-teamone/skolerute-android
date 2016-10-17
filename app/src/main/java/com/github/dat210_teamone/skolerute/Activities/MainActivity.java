@@ -29,7 +29,7 @@ import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.NotificationReceiver;
 import com.github.dat210_teamone.skolerute.data.NotificationUtil;
 
-import com.github.dat210_teamone.skolerute.data.positionService.LocationFinder;
+//import com.github.dat210_teamone.skolerute.data.positionService.LocationFinder;
 
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
