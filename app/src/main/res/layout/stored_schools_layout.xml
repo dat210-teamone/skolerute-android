@@ -9,42 +9,43 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="65dp"
         android:id="@+id/school_name_container"
         android:gravity="center_vertical|center_horizontal"
         android:padding="@dimen/list_margin_bottom">
 
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/playbutton"
-            android:id="@+id/imageView"
-            android:layout_weight="1"
-            android:alpha="0"
-            android:layout_marginLeft="0dp"
-            android:padding="5dp" />
+            android:id="@+id/minus_button"
+            android:text="-"
+            android:textSize="40dp"
+            android:textColor="@color/colorDarkText"
+            android:paddingLeft="12dp"
+            android:paddingBottom="15dp"/>
 
         <TextView
             android:id="@+id/school_name"
             android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:textColor="#000000">
-        </TextView>
+            android:textColor="#000000"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@mipmap/playbutton"
             android:id="@+id/imageView2"
-            android:layout_weight="1"
-            android:layout_marginRight="0dp" />
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:id="@+id/next_date_container"
         android:gravity="center_vertical|center_horizontal">
 
@@ -54,6 +55,8 @@
             android:layout_height="wrap_content"
             android:textSize="16dp"
             android:textColor="#000000"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:elevation="16dp">
         </TextView>
 

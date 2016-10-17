@@ -63,8 +63,8 @@ public class CsvReaderGetter implements ICsvGetter {
         return null;
     }
 
-    public static PageInfo getInfo(String url)
-    {
+
+    public static PageInfo getInfo(String url) {
         if (infoCache.isEmpty()){
             initData();
         }
@@ -94,7 +94,7 @@ public class CsvReaderGetter implements ICsvGetter {
     }
 
     public static boolean fileHasBeenUpdated(String url) {
-        return (getInfo(url).getLastUpdated().equals(SchoolManager.getDefault().getLastUpdateTime())); //TODO: change this to a variable.
+        return !(getInfo(url).getLastUpdated().equals(InterfaceManager.getSettings().getLastUpdateTime()));
     }
 
     public static String lastCsvUrl(String s){
@@ -110,9 +110,10 @@ public class CsvReaderGetter implements ICsvGetter {
         int i = s.indexOf(searchString);
         int begin = s.indexOf("<span class=\"automatic-local-datetime\" data-datetime=\"", i) + 80;
         int end = s.indexOf("<", begin);
-        String date = s.substring(begin, end);
+        String date = s.substring(begin, end).trim();
         //SchoolManager.getDefault().setLastUpdateTime(date);
         return date;
+
     }
 
     @Override
