@@ -36,11 +36,7 @@ public class SettingManager implements ISettingStorage {
     public void addSelectedSchool(String s) {
         Set<String> set = preferences.getStringSet(SELECTEDSCHOOLS, defaults);
         set.add(s);
-        SharedPreferences.Editor editor =  preferences.edit();
-        editor.remove(SELECTEDSCHOOLS);
-        editor.apply();
-        editor.putStringSet(SELECTEDSCHOOLS, set);
-        editor.apply();
+        putStringSet(SELECTEDSCHOOLS, set);
     }
 
     @Override
@@ -48,11 +44,7 @@ public class SettingManager implements ISettingStorage {
         Set<String> set = preferences.getStringSet(SELECTEDSCHOOLS, defaults);
         boolean found = false;
         found = set.remove(s);
-        SharedPreferences.Editor editor =  preferences.edit();
-        editor.remove(SELECTEDSCHOOLS);
-        editor.apply();
-        editor.putStringSet(SELECTEDSCHOOLS, set);
-        editor.apply();
+        putStringSet(SELECTEDSCHOOLS, set);
         return found;
     }
 
@@ -63,10 +55,25 @@ public class SettingManager implements ISettingStorage {
 
     @Override
     public void setLastUpdateTime(String time) {
+        putString(LASTUPDATEDATE, time);
+    }
+
+    private void putString(String key, String value){
+        SharedPreferences.Editor editor = getEditor(key);
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    private void putStringSet(String key, Set<String> set){
+        SharedPreferences.Editor editor = getEditor(key);
+        editor.putStringSet(key, set);
+        editor.apply();
+    }
+
+    private SharedPreferences.Editor getEditor(String removeKey){
         SharedPreferences.Editor editor = preferences.edit();
-        editor.remove(LASTUPDATEDATE);
+        editor.remove(removeKey);
         editor.apply();
-        editor.putString(LASTUPDATEDATE, time);
-        editor.apply();
+        return editor;
     }
 }

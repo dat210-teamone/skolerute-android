@@ -29,6 +29,7 @@ public class SchoolManager {
     IStorage storage;
     ISettingStorage settings;
     ArrayList<String> selectedSchools;
+    Location knownPosition;
 
     public SchoolManager()
     {
@@ -74,18 +75,21 @@ public class SchoolManager {
         return days;
     }
 
-    public SchoolVacationDay[] getNextVacationDays(String name) {
-        //SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().equals(name) && (info.getDate().after(new Date(System.currentTimeMillis())) || info.getDate().equals(new Date(System.currentTimeMillis()))));
-        SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().equals(name) && info.getDate().after(new Date(System.currentTimeMillis() - 86400))); // removed one day
-        return svd;
+    public SchoolVacationDay getNextVacationDay(String name) {
+        return getNextVacationDays(name, true)[0];
     }
 
-    public SchoolVacationDay getNextVacationDay(String name) {
-        /*SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().equals(name) && (info.getDate().after(new Date(System.currentTimeMillis())) || info.getDate().equals(new Date(System.currentTimeMillis()))));
-        if (svd.length == 0) {
-            return null;
-        }*/
-        return getNextVacationDays(name)[0];
+    public SchoolVacationDay getNextVacationDay(String name, boolean includeToday) {
+        return getNextVacationDays(name, includeToday)[0];
+    }
+
+    public SchoolVacationDay[] getNextVacationDays(String name) {
+        return getNextVacationDays(name, true);
+    }
+
+    public SchoolVacationDay[] getNextVacationDays(String name, boolean includeToday) {
+        SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().equals(name) && info.getDate().after(new Date(System.currentTimeMillis() - ( includeToday ? 86400000 : 0)))); // removed one day
+        return svd;
     }
 
     public void addDefault(String name) {
@@ -99,6 +103,9 @@ public class SchoolManager {
     }
 
     public SchoolInfo[] getSchoolInfo(){
+        if (knownPosition != null){
+            return getClosestSchools(knownPosition);
+        }
         return storage.getSchoolInfo();
     }
 
@@ -116,7 +123,9 @@ public class SchoolManager {
 
     public List getMatchingSchools(String query) {
         ArrayList<SchoolInfo> m = new ArrayList<>();
-        if (OneUtils.isNumber(query)){
+        if (query.length() == 0)
+            m.addAll(OneUtils.toArrayList(getSchoolInfo()));
+        else if (OneUtils.isNumber(query)){
             PostLink link = OneUtils.Find(PostLink.getDefaultArray(), (p) -> p.getPostNumber().equals(query));
             if (link != null)
             {
@@ -150,5 +159,13 @@ public class SchoolManager {
 
     public void setLastUpdateTime(String time) {
         settings.setLastUpdateTime(time);
+    }
+
+    public void setKnownPosition(Location knownPosition) {
+        this.knownPosition = knownPosition;
+    }
+
+    public Location getKnownPosition(){
+        return this.knownPosition;
     }
 }
