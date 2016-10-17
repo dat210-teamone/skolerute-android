@@ -34,6 +34,7 @@ import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 
+import com.github.dat210_teamone.skolerute.data.NotificationReceiver;
 import com.github.dat210_teamone.skolerute.data.NotificationUtil;
 
 import com.github.dat210_teamone.skolerute.data.locationService.LocationFinder;
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             fragTrans.commit();
         }
         NotificationUtil NU = new NotificationUtil(this);
+        NU.createNotification();
+
     }
 
     private boolean getAndCheckPermission(String permission) {
