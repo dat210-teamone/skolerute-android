@@ -88,6 +88,18 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             }
         });
 
+        setupNotificationToggle();
+
+        if (selectedSchools.length == 0)
+            goToAddSchools();
+        else
+            goToStoredSchools();
+
+        NotificationUtil NU = new NotificationUtil(this);
+        NU.createNotification();
+    }
+
+    private void setupNotificationToggle(){
         ImageView notificationToggle = (ImageView) findViewById(R.id.notificationToggle);
         notificationToggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
                 int duration = Toast.LENGTH_SHORT;
 
                 String viewTag = (String) notificationToggle.getTag();
-                Log.i("tag", "tag = " + viewTag );
                 if(viewTag.equals("alarm_off")){
                     notificationToggle.setTag("alarm_on");
                     notificationToggle.setImageResource(R.drawable.alarm_on);
@@ -115,14 +126,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
                 toast.show();
             }
         });
-
-        if (selectedSchools.length == 0)
-            goToAddSchools();
-        else
-            goToStoredSchools();
-
-        NotificationUtil NU = new NotificationUtil(this);
-        NU.createNotification();
     }
 
     private void initSchoolData(){
