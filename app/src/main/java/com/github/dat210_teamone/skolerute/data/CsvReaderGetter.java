@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.github.dat210_teamone.skolerute.data.interfaces.ICsvGetter;
 import com.github.dat210_teamone.skolerute.model.PageInfo;
+import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -62,11 +63,11 @@ public class CsvReaderGetter implements ICsvGetter {
         return null;
     }
 
-    public static PageInfo getInfo(String url)
-    {
-        /*if (infoCache.isEmpty()){
+
+    public static PageInfo getInfo(String url) {
+        if (infoCache.isEmpty()){
             initData();
-        }*/
+        }
         if (infoCache.containsKey(url))
             return infoCache.get(url);
         else
@@ -109,7 +110,13 @@ public class CsvReaderGetter implements ICsvGetter {
         int i = s.indexOf(searchString);
         int begin = s.indexOf("<span class=\"automatic-local-datetime\" data-datetime=\"", i) + 80;
         int end = s.indexOf("<", begin);
+<<<<<<< HEAD
         return s.substring(begin, end).trim();
+=======
+        String date = s.substring(begin, end);
+        //SchoolManager.getDefault().setLastUpdateTime(date);
+        return date;
+>>>>>>> backend
     }
 
     @Override

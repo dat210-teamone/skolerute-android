@@ -2,29 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="50dp"
     android:orientation="horizontal"
     android:background="#FFFFFF"
-    android:gravity="right|center_vertical">
-    
+    android:gravity="right|center_vertical"
+    android:layout_marginBottom="@dimen/list_margin_bottom">
 
     <TextView
         android:id="@+id/school_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dummy Text"
-        android:textSize="30sp"
+        android:textSize="26sp"
         android:textColor="#000000"
         android:paddingRight="15dp">
     </TextView>
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="34dp"
         android:text="Lagre"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="12dp"
         android:id="@+id/add_button"
         android:background="@color/colorClickable" />
-
 
 </LinearLayout>
