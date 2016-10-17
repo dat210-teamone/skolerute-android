@@ -81,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         goToAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(inputMethodManager.isAcceptingText()){
+                    hideKeyboard();
+                }
                 goToAddSchools();
             }
         });

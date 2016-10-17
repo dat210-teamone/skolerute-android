@@ -22,8 +22,6 @@ import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CalendarList extends Fragment {
@@ -86,13 +84,10 @@ public class CalendarList extends Fragment {
         SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getNextVacationDays(school.getSchoolName());
         Date[] days=new Date[vacationDays.length];
         String date[]=new String[days.length];
-        String date_text[]=new String[days.length];
-        Format formatter = new SimpleDateFormat("dd-MM-yyyy");
 
         for (int x=0; x<vacationDays.length; x++){
             days[x]=vacationDays[x].getDate();
             date[x]=days[x].toString();
-            date_text[x] = formatter.format(date[x]);
         }
 
         ArrayAdapter calendarListAdapter = new ArrayAdapter(mainActivity, android.R.layout.simple_list_item_1, date);
@@ -101,12 +96,16 @@ public class CalendarList extends Fragment {
         list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 mainActivity.goToCalendarView();
+
             }
         });
 
         calendarList = (ListView)view.findViewById(R.id.calendar_list);
         calendarList.setAdapter(calendarListAdapter);
+
+
 
         return view;
     }
