@@ -1,16 +1,11 @@
 package com.github.dat210_teamone.skolerute.Activities;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -20,13 +15,10 @@ import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
-import com.github.dat210_teamone.skolerute.data.UpdateReceiver;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
+import com.github.dat210_teamone.skolerute.data.UpdateService;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
-
-import java.util.Calendar;
-import java.util.TimeZone;
 
 
 public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
@@ -77,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
 
         // START - Set up AlarmManager update service
-        setUpUpdateService();
+        UpdateService.setUpUpdateService();
         // END - Set up AlarmManager update service
     }
     
@@ -97,27 +89,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container, fragment);
         fragTrans.commit();
-    }
-
-    public void setUpUpdateService() {
-        // TODO: This probably needs some serious refactoring
-        Calendar updateTime = Calendar.getInstance();
-        updateTime.setTimeZone(TimeZone.getDefault());
-
-        // TODO: set check interval to One Month
-        //updateTime.add(Calendar.MONTH, 1);
-
-        updateTime.set(Calendar.HOUR_OF_DAY, 8);
-        updateTime.set(Calendar.MINUTE, 0);
-
-        Intent downloader = new Intent(this, UpdateReceiver.class);
-        downloader.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(),
-                1000 * 60 /* TODO Switch with proper value, AlarmManager.INTERVAL_DAY */,
-                pendingIntent);
-        Log.d("MainActivity", "Set alarmManager.setInexactRepeating to: " + updateTime.getTime().toString());
     }
 
     @Override
