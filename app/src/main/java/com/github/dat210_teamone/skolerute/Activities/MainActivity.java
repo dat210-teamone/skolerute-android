@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         allSchoolNames = new String[allSchools.length];
         inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
-
         setContentView(R.layout.activity_main);
 
         TextView goToAdd = (TextView)findViewById(R.id.go_to_add);
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             fragTrans.commit();
         }
     }
-    
+
     public void showSchools(View view) {
 
     }
