@@ -21,10 +21,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.dat210_teamone.skolerute.Fragments.AddSchools;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
@@ -88,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             }
         });
 
+        setupNotificationToggle();
+
         if (selectedSchools.length == 0)
             goToAddSchools();
         else
@@ -95,6 +100,35 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
         NotificationUtil NU = new NotificationUtil(this);
         NU.createNotification();
+    }
+
+    private void setupNotificationToggle(){
+        ImageView notificationToggle = (ImageView) findViewById(R.id.notificationToggle);
+        notificationToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = getApplicationContext();
+                CharSequence text = "";
+                int duration = Toast.LENGTH_SHORT;
+
+                String viewTag = (String) notificationToggle.getTag();
+                if(viewTag.equals("alarm_off")){
+                    notificationToggle.setTag("alarm_on");
+                    notificationToggle.setImageResource(R.drawable.alarm_on);
+
+                    text = "Notifications on!";
+                } else{
+                    notificationToggle.setTag("alarm_off");
+                    //notificationToggle.setVisibility(View.INVISIBLE);
+                    notificationToggle.setImageResource(R.drawable.alarm_off);
+
+                    text = "Notifications off!";
+                }
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+        });
     }
 
     private void initSchoolData(){
