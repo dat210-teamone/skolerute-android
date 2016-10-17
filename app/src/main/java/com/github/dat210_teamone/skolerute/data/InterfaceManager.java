@@ -16,6 +16,7 @@ import java.io.File;
 
 public final class InterfaceManager {
     private static Activity mainActivity;
+
     private  InterfaceManager(){
 
     }
@@ -29,8 +30,8 @@ public final class InterfaceManager {
     }
 
     public static IStorage getStorage() {
-        //return new DummyStorage();
-        return new CsvFileReader().initializeReader();
+        return new DummyStorage();
+        //return new CsvFileReader().initializeReader();
     }
 
 
