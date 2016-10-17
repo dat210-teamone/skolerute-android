@@ -5,14 +5,10 @@ import android.os.AsyncTask;
 import com.github.dat210_teamone.skolerute.data.interfaces.ICsvGetter;
 import com.github.dat210_teamone.skolerute.model.PageInfo;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
@@ -68,9 +64,9 @@ public class CsvReaderGetter implements ICsvGetter {
 
     public static PageInfo getInfo(String url)
     {
-        if (infoCache.isEmpty()){
+        /*if (infoCache.isEmpty()){
             initData();
-        }
+        }*/
         if (infoCache.containsKey(url))
             return infoCache.get(url);
         else
@@ -97,7 +93,7 @@ public class CsvReaderGetter implements ICsvGetter {
     }
 
     public static boolean fileHasBeenUpdated(String url) {
-        return (getInfo(url).getLastUpdated() == "september 21, 2016, 14:46 (CEST)"); //TODO: change this to a variable.
+        return !(getInfo(url).getLastUpdated().equals(InterfaceManager.getSettings().getLastUpdateTime()));
     }
 
     public static String lastCsvUrl(String s){
@@ -113,7 +109,7 @@ public class CsvReaderGetter implements ICsvGetter {
         int i = s.indexOf(searchString);
         int begin = s.indexOf("<span class=\"automatic-local-datetime\" data-datetime=\"", i) + 80;
         int end = s.indexOf("<", begin);
-        return s.substring(begin, end);
+        return s.substring(begin, end).trim();
     }
 
     @Override
