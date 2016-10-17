@@ -66,7 +66,7 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                 dayOfWeekFinal = "Søndag";
         }
 
-        String displayDate = "Neste fridag: " + dayOfWeekFinal + " - " + dateInMonth + ". " + months[month-1] + " " + year;
+        String displayDate = "" + dayOfWeekFinal + " - " + dateInMonth + ". " + months[month-1] + " " + year;
 
         return displayDate;
     }
@@ -82,7 +82,7 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
         LinearLayout schoolNameContainer = (LinearLayout)rowView.findViewById(R.id.school_name_container);
         schoolName.setText(values[position]);
 
-        String displayDate = dateFormatter(dates[position]);
+        String displayDate = "Neste fridag: " + dateFormatter(dates[position]);
         nextDate.setText(displayDate);
 
         schoolNameContainer.setOnClickListener(new View.OnClickListener() {
