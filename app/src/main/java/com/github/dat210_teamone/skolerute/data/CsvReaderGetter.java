@@ -110,13 +110,10 @@ public class CsvReaderGetter implements ICsvGetter {
         int i = s.indexOf(searchString);
         int begin = s.indexOf("<span class=\"automatic-local-datetime\" data-datetime=\"", i) + 80;
         int end = s.indexOf("<", begin);
-<<<<<<< HEAD
-        return s.substring(begin, end).trim();
-=======
-        String date = s.substring(begin, end);
+        String date = s.substring(begin, end).trim();
         //SchoolManager.getDefault().setLastUpdateTime(date);
         return date;
->>>>>>> backend
+
     }
 
     @Override
