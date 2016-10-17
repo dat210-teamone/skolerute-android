@@ -32,19 +32,21 @@ public class NotificationReceiver extends BroadcastReceiver {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent resultIntent = new Intent(context, MainActivity.class);
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 1233, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(resultPendingIntent);
         mBuilder.setAutoCancel(true);
 
         String title = "";
-        SchoolVacationDay SVD = new SchoolVacationDay();
+        String comment = "";
+        SchoolVacationDay SVD;
         for (SchoolInfo x : SM.getSelectedSchools()) {
-            SVD = SM.getNextVacationDay(x.getSchoolName());
-            if (SVD.getDate().equals(new Date(System.currentTimeMillis() + 86400))) {
+            SVD = SM.getNextVacationDay(x.getSchoolName(),true);
+            if (SVD.getDate().after(new Date(System.currentTimeMillis())) && SVD.getDate().before(new Date(System.currentTimeMillis() + 86400000 * 2))) {
                 title += SVD.getName();
+                comment += SVD.getComment();
             }
         }
-        mBuilder.setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setContentText(SVD.getComment());
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setContentText(comment);
         mNotificationManager.notify(0, mBuilder.build());
     }
 }

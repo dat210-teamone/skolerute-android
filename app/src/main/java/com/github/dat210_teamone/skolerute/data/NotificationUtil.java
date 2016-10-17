@@ -44,10 +44,20 @@ public class NotificationUtil {
         return defaultManager;
     }
 
-    //Get a schoolVacationDay and create a notification for it.
     public void createNotification() {
+        for (SchoolInfo s : SM.getSelectedSchools()) {
+            for (SchoolVacationDay v : SM.getNextVacationDays(s.getSchoolName(), true)) {
+                createNotification(v);
+            }
+        }
+    }
+
+
+    //Get a schoolVacationDay and create a notification for it.
+    public void createNotification(SchoolVacationDay SVD) {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 10);
+        calendar.setTime(SVD.getDate());
+        calendar.set(Calendar.HOUR, 8);
         calendar.set(Calendar.MINUTE, 15);
         calendar.set(Calendar.SECOND, 0);
 
@@ -59,8 +69,17 @@ public class NotificationUtil {
     }
 
     //Remove all notifications
-    public void removeAllNoddtifications() {
-        NotificationManager mNotificationManager = (NotificationManager) con.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancelAll();
+    public void removeAllNotifications() {
+        AlarmManager alarmManager = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
+
+        Intent updateServiceIntent = new Intent(con, MainActivity.class);
+        PendingIntent pendingUpdateIntent = PendingIntent.getService(con, 1233, updateServiceIntent, 0);
+
+        // Cancel alarms
+        try {
+            alarmManager.cancel(pendingUpdateIntent);
+        } catch (Exception e) {
+
+        }
     }
 }

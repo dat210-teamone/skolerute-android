@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         }
         NotificationUtil NU = new NotificationUtil(this);
         NU.createNotification();
-
     }
 
     public void showSchools(View view) {
