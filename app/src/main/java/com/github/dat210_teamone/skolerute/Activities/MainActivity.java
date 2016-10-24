@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             @Override
             public void onClick(View v) {
                 Context context = getApplicationContext();
-                CharSequence text = "";
+                String text = "";
                 int duration = Toast.LENGTH_SHORT;
 
                 String viewTag = (String) notificationToggle.getTag();
@@ -107,13 +107,13 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
                     notificationToggle.setTag("alarm_on");
                     notificationToggle.setImageResource(R.drawable.alarm_on);
 
-                    text = "Alarmvarsling på.";
+                    text = getResources().getString(R.string.alarm_paa);
+
                 } else{
                     notificationToggle.setTag("alarm_off");
-                    //notificationToggle.setVisibility(View.INVISIBLE);
                     notificationToggle.setImageResource(R.drawable.alarm_off);
 
-                    text = "Alarmvarsling av.";
+                    text = getResources().getString(R.string.alarm_av);
                 }
 
                 Toast toast = Toast.makeText(context, text, duration);
