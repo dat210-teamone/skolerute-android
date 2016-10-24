@@ -33,7 +33,6 @@ public class UpdateService extends IntentService {
     private class UpdateTask extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... strings) {
-            // TODO: This probably needs some serious refactoring
             Log.d("UpdateService", "Calling doInBackground within UpdateTask");
             Log.d("UpdateService", "Last updated: "+ InterfaceManager.getSettings().getLastUpdateTime());
             if(CsvReaderGetter.fileHasBeenUpdated("http://open.stavanger.kommune.no/dataset/skolerute-stavanger")) {
@@ -50,12 +49,7 @@ public class UpdateService extends IntentService {
         }
     }
 
-    private boolean shouldDoUpdate() {
-        return true;
-    }
-
     public static void setUpUpdateService() {
-        // TODO: Need to actually set initial update time somewhere, maybe not here
         if(InterfaceManager.getSettings().getLastUpdateTime().equals("")) {
             String lastUpdated = CsvReaderGetter
                     .getInfo("http://open.stavanger.kommune.no/dataset/skolerute-stavanger")
@@ -63,15 +57,12 @@ public class UpdateService extends IntentService {
             Log.d("UpdateService", "Setting initial update date: " + lastUpdated);
             InterfaceManager.getSettings().setLastUpdateTime(lastUpdated);
         }
-        // TODO: This probably needs some serious refactoring
         Calendar updateTime = Calendar.getInstance();
         updateTime.setTimeZone(TimeZone.getDefault());
 
-        // TODO: set check interval to One Month
-        //updateTime.add(Calendar.MONTH, 1);
-
-        updateTime.set(Calendar.HOUR_OF_DAY, 8);
-        updateTime.set(Calendar.MINUTE, 0);
+        updateTime.add(Calendar.MONTH, 1);
+        // updateTime.set(Calendar.HOUR_OF_DAY, 8);
+        // updateTime.set(Calendar.MINUTE, 0);
 
         final long MONTH = 2628000000L;
 
@@ -81,7 +72,7 @@ public class UpdateService extends IntentService {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(),
-                /*1000 * 60*/ /* TODO Switch with proper value, AlarmManager.INTERVAL_DAY */ MONTH,
+                MONTH,
                 pendingIntent);
         Log.d("MainActivity", "Set alarmManager.setInexactRepeating to: " + updateTime.getTime().toString());
     }
