@@ -40,7 +40,7 @@ public class SchoolStorage implements IStorage {
     }
 
     public SchoolStorage initializeStorage(){
-        return initializeStorage(false);
+        return initializeStorage(true);
     }
 
     public SchoolStorage initializeStorage(boolean useCache) {
