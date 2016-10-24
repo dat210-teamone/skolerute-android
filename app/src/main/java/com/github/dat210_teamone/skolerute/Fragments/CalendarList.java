@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
+import com.github.dat210_teamone.skolerute.adapters.VacationDaysListAdapter;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
@@ -90,22 +91,11 @@ public class CalendarList extends Fragment {
             date[x]=days[x].toString();
         }
 
-        ArrayAdapter calendarListAdapter = new ArrayAdapter(mainActivity, android.R.layout.simple_list_item_1, date);
-
-        list = (Button) view.findViewById(R.id.button_liste);
-        list.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                mainActivity.goToCalendarView();
-
-            }
-        });
+        // Generate objects to display based on selected schools
+        VacationDaysListAdapter calendarListAdapter = new VacationDaysListAdapter(mainActivity, mainActivity.schoolManager.getSelectedSchoolDays());
 
         calendarList = (ListView)view.findViewById(R.id.calendar_list);
         calendarList.setAdapter(calendarListAdapter);
-
-
 
         return view;
     }

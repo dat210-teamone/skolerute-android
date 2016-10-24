@@ -22,7 +22,6 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
     private final String[] values;
     private String[] valuesToDisplay;
 
-
     public AddSchoolsAdapter(Context context, String[] values) {
         super(context, -1, values);
         this.context = context;
