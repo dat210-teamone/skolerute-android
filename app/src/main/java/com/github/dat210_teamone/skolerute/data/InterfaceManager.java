@@ -3,9 +3,12 @@ package com.github.dat210_teamone.skolerute.data;
 import android.app.Activity;
 import android.content.Context;
 
+import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.GjesdalSchoolInfoGetter;
+import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.StavangerSchoolInfoGetter;
 import com.github.dat210_teamone.skolerute.data.dummy.DummySettingStorage;
 import com.github.dat210_teamone.skolerute.data.dummy.DummyStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.ICsvGetter;
+import com.github.dat210_teamone.skolerute.data.interfaces.ISchoolInfoGetter;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
 
@@ -17,6 +20,7 @@ import java.io.File;
 
 public final class InterfaceManager {
     private static Activity mainActivity;
+    private static Context context;
 
     private  InterfaceManager(){
 
@@ -24,6 +28,11 @@ public final class InterfaceManager {
 
     public static void SetMainActivity(Activity activity){
         mainActivity = activity;
+        context = activity.getApplicationContext();
+    }
+
+    public static void SetMainActivity(Context context){
+        InterfaceManager.context = context;
     }
 
     public static File getStoragePath(){
@@ -31,22 +40,31 @@ public final class InterfaceManager {
     }
 
     public static Context getContext() {
-        return mainActivity.getApplicationContext();
+        return context;
     }
 
     public static IStorage getStorage() {
         //return new DummyStorage();
-        return new CsvFileReader().initializeReader();
+        //return new CsvFileReader().initializeReader();
+        return new SchoolStorage().initializeStorage();
     }
-
-
 
     public static ISettingStorage getSettings(){
         //return new DummySettingStorage(true);
-        return new SettingManager(mainActivity.getSharedPreferences("data", 0));
+
+        return new SettingManager(getContext().getSharedPreferences("data", 0));
     }
 
     public static ICsvGetter getBufferGetter() {
         return new CsvReaderGetter();
+    }
+
+    public static ISchoolInfoGetter[] getSchoolGetters()
+    {
+        return new ISchoolInfoGetter[]
+        {
+            new StavangerSchoolInfoGetter(),
+            new GjesdalSchoolInfoGetter()
+        };
     }
 }

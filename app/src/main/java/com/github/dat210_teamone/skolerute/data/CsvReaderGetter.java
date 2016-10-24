@@ -50,7 +50,7 @@ public class CsvReaderGetter implements ICsvGetter {
                 GetPageInfoTask task = new GetPageInfoTask();
                 task.execute(u);
 
-                writeStream.write(task.get().getBytes());
+                writeStream.write(task.get());
                 writeStream.close();
             }
 
@@ -76,8 +76,8 @@ public class CsvReaderGetter implements ICsvGetter {
                 URL u = new URL(url);
 
                 GetPageInfoTask task = new GetPageInfoTask();
-                AsyncTask<URL, Void, String> test =  task.execute(u);
-                String s = test.get();
+                AsyncTask<URL, Void, byte[]> test =  task.execute(u);
+                String s = new String(test.get());
                 PageInfo info = new PageInfo(url,lastCsvUrl(s) , lastUpdated(s));
 
                 infoCache.put(url, info);
@@ -113,16 +113,19 @@ public class CsvReaderGetter implements ICsvGetter {
         String date = s.substring(begin, end).trim();
         //SchoolManager.getDefault().setLastUpdateTime(date);
         return date;
-
     }
 
     @Override
     public BufferedReader getSchoolReader() {
+        //http://open.stavanger.kommune.no/dataset/dfb9b81c-d9a2-4542-8f63-7584a3594e02/resource/b55f5f5a-ffac-47f2-ad57-d439f696cc87/download/barne--og-ungdomsskoler-gjesdal-kommune.csv
+        //http://open.stavanger.kommune.no/dataset/skoler-i-gjesdal-kommune
         return getFileReader(getFileUrl("http://open.stavanger.kommune.no/dataset/skoler-stavanger"));
     }
 
     @Override
     public BufferedReader getSchoolDayReader() {
+        //http://open.stavanger.kommune.no/dataset/c1a060b6-350c-433d-ac78-964ae8b0a9e3/resource/667ed24a-d3a0-4210-9086-f1d336429081/download/skolerute-gjesdal-kommune2.csv
+        //http://open.stavanger.kommune.no/dataset/skoleruten-for-gjesdal-kommune
         return getFileReader(getFileUrl("http://open.stavanger.kommune.no/dataset/skolerute-stavanger"));
     }
 }
