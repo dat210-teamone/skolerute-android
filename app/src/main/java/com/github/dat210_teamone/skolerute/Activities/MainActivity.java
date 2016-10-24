@@ -1,7 +1,10 @@
 package com.github.dat210_teamone.skolerute.Activities;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,17 +18,18 @@ import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.data.CallendarExporter;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.data.UpdateService;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 
-public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
+public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener {
 
     public FragmentManager manager = getSupportFragmentManager();
     public Fragment fragment = manager.findFragmentById(R.id.fragment_container);
-    public FragmentTransaction fragTrans =  manager.beginTransaction();
+    public FragmentTransaction fragTrans = manager.beginTransaction();
 
     public SchoolManager schoolManager;// = SchoolManager.getDefault();
     public SchoolInfo[] allSchools;// = schoolManager.getSchoolInfo();
@@ -48,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
         setContentView(R.layout.activity_main);
 
-        TextView goToAdd = (TextView)findViewById(R.id.go_to_add);
+        TextView goToAdd = (TextView) findViewById(R.id.go_to_add);
         goToAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         });
 
         if (fragment == null) {
-            if(selectedSchools.length == 0) {
+            if (selectedSchools.length == 0) {
                 fragment = new AddSchools();
             } else {
                 fragment = new StoredSchools();
@@ -71,6 +75,21 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         // START - Set up AlarmManager update service
         UpdateService.setUpUpdateService();
         // END - Set up AlarmManager update service
+
+        // TEST START - Export to google calendar
+        CallendarExporter callendarExporter = new CallendarExporter();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        callendarExporter.exportToGoogle();
+        // TEST END - Export to google calendar
     }
     
     public void showSchools(View view) {
