@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.github.dat210_teamone.skolerute.Fragments.CalendarList">
+    tools:context="com.github.dat210_teamone.skolerute.Fragments.CalendarList"
+    android:weightSum="1">
 
 
     <TextView
@@ -16,19 +17,23 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="490dp"
+        android:layout_height="wrap_content"
         android:id="@+id/calendar_list"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal"
+        />
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:text="Kalendar View"
+        android:minHeight="55dp"
+        android:maxHeight="60dp"
         android:id="@+id/button_liste"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="changeView"/>
+        android:onClick="changeView" />
 
 
 </LinearLayout>
