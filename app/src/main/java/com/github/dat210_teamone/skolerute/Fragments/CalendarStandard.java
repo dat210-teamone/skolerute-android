@@ -126,24 +126,27 @@ public class CalendarStandard extends Fragment {
         events = new HashSet<>();
         events.add(new Date());
 
-        ArrayList<Date> cells = new ArrayList<>();
+        Date[][] cells=new Date[6][7];
         Calendar calendar = Calendar.getInstance();
 
         calendar.set(Calendar.DAY_OF_MONTH, 1);
+        int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell);
 
-        while (cells.size()< 42) { //42 er antall av dager
-            cells.add(calendar.getTime());
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        for(int x=0; x<6; x++){
+            for(int y=0; y<7; y++){
+                cells[x][y]= calendar.getTime();
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+            }
         }
 
-        TableLayout table=(TableLayout) view.findViewById(R.id.table);
-        Object[] celer=cells.toArray();
+        TableLayout table=(TableLayout) view.findViewById(R.id.table);;
 
-        for(int x=1; x<7; x++) {
+        for(int x=0; x<6; x++) {
             TableRow row=new TableRow(mainActivity);
             for (int i = 0; i < 7; i++) {
                 TextView textView = new TextView(mainActivity);
-                textView.setText("text");
+                textView.setText(cells[x][i].getDate());
                 row.addView(textView);
             }
             table.addView(row);
