@@ -1,6 +1,7 @@
 package com.github.dat210_teamone.skolerute.data;
 
 import android.app.Activity;
+import android.content.Context;
 
 import com.github.dat210_teamone.skolerute.data.dummy.DummySettingStorage;
 import com.github.dat210_teamone.skolerute.data.dummy.DummyStorage;
@@ -26,7 +27,11 @@ public final class InterfaceManager {
     }
 
     public static File getStoragePath(){
-        return mainActivity.getApplicationContext().getDir("data", 0);
+        return getContext().getDir("data", 0);
+    }
+
+    public static Context getContext() {
+        return mainActivity.getApplicationContext();
     }
 
     public static IStorage getStorage() {

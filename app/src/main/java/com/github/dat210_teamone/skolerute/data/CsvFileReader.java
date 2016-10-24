@@ -75,7 +75,7 @@ public class CsvFileReader implements IStorage {
         return this;
     }
 
-    private void readSchoolInfoCsv(BufferedReader reader) {
+    public void readSchoolInfoCsv(BufferedReader reader) {
         String line;
         try {
             reader.readLine();
@@ -108,7 +108,7 @@ public class CsvFileReader implements IStorage {
         }
     }
     private String[] loadedSchools = new String[0];
-    private void readSchoolVacationDayCsv(BufferedReader reader) {
+    public void readSchoolVacationDayCsv(BufferedReader reader) {
         String line;
         try {
             ArrayList<String> tempSchools = new ArrayList<>();

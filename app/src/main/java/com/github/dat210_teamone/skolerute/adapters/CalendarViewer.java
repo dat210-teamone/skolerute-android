@@ -43,16 +43,6 @@ public class CalendarViewer extends LinearLayout {
     private TextView txtDate;
     private GridView grid;
 
-    int[] rainbow = new int[] {
-            R.color.summer,
-            R.color.fall,
-            R.color.winter,
-            R.color.spring
-    };
-
-    int[] monthSeason = new int[] {2, 2, 3, 3, 3, 0, 0, 0, 1, 1, 1, 2};
-
-
     public CalendarViewer(Context context) {
         super(context);
     }
@@ -158,10 +148,7 @@ public class CalendarViewer extends LinearLayout {
         txtDate.setText(sdf.format(currentDate.getTime()));
 
         int month = currentDate.get(Calendar.MONTH);
-        int season = monthSeason[month];
-        int color = rainbow[season];
 
-        header.setBackgroundColor(getResources().getColor(color));
     }
 
 

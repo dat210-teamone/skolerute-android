@@ -2,17 +2,13 @@ package com.github.dat210_teamone.skolerute.Activities;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-
-
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-
-import android.location.LocationProvider;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -20,8 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -36,13 +30,10 @@ import com.github.dat210_teamone.skolerute.Fragments.SearchSchools;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
-
-import com.github.dat210_teamone.skolerute.data.NotificationReceiver;
 import com.github.dat210_teamone.skolerute.data.NotificationUtil;
-
-import com.github.dat210_teamone.skolerute.data.locationService.LocationFinder;
-
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
+import com.github.dat210_teamone.skolerute.data.UpdateService;
+import com.github.dat210_teamone.skolerute.data.locationService.LocationFinder;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
@@ -116,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             @Override
             public void onClick(View v) {
                 Context context = getApplicationContext();
-                CharSequence text = "";
+                String text = "";
                 int duration = Toast.LENGTH_SHORT;
 
                 String viewTag = (String) notificationToggle.getTag();
@@ -124,13 +115,13 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
                     notificationToggle.setTag("alarm_on");
                     notificationToggle.setImageResource(R.drawable.alarm_on);
 
-                    text = "Notifications on!";
+                    text = getResources().getString(R.string.alarm_paa);
+
                 } else{
                     notificationToggle.setTag("alarm_off");
-                    //notificationToggle.setVisibility(View.INVISIBLE);
                     notificationToggle.setImageResource(R.drawable.alarm_off);
 
-                    text = "Notifications off!";
+                    text = getResources().getString(R.string.alarm_av);
                 }
 
                 Toast toast = Toast.makeText(context, text, duration);
@@ -184,6 +175,11 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         catch (SecurityException e){
             e.printStackTrace();
         }
+
+
+        // START - Set up AlarmManager update service
+        UpdateService.setUpUpdateService();
+        // END - Set up AlarmManager update service
     }
 
     @Override

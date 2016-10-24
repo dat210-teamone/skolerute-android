@@ -5,6 +5,8 @@
     <string name="title_activity_add_school">AddSchoolActivit</string>
     <string name="alle_skoler">Alle skoler</string>
     <string name="listevisning">Listevisning</string>
+    <string name="alarm_paa">Alarmvarsling på</string>
+    <string name="alarm_av">Alarmvarsling av</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

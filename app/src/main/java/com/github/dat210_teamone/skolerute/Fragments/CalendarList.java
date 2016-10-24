@@ -77,18 +77,18 @@ public class CalendarList extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_calendar_list, container, false);
 
-        MainActivity mainActivity = (MainActivity)getActivity();
+        MainActivity mainActivity = (MainActivity) getActivity();
 
-        int number=mainActivity.getPosisjon();
+        int number = mainActivity.getPosisjon();
 
-        SchoolInfo school=mainActivity.selectedSchools[number];
+        SchoolInfo school = mainActivity.selectedSchools[number];
         SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getNextVacationDays(school.getSchoolName());
-        Date[] days=new Date[vacationDays.length];
-        String date[]=new String[days.length];
+        Date[] days = new Date[vacationDays.length];
+        String date[] = new String[days.length];
 
-        for (int x=0; x<vacationDays.length; x++){
-            days[x]=vacationDays[x].getDate();
-            date[x]=days[x].toString();
+        for (int x = 0; x < vacationDays.length; x++) {
+            days[x] = vacationDays[x].getDate();
+            date[x] = StoredSchoolsAdapter.dateFormatter(days[x]);
         }
 
         // Generate objects to display based on selected schools
@@ -96,6 +96,8 @@ public class CalendarList extends Fragment {
 
         calendarList = (ListView)view.findViewById(R.id.calendar_list);
         calendarList.setAdapter(calendarListAdapter);
+
+
 
         return view;
     }
