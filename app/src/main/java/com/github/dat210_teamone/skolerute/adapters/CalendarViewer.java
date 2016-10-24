@@ -70,8 +70,6 @@ public class CalendarViewer extends LinearLayout {
     }
 
     private void loadDateFormat(AttributeSet attrs) {
-
-
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CalendarView);
 
         try {
@@ -133,8 +131,6 @@ public class CalendarViewer extends LinearLayout {
     public void updateCalendar(HashSet<Date> events) {
         ArrayList<Date> cells = new ArrayList<>();
         Calendar calendar = (Calendar)currentDate.clone();
-
-
 
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 1;
