@@ -105,9 +105,9 @@ public class StoredSchools extends Fragment {
             storedSchoolVacationDays[x] = mainActivity.schoolManager.getNextVacationDay(storedSchoolNames[x]).getDate();
         }
 
-        for (int x = 0; x < mainActivity.selectedSchools.length; x++) {
+        /*for (int x = 0; x < mainActivity.selectedSchools.length; x++) {
             storedSchoolNames[x] = mainActivity.selectedSchools[x].getSchoolName();
-        }
+        }*/
 
         StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames, storedSchoolVacationDays);
 

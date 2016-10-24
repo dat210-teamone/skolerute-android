@@ -45,7 +45,11 @@ public class OpenStavangerUtils {
         }
     }
 
-    public static BufferedReader getFileReader(String url) {
+    public static  BufferedReader getFileReader(String url){
+        return getFileReader(url, "UTF-8");
+    }
+
+    public static BufferedReader getFileReader(String url, String encoding) {
         try {
             URL u = new URL(url);
             String fileName = OneUtils.getFileName(u);
@@ -56,11 +60,11 @@ public class OpenStavangerUtils {
                 GetPageInfoTask task = new GetPageInfoTask();
                 task.execute(u);
 
-                writeStream.write(task.get().getBytes());
+                writeStream.write(task.get());
                 writeStream.close();
             }
 
-            return new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8"));
+            return new BufferedReader(new InputStreamReader(new FileInputStream(file),encoding));
         } catch (Exception e) {
             System.out.println("file is null.");
             System.out.println(e.getMessage());
@@ -99,8 +103,8 @@ public class OpenStavangerUtils {
                 URL u = new URL(url);
 
                 GetPageInfoTask task = new GetPageInfoTask();
-                AsyncTask<URL, Void, String> test =  task.execute(u);
-                String s = test.get();
+                AsyncTask<URL, Void, byte[]> test =  task.execute(u);
+                String s = new String(test.get());
                 PageInfo info = new PageInfo(url,lastCsvUrl(s) , lastUpdated(s));
 
                 infoCache.put(url, info);
