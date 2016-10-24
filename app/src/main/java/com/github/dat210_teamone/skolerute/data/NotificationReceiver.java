@@ -1,5 +1,6 @@
 package com.github.dat210_teamone.skolerute.data;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -20,14 +21,14 @@ import java.util.Date;
  */
 
 public class NotificationReceiver extends BroadcastReceiver {
-    SchoolManager SM;
 
     public NotificationReceiver() {
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        SM = SchoolManager.getDefault();
+        //InterfaceManager.SetMainActivity((Activity) context);
+        //SchoolManager SM = SchoolManager.getDefault();
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -37,16 +38,16 @@ public class NotificationReceiver extends BroadcastReceiver {
         mBuilder.setContentIntent(resultPendingIntent);
         mBuilder.setAutoCancel(true);
 
-        String title = "";
-        String comment = "";
-        SchoolVacationDay SVD;
-        for (SchoolInfo x : SM.getSelectedSchools()) {
-            SVD = SM.getNextVacationDay(x.getSchoolName(),true);
-            if (SVD.getDate().after(new Date(System.currentTimeMillis())) && SVD.getDate().before(new Date(System.currentTimeMillis() + 86400000 * 2))) {
-                title += SVD.getName();
-                comment += SVD.getComment();
-            }
-        }
+        String title = "Test";
+        String comment = "te";
+        //SchoolVacationDay SVD;
+        //for (SchoolInfo x : SM.getSelectedSchools()) {
+        //    SVD = SM.getNextVacationDay(x.getSchoolName(),true);
+        //    if (SVD.getDate().after(new Date(System.currentTimeMillis())) && SVD.getDate().before(new Date(System.currentTimeMillis() + 86400000 * 2))) {
+        //        title += SVD.getName();
+        //        comment += SVD.getComment();
+        //    }
+        //}
         mBuilder.setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setContentText(comment);
         mNotificationManager.notify(0, mBuilder.build());
     }
