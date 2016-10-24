@@ -17,6 +17,7 @@ import java.io.File;
 
 public final class InterfaceManager {
     private static Activity mainActivity;
+    private static Context context;
 
     private  InterfaceManager(){
 
@@ -26,12 +27,16 @@ public final class InterfaceManager {
         mainActivity = activity;
     }
 
+    public static void SetMainActivity(Context context){
+        InterfaceManager.context = context;
+    }
+
     public static File getStoragePath(){
         return getContext().getDir("data", 0);
     }
 
     public static Context getContext() {
-        return mainActivity.getApplicationContext();
+        return context;
     }
 
     public static IStorage getStorage() {
@@ -43,7 +48,8 @@ public final class InterfaceManager {
 
     public static ISettingStorage getSettings(){
         //return new DummySettingStorage(true);
-        return new SettingManager(mainActivity.getSharedPreferences("data", 0));
+
+        return new SettingManager(getContext().getSharedPreferences("data", 0));
     }
 
     public static ICsvGetter getBufferGetter() {
