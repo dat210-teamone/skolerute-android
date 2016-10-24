@@ -42,20 +42,35 @@ public class SchoolStorage implements IStorage {
             if (serializedVacationDays.exists() && !serializedVacationDays.isDirectory()) {
                 deserializeSchoolObjects(SerializeType.VACATION_DAYS);
             } else {
-                readSchoolVacationDayCsv(bufferGetter.getSchoolDayReader());
+                loadSchoolVacationDays();
+                //readSchoolVacationDayCsv(bufferGetter.getSchoolDayReader());
             }
 
             if (serialisedSchoolInfo.exists() && !serialisedSchoolInfo.isDirectory()) {
                 deserializeSchoolObjects(SerializeType.SCHOOL_INFO);
             } else {
-                readSchoolInfoCsv(bufferGetter.getSchoolReader());
+                loadSchoolInfo();
+                //readSchoolInfoCsv(bufferGetter.getSchoolReader());
             }
         }
         else{
-            readSchoolInfoCsv(bufferGetter.getSchoolReader());
-            readSchoolVacationDayCsv(bufferGetter.getSchoolDayReader());
+            loadSchoolVacationDays();
+            loadSchoolInfo();
+
+            //readSchoolInfoCsv(bufferGetter.getSchoolReader());
+            //readSchoolVacationDayCsv(bufferGetter.getSchoolDayReader());
         }
         return this;
+    }
+
+    private void loadSchoolInfo(){
+
+        serializeSchoolObjects(SerializeType.SCHOOL_INFO);
+    }
+
+    private void loadSchoolVacationDays(){
+
+        serializeSchoolObjects(SerializeType.VACATION_DAYS);
     }
 
     private void serializeSchoolObjects(SerializeType selector) {

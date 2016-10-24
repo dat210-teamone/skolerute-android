@@ -1,10 +1,11 @@
-package com.github.dat210_teamone.skolerute.data;
+package com.github.dat210_teamone.skolerute.data.SchoolInfoGetter;
 
 import android.os.AsyncTask;
 
-import com.github.dat210_teamone.skolerute.data.interfaces.ICsvGetter;
+import com.github.dat210_teamone.skolerute.data.GetPageInfoTask;
+import com.github.dat210_teamone.skolerute.data.InterfaceManager;
+import com.github.dat210_teamone.skolerute.data.OneUtils;
 import com.github.dat210_teamone.skolerute.model.PageInfo;
-import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,29 +16,34 @@ import java.net.URL;
 import java.util.HashMap;
 
 /**
- * Created by Fredrik Wigsnes on 26.09.2016.
+ * Created by Nicolas on 24.10.2016.
  */
 
-public class CsvReaderGetter implements ICsvGetter {
+public class OpenStavangerUtils {
+
+    private static HashMap<String, PageInfo> infoCache = new HashMap<>();
 
     public static void initData(){
         try {
-            String u = "http://open.stavanger.kommune.no/dataset/skoler-stavanger";
-            String u2 = "http://open.stavanger.kommune.no/dataset/skolerute-stavanger";
+            String s1 = "http://open.stavanger.kommune.no/dataset/skoler-stavanger";
+            String s2 = "http://open.stavanger.kommune.no/dataset/skolerute-stavanger";
+            String g1 = "http://open.stavanger.kommune.no/dataset/skoler-i-gjesdal-kommune";
+            String g2 = "http://open.stavanger.kommune.no/dataset/skoleruten-for-gjesdal-kommune";
             //PageInfo info1 = new PageInfo(u, "http://open.stavanger.kommune.no/dataset/86d3fe44-111e-4d82-be5a-67a9dbfbfcbb/resource/32d52130-ce7c-4282-9d37-3c68c7cdba92/download/skoler.csv", "");
             //PageInfo info2 = new PageInfo(u2, "http://open.stavanger.kommune.no/dataset/86d3fe44-111e-4d82-be5a-67a9dbfbfcbb/resource/32d52130-ce7c-4282-9d37-3c68c7cdba92/download/skolerute-2016-17.csv", "");
-            PageInfo info1 = new PageInfo(u, "http://nicroware.com/skoler.csv", "");
-            PageInfo info2 = new PageInfo(u2, "http://nicroware.com/skolerute-2016-17.csv", "");
-            infoCache.put(u, info1);
-            infoCache.put(u2, info2);
+            PageInfo info1 = new PageInfo(s1, "http://nicroware.com/skoler.csv", "");
+            PageInfo info2 = new PageInfo(s2, "http://nicroware.com/skolerute-2016-17.csv", "");
+            PageInfo info3 = new PageInfo(g1, "http://nicroware.com/barne--og-ungdomsskoler-gjesdal-kommune.csv", "");
+            PageInfo info4 = new PageInfo(g2, "http://nicroware.com/skolerute-gjesdal-kommune2.csv", "");
+            infoCache.put(s1, info1);
+            infoCache.put(s2, info2);
+            infoCache.put(g1, info3);
+            infoCache.put(g2, info4);
         }
         catch (Exception e){
             e.printStackTrace();
         }
     }
-
-    private static HashMap<String, PageInfo> infoCache = new HashMap<>();
-
 
     public static BufferedReader getFileReader(String url) {
         try {
@@ -63,6 +69,23 @@ public class CsvReaderGetter implements ICsvGetter {
         return null;
     }
 
+    public static String lastCsvUrl(String s){
+        String searchString = "class=\"resource-item\" data-id=\"";
+        int i = s.lastIndexOf(searchString);
+        int begin = s.indexOf("<a href=\"http://open.stavanger.kommune.no/", i) + 9;
+        int end = s.indexOf('"', begin);
+        return s.substring(begin, end);
+    }
+
+    public static String lastUpdated(String s){
+        String searchString = "<th scope=\"row\" class=\"dataset-label\">Last Updated</th>";
+        int i = s.indexOf(searchString);
+        int begin = s.indexOf("<span class=\"automatic-local-datetime\" data-datetime=\"", i) + 80;
+        int end = s.indexOf("<", begin);
+        String date = s.substring(begin, end).trim();
+        //SchoolManager.getDefault().setLastUpdateTime(date);
+        return date;
+    }
 
     public static PageInfo getInfo(String url) {
         if (infoCache.isEmpty()){
@@ -97,35 +120,4 @@ public class CsvReaderGetter implements ICsvGetter {
         return !(getInfo(url).getLastUpdated().equals(InterfaceManager.getSettings().getLastUpdateTime()));
     }
 
-    public static String lastCsvUrl(String s){
-        String searchString = "class=\"resource-item\" data-id=\"";
-        int i = s.lastIndexOf(searchString);
-        int begin = s.indexOf("<a href=\"http://open.stavanger.kommune.no/", i) + 9;
-        int end = s.indexOf('"', begin);
-        return s.substring(begin, end);
-    }
-
-    public static String lastUpdated(String s){
-        String searchString = "<th scope=\"row\" class=\"dataset-label\">Last Updated</th>";
-        int i = s.indexOf(searchString);
-        int begin = s.indexOf("<span class=\"automatic-local-datetime\" data-datetime=\"", i) + 80;
-        int end = s.indexOf("<", begin);
-        String date = s.substring(begin, end).trim();
-        //SchoolManager.getDefault().setLastUpdateTime(date);
-        return date;
-    }
-
-    @Override
-    public BufferedReader getSchoolReader() {
-        //http://open.stavanger.kommune.no/dataset/dfb9b81c-d9a2-4542-8f63-7584a3594e02/resource/b55f5f5a-ffac-47f2-ad57-d439f696cc87/download/barne--og-ungdomsskoler-gjesdal-kommune.csv
-        //http://open.stavanger.kommune.no/dataset/skoler-i-gjesdal-kommune
-        return getFileReader(getFileUrl("http://open.stavanger.kommune.no/dataset/skoler-stavanger"));
-    }
-
-    @Override
-    public BufferedReader getSchoolDayReader() {
-        //http://open.stavanger.kommune.no/dataset/c1a060b6-350c-433d-ac78-964ae8b0a9e3/resource/667ed24a-d3a0-4210-9086-f1d336429081/download/skolerute-gjesdal-kommune2.csv
-        //http://open.stavanger.kommune.no/dataset/skoleruten-for-gjesdal-kommune
-        return getFileReader(getFileUrl("http://open.stavanger.kommune.no/dataset/skolerute-stavanger"));
-    }
 }

@@ -3,9 +3,12 @@ package com.github.dat210_teamone.skolerute.data;
 import android.app.Activity;
 import android.content.Context;
 
+import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.GjesdalSchoolInfoGetter;
+import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.StavangerSchoolInfoGetter;
 import com.github.dat210_teamone.skolerute.data.dummy.DummySettingStorage;
 import com.github.dat210_teamone.skolerute.data.dummy.DummyStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.ICsvGetter;
+import com.github.dat210_teamone.skolerute.data.interfaces.ISchoolInfoGetter;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
 
@@ -45,8 +48,6 @@ public final class InterfaceManager {
         return new CsvFileReader().initializeReader();
     }
 
-
-
     public static ISettingStorage getSettings(){
         //return new DummySettingStorage(true);
 
@@ -55,5 +56,14 @@ public final class InterfaceManager {
 
     public static ICsvGetter getBufferGetter() {
         return new CsvReaderGetter();
+    }
+
+    public static ISchoolInfoGetter[] getSchoolGetters()
+    {
+        return new ISchoolInfoGetter[]
+        {
+            new StavangerSchoolInfoGetter(),
+            new GjesdalSchoolInfoGetter()
+        };
     }
 }
