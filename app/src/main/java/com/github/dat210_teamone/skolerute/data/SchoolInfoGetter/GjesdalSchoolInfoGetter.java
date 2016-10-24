@@ -30,7 +30,7 @@ public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
     @Override
     public SchoolInfo[] getAllSchoolInfo() {
         PageInfo info = OpenStavangerUtils.getInfo(schoolInfoURL);
-        ArrayList<SchoolInfo> allInfos = readSchoolInfoCsv(OpenStavangerUtils.getFileReader(info.getBaseURL()));
+        ArrayList<SchoolInfo> allInfos = readSchoolInfoCsv(OpenStavangerUtils.getFileReader(info.getCsvURL()));
 
         return allInfos.toArray(new SchoolInfo[allInfos.size()]);
     }
@@ -38,7 +38,7 @@ public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
     @Override
     public SchoolVacationDay[] getAllSchoolVacationDays() {
         PageInfo info = OpenStavangerUtils.getInfo(schoolVacationURL);
-        ArrayList<SchoolVacationDay> allInfos = readSchoolVacationDayCsv(OpenStavangerUtils.getFileReader(info.getBaseURL()));
+        ArrayList<SchoolVacationDay> allInfos = readSchoolVacationDayCsv(OpenStavangerUtils.getFileReader(info.getCsvURL()));
 
         return allInfos.toArray(new SchoolVacationDay[allInfos.size()]);
     }
@@ -53,12 +53,12 @@ public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
                 SchoolInfo tmpInfo = new SchoolInfo();
                 tmpInfo.setNorth(Double.parseDouble(attribs[0]));
                 tmpInfo.setEast(Double.parseDouble((attribs[1])));
-                tmpInfo.setLongitude(Double.parseDouble(attribs[2]));
-                tmpInfo.setLatitude(Double.parseDouble(attribs[3]));
-                tmpInfo.setSchoolName(attribs[4]);
-                tmpInfo.setAddress(attribs[5]);
-                tmpInfo.setHomePage(attribs[7]);
-                tmpInfo.setInformation(attribs[9] + " " + attribs[10]);
+                tmpInfo.setLongitude(Double.parseDouble(attribs[2] + "." + attribs[3]));
+                tmpInfo.setLatitude(Double.parseDouble(attribs[4] + "." + attribs[5]));
+                tmpInfo.setSchoolName(attribs[6]);
+                tmpInfo.setAddress(attribs[7]);
+                tmpInfo.setHomePage(attribs[9]);
+                tmpInfo.setInformation(attribs[11] + " " + attribs[12]);
 
                 /*tmpInfo.setId(Integer.parseInt(attribs[4]));
                 tmpInfo.setObjectType(attribs[5]);
@@ -94,7 +94,7 @@ public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
 
                 String[] attrib = line.split(",");
                 SchoolVacationDay tmpVacationDay = new SchoolVacationDay();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
                 tmpVacationDay.setDate(formatter.parse(attrib[0]));
                 tmpVacationDay.setName(attrib[1]);
                 tmpVacationDay.setStudentDay(attrib[2].equals("Ja"));
@@ -116,7 +116,7 @@ public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
                 vacationDays.add(tmpVacationDay);
             }
             loadedSchools = new String[tempSchools.size()];
-            tempSchools.toArray(loadedSchools);
+            loadedSchools = tempSchools.toArray(loadedSchools);
             reader.close();
             //serializeSchoolObjects(CsvFileReader.SerializeType.VACATION_DAYS);
         } catch(IOException | ParseException e) {

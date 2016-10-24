@@ -36,7 +36,7 @@ public class StavangerSchoolInfoGetter implements ISchoolInfoGetter {
     @Override
     public SchoolInfo[] getAllSchoolInfo() {
         PageInfo info = OpenStavangerUtils.getInfo(schoolInfoURL);
-        ArrayList<SchoolInfo> allInfos = readSchoolInfoCsv(OpenStavangerUtils.getFileReader(info.getBaseURL()));
+        ArrayList<SchoolInfo> allInfos = readSchoolInfoCsv(OpenStavangerUtils.getFileReader(info.getCsvURL()));
 
         return allInfos.toArray(new SchoolInfo[allInfos.size()]);
     }
@@ -44,7 +44,7 @@ public class StavangerSchoolInfoGetter implements ISchoolInfoGetter {
     @Override
     public SchoolVacationDay[] getAllSchoolVacationDays() {
         PageInfo info = OpenStavangerUtils.getInfo(schoolVacationURL);
-        ArrayList<SchoolVacationDay> allInfos = readSchoolVacationDayCsv(OpenStavangerUtils.getFileReader(info.getBaseURL()));
+        ArrayList<SchoolVacationDay> allInfos = readSchoolVacationDayCsv(OpenStavangerUtils.getFileReader(info.getCsvURL()));
 
         return allInfos.toArray(new SchoolVacationDay[allInfos.size()]);
     }
@@ -120,7 +120,7 @@ public class StavangerSchoolInfoGetter implements ISchoolInfoGetter {
                 vacationDays.add(tmpVacationDay);
             }
             loadedSchools = new String[tempSchools.size()];
-            tempSchools.toArray(loadedSchools);
+            loadedSchools = tempSchools.toArray(loadedSchools);
             reader.close();
             //serializeSchoolObjects(CsvFileReader.SerializeType.VACATION_DAYS);
         } catch(IOException | ParseException e) {

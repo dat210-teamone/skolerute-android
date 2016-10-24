@@ -45,7 +45,8 @@ public final class InterfaceManager {
 
     public static IStorage getStorage() {
         //return new DummyStorage();
-        return new CsvFileReader().initializeReader();
+        //return new CsvFileReader().initializeReader();
+        return new SchoolStorage().initializeStorage();
     }
 
     public static ISettingStorage getSettings(){

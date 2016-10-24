@@ -23,6 +23,15 @@ public class SchoolStorage implements IStorage {
     private ArrayList<SchoolVacationDay> schoolVacationDays = new ArrayList<>();
     private boolean useCache;
 
+    public SchoolStorage(){
+        this(InterfaceManager.getSchoolGetters());
+
+    }
+
+    public SchoolStorage(ISchoolInfoGetter[] schoolGetters){
+        this.schoolInfoGetters = schoolGetters;
+    }
+
     private ISchoolInfoGetter[] schoolInfoGetters;
 
     private enum SerializeType {
