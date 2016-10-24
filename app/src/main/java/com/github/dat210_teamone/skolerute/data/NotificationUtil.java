@@ -18,6 +18,7 @@ import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by Fredrik Wigsnes on 05.10.2016.
@@ -45,9 +46,13 @@ public class NotificationUtil {
     }
 
     public void createNotification() {
+        HashSet hs = new HashSet();
         for (SchoolInfo s : SM.getSelectedSchools()) {
             for (SchoolVacationDay v : SM.getNextVacationDays(s.getSchoolName())) {
-                createNotification(v);
+                if (!hs.contains(v.getDate())) {
+                    hs.add(v.getDate());
+                    createNotification(v);
+                }
             }
         }
     }
@@ -57,8 +62,8 @@ public class NotificationUtil {
     public void createNotification(SchoolVacationDay SVD) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(SVD.getDate());
-        calendar.set(Calendar.HOUR_OF_DAY, 8);
-        calendar.set(Calendar.MINUTE, 20);
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 05);
         calendar.set(Calendar.SECOND, 0);
 
         Intent i = new Intent(con, NotificationReceiver.class);
