@@ -1,6 +1,7 @@
 package com.github.dat210_teamone.skolerute.data;
 
 import com.android.internal.util.Predicate;
+import com.github.dat210_teamone.skolerute.data.interfaces.ISchoolInfoGetter;
 import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
@@ -21,6 +22,8 @@ public class SchoolStorage implements IStorage {
     private ArrayList<SchoolInfo> schoolInfos = new ArrayList<>();
     private ArrayList<SchoolVacationDay> schoolVacationDays = new ArrayList<>();
     private boolean useCache;
+
+    private ISchoolInfoGetter[] schoolInfoGetters;
 
     private enum SerializeType {
         SCHOOL_INFO,
@@ -64,12 +67,16 @@ public class SchoolStorage implements IStorage {
     }
 
     private void loadSchoolInfo(){
-
+        for(int i = 0; i < schoolInfoGetters.length; i++){
+            schoolInfos.addAll(OneUtils.toArrayList(schoolInfoGetters[i].getAllSchoolInfo()));
+        }
         serializeSchoolObjects(SerializeType.SCHOOL_INFO);
     }
 
     private void loadSchoolVacationDays(){
-
+        for(int i = 0; i < schoolInfoGetters.length; i++){
+            schoolVacationDays.addAll(OneUtils.toArrayList(schoolInfoGetters[i].getAllSchoolVacationDays()));
+        }
         serializeSchoolObjects(SerializeType.VACATION_DAYS);
     }
 

@@ -2,6 +2,7 @@ package com.github.dat210_teamone.skolerute.data.SchoolInfoGetter;
 
 import com.github.dat210_teamone.skolerute.data.OneUtils;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISchoolInfoGetter;
+import com.github.dat210_teamone.skolerute.model.PageInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
@@ -18,6 +19,8 @@ import java.util.Locale;
 
 public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
 
+    private String schoolInfoURL = "http://open.stavanger.kommune.no/dataset/skoler-i-gjesdal-kommune";
+    private String schoolVacationURL = "http://open.stavanger.kommune.no/dataset/skoleruten-for-gjesdal-kommune";
 
     @Override
     public boolean IsUpToDate() {
@@ -26,12 +29,18 @@ public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
 
     @Override
     public SchoolInfo[] getAllSchoolInfo() {
-        return new SchoolInfo[0];
+        PageInfo info = OpenStavangerUtils.getInfo(schoolInfoURL);
+        ArrayList<SchoolInfo> allInfos = readSchoolInfoCsv(OpenStavangerUtils.getFileReader(info.getBaseURL()));
+
+        return allInfos.toArray(new SchoolInfo[allInfos.size()]);
     }
 
     @Override
     public SchoolVacationDay[] getAllSchoolVacationDays() {
-        return new SchoolVacationDay[0];
+        PageInfo info = OpenStavangerUtils.getInfo(schoolVacationURL);
+        ArrayList<SchoolVacationDay> allInfos = readSchoolVacationDayCsv(OpenStavangerUtils.getFileReader(info.getBaseURL()));
+
+        return allInfos.toArray(new SchoolVacationDay[allInfos.size()]);
     }
 
     private ArrayList<SchoolInfo> readSchoolInfoCsv(BufferedReader reader) {
@@ -48,17 +57,16 @@ public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
                 tmpInfo.setLatitude(Double.parseDouble(attribs[3]));
                 tmpInfo.setSchoolName(attribs[4]);
                 tmpInfo.setAddress(attribs[5]);
+                tmpInfo.setHomePage(attribs[7]);
+                tmpInfo.setInformation(attribs[9] + " " + attribs[10]);
 
-                tmpInfo.setId(Integer.parseInt(attribs[4]));
+                /*tmpInfo.setId(Integer.parseInt(attribs[4]));
                 tmpInfo.setObjectType(attribs[5]);
                 tmpInfo.setKomm(Integer.parseInt(attribs[6]));
                 tmpInfo.setByggTyp_NBR(Integer.parseInt(attribs[7]));
-                tmpInfo.setInformation(attribs[8]);
-
-
-                tmpInfo.setHomePage(attribs[11]);
                 tmpInfo.setSudents(attribs[12]);
-                tmpInfo.setCapacity(attribs[13]);
+                tmpInfo.setCapacity(attribs[13]);*/
+
                 if (loadedSchools.length == 0 || OneUtils.Contains(loadedSchools, (a) -> a.equals(tmpInfo.getSchoolName()))) {
                     schoolInfos.add(tmpInfo);
                 }
@@ -90,10 +98,10 @@ public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
                 tmpVacationDay.setDate(formatter.parse(attrib[0]));
                 tmpVacationDay.setName(attrib[1]);
                 tmpVacationDay.setStudentDay(attrib[2].equals("Ja"));
-                tmpVacationDay.setTeacherDay(attrib[3].equals("Ja"));
-                tmpVacationDay.setSfoDay(attrib[4].equals("Ja"));
+                //tmpVacationDay.setTeacherDay(attrib[3].equals("Ja"));
+                tmpVacationDay.setSfoDay(attrib[3].equals("Ja"));
                 if(attrib.length == 6) {
-                    tmpVacationDay.setComment(attrib[5]);
+                    tmpVacationDay.setComment(attrib[4]);
                 } else {
                     tmpVacationDay.setComment("");
                 }
