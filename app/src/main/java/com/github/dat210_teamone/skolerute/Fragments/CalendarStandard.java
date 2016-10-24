@@ -79,8 +79,8 @@ public class CalendarStandard extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+                           Bundle savedInstanceState) {
+        /*
         View view = inflater.inflate(R.layout.fragment_calendar_standard, container, false);
 
         events = new HashSet<>();
@@ -120,6 +120,44 @@ public class CalendarStandard extends Fragment {
 
         return view;
     }
+
+    */
+        View view = inflater.inflate(R.layout.noe_til_bla, container, false);
+
+        events = new HashSet<>();
+        events.add(new Date());
+
+        MainActivity mainActivity = (MainActivity)getActivity();
+
+        SchoolInfo school=mainActivity.selectedSchools[0];
+        SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getSelectedSchoolDays();
+        Date[] days=new Date[vacationDays.length];
+
+
+        for (int x=0; x<vacationDays.length; x++){
+            days[x]=vacationDays[x].getDate();
+        }
+
+        calView.setEventHandler(new CalendarViewer.EventHandler() {
+            @Override
+            public void onDayLongPress(Date date)
+            {
+                DateFormat df = SimpleDateFormat.getDateInstance();
+                Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        calendarView = (Button)view.findViewById(R.id.vis_kalender);
+        calendarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.goToCalendarList();
+            }
+        });
+
+        return view;
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
