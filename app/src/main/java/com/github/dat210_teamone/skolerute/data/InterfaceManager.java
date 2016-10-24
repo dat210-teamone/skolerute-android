@@ -25,6 +25,7 @@ public final class InterfaceManager {
 
     public static void SetMainActivity(Activity activity){
         mainActivity = activity;
+        context = activity.getApplicationContext();
     }
 
     public static void SetMainActivity(Context context){
