@@ -23,11 +23,12 @@ public class NotificationReceiver extends BroadcastReceiver {
     SchoolManager SM;
 
     public NotificationReceiver() {
-        SM = SchoolManager.getDefault();
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        SM = SchoolManager.getDefault();
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
