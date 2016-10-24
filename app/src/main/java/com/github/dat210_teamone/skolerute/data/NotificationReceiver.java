@@ -27,12 +27,15 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        InterfaceManager.SetMainActivity(context);
         SM = SchoolManager.getDefault();
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent resultIntent = new Intent(context, MainActivity.class);
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(resultIntent);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 1233, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(resultPendingIntent);
         mBuilder.setAutoCancel(true);
