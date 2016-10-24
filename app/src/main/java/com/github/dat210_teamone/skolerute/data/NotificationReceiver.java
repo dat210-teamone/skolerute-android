@@ -27,21 +27,22 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        InterfaceManager.SetMainActivity(context);
-        SM = SchoolManager.getDefault();
+        //InterfaceManager.SetMainActivity(context);
+        //SM = SchoolManager.getDefault();
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent resultIntent = new Intent(context, MainActivity.class);
-        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(resultIntent);
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 1233, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(resultPendingIntent);
-        mBuilder.setAutoCancel(true);
+        //Intent resultIntent = new Intent(context, MainActivity.class);
+        //resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //context.startActivity(resultIntent);
+        //PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 1233, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //mBuilder.setContentIntent(resultPendingIntent);
+        //mBuilder.setAutoCancel(true);
 
-        String title = "";
-        String comment = "";
+        String title = "Title";
+        String comment = "comment";
+        /*
         SchoolVacationDay SVD;
         for (SchoolInfo x : SM.getSelectedSchools()) {
             SVD = SM.getNextVacationDay(x.getSchoolName(), false);
@@ -54,6 +55,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                 comment += SVD.getComment() + " ";
             }
         }
+        */
         mBuilder.setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setContentText(comment);
         mNotificationManager.notify(0, mBuilder.build());
     }

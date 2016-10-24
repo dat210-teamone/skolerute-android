@@ -63,7 +63,7 @@ public class NotificationUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(SVD.getDate());
         calendar.set(Calendar.HOUR_OF_DAY, 10);
-        calendar.set(Calendar.MINUTE, 10);
+        calendar.set(Calendar.MINUTE, 20);
         calendar.set(Calendar.SECOND, 0);
 
         Intent i = new Intent(con, NotificationReceiver.class);
