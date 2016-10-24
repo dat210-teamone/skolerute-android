@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
@@ -38,8 +40,6 @@ public class CalendarStandard extends Fragment {
 
     private CalendarViewer calView;
     private HashSet<Date> events ;
-    private Button calendarView;
-
 
     private String mParam1;
     private String mParam2;
@@ -137,23 +137,6 @@ public class CalendarStandard extends Fragment {
         for (int x=0; x<vacationDays.length; x++){
             days[x]=vacationDays[x].getDate();
         }
-
-        calView.setEventHandler(new CalendarViewer.EventHandler() {
-            @Override
-            public void onDayLongPress(Date date)
-            {
-                DateFormat df = SimpleDateFormat.getDateInstance();
-                Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        calendarView = (Button)view.findViewById(R.id.vis_kalender);
-        calendarView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainActivity.goToCalendarList();
-            }
-        });
 
         return view;
     }
