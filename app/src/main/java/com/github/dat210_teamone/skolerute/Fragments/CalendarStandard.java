@@ -7,9 +7,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ScrollView;
+import android.widget.Scroller;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
@@ -17,6 +21,8 @@ import com.github.dat210_teamone.skolerute.adapters.CalendarViewer;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -77,7 +83,7 @@ public class CalendarStandard extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-        /*
+
         View view = inflater.inflate(R.layout.fragment_calendar_standard, container, false);
 
         events = new HashSet<>();
@@ -107,24 +113,21 @@ public class CalendarStandard extends Fragment {
             }
         });
 
-        calendarView = (Button)view.findViewById(R.id.vis_kalender);
-        calendarView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainActivity.goToCalendarList();
-            }
-        });
-
         return view;
     }
 
-    */
+    /*
         View view = inflater.inflate(R.layout.noe_til_bla, container, false);
 
         MainActivity mainActivity = (MainActivity)getActivity();
 
-        events = new HashSet<>();
-        events.add(new Date());
+        SchoolInfo school=mainActivity.selectedSchools[0];
+        SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getSelectedSchoolDays();
+        Date[] days=new Date[vacationDays.length];
+
+        for (int x=0; x<vacationDays.length; x++){
+            days[x]=vacationDays[x].getDate();
+        }
 
         Date[][] cells=new Date[6][7];
         Calendar calendar = Calendar.getInstance();
@@ -147,27 +150,16 @@ public class CalendarStandard extends Fragment {
             for (int i = 0; i < 7; i++) {
                 TextView textView = new TextView(mainActivity);
                 textView.setText(cells[x][i].getDate());
+                textView.setTextColor(222222);
                 row.addView(textView);
             }
             table.addView(row);
         }
 
-        SchoolInfo school=mainActivity.selectedSchools[0];
-        SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getSelectedSchoolDays();
-        Date[] days=new Date[vacationDays.length];
-
-
-        for (int x=0; x<vacationDays.length; x++){
-            days[x]=vacationDays[x].getDate();
-
-        }
-
-
-
         return view;
     }
 
-
+    */
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.R;
@@ -42,6 +44,7 @@ public class CalendarViewer extends LinearLayout {
     private ImageView btnNext;
     private TextView txtDate;
     private GridView grid;
+    private ScrollView scroller;
 
     public CalendarViewer(Context context) {
         super(context);
@@ -65,6 +68,7 @@ public class CalendarViewer extends LinearLayout {
         loadDateFormat(attrs);
         assignUiElements();
         assignClickHandlers();
+    //    assignScrollHandler();
 
         updateCalendar();
     }
@@ -83,12 +87,12 @@ public class CalendarViewer extends LinearLayout {
     }
 
     private void assignUiElements() {
-
         header = (LinearLayout)findViewById(R.id.calendar_header);
         btnPrev = (ImageView)findViewById(R.id.calendar_prev_button);
         btnNext = (ImageView)findViewById(R.id.calendar_next_button);
         txtDate = (TextView)findViewById(R.id.calendar_date_display);
         grid = (GridView)findViewById(R.id.calendar_grid);
+        scroller = (ScrollView)findViewById(R.id.scroller);
     }
 
     private void assignClickHandlers() {
@@ -123,7 +127,16 @@ public class CalendarViewer extends LinearLayout {
             }
         });
     }
+/*
+    private void assignScrollHandler(){
+        scroller.setOn(new OnScrollChangeListener() {
+           @Override
+           public void onScrollChange(View view, int i, int i1, int i2, int i3) {
 
+           }
+       });
+    }
+*/
     public void updateCalendar(){
         updateCalendar(null);
     }
