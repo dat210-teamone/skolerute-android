@@ -1,10 +1,8 @@
 package com.github.dat210_teamone.skolerute.Activities;
 
-import android.Manifest;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,13 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.dat210_teamone.skolerute.Fragments.AddSchools;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
-import com.github.dat210_teamone.skolerute.data.CallendarExporter;
+import com.github.dat210_teamone.skolerute.data.CalendarExporter;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.data.UpdateService;
@@ -35,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     public SchoolInfo[] allSchools;// = schoolManager.getSchoolInfo();
     public SchoolInfo[] selectedSchools;// = schoolManager.getSelectedSchools();
     public String[] allSchoolNames;// = new String[allSchools.length];
+
+    final int MY_PERMISSIONS_REQUEST_READ_WRITE_CALENDAR = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,21 +78,37 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         // END - Set up AlarmManager update service
 
         // TEST START - Export to google calendar
-        CallendarExporter callendarExporter = new CallendarExporter();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        callendarExporter.exportToGoogle();
+        CalendarExporter calendarExporter = new CalendarExporter(this);
+        calendarExporter.getCalendarPermissions();
+        calendarExporter.exportToGoogle();
         // TEST END - Export to google calendar
     }
-    
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_WRITE_CALENDAR: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! do the
+                    // calendar task you need to do.
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(MainActivity.this, "Permission denied to read/write to calendar", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            // other 'switch' lines to check for other
+            // permissions this app might request
+        }
+    }
+
     public void showSchools(View view) {
 
     }
