@@ -3,8 +3,6 @@ package com.github.dat210_teamone.skolerute.data;
 import android.app.Activity;
 import android.content.Context;
 
-import com.github.dat210_teamone.skolerute.data.dummy.DummySettingStorage;
-import com.github.dat210_teamone.skolerute.data.dummy.DummyStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.ICsvGetter;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
@@ -35,8 +33,8 @@ public final class InterfaceManager {
     }
 
     public static IStorage getStorage() {
-        return new DummyStorage();
-        //return new CsvFileReader().initializeReader();
+        //return new DummyStorage();
+        return new CsvFileReader().initializeReader();
     }
 
 
