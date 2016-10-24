@@ -94,6 +94,8 @@ public class AddSchools extends Fragment {
         AddSchoolsAdapter itemsAdapter =
                 new AddSchoolsAdapter(mainActivity, mainActivity.allSchoolNames);
 
+
+
         finished = (LinearLayout)view.findViewById(R.id.finished_container);
         finished.setOnClickListener(new View.OnClickListener() {
             @Override

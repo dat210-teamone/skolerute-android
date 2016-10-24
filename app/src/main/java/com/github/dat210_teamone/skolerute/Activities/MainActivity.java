@@ -35,8 +35,11 @@ import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.data.UpdateService;
 import com.github.dat210_teamone.skolerute.data.locationService.LocationFinder;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
+import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, SearchSchools.OnSearchSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
@@ -53,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     public InputMethodManager inputMethodManager;
     Location lastKnownLocation;
 
+    public static Set<String> schoolsToView = new HashSet<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -66,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         }
 
         initSchoolData();
+
+        initCheckedSchools();
+
 
         inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -128,6 +136,12 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         allSchoolNames = new String[allSchools.length];
     }
 
+    public void initCheckedSchools() {
+         for (int i=0; i<selectedSchools.length;i++){
+            schoolsToView.add(selectedSchools[i].getSchoolName());
+         }
+    }
+
     private boolean getAndCheckPermission(String permission) {
         int permissinCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissinCheck != PackageManager.PERMISSION_GRANTED) {
@@ -188,29 +202,46 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     public void goToStoredSchools() {
-        goTo(new StoredSchools());
+        replaceMainFragment(new StoredSchools());
+        replaceSecondaryFragment(new CalendarList());
     }
 
     public void goToAddSchools() {
-        goTo(new AddSchools());
+        replaceMainFragment(new AddSchools());
     }
 
     public void goToCalendarList() {
-        goTo(new CalendarList());
+        replaceMainFragment(new CalendarList());
     }
 
     public void goToCalendarView() {
-        goTo(new CalendarStandard());
+        replaceMainFragment(new CalendarStandard());
     }
 
     public void goToSearchSchool() {
-        goTo(new SearchSchools());
+        replaceMainFragment(new SearchSchools());
     }
 
-    public void goTo(Fragment fragment){
+    public void viewCalendar() {
+        replaceSecondaryFragment(new CalendarStandard());
+    }
+
+    public void viewCalendarList() {
+        replaceSecondaryFragment(new CalendarList());
+    }
+
+
+    public void replaceMainFragment(Fragment fragment){
         this.fragment = fragment;
         fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container, fragment);
+        fragTrans.commit();
+    }
+
+    public void replaceSecondaryFragment(Fragment fragment){
+        this.fragment = fragment;
+        fragTrans = manager.beginTransaction();
+        fragTrans.replace(R.id.fragment_container_secondary, fragment);
         fragTrans.commit();
     }
 
