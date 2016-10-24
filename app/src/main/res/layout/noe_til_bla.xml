@@ -77,44 +77,6 @@
                     android:text="Søn"/>
             </TableRow>
 
-            <TableRow
-                android:id="@+id/week1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:id="@+id/week2"
-                android:layout_height="match_parent">
-            </TableRow>
-
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/week3">
-            </TableRow>
-
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/week4">
-            </TableRow>
-
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/week5">
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/week6">
-            </TableRow>
 
         </TableLayout>
 

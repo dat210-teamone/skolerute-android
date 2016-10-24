@@ -141,12 +141,12 @@ public class CalendarStandard extends Fragment {
 
         for(int x=1; x<7; x++) {
             TableRow row=new TableRow(mainActivity);
-            table.addView(row);
-            for (int i = 0; i < cells.size(); i++) {
+            for (int i = 0; i < 7; i++) {
                 TextView textView = new TextView(mainActivity);
-                textView.setText(celer[x].toString());
+                textView.setText("text");
                 row.addView(textView);
             }
+            table.addView(row);
         }
 
         SchoolInfo school=mainActivity.selectedSchools[0];
