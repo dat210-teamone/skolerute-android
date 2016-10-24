@@ -20,6 +20,7 @@ import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
 import com.github.dat210_teamone.skolerute.adapters.VacationDaysListAdapter;
+import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
@@ -32,7 +33,7 @@ public class CalendarList extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private ListView calendarList;
-    private Button list;
+    private SchoolVacationDay[] vacationDays;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -79,25 +80,14 @@ public class CalendarList extends Fragment {
 
         MainActivity mainActivity = (MainActivity) getActivity();
 
-        int number = mainActivity.getPosisjon();
-
-        SchoolInfo school = mainActivity.selectedSchools[number];
-        SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getNextVacationDays(school.getSchoolName());
-        Date[] days = new Date[vacationDays.length];
-        String date[] = new String[days.length];
-
-        for (int x = 0; x < vacationDays.length; x++) {
-            days[x] = vacationDays[x].getDate();
-            date[x] = StoredSchoolsAdapter.dateFormatter(days[x]);
-        }
+        String[] checkedSchools = mainActivity.schoolsToView.toArray(new String[mainActivity.schoolsToView.size()]);
+        vacationDays = SchoolManager.getDefault().getNextVacationsDays(checkedSchools);
 
         // Generate objects to display based on selected schools
-        VacationDaysListAdapter calendarListAdapter = new VacationDaysListAdapter(mainActivity, mainActivity.schoolManager.getSelectedSchoolDays());
+        VacationDaysListAdapter calendarListAdapter = new VacationDaysListAdapter(mainActivity, vacationDays);
 
         calendarList = (ListView)view.findViewById(R.id.calendar_list);
         calendarList.setAdapter(calendarListAdapter);
-
-
 
         return view;
     }

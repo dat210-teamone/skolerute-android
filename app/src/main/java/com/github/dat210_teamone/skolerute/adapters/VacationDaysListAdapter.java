@@ -78,7 +78,7 @@ public class VacationDaysListAdapter extends ArrayAdapter {
         View rowView = inflater.inflate(R.layout.vacation_day, parent, false);
 
         // Switch for actual selected schools
-        VacationDaysListAdapter.VacationDayObject vacationDay = new VacationDaysListAdapter.VacationDayObject(SchoolManager.getDefault().getSelectedSchoolDays()[position]);
+        VacationDaysListAdapter.VacationDayObject vacationDay = new VacationDaysListAdapter.VacationDayObject(schoolVacationDays[position]);
 
         TextView schoolName = (TextView) rowView.findViewById(R.id.vacation_day_school_name);
         schoolName.setText(vacationDay.getName());
