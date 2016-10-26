@@ -148,7 +148,8 @@ public class CalendarViewer extends LinearLayout {
         Calendar calendar = (Calendar)currentDate.clone();
 
         calendar.set(Calendar.DAY_OF_MONTH, 1);
-        int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        //calendar.set(Calendar.DAY_OF_WEEK, -1);
+        int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 2;
 
         calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell);
 
