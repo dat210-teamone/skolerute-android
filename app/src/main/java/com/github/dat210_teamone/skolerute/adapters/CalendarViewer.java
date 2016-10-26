@@ -4,14 +4,19 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.DragEvent;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -44,8 +49,9 @@ public class CalendarViewer extends LinearLayout {
     private ImageView btnNext;
     private TextView txtDate;
     private GridView grid;
-    private ScrollView scroller;
+    private HorizontalScrollView scroller;
     private HashSet<Date> events;
+    private GestureDetector gestureDetector;
 
     public CalendarViewer(Context context) {
         super(context);
@@ -65,11 +71,12 @@ public class CalendarViewer extends LinearLayout {
     private void initControl(Context context, AttributeSet attrs) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.control_calendar, this);
+        gestureDetector=new GestureDetector(new MyGestureDetector());
 
         loadDateFormat(attrs);
         assignUiElements();
         assignClickHandlers();
-    //    assignScrollHandler();
+    //  assignScrollHandler();
 
         updateCalendar();
     }
@@ -93,7 +100,7 @@ public class CalendarViewer extends LinearLayout {
         btnNext = (ImageView)findViewById(R.id.calendar_next_button);
         txtDate = (TextView)findViewById(R.id.calendar_date_display);
         grid = (GridView)findViewById(R.id.calendar_grid);
-        scroller = (ScrollView)findViewById(R.id.scroller);
+        scroller = (HorizontalScrollView) findViewById(R.id.scroller);
     }
 
     private void assignClickHandlers() {
@@ -128,16 +135,18 @@ public class CalendarViewer extends LinearLayout {
             }
         });
     }
-/*
-    private void assignScrollHandler(){
-        scroller.setOn(new OnScrollChangeListener() {
-           @Override
-           public void onScrollChange(View view, int i, int i1, int i2, int i3) {
 
-           }
+    private void assignScrollHandler(){
+        scroller.setOnTouchListener(new OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (gestureDetector.onTouchEvent(event)) {
+                    return true;
+                }
+                return false;
+            }
        });
     }
-*/
+
     public void updateCalendar(){
         updateCalendar(null);
     }
@@ -148,7 +157,6 @@ public class CalendarViewer extends LinearLayout {
         Calendar calendar = (Calendar)currentDate.clone();
 
         calendar.set(Calendar.DAY_OF_MONTH, 1);
-        //calendar.set(Calendar.DAY_OF_WEEK, -1);
         int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 2;
 
         calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell);
@@ -166,6 +174,23 @@ public class CalendarViewer extends LinearLayout {
         int month = currentDate.get(Calendar.MONTH);
 
     }
+
+    private class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                               float velocityY) {
+            if (e1.getX() < e2.getX()) {
+                currentDate.add(Calendar.MONTH, 1);
+                updateCalendar(events);
+            } else {
+                currentDate.add(Calendar.MONTH, -1);
+                updateCalendar(events);;
+            }
+            return true;
+        }
+    }
+
+
 
 
     private class CalendarAdapter extends ArrayAdapter<Date>

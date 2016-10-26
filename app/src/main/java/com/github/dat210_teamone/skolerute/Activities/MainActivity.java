@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     public InputMethodManager inputMethodManager;
     Location lastKnownLocation;
 
-    public Set<String> schoolsToView = new HashSet<String>();
+    public Set<String> schoolsToView = new HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
