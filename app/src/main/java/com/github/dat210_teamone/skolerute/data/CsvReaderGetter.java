@@ -50,7 +50,7 @@ public class CsvReaderGetter implements ICsvGetter {
                 GetPageInfoTask task = new GetPageInfoTask();
                 task.execute(u);
 
-                writeStream.write(task.get().getBytes());
+                writeStream.write(task.get());
                 writeStream.close();
             }
 
@@ -76,8 +76,8 @@ public class CsvReaderGetter implements ICsvGetter {
                 URL u = new URL(url);
 
                 GetPageInfoTask task = new GetPageInfoTask();
-                AsyncTask<URL, Void, String> test =  task.execute(u);
-                String s = test.get();
+                AsyncTask<URL, Void, byte[]> test =  task.execute(u);
+                String s = new String(test.get());
                 PageInfo info = new PageInfo(url,lastCsvUrl(s) , lastUpdated(s));
 
                 infoCache.put(url, info);
@@ -113,7 +113,6 @@ public class CsvReaderGetter implements ICsvGetter {
         String date = s.substring(begin, end).trim();
         //SchoolManager.getDefault().setLastUpdateTime(date);
         return date;
-
     }
 
     @Override

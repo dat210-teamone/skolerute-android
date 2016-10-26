@@ -34,7 +34,6 @@
             android:textColor="@color/colorBrightText" />
     </LinearLayout>
 
-
     <ListView
         android:layout_weight="1"
         android:layout_width="match_parent"
