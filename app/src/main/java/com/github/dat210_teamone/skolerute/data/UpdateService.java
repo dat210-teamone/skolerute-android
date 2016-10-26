@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -28,15 +29,16 @@ public class UpdateService extends IntentService {
         Calendar calendar = Calendar.getInstance();
         Log.d("UpdateService", "About to execute UpdateTask at: " + calendar.getTime());
         //TODO: Fix this, see bug on trello for more details
-        //new UpdateTask().doInBackground();
+        new UpdateTask().doInBackground();
     }
 
     private class UpdateTask extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... strings) {
             // TODO: This probably needs some serious refactoring
+
             Log.d("UpdateService", "Calling doInBackground within UpdateTask");
-            Log.d("UpdateService", "Last updated: "+ InterfaceManager.getSettings().getLastUpdateTime());
+            //Log.d("UpdateService", "Last updated: "+ InterfaceManager.getSettings().getLastUpdateTime());
             if(CsvReaderGetter.fileHasBeenUpdated("http://open.stavanger.kommune.no/dataset/skolerute-stavanger")) {
                 Log.d("UpdateService", "New CSV update found");
                 csvFileReader.readSchoolInfoCsv(new CsvReaderGetter().getSchoolReader());

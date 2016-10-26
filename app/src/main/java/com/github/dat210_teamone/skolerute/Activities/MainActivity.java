@@ -98,6 +98,10 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
         NotificationUtil NU = new NotificationUtil(this);
         NU.createNotification();
+
+        // START - Set up AlarmManager update service
+        UpdateService.setUpUpdateService();
+        // END - Set up AlarmManager update service
     }
 
     private void setupNotificationToggle(){
@@ -174,11 +178,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         catch (SecurityException e){
             e.printStackTrace();
         }
-
-
-        // START - Set up AlarmManager update service
-        UpdateService.setUpUpdateService();
-        // END - Set up AlarmManager update service
     }
 
     @Override
