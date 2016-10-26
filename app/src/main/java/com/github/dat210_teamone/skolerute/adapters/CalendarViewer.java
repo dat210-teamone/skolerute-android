@@ -45,6 +45,7 @@ public class CalendarViewer extends LinearLayout {
     private TextView txtDate;
     private GridView grid;
     private ScrollView scroller;
+    private HashSet<Date> events;
 
     public CalendarViewer(Context context) {
         super(context);
@@ -102,7 +103,7 @@ public class CalendarViewer extends LinearLayout {
             public void onClick(View v)
             {
                 currentDate.add(Calendar.MONTH, 1);
-                updateCalendar();
+                updateCalendar(events);
             }
         });
 
@@ -110,7 +111,7 @@ public class CalendarViewer extends LinearLayout {
             @Override
             public void onClick(View v) {
                 currentDate.add(Calendar.MONTH, -1);
-                updateCalendar();
+                updateCalendar(events);
             }
         });
 
@@ -142,6 +143,7 @@ public class CalendarViewer extends LinearLayout {
     }
 
     public void updateCalendar(HashSet<Date> events) {
+        this.events=events;
         ArrayList<Date> cells = new ArrayList<>();
         Calendar calendar = (Calendar)currentDate.clone();
 
@@ -195,7 +197,6 @@ public class CalendarViewer extends LinearLayout {
                     if (eventDate.getDate() == day &&
                             eventDate.getMonth() == month &&
                             eventDate.getYear() == year) {
-
                         view.setBackgroundResource(R.mipmap.ic_exclamation_point_emoticon);
                         break;
                     }

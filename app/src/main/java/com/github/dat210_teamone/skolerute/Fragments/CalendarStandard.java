@@ -90,7 +90,6 @@ public class CalendarStandard extends Fragment {
 
         MainActivity mainActivity = (MainActivity)getActivity();
 
-        SchoolInfo school=mainActivity.selectedSchools[0];
         SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getSelectedSchoolDays();
         Date[] days=new Date[vacationDays.length];
 
