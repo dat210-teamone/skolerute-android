@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
@@ -62,8 +63,8 @@ public class NotificationUtil {
     public void createNotification(SchoolVacationDay SVD) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(SVD.getDate());
-        calendar.set(Calendar.HOUR_OF_DAY, 11);
-        calendar.set(Calendar.MINUTE, 55);
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
         Intent i = new Intent(con, NotificationReceiver.class);

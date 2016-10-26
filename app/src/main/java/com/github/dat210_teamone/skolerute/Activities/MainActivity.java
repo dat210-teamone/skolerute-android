@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
 
         // START - Set up AlarmManager update service
-        UpdateService.setUpUpdateService();
+        //UpdateService.setUpUpdateService();
         // END - Set up AlarmManager update service
     }
 
