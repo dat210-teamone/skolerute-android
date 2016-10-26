@@ -43,7 +43,6 @@ public class CalendarStandard extends Fragment {
 
     private CalendarViewer calView;
     private HashSet<Date> events ;
-    private HashSet<Date> free_days ;
 
     private String mParam1;
     private String mParam2;
@@ -88,7 +87,6 @@ public class CalendarStandard extends Fragment {
         View view = inflater.inflate(R.layout.fragment_calendar_standard, container, false);
 
         events = new HashSet<>();
-        events.add(new Date());
 
         MainActivity mainActivity = (MainActivity)getActivity();
 
@@ -96,15 +94,13 @@ public class CalendarStandard extends Fragment {
         SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getSelectedSchoolDays();
         Date[] days=new Date[vacationDays.length];
 
-        free_days=new HashSet<>();
-
         for (int x=0; x<vacationDays.length; x++){
             days[x]=vacationDays[x].getDate();
-            free_days.add(days[x]);
+            events.add(days[x]);
         }
 
         calView = ((CalendarViewer)view.findViewById(R.id.calendar_view));
-        calView.updateCalendar(events, free_days);
+        calView.updateCalendar(events);
 
 
         calView.setEventHandler(new CalendarViewer.EventHandler() {

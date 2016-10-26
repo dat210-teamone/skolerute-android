@@ -138,10 +138,10 @@ public class CalendarViewer extends LinearLayout {
     }
 */
     public void updateCalendar(){
-        updateCalendar(null, null);
+        updateCalendar(null);
     }
 
-    public void updateCalendar(HashSet<Date> events, HashSet<Date> free_days) {
+    public void updateCalendar(HashSet<Date> events) {
         ArrayList<Date> cells = new ArrayList<>();
         Calendar calendar = (Calendar)currentDate.clone();
 
@@ -155,7 +155,7 @@ public class CalendarViewer extends LinearLayout {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-        grid.setAdapter(new CalendarAdapter(getContext(), cells, events, free_days));
+        grid.setAdapter(new CalendarAdapter(getContext(), cells, events));
 
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         txtDate.setText(sdf.format(currentDate.getTime()));
@@ -168,13 +168,11 @@ public class CalendarViewer extends LinearLayout {
     private class CalendarAdapter extends ArrayAdapter<Date>
     {
         private HashSet<Date> eventDays;
-        private HashSet<Date> free_Days;
         private LayoutInflater inflater;
 
-        public CalendarAdapter(Context context, ArrayList<Date> days, HashSet<Date> eventDays, HashSet<Date> free_days) {
+        public CalendarAdapter(Context context, ArrayList<Date> days, HashSet<Date> eventDays) {
             super(context, R.layout.control_calendar_day, days);
             this.eventDays = eventDays;
-            this.free_Days = free_days;
             inflater = LayoutInflater.from(context);
         }
 
@@ -197,15 +195,6 @@ public class CalendarViewer extends LinearLayout {
                     if (eventDate.getDate() == day &&
                             eventDate.getMonth() == month &&
                             eventDate.getYear() == year) {
-
-                        view.setBackgroundResource(R.mipmap.ic_exclamation_point_emoticon);
-                        break;
-                    }
-                }
-                for (Date free_days : free_Days) {
-                    if (free_days.getDate() == day &&
-                            free_days.getMonth() == month &&
-                            free_days.getYear() == year) {
 
                         view.setBackgroundResource(R.mipmap.ic_exclamation_point_emoticon);
                         break;
