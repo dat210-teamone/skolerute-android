@@ -2,17 +2,13 @@ package com.github.dat210_teamone.skolerute.Activities;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-
-
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-
-import android.location.LocationProvider;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -20,11 +16,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.dat210_teamone.skolerute.Fragments.AddSchools;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
@@ -33,13 +30,10 @@ import com.github.dat210_teamone.skolerute.Fragments.SearchSchools;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
-
-import com.github.dat210_teamone.skolerute.data.NotificationReceiver;
 import com.github.dat210_teamone.skolerute.data.NotificationUtil;
-
-import com.github.dat210_teamone.skolerute.data.locationService.LocationFinder;
-
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
+import com.github.dat210_teamone.skolerute.data.UpdateService;
+import com.github.dat210_teamone.skolerute.data.locationService.LocationFinder;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 import java.util.List;
@@ -81,9 +75,14 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         goToAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(inputMethodManager.isAcceptingText()){
+                    hideKeyboard();
+                }
                 goToAddSchools();
             }
         });
+
+        setupNotificationToggle();
 
         if (selectedSchools.length == 0)
             goToAddSchools();
@@ -92,6 +91,35 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
         NotificationUtil NU = new NotificationUtil(this);
         NU.createNotification();
+    }
+
+    private void setupNotificationToggle(){
+        ImageView notificationToggle = (ImageView) findViewById(R.id.notificationToggle);
+        notificationToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = getApplicationContext();
+                CharSequence text = "";
+                int duration = Toast.LENGTH_SHORT;
+
+                String viewTag = (String) notificationToggle.getTag();
+                if(viewTag.equals("alarm_off")){
+                    notificationToggle.setTag("alarm_on");
+                    notificationToggle.setImageResource(R.drawable.alarm_on);
+
+                    text = "Alarmvarsling på.";
+                } else{
+                    notificationToggle.setTag("alarm_off");
+                    //notificationToggle.setVisibility(View.INVISIBLE);
+                    notificationToggle.setImageResource(R.drawable.alarm_off);
+
+                    text = "Alarmvarsling av.";
+                }
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+        });
     }
 
     private void initSchoolData(){
@@ -133,6 +161,11 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         catch (SecurityException e){
             e.printStackTrace();
         }
+
+
+        // START - Set up AlarmManager update service
+        UpdateService.setUpUpdateService();
+        // END - Set up AlarmManager update service
     }
 
     @Override
