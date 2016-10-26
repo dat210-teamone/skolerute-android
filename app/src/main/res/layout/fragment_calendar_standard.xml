@@ -5,11 +5,10 @@
     android:layout_height="match_parent"
     tools:context="com.github.dat210_teamone.skolerute.Fragments.CalendarStandard">
 
-    <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:id="@+id/scroller"
         >
 
         <com.github.dat210_teamone.skolerute.adapters.CalendarViewer
@@ -17,6 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
-    </HorizontalScrollView>
+    </ScrollView>
 
 </LinearLayout>

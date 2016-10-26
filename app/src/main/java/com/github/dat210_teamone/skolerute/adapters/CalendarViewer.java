@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -71,12 +72,12 @@ public class CalendarViewer extends LinearLayout {
     private void initControl(Context context, AttributeSet attrs) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.control_calendar, this);
-        gestureDetector=new GestureDetector(new MyGestureDetector());
+        gestureDetector=new GestureDetector(context, new MyGestureDetector());
 
         loadDateFormat(attrs);
         assignUiElements();
         assignClickHandlers();
-    //  assignScrollHandler();
+        assignScrollHandler();
 
         updateCalendar();
     }
@@ -99,8 +100,10 @@ public class CalendarViewer extends LinearLayout {
         btnPrev = (ImageView)findViewById(R.id.calendar_prev_button);
         btnNext = (ImageView)findViewById(R.id.calendar_next_button);
         txtDate = (TextView)findViewById(R.id.calendar_date_display);
+        Object o = findViewById(R.id.scroll_view);
+        scroller = (HorizontalScrollView) o;
         grid = (GridView)findViewById(R.id.calendar_grid);
-        scroller = (HorizontalScrollView) findViewById(R.id.scroller);
+
     }
 
     private void assignClickHandlers() {
@@ -135,10 +138,16 @@ public class CalendarViewer extends LinearLayout {
             }
         });
     }
-
+    MotionEvent baseEvent = null;
     private void assignScrollHandler(){
         scroller.setOnTouchListener(new OnTouchListener() {
+            @Override
             public boolean onTouch(View v, MotionEvent event) {
+
+                if (baseEvent == null) {
+                    baseEvent = MotionEvent.obtain(event);//event;
+                    //Log.d("BASEEVENT", "Setting Base event: "  + Float.toString(baseEvent.getX()) + ", " + Float.toString(baseEvent.getY()));
+                }
                 if (gestureDetector.onTouchEvent(event)) {
                     return true;
                 }
@@ -176,16 +185,21 @@ public class CalendarViewer extends LinearLayout {
     }
 
     private class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
+
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                                float velocityY) {
-            if (e1.getX() < e2.getX()) {
-                currentDate.add(Calendar.MONTH, 1);
+            //Log.d("BASEEVENT", "Base Event : "  + Float.toString(baseEvent.getX()) + ", " + Float.toString(baseEvent.getY()));
+            //Log.d("BASEEVENT", "Other Event: "  + Float.toString(e2.getX()) + ", " + Float.toString(e2.getY()));
+            if (baseEvent.getX() < e2.getX()) {
+                currentDate.add(Calendar.MONTH, -1);
                 updateCalendar(events);
             } else {
-                currentDate.add(Calendar.MONTH, -1);
-                updateCalendar(events);;
+                currentDate.add(Calendar.MONTH, 1);
+                updateCalendar(events);
             }
+            Log.d("BASEEVENT", "Unsetting baseEvent");
+            baseEvent = null;
             return true;
         }
     }
