@@ -55,15 +55,16 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
         visibilityCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //mainActivity.goToCalendarView();
                 if (visibilityCheck.isChecked()) {
-                    if(MainActivity.schoolsToView.contains(values[position])){
-                        MainActivity.schoolsToView.remove(values[position]);
+                    if(mainActivity.schoolsToView.contains(values[position])){
+                        mainActivity.schoolsToView.remove(values[position]);
                     } else {
-                        MainActivity.schoolsToView.add(values[position]);
+                        mainActivity.schoolsToView.add(values[position]);
                     }
                 } else {
-                    if(MainActivity.schoolsToView.contains(values[position])){
-                        MainActivity.schoolsToView.remove(values[position]);
+                    if(mainActivity.schoolsToView.contains(values[position])){
+                        mainActivity.schoolsToView.remove(values[position]);
                     }
                 }
                 mainActivity.viewCalendarList();

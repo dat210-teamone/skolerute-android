@@ -35,7 +35,6 @@ import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.data.UpdateService;
 import com.github.dat210_teamone.skolerute.data.locationService.LocationFinder;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
-import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.util.HashSet;
 import java.util.List;
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     public InputMethodManager inputMethodManager;
     Location lastKnownLocation;
 
-    public static Set<String> schoolsToView = new HashSet<String>();
+    public Set<String> schoolsToView = new HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
