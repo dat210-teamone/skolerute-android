@@ -20,7 +20,6 @@ import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.R;
@@ -198,7 +197,7 @@ public class CalendarViewer extends LinearLayout {
                 currentDate.add(Calendar.MONTH, 1);
                 updateCalendar(events);
             }
-            Log.d("BASEEVENT", "Unsetting baseEvent");
+            //Log.d("BASEEVENT", "Unsetting baseEvent");
             baseEvent = null;
             return true;
         }
