@@ -27,7 +27,8 @@ public class UpdateService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Calendar calendar = Calendar.getInstance();
         Log.d("UpdateService", "About to execute UpdateTask at: " + calendar.getTime());
-        new UpdateTask().doInBackground();
+        //TODO: Fix this, see bug on trello for more details
+        //new UpdateTask().doInBackground();
     }
 
     private class UpdateTask extends AsyncTask<String, Void, Boolean> {

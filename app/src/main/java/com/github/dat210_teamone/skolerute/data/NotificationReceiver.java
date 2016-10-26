@@ -9,18 +9,12 @@ import android.support.v4.app.NotificationCompat;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
-import com.github.dat210_teamone.skolerute.data.SchoolManager;
-import com.github.dat210_teamone.skolerute.model.SchoolInfo;
-import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
-
-import java.util.Date;
 
 /**
  * Created by Fredrik Wigsnes on 17.10.2016.
  */
 
 public class NotificationReceiver extends BroadcastReceiver {
-    SchoolManager SM;
 
     public NotificationReceiver() {
     }
