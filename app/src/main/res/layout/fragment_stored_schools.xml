@@ -13,22 +13,31 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/stored_schools_title"
+            android:text="@string/stored_schools_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Dine skoler"
-            android:id="@+id/textView2"
             android:layout_gravity="center_horizontal|center_vertical"
             android:layout_marginTop="4dp"
             android:layout_weight="1" />
 
     </LinearLayout>
 
-    <ListView
+    <LinearLayout
+        android:id="@+id/stored_schools_list_container"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/storedSchoolsList"
-        android:layout_gravity="center_horizontal" />
+        android:layout_height="160dp">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/storedSchoolsList"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+
 
 
 </LinearLayout>

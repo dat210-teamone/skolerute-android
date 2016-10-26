@@ -6,14 +6,23 @@
     tools:context="com.github.dat210_teamone.skolerute.Fragments.CalendarList"
     android:weightSum="1">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorTitle"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Fridager"
-        android:id="@+id/textView3"
-        android:layout_gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/calendar_list_title"
+            android:text="@string/calendar_list_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginTop="4dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
@@ -22,6 +31,58 @@
         android:layout_weight="1"
         android:layout_gravity="center_horizontal"
         />
+
+    <LinearLayout
+        android:id="@+id/icon_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/info_bar_height"
+        android:orientation="horizontal"
+        android:background="@color/colorBackgroundSecondary"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:id="@+id/school_closed_info"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/rounded_corners"
+            android:backgroundTint="@color/colorSchoolClosedIcon"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
+
+        <TextView
+            android:id="@+id/school_closed_text"
+            android:text="@string/school_closed_text"
+            android:textSize="12sp"
+            android:textColor="@color/colorBrightText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginRight="10dp"/>
+
+        <ImageView
+            android:id="@+id/sfo_closed_info"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/rounded_corners"
+            android:backgroundTint="@color/colorSfoClosedIcon"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
+
+        <TextView
+            android:id="@+id/sfo_closed_text"
+            android:text="@string/sfo_closed_text"
+            android:textSize="12sp"
+            android:textColor="@color/colorBrightText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginRight="10dp"/>
+
+    </LinearLayout>
+
 
   <!--  <Button
         android:layout_width="match_parent"

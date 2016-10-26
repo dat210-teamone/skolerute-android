@@ -110,6 +110,7 @@ public class AddSchools extends Fragment {
         SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
         int editTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         TextView textView = (TextView) searchView.findViewById(editTextId);
+        textView.setTextSize(getResources().getDimension(R.dimen.search_hint_size));
         textView.setTextColor(getResources().getColor(R.color.colorGreyText));
         textView.setHintTextColor(getResources().getColor(R.color.colorGreyText));
 

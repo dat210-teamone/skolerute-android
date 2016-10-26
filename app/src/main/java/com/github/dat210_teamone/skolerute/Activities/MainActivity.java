@@ -132,11 +132,17 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     private void initSchoolData(){
         allSchools = schoolManager.getSchoolInfo();
-        selectedSchools = schoolManager.getSelectedSchools();
+        updateSelectedSchools();
         allSchoolNames = new String[allSchools.length];
     }
 
+    private void updateSelectedSchools(){
+        selectedSchools = schoolManager.getSelectedSchools();
+    }
+
     public void initCheckedSchools() {
+        updateSelectedSchools();
+        schoolsToView.clear();
          for (int i=0; i<selectedSchools.length;i++){
             schoolsToView.add(selectedSchools[i].getSchoolName());
          }
@@ -202,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     public void goToStoredSchools() {
+        initCheckedSchools();
         replaceMainFragment(new StoredSchools());
         replaceSecondaryFragment(new CalendarList());
     }
