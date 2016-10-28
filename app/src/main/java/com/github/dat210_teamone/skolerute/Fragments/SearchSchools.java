@@ -128,10 +128,10 @@ public class SearchSchools extends Fragment {
         searchView.requestFocus();
 
         // Open keyboard when entering fragment
-        mainActivity.showKeyboard();
+        //mainActivity.showKeyboard();
 
         // Toggle keyboard based on searchView focus
-        /* searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+         searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus){
@@ -140,7 +140,7 @@ public class SearchSchools extends Fragment {
                     mainActivity.showKeyboard();
                 }
             }
-        }); */
+        });
 
 
         // Handlers for searchView
