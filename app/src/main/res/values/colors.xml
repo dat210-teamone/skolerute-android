@@ -9,10 +9,14 @@
     <color name="colorMainTitleBar">#93B7BE</color>
     <color name="colorTitle">#8C9A9E</color>
     <color name="colorBackground">#697B7F</color>
+    <color name="colorBackgroundSecondary">#697B7F</color>
     <color name="colorHighlight">#D4F5F5</color>
     <color name="colorBrightText">#FFFFFF</color>
     <color name="colorDarkText">#000000</color>
     <color name="colorGreyText">#D3D3D3</color>
+
+    <color name="colorSchoolClosedIcon">#1A1A59</color>
+    <color name="colorSfoClosedIcon">#801515</color>
 
     <color name="today">#44EEBD</color>
     <color name="greyed_out">#448DBA</color>

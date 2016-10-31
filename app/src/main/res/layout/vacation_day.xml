@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:background="#FFFFFF">
+
+        <ImageView
+            android:id="@+id/school_closed_icon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/rounded_corners"
+            android:backgroundTint="@color/colorSchoolClosedIcon"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginLeft="10dp"/>
+
+        <ImageView
+            android:id="@+id/sfo_closed_icon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/rounded_corners"
+            android:backgroundTint="@color/colorSfoClosedIcon"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:background="#FFFFFF" >
+
+        <TextView
+            android:id="@+id/vacation_day_school_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textAlignment="gravity"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:textColor="@color/colorDarkText"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:gravity="end"
+        android:background="#FFFFFF" >
+
+        <TextView
+            android:id="@+id/vacation_day_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:textColor="@color/colorDarkText"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+
+</LinearLayout>

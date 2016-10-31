@@ -1,5 +1,6 @@
 package com.github.dat210_teamone.skolerute.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.LinkAddress;
 import android.net.Uri;
@@ -43,7 +44,7 @@ public class SearchSchools extends Fragment {
     private String mParam2;
 
     private ListView schoolsList;
-    private LinearLayout searchCloseContainer;
+    //private LinearLayout searchCloseContainer;
     private LinearLayout finished;
 
     private OnSearchSchoolsInteractionListener mListener;
@@ -84,7 +85,6 @@ public class SearchSchools extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_search_schools, container, false);
-
         MainActivity mainActivity = (MainActivity)getActivity();
 
         // Generate list of all schools
@@ -103,34 +103,36 @@ public class SearchSchools extends Fragment {
             }
         });
 
-        // Go to AddSchools fragment and hide keyboard
-        searchCloseContainer = (LinearLayout)view.findViewById(R.id.search_close_container);
-        searchCloseContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mainActivity.inputMethodManager.isAcceptingText()){
-                    mainActivity.hideKeyboard();
-                }
-                mainActivity.goToAddSchools();
-            }
-        });
-
         schoolsList = (ListView)view.findViewById(R.id.schoolsList);
         schoolsList.setAdapter(itemsAdapter);
 
+        //search box and its listeners
+        SearchView searchView = setupSearchView(view);
+        setupSearchListeners(searchView, mainActivity, itemsAdapter);
+
+        // Inflate the layout for this fragment
+        return view;
+    }
+
+    public SearchView setupSearchView(View view){
+
         SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
+        //text Settings
         int editTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         TextView textView = (TextView) searchView.findViewById(editTextId);
+        textView.setTextSize(getResources().getDimension(R.dimen.search_hint_size));
         textView.setTextColor(getResources().getColor(R.color.colorGreyText));
         textView.setHintTextColor(getResources().getColor(R.color.colorGreyText));
+
         searchView.setIconifiedByDefault(false);
         searchView.requestFocus();
 
-        // Open keyboard when entering fragment
-        mainActivity.showKeyboard();
+        return searchView;
+    }
 
+    public void setupSearchListeners(SearchView searchView, MainActivity mainActivity, SearchSchoolsAdapter itemsAdapter){
         // Toggle keyboard based on searchView focus
-        /* searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus){
@@ -139,34 +141,32 @@ public class SearchSchools extends Fragment {
                     mainActivity.showKeyboard();
                 }
             }
-        }); */
-
+        });
 
         // Handlers for searchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String submitText) {
-                doSearch(submitText);
+                doSearch(submitText, mainActivity, itemsAdapter);
                 return true;
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-                doSearch(newText);
+                doSearch(newText, mainActivity, itemsAdapter);
                 return true;
             }
-            public void doSearch(String query) {
-                List<SchoolInfo> searchResult = new ArrayList<>();
-                searchResult = mainActivity.schoolManager.getMatchingSchools(query);
-
-                String[] searchSchoolName = new String[searchResult.size()];
-                for(int i=0; i<searchResult.size();i++){
-                    searchSchoolName[i] = searchResult.get(i).getSchoolName();
-                }
-                itemsAdapter.setSchoolsToView(searchSchoolName);
-            }
         });
-        // Inflate the layout for this fragment
-        return view;
+    }
+
+    public void doSearch(String query, MainActivity mainActivity, SearchSchoolsAdapter itemsAdapter) {
+        List<SchoolInfo> searchResult = new ArrayList<>();
+        searchResult = mainActivity.schoolManager.getMatchingSchools(query);
+
+        String[] searchSchoolName = new String[searchResult.size()];
+        for(int i=0; i<searchResult.size();i++){
+            searchSchoolName[i] = searchResult.get(i).getSchoolName();
+        }
+        itemsAdapter.setSchoolsToView(searchSchoolName);
     }
 
 

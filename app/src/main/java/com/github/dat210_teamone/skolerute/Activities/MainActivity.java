@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,7 +37,9 @@ import com.github.dat210_teamone.skolerute.data.UpdateService;
 import com.github.dat210_teamone.skolerute.data.locationService.LocationFinder;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, SearchSchools.OnSearchSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
@@ -53,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     public InputMethodManager inputMethodManager;
     Location lastKnownLocation;
 
+    public Set<String> schoolsToView = new HashSet<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -66,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         }
 
         initSchoolData();
+
+        initCheckedSchools();
+
 
         inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -82,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             }
         });
 
-        setupNotificationToggle();
+        changeCalendarView();
 
         if (selectedSchools.length == 0)
             goToAddSchools();
@@ -93,13 +101,33 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         NU.createNotification();
     }
 
-    private void setupNotificationToggle(){
+
+    private void changeCalendarView(){
+        ImageView calendarViewToggle = (ImageView) findViewById(R.id.calendar_view_toggle);
+        calendarViewToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String calendarToggleTag = (String) calendarViewToggle.getTag();
+                if(calendarToggleTag == "list_view"){
+                    calendarViewToggle.setTag("calendar_view");
+                    calendarViewToggle.setImageResource(R.drawable.list_button);
+                    viewCalendar();
+                } else{
+                    calendarViewToggle.setTag("list_view");
+                    calendarViewToggle.setImageResource(R.drawable.calendar_icon_white);
+                    viewCalendarList();
+                }
+            }
+        });
+    }
+
+/*    private void setupNotificationToggle(){
         ImageView notificationToggle = (ImageView) findViewById(R.id.notificationToggle);
         notificationToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = getApplicationContext();
-                CharSequence text = "";
+                String text = "";
                 int duration = Toast.LENGTH_SHORT;
 
                 String viewTag = (String) notificationToggle.getTag();
@@ -107,25 +135,37 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
                     notificationToggle.setTag("alarm_on");
                     notificationToggle.setImageResource(R.drawable.alarm_on);
 
-                    text = "Alarmvarsling på.";
+                    text = getResources().getString(R.string.alarm_paa);
+
                 } else{
                     notificationToggle.setTag("alarm_off");
-                    //notificationToggle.setVisibility(View.INVISIBLE);
                     notificationToggle.setImageResource(R.drawable.alarm_off);
 
-                    text = "Alarmvarsling av.";
+                    text = getResources().getString(R.string.alarm_av);
                 }
 
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }
         });
-    }
+    } */
 
     private void initSchoolData(){
         allSchools = schoolManager.getSchoolInfo();
-        selectedSchools = schoolManager.getSelectedSchools();
+        updateSelectedSchools();
         allSchoolNames = new String[allSchools.length];
+    }
+
+    private void updateSelectedSchools(){
+        selectedSchools = schoolManager.getSelectedSchools();
+    }
+
+    public void initCheckedSchools() {
+        updateSelectedSchools();
+        schoolsToView.clear();
+         for (int i=0; i<selectedSchools.length;i++){
+            schoolsToView.add(selectedSchools[i].getSchoolName());
+         }
     }
 
     private boolean getAndCheckPermission(String permission) {
@@ -164,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
 
         // START - Set up AlarmManager update service
-        UpdateService.setUpUpdateService();
+        //UpdateService.setUpUpdateService();
         // END - Set up AlarmManager update service
     }
 
@@ -188,29 +228,47 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     public void goToStoredSchools() {
-        goTo(new StoredSchools());
+        initCheckedSchools();
+        replaceMainFragment(new StoredSchools());
+        replaceSecondaryFragment(new CalendarList());
     }
 
     public void goToAddSchools() {
-        goTo(new AddSchools());
+        replaceMainFragment(new AddSchools());
     }
 
     public void goToCalendarList() {
-        goTo(new CalendarList());
+        replaceMainFragment(new CalendarList());
     }
 
     public void goToCalendarView() {
-        goTo(new CalendarStandard());
+        replaceMainFragment(new CalendarStandard());
     }
 
     public void goToSearchSchool() {
-        goTo(new SearchSchools());
+        replaceMainFragment(new SearchSchools());
     }
 
-    public void goTo(Fragment fragment){
+    public void viewCalendar() {
+        replaceSecondaryFragment(new CalendarStandard());
+    }
+
+    public void viewCalendarList() {
+        replaceSecondaryFragment(new CalendarList());
+    }
+
+
+    public void replaceMainFragment(Fragment fragment){
         this.fragment = fragment;
         fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container, fragment);
+        fragTrans.commit();
+    }
+
+    public void replaceSecondaryFragment(Fragment fragment){
+        this.fragment = fragment;
+        fragTrans = manager.beginTransaction();
+        fragTrans.replace(R.id.fragment_container_secondary, fragment);
         fragTrans.commit();
     }
 

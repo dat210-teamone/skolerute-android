@@ -8,7 +8,9 @@ import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Nicolas on 21.09.2016.
@@ -78,4 +80,44 @@ public final class OneUtils {
         }
         return returnItems;
     }
+
+    public static String dateFormatter(Date date){
+
+        int month = Integer.parseInt(new SimpleDateFormat("MM").format(date));
+        String dayOfWeekShort = new SimpleDateFormat("EEE").format(date);
+        String dateInMonth = new SimpleDateFormat("dd").format(date);
+        String year = new SimpleDateFormat("yyyy").format(date);
+
+        String months[] = {"Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember"};
+        String dayOfWeekFinal = "Mandag";
+
+        switch(dayOfWeekShort){
+            case "Mon":
+                dayOfWeekFinal = "Mandag";
+                break;
+            case "Tue":
+                dayOfWeekFinal = "Tirsdag";
+                break;
+            case "Wed":
+                dayOfWeekFinal = "Onsdag";
+                break;
+            case "Thu":
+                dayOfWeekFinal = "Torsdag";
+                break;
+            case "Fri":
+                dayOfWeekFinal = "Fredag";
+                break;
+            case "Sat":
+                dayOfWeekFinal = "Lørdag";
+                break;
+            case "Sun":
+                dayOfWeekFinal = "Søndag";
+        }
+
+        String displayDate = "" + dayOfWeekFinal + " - " + dateInMonth + ". " + months[month-1] + " " + year;
+
+        return displayDate;
+    }
+
+
 }
