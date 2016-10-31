@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
@@ -57,28 +56,28 @@ public class NotificationUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(SVD.getDate());
         calendar.set(Calendar.HOUR_OF_DAY, 17);
-        calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
         Intent i = new Intent(con, NotificationReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(con, SVD.hashCode(), i, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getBroadcast(con, (int)SVD.getDate().getTime(), i, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager am = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);
     }
 
-    //Remove all notifications
     public void removeAllNotifications() {
-        AlarmManager alarmManager = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
-
-        Intent updateServiceIntent = new Intent(con, MainActivity.class);
-        PendingIntent pendingUpdateIntent = PendingIntent.getService(con, 1233, updateServiceIntent, 0);
-
-        // Cancel alarms
-        try {
-            alarmManager.cancel(pendingUpdateIntent);
-        } catch (Exception e) {
-
+        HashSet hs = new HashSet();
+        AlarmManager am = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(con, NotificationReceiver.class);
+        PendingIntent pi;
+        for (SchoolInfo SI : SM.getSelectedSchools()) {
+            for (SchoolVacationDay SVD : SM.getNextVacationDays(SI.getSchoolName())) {
+                if (!hs.contains(SVD.getDate())) {
+                    pi = PendingIntent.getBroadcast(con, (int)SVD.getDate().getTime(), i, PendingIntent.FLAG_CANCEL_CURRENT);
+                    am.cancel(pi);
+                }
+            }
         }
     }
 }
