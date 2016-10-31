@@ -82,7 +82,7 @@ public class StoredSchools extends Fragment {
         public SchoolInfo[] allSchools = schoolManager.getSchoolInfo();
         public SchoolInfo[] selectedSchools = schoolManager.getSelectedSchools();
         public String[] allSchoolNames = new String[allSchools.length];
- */
+*/
 
         MainActivity mainActivity = (MainActivity)getActivity();
 
@@ -139,9 +139,9 @@ public class StoredSchools extends Fragment {
         super.onPause();
         MainActivity mainActivity = (MainActivity)getActivity();
         TextView addSchoolButton = (TextView) mainActivity.findViewById(R.id.go_to_add);
-        ImageView notficationButton = (ImageView) mainActivity.findViewById(R.id.notificationToggle);
+        ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
         addSchoolButton.setVisibility(View.INVISIBLE);
-        notficationButton.setVisibility(View.INVISIBLE);
+        calendarViewToggle.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -149,9 +149,9 @@ public class StoredSchools extends Fragment {
         super.onStart();
         MainActivity mainActivity = (MainActivity)getActivity();
         TextView addSchoolButton = (TextView) mainActivity.findViewById(R.id.go_to_add);
-        ImageView notficationButton = (ImageView) mainActivity.findViewById(R.id.notificationToggle);
+        ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
         addSchoolButton.setVisibility(View.VISIBLE);
-        notficationButton.setVisibility(View.VISIBLE);
+        calendarViewToggle.setVisibility(View.VISIBLE);
     }
 
 
