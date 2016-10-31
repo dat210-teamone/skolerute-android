@@ -4,20 +4,17 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.AddSchoolsAdapter;
-
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,7 +35,7 @@ public class AddSchools extends Fragment {
     private String mParam2;
 
     private ListView schoolsList;
-    private TextView finished;
+    private LinearLayout finished;
 
     private OnAddSchoolsInteractionListener mListener;
 
@@ -81,51 +78,45 @@ public class AddSchools extends Fragment {
 
         MainActivity mainActivity = (MainActivity)getActivity();
 
+        // Generate list of all schools
         for (int x = 0; x< mainActivity.allSchools.length; x++){
             mainActivity.allSchoolNames[x]=mainActivity.allSchools[x].getSchoolName();
         }
-
-
 
         AddSchoolsAdapter itemsAdapter =
                 new AddSchoolsAdapter(mainActivity, mainActivity.allSchoolNames);
 
 
-        finished = (TextView)view.findViewById(R.id.finished);
+
+        finished = (LinearLayout)view.findViewById(R.id.finished_container);
         finished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 mainActivity.goToStoredSchools();
-
             }
         });
 
         schoolsList = (ListView)view.findViewById(R.id.schoolsList);
         schoolsList.setAdapter(itemsAdapter);
 
+        SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
+        int editTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView textView = (TextView) searchView.findViewById(editTextId);
+        textView.setTextColor(getResources().getColor(R.color.colorGreyText));
+        textView.setHintTextColor(getResources().getColor(R.color.colorGreyText));
 
+        searchView.setIconifiedByDefault(false);
 
-     /*   AdapterView.OnItemClickListener
-                mMessageClickedHandler =
-                new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView parent,
-                                            View v,
-                                            int position,
-                                            long id) {
-                        String schoolName = mainActivity.allSchoolNames[(int)id];
-                        ((TextView)v).setText(schoolName + " er valgt");
-                    }
-                };
-
-        schoolsList.setOnItemClickListener(
-                mMessageClickedHandler);
-
-    */
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener(){
+            public void onFocusChange(View view, boolean has_focus){
+                mainActivity.goToSearchSchool();
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -170,54 +161,3 @@ public class AddSchools extends Fragment {
         void onAddSchoolsInteraction(Uri uri);
     }
 }
-
-
-
-
-/*  Gammel kode fra "Nearest School"-activity
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        DummyStorage schoolManager=new DummyStorage();
-        SchoolInfo[] allSchools=schoolManager.getSchoolInfo();
-        String[] allSchoolNames= new String[allSchools.length];
-        for(int x=0; x<allSchools.length; x++){
-            allSchoolNames[x]=allSchools[x].getSchoolName();
-        }
-
-        ListView listet=(ListView)findViewById(R.id.listview);
-        ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < allSchoolNames.length; ++i) {
-            list.addSelectedSchool(allSchoolNames[i]);
-        }
-        StableArrayAdapter adapter = new StableArrayAdapter(this,
-                android.R.layout.simple_list_item_1, list);
-        listet.setAdapter(adapter);
-    }
-    private class StableArrayAdapter extends ArrayAdapter<String> {
-
-        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-
-        public StableArrayAdapter(Context context, int textViewResourceId,
-                                  List<String> objects) {
-            super(context, textViewResourceId, objects);
-            for (int i = 0; i < objects.size(); ++i) {
-                mIdMap.put(objects.getSelectedSchools(i), i);
-            }
-        }
-
-        @Override
-        public long getItemId(int position) {
-            String item = getItem(position);
-            return mIdMap.getSelectedSchools(item);
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return true;
-        }
-
-    }
- */

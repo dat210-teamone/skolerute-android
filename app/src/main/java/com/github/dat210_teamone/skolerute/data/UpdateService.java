@@ -1,55 +1,85 @@
 package com.github.dat210_teamone.skolerute.data;
 
-import android.app.AlarmManager;
+/*import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.GjesdalSchoolInfoGetter;
+import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.OpenStavangerUtils;
+import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.StavangerSchoolInfoGetter;
+import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
+import com.github.dat210_teamone.skolerute.model.PageInfo;
 
 import java.util.Calendar;
-import java.util.TimeZone;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TimeZone;*/
 
 /**
  * Created by espen on 10.10.16.
  */
 
-public class UpdateService extends IntentService {
+// This is your only warning
+// DO NOT USE THIS!
+/*public class UpdateService extends IntentService {
+    private CsvFileReader gjesdalCsvReader;
     private CsvFileReader csvFileReader;
 
     public UpdateService() {
         super("UpdateServiceName");
-        csvFileReader = new CsvFileReader();
+        //csvFileReader = new CsvFileReader();
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
+
         Calendar calendar = Calendar.getInstance();
         Log.d("UpdateService", "About to execute UpdateTask at: " + calendar.getTime());
+        //TODO: Fix this, see bug on trello for more details
+        new UpdateTask().doInBackground();
+
+    }
+
+    public void doUpdateCheck() {
         new UpdateTask().doInBackground();
     }
 
-    private class UpdateTask extends AsyncTask<String, Void, Boolean> {
+    public static class UpdateTask extends AsyncTask<String, Void, Boolean> {
+        // This shit is on life support, checks for updates each cold start of the app
         @Override
         protected Boolean doInBackground(String... strings) {
+            // TODO: This probably needs some serious refactoring
+            Log.d("UpdateTask", "Checking for updated schools");
+            SchoolStorage schoolStorage = new SchoolStorage();
+            HashMap<String, String[]> schoolUrls = new HashMap<>();
+            String skoler[] = new String[]{
+                    "http://open.stavanger.kommune.no/dataset/skoler-stavanger",
+                    "http://open.stavanger.kommune.no/dataset/skoler-i-gjesdal-kommune"
+            };
+            String ruter[] = new String[]{
+                    "http://open.stavanger.kommune.no/dataset/skolerute-stavanger",
+                    "http://open.stavanger.kommune.no/dataset/skoleruten-for-gjesdal-kommune",
+            };
             Log.d("UpdateService", "Calling doInBackground within UpdateTask");
-            Log.d("UpdateService", "Last updated: "+ InterfaceManager.getSettings().getLastUpdateTime());
-            if(CsvReaderGetter.fileHasBeenUpdated("http://open.stavanger.kommune.no/dataset/skolerute-stavanger")) {
-                Log.d("UpdateService", "New CSV update found");
-                csvFileReader.readSchoolInfoCsv(new CsvReaderGetter().getSchoolReader());
-                csvFileReader.readSchoolVacationDayCsv(new CsvReaderGetter().getSchoolDayReader());
-                Log.d("UpdateService", "Got updated CSV files");
-                String lastUpdated = CsvReaderGetter.getInfo("http://open.stavanger.kommune.no/dataset/skolerute-stavanger").getLastUpdated();
-                InterfaceManager.getSettings().setLastUpdateTime(lastUpdated);
-            } else {
-                Log.d("UpdateService", "CSV already at latest version");
-            }
+
+            if (OpenStavangerUtils.fileHasBeenUpdated(skoler[0]) || OpenStavangerUtils.fileHasBeenUpdated(skoler[1]))
+                schoolStorage.loadSchoolInfo();
+
+            if (OpenStavangerUtils.fileHasBeenUpdated(ruter[0]) || OpenStavangerUtils.fileHasBeenUpdated(ruter[1]))
+                schoolStorage.loadSchoolVacationDays();
+
             return true;
         }
     }
 
     public static void setUpUpdateService() {
+        // TODO: Need to actually set initial update time somewhere, maybe not here
         if(InterfaceManager.getSettings().getLastUpdateTime().equals("")) {
             String lastUpdated = CsvReaderGetter
                     .getInfo("http://open.stavanger.kommune.no/dataset/skolerute-stavanger")
@@ -57,14 +87,15 @@ public class UpdateService extends IntentService {
             Log.d("UpdateService", "Setting initial update date: " + lastUpdated);
             InterfaceManager.getSettings().setLastUpdateTime(lastUpdated);
         }
+        // TODO: This probably needs some serious refactoring
         Calendar updateTime = Calendar.getInstance();
         updateTime.setTimeZone(TimeZone.getDefault());
 
-        updateTime.add(Calendar.MONTH, 1);
-        // updateTime.set(Calendar.HOUR_OF_DAY, 8);
-        // updateTime.set(Calendar.MINUTE, 0);
+        // TODO: set check interval to One Month
+        //updateTime.add(Calendar.MONTH, 1);
 
-        final long MONTH = 2628000000L;
+        updateTime.set(Calendar.HOUR_OF_DAY, 8);
+        updateTime.set(Calendar.MINUTE, 0);
 
         Context context = InterfaceManager.getContext();
         Intent downloader = new Intent(context, UpdateReceiver.class);
@@ -72,8 +103,9 @@ public class UpdateService extends IntentService {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(),
-                MONTH,
+                1000 * 60 ,// TODO Switch with proper value, AlarmManager.INTERVAL_DAY
                 pendingIntent);
         Log.d("MainActivity", "Set alarmManager.setInexactRepeating to: " + updateTime.getTime().toString());
     }
-}
+
+} */

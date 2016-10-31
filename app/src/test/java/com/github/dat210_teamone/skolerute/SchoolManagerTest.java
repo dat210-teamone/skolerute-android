@@ -63,7 +63,7 @@ public class SchoolManagerTest {
     @Test
     public void TestGetNextVacationDay() {
         SchoolVacationDay svd = sm.getNextVacationDay("Skole 2");
-        Assert.assertTrue("Date comes before today", new Date(System.currentTimeMillis()).before(svd.getDate()));
+        Assert.assertTrue("Date comes before today", new Date(System.currentTimeMillis() - 86400000).before(svd.getDate())); //Removed one day
         Assert.assertNotNull("Date is set to null", svd);
     }
 

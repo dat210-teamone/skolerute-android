@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.R;
@@ -42,16 +44,8 @@ public class CalendarViewer extends LinearLayout {
     private ImageView btnNext;
     private TextView txtDate;
     private GridView grid;
-
-    int[] rainbow = new int[] {
-            R.color.summer,
-            R.color.fall,
-            R.color.winter,
-            R.color.spring
-    };
-
-    int[] monthSeason = new int[] {2, 2, 3, 3, 3, 0, 0, 0, 1, 1, 1, 2};
-
+    private ScrollView scroller;
+    private HashSet<Date> events;
 
     public CalendarViewer(Context context) {
         super(context);
@@ -75,6 +69,7 @@ public class CalendarViewer extends LinearLayout {
         loadDateFormat(attrs);
         assignUiElements();
         assignClickHandlers();
+    //    assignScrollHandler();
 
         updateCalendar();
     }
@@ -93,12 +88,12 @@ public class CalendarViewer extends LinearLayout {
     }
 
     private void assignUiElements() {
-
         header = (LinearLayout)findViewById(R.id.calendar_header);
         btnPrev = (ImageView)findViewById(R.id.calendar_prev_button);
         btnNext = (ImageView)findViewById(R.id.calendar_next_button);
         txtDate = (TextView)findViewById(R.id.calendar_date_display);
         grid = (GridView)findViewById(R.id.calendar_grid);
+        scroller = (ScrollView)findViewById(R.id.scroller);
     }
 
     private void assignClickHandlers() {
@@ -108,7 +103,7 @@ public class CalendarViewer extends LinearLayout {
             public void onClick(View v)
             {
                 currentDate.add(Calendar.MONTH, 1);
-                updateCalendar();
+                updateCalendar(events);
             }
         });
 
@@ -116,7 +111,7 @@ public class CalendarViewer extends LinearLayout {
             @Override
             public void onClick(View v) {
                 currentDate.add(Calendar.MONTH, -1);
-                updateCalendar();
+                updateCalendar(events);
             }
         });
 
@@ -133,12 +128,22 @@ public class CalendarViewer extends LinearLayout {
             }
         });
     }
+/*
+    private void assignScrollHandler(){
+        scroller.setOn(new OnScrollChangeListener() {
+           @Override
+           public void onScrollChange(View view, int i, int i1, int i2, int i3) {
 
+           }
+       });
+    }
+*/
     public void updateCalendar(){
         updateCalendar(null);
     }
 
     public void updateCalendar(HashSet<Date> events) {
+        this.events=events;
         ArrayList<Date> cells = new ArrayList<>();
         Calendar calendar = (Calendar)currentDate.clone();
 
@@ -158,10 +163,7 @@ public class CalendarViewer extends LinearLayout {
         txtDate.setText(sdf.format(currentDate.getTime()));
 
         int month = currentDate.get(Calendar.MONTH);
-        int season = monthSeason[month];
-        int color = rainbow[season];
 
-        header.setBackgroundColor(getResources().getColor(color));
     }
 
 
@@ -195,12 +197,12 @@ public class CalendarViewer extends LinearLayout {
                     if (eventDate.getDate() == day &&
                             eventDate.getMonth() == month &&
                             eventDate.getYear() == year) {
-
                         view.setBackgroundResource(R.mipmap.ic_exclamation_point_emoticon);
                         break;
                     }
                 }
             }
+
 
             ((TextView)view).setTypeface(null, Typeface.NORMAL);
             ((TextView)view).setTextColor(Color.BLACK);
