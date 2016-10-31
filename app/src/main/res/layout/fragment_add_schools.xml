@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_height"
         android:id="@+id/searchView"
+        android:focusable="false"
         android:queryHint="@string/search_hint_text">
     </SearchView>
 

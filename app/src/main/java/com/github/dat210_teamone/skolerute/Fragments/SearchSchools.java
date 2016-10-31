@@ -108,7 +108,7 @@ public class SearchSchools extends Fragment {
 
         //search box and its listeners
         SearchView searchView = setupSearchView(view);
-        setupSearchListeners(searchView, mainActivity, itemsAdapter);
+        setupSearchListeners(view, searchView, mainActivity, itemsAdapter);
 
         mainActivity.showKeyboard();
         // Inflate the layout for this fragment
@@ -131,7 +131,7 @@ public class SearchSchools extends Fragment {
         return searchView;
     }
 
-    public void setupSearchListeners(SearchView searchView, MainActivity mainActivity, SearchSchoolsAdapter itemsAdapter){
+    public void setupSearchListeners(View view, SearchView searchView, MainActivity mainActivity, SearchSchoolsAdapter itemsAdapter){
         // Toggle keyboard based on searchView focus
         searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -153,6 +153,11 @@ public class SearchSchools extends Fragment {
             }
             @Override
             public boolean onQueryTextChange(String newText) {
+                TextView textTitle = (TextView) view.findViewById(R.id.textView);
+                if(newText.equals("")){
+                    textTitle.setText(getString(R.string.add_schools_nearby_title));
+                } else{
+                    textTitle.setText(getString(R.string.add_schools_results_title));}
                 doSearch(newText, mainActivity, itemsAdapter);
                 return true;
             }
@@ -176,6 +181,16 @@ public class SearchSchools extends Fragment {
         if (mListener != null) {
             mListener.onSearchSchoolsInteraction(uri);
         }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        MainActivity mainActivity = (MainActivity)getActivity();
+        if(mainActivity.inputMethodManager.isAcceptingText()){
+            mainActivity.hideKeyboard();
+        }
+
     }
 
     @Override

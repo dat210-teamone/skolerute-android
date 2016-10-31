@@ -84,9 +84,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         goToAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(inputMethodManager.isAcceptingText()){
-                    hideKeyboard();
-                }
                 goToAddSchools();
             }
         });
@@ -294,12 +291,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();  // Always call the superclass method first
-        hideKeyboard();
     }
 
     // Abstract methods from fragments
