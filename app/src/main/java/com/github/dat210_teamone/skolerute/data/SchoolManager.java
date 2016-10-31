@@ -87,6 +87,20 @@ public class SchoolManager {
         return getNextVacationDays(name, true);
     }
 
+    public SchoolVacationDay[] getNextVacationsDays(String[] names){
+        return getNextVacationDays(names, true);
+    }
+
+    public SchoolVacationDay[] getNextVacationDays(String[] names, boolean includeToday){
+        ArrayList<SchoolVacationDay> filter = new ArrayList<>();
+        for(int i = 0; i < names.length; i++){
+            filter.addAll(OneUtils.toArrayList(getNextVacationDays(names[i], includeToday)));
+        }
+        SchoolVacationDay[] days = filter.toArray(new SchoolVacationDay[filter.size()]);
+        Arrays.sort(days, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+        return  days;
+    }
+
     public SchoolVacationDay[] getNextVacationDays(String name, boolean includeToday) {
         SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().toUpperCase().equals(name.toUpperCase()) && info.getDate().after(new Date(System.currentTimeMillis() - ( includeToday ? 86400000 : 0)))); // removed one day
         return svd;

@@ -1,17 +1,12 @@
 package com.github.dat210_teamone.skolerute.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,9 +14,7 @@ import android.widget.TextView;
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
-import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -89,7 +82,7 @@ public class StoredSchools extends Fragment {
         public SchoolInfo[] allSchools = schoolManager.getSchoolInfo();
         public SchoolInfo[] selectedSchools = schoolManager.getSelectedSchools();
         public String[] allSchoolNames = new String[allSchools.length];
- */
+*/
 
         MainActivity mainActivity = (MainActivity) getActivity();
 
@@ -146,9 +139,9 @@ public class StoredSchools extends Fragment {
         super.onPause();
         MainActivity mainActivity = (MainActivity)getActivity();
         TextView addSchoolButton = (TextView) mainActivity.findViewById(R.id.go_to_add);
-        ImageView notficationButton = (ImageView) mainActivity.findViewById(R.id.notificationToggle);
+        ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
         addSchoolButton.setVisibility(View.INVISIBLE);
-        notficationButton.setVisibility(View.INVISIBLE);
+        calendarViewToggle.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -156,9 +149,9 @@ public class StoredSchools extends Fragment {
         super.onStart();
         MainActivity mainActivity = (MainActivity)getActivity();
         TextView addSchoolButton = (TextView) mainActivity.findViewById(R.id.go_to_add);
-        ImageView notficationButton = (ImageView) mainActivity.findViewById(R.id.notificationToggle);
+        ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
         addSchoolButton.setVisibility(View.VISIBLE);
-        notficationButton.setVisibility(View.VISIBLE);
+        calendarViewToggle.setVisibility(View.VISIBLE);
     }
 
 

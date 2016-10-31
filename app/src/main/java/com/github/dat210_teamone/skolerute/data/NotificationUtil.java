@@ -1,23 +1,17 @@
 package com.github.dat210_teamone.skolerute.data;
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
-import com.github.dat210_teamone.skolerute.R;
-import com.github.dat210_teamone.skolerute.model.PageInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
+
 import java.util.HashSet;
 
 /**
@@ -62,8 +56,8 @@ public class NotificationUtil {
     public void createNotification(SchoolVacationDay SVD) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(SVD.getDate());
-        calendar.set(Calendar.HOUR_OF_DAY, 10);
-        calendar.set(Calendar.MINUTE, 20);
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 00);
         calendar.set(Calendar.SECOND, 0);
 
         Intent i = new Intent(con, NotificationReceiver.class);
