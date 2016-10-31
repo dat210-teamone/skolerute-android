@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
+import com.github.dat210_teamone.skolerute.R;
 
 /**
  * Created by Fredrik Wigsnes on 17.10.2016.
