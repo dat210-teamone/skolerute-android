@@ -17,7 +17,6 @@ public class UpdateTask extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... strings) {
         Log.d("UpdateTask", "Checking for updated schools");
         SchoolStorage schoolStorage = new SchoolStorage();
-        HashMap<String, String[]> schoolUrls = new HashMap<>();
         String skoler[] = new String[]{
                 "http://open.stavanger.kommune.no/dataset/skoler-stavanger",
                 "http://open.stavanger.kommune.no/dataset/skoler-i-gjesdal-kommune"
