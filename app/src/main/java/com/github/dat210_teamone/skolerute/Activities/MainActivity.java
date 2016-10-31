@@ -17,7 +17,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -42,13 +41,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static java.lang.Thread.sleep;
-
 
 public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, SearchSchools.OnSearchSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
 
     public FragmentManager manager = getSupportFragmentManager();
     public Fragment fragment = manager.findFragmentById(R.id.fragment_container);
+    public Fragment fragmentSecondary = manager.findFragmentById(R.id.fragment_container_secondary);
     public FragmentTransaction fragTrans =  manager.beginTransaction();
     private int posisjon;
 
@@ -249,8 +247,8 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     public void goToSearchSchool() {
-        clearSecondaryFragment();
         replaceMainFragment(new SearchSchools());
+        clearSecondaryFragment();
     }
 
     public void viewCalendar() {
@@ -261,7 +259,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         replaceSecondaryFragment(new CalendarList());
     }
 
-
     public void replaceMainFragment(Fragment fragment){
         this.fragment = fragment;
         fragTrans = manager.beginTransaction();
@@ -270,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     public void replaceSecondaryFragment(Fragment fragment){
-        this.fragment = fragment;
+        this.fragmentSecondary = fragment;
         fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container_secondary, fragment);
         fragTrans.commit();
@@ -278,8 +275,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     public void clearSecondaryFragment(){
         fragTrans = manager.beginTransaction();
-        Fragment secondaryFragment = manager.findFragmentById(R.id.fragment_container_secondary);
-        fragTrans.remove(secondaryFragment);
+        fragTrans.remove(fragmentSecondary);
         fragTrans.commit();
     }
 
