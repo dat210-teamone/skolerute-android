@@ -110,6 +110,7 @@ public class SearchSchools extends Fragment {
         SearchView searchView = setupSearchView(view);
         setupSearchListeners(searchView, mainActivity, itemsAdapter);
 
+        mainActivity.showKeyboard();
         // Inflate the layout for this fragment
         return view;
     }

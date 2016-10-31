@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -40,6 +41,8 @@ import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static java.lang.Thread.sleep;
 
 
 public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, SearchSchools.OnSearchSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
@@ -167,10 +170,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
          }
     }
 
-    public void uncheckSchools() {
-
-    }
-
     private boolean getAndCheckPermission(String permission) {
         int permissinCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissinCheck != PackageManager.PERMISSION_GRANTED) {
@@ -250,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     public void goToSearchSchool() {
+        clearSecondaryFragment();
         replaceMainFragment(new SearchSchools());
     }
 
@@ -298,6 +298,12 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();  // Always call the superclass method first
+        hideKeyboard();
     }
 
     // Abstract methods from fragments
