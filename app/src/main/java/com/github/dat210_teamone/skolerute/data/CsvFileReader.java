@@ -49,7 +49,6 @@ public class CsvFileReader implements IStorage {
     }
 
     public CsvFileReader initializeReader(boolean useCache) {
-        // TODO: CHECK: File may need to be stored somewhere else on Android
         this.useCache = useCache;
         if (useCache) {
             File dir = InterfaceManager.getStoragePath();
