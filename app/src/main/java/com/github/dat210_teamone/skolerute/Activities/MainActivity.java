@@ -29,6 +29,7 @@ import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.SearchSchools;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.data.CalendarExporter;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.NotificationUtil;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
@@ -102,6 +103,12 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         // START - Set up AlarmManager update service
         new UpdateTask().execute();
         // END - Set up AlarmManager update service
+
+        // START - Calendar exporter test
+        CalendarExporter calendarExporter = new CalendarExporter(this);
+        calendarExporter.getCalendarPermissions();
+        calendarExporter.exportToGoogle();
+        // END - Calendar exporter test
     }
 
     private void setupNotificationToggle(){
