@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     private void setupNotificationToggle(){
-        ImageView notificationToggle = (ImageView) findViewById(R.id.notificationToggle);
+        ImageView notificationToggle = (ImageView) findViewById(R.id.notiButton);
         notificationToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
