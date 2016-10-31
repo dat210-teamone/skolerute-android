@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         NU.createNotification();
     }
 
+
     private void changeCalendarView(){
         ImageView calendarViewToggle = (ImageView) findViewById(R.id.calendar_view_toggle);
         calendarViewToggle.setOnClickListener(new View.OnClickListener() {
@@ -207,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
 
         // START - Set up AlarmManager update service
-        UpdateService.setUpUpdateService();
+        //UpdateService.setUpUpdateService();
         // END - Set up AlarmManager update service
     }
 
