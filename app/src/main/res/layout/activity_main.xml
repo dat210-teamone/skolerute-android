@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/app_main_bar_height"
         android:orientation="horizontal"
         android:id="@+id/top_bar"
         android:background="@color/colorMainTitleBar"
@@ -23,17 +23,18 @@
             android:layout_height="wrap_content"
             android:elevation="12dp"
             android:textSize="30dp"
+            android:textColor="@color/colorBrightText"
             android:padding="7dp"
             android:layout_marginLeft="15dp"
             android:id="@+id/go_to_add" />
 
         <TextView
-            android:text="Skoleruter"
+            android:text="@string/app_main_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView3"
-            android:textSize="30sp"
-            android:textColor="#FFFFFF"
+            android:textSize="@dimen/app_title_size"
+            android:textColor="@color/colorBrightText"
             android:layout_toRightOf="@+id/go_to_add"
             android:layout_toEndOf="@+id/go_to_add"
             android:textAlignment="center"
@@ -46,10 +47,10 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/alarm_off"
-            android:id="@+id/notificationToggle"
+            app:srcCompat="@drawable/calendar_icon_white"
+            android:id="@+id/calendar_view_toggle"
             android:visibility="invisible"
-            android:tag="alarm_off"/>
+            android:tag="list_view"/>
 
     </LinearLayout>
 
@@ -59,6 +60,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/fragment_container">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/fragment_container_secondary">
     </LinearLayout>
 
 

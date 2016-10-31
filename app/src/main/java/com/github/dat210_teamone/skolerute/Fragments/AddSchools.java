@@ -1,11 +1,9 @@
 package com.github.dat210_teamone.skolerute.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +15,6 @@ import android.widget.TextView;
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.AddSchoolsAdapter;
-import com.github.dat210_teamone.skolerute.model.SchoolInfo;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,6 +86,8 @@ public class AddSchools extends Fragment {
         AddSchoolsAdapter itemsAdapter =
                 new AddSchoolsAdapter(mainActivity, mainActivity.allSchoolNames);
 
+
+
         finished = (LinearLayout)view.findViewById(R.id.finished_container);
         finished.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +102,7 @@ public class AddSchools extends Fragment {
         SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
         int editTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         TextView textView = (TextView) searchView.findViewById(editTextId);
+        textView.setTextSize(getResources().getDimension(R.dimen.search_hint_size));
         textView.setTextColor(getResources().getColor(R.color.colorGreyText));
         textView.setHintTextColor(getResources().getColor(R.color.colorGreyText));
 

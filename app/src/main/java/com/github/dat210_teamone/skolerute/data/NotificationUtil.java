@@ -1,24 +1,16 @@
 package com.github.dat210_teamone.skolerute.data;
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.support.v4.app.NotificationCompat;
 
-import com.github.dat210_teamone.skolerute.Activities.MainActivity;
-import com.github.dat210_teamone.skolerute.R;
-import com.github.dat210_teamone.skolerute.model.PageInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
+
 import java.util.HashSet;
 
 /**

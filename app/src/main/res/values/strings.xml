@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Skolerute</string>
+    <string name="app_name">Skoleruter</string>
     <string name="finn_n_rmeste_skole">Finn nærmeste Skole</string>
     <string name="knapp_finn_nermeste">Finn nærmeste skole</string>
     <string name="title_activity_add_school">AddSchoolActivit</string>
@@ -7,7 +7,29 @@
     <string name="listevisning">Listevisning</string>
     <string name="NotiTitle">Valgt skoler imorgen...</string>
     <string name="NotiComment">trykk for å se.</string>
+    <string name="alarm_paa">Alarmvarsling på</string>
+    <string name="alarm_av">Alarmvarsling av</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="app_main_title_text">Skoleruter</string>
+
+    <!-- Calendar List -->
+    <string name="school_closed_text">Stengt skole</string>
+    <string name="sfo_closed_text">Stengt SFO</string>
+    <string name="calendar_list_title">Fridager</string>
+
+    <!-- Stored Schools -->
+    <string name="stored_schools_title">Dine skoler</string>
+
+    <!-- Add/Search Schools -->
+    <string name="add_school_store_text">Lagre</string>
+    <string name="add_school_remove_text">Fjern</string>
+    <string name="add_schools_nearby_title">Skoler i nærheten</string>
+    <string name="add_schools_results_title">Søkeresultat</string>
+    <string name="search_hint_text">Søk med skolenavn, postnummer eller adresse</string>
+
+
 </resources>

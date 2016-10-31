@@ -4,13 +4,20 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.DragEvent;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,16 +49,9 @@ public class CalendarViewer extends LinearLayout {
     private ImageView btnNext;
     private TextView txtDate;
     private GridView grid;
-
-    int[] rainbow = new int[] {
-            R.color.summer,
-            R.color.fall,
-            R.color.winter,
-            R.color.spring
-    };
-
-    int[] monthSeason = new int[] {2, 2, 3, 3, 3, 0, 0, 0, 1, 1, 1, 2};
-
+    private HorizontalScrollView scroller;
+    private HashSet<Date> events;
+    private GestureDetector gestureDetector;
 
     public CalendarViewer(Context context) {
         super(context);
@@ -71,10 +71,12 @@ public class CalendarViewer extends LinearLayout {
     private void initControl(Context context, AttributeSet attrs) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.control_calendar, this);
+        gestureDetector=new GestureDetector(context, new MyGestureDetector());
 
         loadDateFormat(attrs);
         assignUiElements();
         assignClickHandlers();
+        assignScrollHandler();
 
         updateCalendar();
     }
@@ -93,12 +95,14 @@ public class CalendarViewer extends LinearLayout {
     }
 
     private void assignUiElements() {
-
         header = (LinearLayout)findViewById(R.id.calendar_header);
         btnPrev = (ImageView)findViewById(R.id.calendar_prev_button);
         btnNext = (ImageView)findViewById(R.id.calendar_next_button);
         txtDate = (TextView)findViewById(R.id.calendar_date_display);
+        Object o = findViewById(R.id.scroll_view);
+        scroller = (HorizontalScrollView) o;
         grid = (GridView)findViewById(R.id.calendar_grid);
+
     }
 
     private void assignClickHandlers() {
@@ -108,7 +112,7 @@ public class CalendarViewer extends LinearLayout {
             public void onClick(View v)
             {
                 currentDate.add(Calendar.MONTH, 1);
-                updateCalendar();
+                updateCalendar(events);
             }
         });
 
@@ -116,7 +120,7 @@ public class CalendarViewer extends LinearLayout {
             @Override
             public void onClick(View v) {
                 currentDate.add(Calendar.MONTH, -1);
-                updateCalendar();
+                updateCalendar(events);
             }
         });
 
@@ -133,17 +137,35 @@ public class CalendarViewer extends LinearLayout {
             }
         });
     }
+    MotionEvent baseEvent = null;
+    private void assignScrollHandler(){
+        scroller.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if (baseEvent == null) {
+                    baseEvent = MotionEvent.obtain(event);//event;
+                    //Log.d("BASEEVENT", "Setting Base event: "  + Float.toString(baseEvent.getX()) + ", " + Float.toString(baseEvent.getY()));
+                }
+                if (gestureDetector.onTouchEvent(event)) {
+                    return true;
+                }
+                return false;
+            }
+       });
+    }
 
     public void updateCalendar(){
         updateCalendar(null);
     }
 
     public void updateCalendar(HashSet<Date> events) {
+        this.events=events;
         ArrayList<Date> cells = new ArrayList<>();
         Calendar calendar = (Calendar)currentDate.clone();
 
         calendar.set(Calendar.DAY_OF_MONTH, 1);
-        int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 2;
 
         calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell);
 
@@ -158,11 +180,30 @@ public class CalendarViewer extends LinearLayout {
         txtDate.setText(sdf.format(currentDate.getTime()));
 
         int month = currentDate.get(Calendar.MONTH);
-        int season = monthSeason[month];
-        int color = rainbow[season];
 
-        header.setBackgroundColor(getResources().getColor(color));
     }
+
+    private class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                               float velocityY) {
+            //Log.d("BASEEVENT", "Base Event : "  + Float.toString(baseEvent.getX()) + ", " + Float.toString(baseEvent.getY()));
+            //Log.d("BASEEVENT", "Other Event: "  + Float.toString(e2.getX()) + ", " + Float.toString(e2.getY()));
+            if (baseEvent.getX() < e2.getX()) {
+                currentDate.add(Calendar.MONTH, -1);
+                updateCalendar(events);
+            } else {
+                currentDate.add(Calendar.MONTH, 1);
+                updateCalendar(events);
+            }
+            //Log.d("BASEEVENT", "Unsetting baseEvent");
+            baseEvent = null;
+            return true;
+        }
+    }
+
+
 
 
     private class CalendarAdapter extends ArrayAdapter<Date>
@@ -195,12 +236,12 @@ public class CalendarViewer extends LinearLayout {
                     if (eventDate.getDate() == day &&
                             eventDate.getMonth() == month &&
                             eventDate.getYear() == year) {
-
                         view.setBackgroundResource(R.mipmap.ic_exclamation_point_emoticon);
                         break;
                     }
                 }
             }
+
 
             ((TextView)view).setTypeface(null, Typeface.NORMAL);
             ((TextView)view).setTextColor(Color.BLACK);

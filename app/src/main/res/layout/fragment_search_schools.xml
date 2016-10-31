@@ -8,14 +8,14 @@
 
     <SearchView
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/title_bar_height"
         android:id="@+id/searchView"
-        android:queryHint="Søk med skolenavn eller adresse">
+        android:queryHint="@string/search_hint_text">
     </SearchView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/title_bar_height"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -30,30 +30,13 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/textView"
-                android:text="Søkeresultat"
+                android:text="@string/add_schools_results_title"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginTop="4dp"
                 android:textAlignment="center"
                 android:textColor="@color/colorBrightText" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorClickable"
-            android:id="@+id/search_close_container"
-            android:gravity="center_vertical|center_horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="20dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:id="@+id/search_close"
-                android:text="X" />
-
-        </LinearLayout>
     </LinearLayout>
 
     <ListView

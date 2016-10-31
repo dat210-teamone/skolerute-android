@@ -10,30 +10,49 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/colorTitle"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Dine skoler"
-            android:id="@+id/textView2"
-            android:gravity="center"
-            android:layout_marginTop="6dp"
-            android:layout_weight="1" />
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:src="@drawable/alarm_off"
-            android:layout_marginRight="5dp"
-            android:id="@+id/notiButton" />
+            android:background="@drawable/ic_more_vert_white_24dp"
+            android:visibility="invisible"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/stored_schools_title"
+            android:text="@string/stored_schools_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/stored_schools_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_more_vert_white_24dp"
+            android:layout_marginRight="10dp" />
+
     </LinearLayout>
 
-    <ListView
+    <LinearLayout
+        android:id="@+id/stored_schools_list_container"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/storedSchoolsList"
-        android:layout_gravity="center_horizontal" />
+        android:layout_height="160dp">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/storedSchoolsList"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+
+
+
 </LinearLayout>
