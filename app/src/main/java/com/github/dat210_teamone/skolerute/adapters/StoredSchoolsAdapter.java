@@ -71,6 +71,14 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
             }
         });
 
+        schoolName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.schoolsToView.clear();
+                mainActivity.schoolsToView.add(values[position]);
+                mainActivity.viewCalendarList();
+            }
+        });
 
         //       String displayDate = "Neste fridag: " + dateFormatter(dates[position]);
         //      nextDate.setText(displayDate);

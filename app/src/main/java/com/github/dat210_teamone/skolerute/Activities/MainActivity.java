@@ -167,6 +167,10 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
          }
     }
 
+    public void uncheckSchools() {
+
+    }
+
     private boolean getAndCheckPermission(String permission) {
         int permissinCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissinCheck != PackageManager.PERMISSION_GRANTED) {
@@ -234,6 +238,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     public void goToAddSchools() {
         replaceMainFragment(new AddSchools());
+        clearSecondaryFragment();
     }
 
     public void goToCalendarList() {
@@ -268,6 +273,13 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         this.fragment = fragment;
         fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container_secondary, fragment);
+        fragTrans.commit();
+    }
+
+    public void clearSecondaryFragment(){
+        fragTrans = manager.beginTransaction();
+        Fragment secondaryFragment = manager.findFragmentById(R.id.fragment_container_secondary);
+        fragTrans.remove(secondaryFragment);
         fragTrans.commit();
     }
 
