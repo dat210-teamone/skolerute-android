@@ -32,7 +32,7 @@ import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.NotificationUtil;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
-import com.github.dat210_teamone.skolerute.data.UpdateService;
+import com.github.dat210_teamone.skolerute.data.UpdateTask;
 import com.github.dat210_teamone.skolerute.data.locationService.LocationFinder;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         NU.createNotification();
 
         // START - Set up AlarmManager update service
-        UpdateService.setUpUpdateService();
+        new UpdateTask().execute();
         // END - Set up AlarmManager update service
     }
 

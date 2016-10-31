@@ -75,14 +75,14 @@ public class SchoolStorage implements IStorage {
         return this;
     }
 
-    private void loadSchoolInfo(){
+    public void loadSchoolInfo(){
         for(int i = 0; i < schoolInfoGetters.length; i++){
             schoolInfos.addAll(OneUtils.toArrayList(schoolInfoGetters[i].getAllSchoolInfo()));
         }
         serializeSchoolObjects(SerializeType.SCHOOL_INFO);
     }
 
-    private void loadSchoolVacationDays(){
+    public void loadSchoolVacationDays(){
         for(int i = 0; i < schoolInfoGetters.length; i++){
             schoolVacationDays.addAll(OneUtils.toArrayList(schoolInfoGetters[i].getAllSchoolVacationDays()));
         }
