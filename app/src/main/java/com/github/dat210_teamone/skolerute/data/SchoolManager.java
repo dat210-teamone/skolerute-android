@@ -59,7 +59,7 @@ public class SchoolManager {
 
     public boolean checkName(String name){
         for (String val : selectedSchools) {
-            if (name.equals(val))
+            if (name.toUpperCase().equals(val.toUpperCase()))
                 return true;
         }
         return false;
@@ -102,7 +102,7 @@ public class SchoolManager {
     }
 
     public SchoolVacationDay[] getNextVacationDays(String name, boolean includeToday) {
-        SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().equals(name) && info.getDate().after(new Date(System.currentTimeMillis() - ( includeToday ? 86400000 : 0)))); // removed one day
+        SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().toUpperCase().equals(name.toUpperCase()) && info.getDate().after(new Date(System.currentTimeMillis() - ( includeToday ? 86400000 : 0)))); // removed one day
         return svd;
     }
 

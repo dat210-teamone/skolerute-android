@@ -82,9 +82,9 @@ public class StoredSchools extends Fragment {
         public SchoolInfo[] allSchools = schoolManager.getSchoolInfo();
         public SchoolInfo[] selectedSchools = schoolManager.getSelectedSchools();
         public String[] allSchoolNames = new String[allSchools.length];
- */
+*/
 
-        MainActivity mainActivity = (MainActivity)getActivity();
+        MainActivity mainActivity = (MainActivity) getActivity();
 
         //  mainActivity.inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_HIDDEN,0);
 
@@ -93,18 +93,18 @@ public class StoredSchools extends Fragment {
         String[] storedSchoolNames = new String[mainActivity.selectedSchools.length];
         Date[] storedSchoolVacationDays = new Date[mainActivity.selectedSchools.length];
 
-        for (int x=0; x< mainActivity.selectedSchools.length; x++){
+        for (int x = 0; x < mainActivity.selectedSchools.length; x++) {
             storedSchoolNames[x] = mainActivity.selectedSchools[x].getSchoolName();
             storedSchoolVacationDays[x] = mainActivity.schoolManager.getNextVacationDay(storedSchoolNames[x]).getDate();
         }
 
-        for (int x=0; x< mainActivity.selectedSchools.length; x++){
+        /*for (int x = 0; x < mainActivity.selectedSchools.length; x++) {
             storedSchoolNames[x] = mainActivity.selectedSchools[x].getSchoolName();
-        }
+        }*/
 
         StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames, storedSchoolVacationDays);
 
-        storedSchoolsList = (ListView)view.findViewById(R.id.storedSchoolsList);
+        storedSchoolsList = (ListView) view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(storedSchoolsAdapter);
 
         return view;
@@ -139,9 +139,9 @@ public class StoredSchools extends Fragment {
         super.onPause();
         MainActivity mainActivity = (MainActivity)getActivity();
         TextView addSchoolButton = (TextView) mainActivity.findViewById(R.id.go_to_add);
-        ImageView notficationButton = (ImageView) mainActivity.findViewById(R.id.notificationToggle);
+        ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
         addSchoolButton.setVisibility(View.INVISIBLE);
-        notficationButton.setVisibility(View.INVISIBLE);
+        calendarViewToggle.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -149,9 +149,9 @@ public class StoredSchools extends Fragment {
         super.onStart();
         MainActivity mainActivity = (MainActivity)getActivity();
         TextView addSchoolButton = (TextView) mainActivity.findViewById(R.id.go_to_add);
-        ImageView notficationButton = (ImageView) mainActivity.findViewById(R.id.notificationToggle);
+        ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
         addSchoolButton.setVisibility(View.VISIBLE);
-        notficationButton.setVisibility(View.VISIBLE);
+        calendarViewToggle.setVisibility(View.VISIBLE);
     }
 
 

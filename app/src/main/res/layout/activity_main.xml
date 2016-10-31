@@ -47,10 +47,10 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/alarm_off"
-            android:id="@+id/notificationToggle"
+            app:srcCompat="@drawable/calendar_icon_white"
+            android:id="@+id/calendar_view_toggle"
             android:visibility="invisible"
-            android:tag="alarm_off"/>
+            android:tag="list_view"/>
 
     </LinearLayout>
 

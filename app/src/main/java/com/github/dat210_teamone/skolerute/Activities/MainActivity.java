@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             }
         });
 
-        setupNotificationToggle();
+        changeCalendarView();
 
         if (selectedSchools.length == 0)
             goToAddSchools();
@@ -104,7 +105,26 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         NU.createNotification();
     }
 
-    private void setupNotificationToggle(){
+    private void changeCalendarView(){
+        ImageView calendarViewToggle = (ImageView) findViewById(R.id.calendar_view_toggle);
+        calendarViewToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String calendarToggleTag = (String) calendarViewToggle.getTag();
+                if(calendarToggleTag == "list_view"){
+                    calendarViewToggle.setTag("calendar_view");
+                    calendarViewToggle.setImageResource(R.drawable.list_button);
+                    viewCalendar();
+                } else{
+                    calendarViewToggle.setTag("list_view");
+                    calendarViewToggle.setImageResource(R.drawable.calendar_icon_white);
+                    viewCalendarList();
+                }
+            }
+        });
+    }
+
+/*    private void setupNotificationToggle(){
         ImageView notificationToggle = (ImageView) findViewById(R.id.notificationToggle);
         notificationToggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
                 toast.show();
             }
         });
-    }
+    } */
 
     private void initSchoolData(){
         allSchools = schoolManager.getSchoolInfo();
