@@ -10,6 +10,7 @@ import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
@@ -29,10 +30,6 @@ public class CalendarExporter {
     private SchoolVacationDay schoolVacationDay[];
     private final int MY_PERMISSIONS_REQUEST_READ_WRITE_CALENDAR = 1;
 
-    String headers[] = {
-            "Subject,Start date,Start time,End date,End time,All day event,description,Location,Private"
-    };
-
     public CalendarExporter(Activity activity) {
         this.activity = activity;
         schoolManager = SchoolManager.getDefault();
@@ -43,46 +40,49 @@ public class CalendarExporter {
         try {
             String eventUriString = "content://com.android.calendar/events";
 
-            for(int i = 0; i < 3 ; i++) {
-                Date schoolDate = schoolVacationDay[i].getDate();
-                Calendar startDate = new GregorianCalendar();
-                startDate.setTime(schoolDate);
+            if (schoolVacationDay.length > 0) {
+                for (int i = 0; i < 3; i++) {
+                    Date schoolDate = schoolVacationDay[i].getDate();
+                    Calendar startDate = new GregorianCalendar();
+                    startDate.setTime(schoolDate);
 
-                if (!checkIfExists("Fridag - " + schoolVacationDay[i].getName(), schoolDate)) {
-                    String description = "";
-                    description = schoolVacationDay[i].isSfoDay() ? description + "SFO dag" : description + "";
-                    description = schoolVacationDay[i].getComment().isEmpty() ? "" : description + "\n" + schoolVacationDay[i].getComment();
-                    ContentValues values = new ContentValues();
-                    values.put(CalendarContract.Events.CALENDAR_ID, 1);
-                    values.put(CalendarContract.Events.TITLE, "Fridag - " + schoolVacationDay[i].getName());
-                    values.put(CalendarContract.Events.DESCRIPTION, description);
-                    values.put(CalendarContract.Events.ALL_DAY, true);
+                    if (!checkIfExists("Fridag - " + schoolVacationDay[i].getName(), schoolDate)) {
+                        String description = "";
+                        description = schoolVacationDay[i].isSfoDay() ? description + "SFO dag" : description + "";
+                        description = schoolVacationDay[i].getComment().isEmpty() ? "" : description + "\n" + schoolVacationDay[i].getComment();
+                        ContentValues values = new ContentValues();
+                        values.put(CalendarContract.Events.CALENDAR_ID, 1);
+                        values.put(CalendarContract.Events.TITLE, "Fridag - " + schoolVacationDay[i].getName());
+                        values.put(CalendarContract.Events.DESCRIPTION, description);
+                        values.put(CalendarContract.Events.ALL_DAY, true);
 
 
-                    values.put(CalendarContract.Events.DTSTART, startDate.getTimeInMillis());
-                    values.put(CalendarContract.Events.DTEND, startDate.getTimeInMillis());
-                    values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+                        values.put(CalendarContract.Events.DTSTART, startDate.getTimeInMillis());
+                        values.put(CalendarContract.Events.DTEND, startDate.getTimeInMillis());
+                        values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
 
-                    Log.d("CalendarExporter", "Adding " + "Fridag - " + schoolVacationDay[i].getName());
-                    Uri eventUri = InterfaceManager.getContext()
-                            .getContentResolver()
-                            .insert(Uri.parse(eventUriString), values);
-                    Long eventID = Long.parseLong(eventUri.getLastPathSegment());
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    Log.d("CalendarExporter", "Added event with ID " + eventID + "at " + sdf.format(schoolVacationDay[i].getDate()));
-                } else {
-                    Log.d("CalendarExporter", "Entry exists, skipping");
+                        Log.d("CalendarExporter", "Adding " + "Fridag - " + schoolVacationDay[i].getName());
+                        Uri eventUri = InterfaceManager.getContext()
+                                .getContentResolver()
+                                .insert(Uri.parse(eventUriString), values);
+                        Long eventID = Long.parseLong(eventUri.getLastPathSegment());
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        Log.d("CalendarExporter", "Added event with ID " + eventID + "at " + sdf.format(schoolVacationDay[i].getDate()));
+                    } else {
+                        Log.d("CalendarExporter", "Entry exists, skipping");
+                    }
                 }
             }
-        } catch (Exception e) {
+        } catch (SecurityException e) {
             e.printStackTrace();
+            Toast.makeText(activity, "Cannot export, Permission denied", Toast.LENGTH_LONG).show();
         }
     }
 
     private boolean checkIfExists(String eventTitle, Date eventDate) {
         Calendar startDate = new GregorianCalendar();
         startDate.setTime(eventDate);
-        String[] entry = new String[] {
+        String[] entry = new String[]{
                 CalendarContract.Instances._ID,
                 CalendarContract.Instances.BEGIN,
                 CalendarContract.Instances.END,
