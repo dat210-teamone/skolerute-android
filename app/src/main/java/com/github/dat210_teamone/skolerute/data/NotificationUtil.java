@@ -68,24 +68,24 @@ public class NotificationUtil {
         calendar.set(Calendar.SECOND, 0);
 
         Intent i = new Intent(con, NotificationReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(con, SVD.hashCode(), i, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getBroadcast(con, (int)SVD.getDate().getTime(), i, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager am = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);
     }
 
-    //Remove all notifications
     public void removeAllNotifications() {
-        AlarmManager alarmManager = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
-
-        Intent updateServiceIntent = new Intent(con, MainActivity.class);
-        PendingIntent pendingUpdateIntent = PendingIntent.getService(con, 1233, updateServiceIntent, 0);
-
-        // Cancel alarms
-        try {
-            alarmManager.cancel(pendingUpdateIntent);
-        } catch (Exception e) {
-
+        HashSet hs = new HashSet();
+        AlarmManager am = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(con, NotificationReceiver.class);
+        PendingIntent pi;
+        for (SchoolInfo SI : SM.getSelectedSchools()) {
+            for (SchoolVacationDay SVD : SM.getNextVacationDays(SI.getSchoolName())) {
+                if (!hs.contains(SVD.getDate())) {
+                    pi = PendingIntent.getBroadcast(con, (int)SVD.getDate().getTime(), i, PendingIntent.FLAG_CANCEL_CURRENT);
+                    am.cancel(pi);
+                }
+            }
         }
     }
 }
