@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             @Override
             public void onClick(View v) {
                 String calendarToggleTag = (String) calendarViewToggle.getTag();
-                if(calendarToggleTag == "list_view"){
+                if(calendarToggleTag.equals("list_view")){
                     calendarViewToggle.setTag("calendar_view");
                     calendarViewToggle.setImageResource(R.drawable.list_button);
                     viewCalendar();
