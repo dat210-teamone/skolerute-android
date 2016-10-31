@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -40,11 +41,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static java.lang.Thread.sleep;
+
 
 public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, SearchSchools.OnSearchSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
 
     public FragmentManager manager = getSupportFragmentManager();
     public Fragment fragment = manager.findFragmentById(R.id.fragment_container);
+    public Fragment fragment2 = manager.findFragmentById(R.id.fragment_container_secondary);
     public FragmentTransaction fragTrans =  manager.beginTransaction();
     private int posisjon;
 
@@ -213,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     public void goToAddSchools() {
+        removeSecondaryFragment();
         replaceMainFragment(new AddSchools());
     }
 
@@ -225,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     public void goToSearchSchool() {
+        removeSecondaryFragment();
         replaceMainFragment(new SearchSchools());
     }
 
@@ -245,9 +251,15 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     public void replaceSecondaryFragment(Fragment fragment){
-        this.fragment = fragment;
+        this.fragment2 = fragment;
         fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container_secondary, fragment);
+        fragTrans.commit();
+    }
+
+    public void removeSecondaryFragment(){
+        fragTrans = manager.beginTransaction();
+        fragTrans.remove(fragment2);
         fragTrans.commit();
     }
 
@@ -266,6 +278,12 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();  // Always call the superclass method first
+        hideKeyboard();
     }
 
     // Abstract methods from fragments
