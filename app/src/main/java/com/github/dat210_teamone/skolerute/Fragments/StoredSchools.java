@@ -84,7 +84,7 @@ public class StoredSchools extends Fragment {
         public String[] allSchoolNames = new String[allSchools.length];
 */
 
-        MainActivity mainActivity = (MainActivity)getActivity();
+        MainActivity mainActivity = (MainActivity) getActivity();
 
         //  mainActivity.inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_HIDDEN,0);
 
@@ -93,18 +93,18 @@ public class StoredSchools extends Fragment {
         String[] storedSchoolNames = new String[mainActivity.selectedSchools.length];
         Date[] storedSchoolVacationDays = new Date[mainActivity.selectedSchools.length];
 
-        for (int x=0; x< mainActivity.selectedSchools.length; x++){
+        for (int x = 0; x < mainActivity.selectedSchools.length; x++) {
             storedSchoolNames[x] = mainActivity.selectedSchools[x].getSchoolName();
             storedSchoolVacationDays[x] = mainActivity.schoolManager.getNextVacationDay(storedSchoolNames[x]).getDate();
         }
 
-        for (int x=0; x< mainActivity.selectedSchools.length; x++){
+        /*for (int x = 0; x < mainActivity.selectedSchools.length; x++) {
             storedSchoolNames[x] = mainActivity.selectedSchools[x].getSchoolName();
-        }
+        }*/
 
         StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames, storedSchoolVacationDays);
 
-        storedSchoolsList = (ListView)view.findViewById(R.id.storedSchoolsList);
+        storedSchoolsList = (ListView) view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(storedSchoolsAdapter);
 
         return view;

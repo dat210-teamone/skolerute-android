@@ -12,6 +12,8 @@ import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.util.Calendar;
 
+import java.util.HashSet;
+
 /**
  * Created by Fredrik Wigsnes on 05.10.2016.
  */
@@ -38,9 +40,13 @@ public class NotificationUtil {
     }
 
     public void createNotification() {
+        HashSet hs = new HashSet();
         for (SchoolInfo s : SM.getSelectedSchools()) {
-            for (SchoolVacationDay v : SM.getNextVacationDays(s.getSchoolName(), true)) {
-                createNotification(v);
+            for (SchoolVacationDay v : SM.getNextVacationDays(s.getSchoolName())) {
+                if (!hs.contains(v.getDate())) {
+                    hs.add(v.getDate());
+                    createNotification(v);
+                }
             }
         }
     }
@@ -50,12 +56,12 @@ public class NotificationUtil {
     public void createNotification(SchoolVacationDay SVD) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(SVD.getDate());
-        calendar.set(Calendar.HOUR, 9);
-        calendar.set(Calendar.MINUTE, 47);
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 00);
         calendar.set(Calendar.SECOND, 0);
 
         Intent i = new Intent(con, NotificationReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(con, 1233, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getBroadcast(con, SVD.hashCode(), i, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager am = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);
