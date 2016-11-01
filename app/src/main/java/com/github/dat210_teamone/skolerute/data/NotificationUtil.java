@@ -33,24 +33,15 @@ public class NotificationUtil implements INotificationUpdate {
     }
 
     @Override
-    public void preNotifyAdd(String name) {
+    public void preNotify(UpdateType type, String name) {
         removeAllNotifications();
     }
 
     @Override
-    public void postNotifyAdd(String name) {
+    public void postNotify(UpdateType type, String name, boolean result) {
         createNotification();
     }
 
-    @Override
-    public void preNotifyRemove(String name) {
-        removeAllNotifications();
-    }
-
-    @Override
-    public void postNotifyRemove(String name, boolean result) {
-        createNotification();
-    }
 
     @Override
     public void globalNotifyChange(boolean newValue) {

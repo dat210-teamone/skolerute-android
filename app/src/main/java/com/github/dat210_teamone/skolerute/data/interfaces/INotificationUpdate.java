@@ -6,11 +6,14 @@ package com.github.dat210_teamone.skolerute.data.interfaces;
 
 public interface INotificationUpdate {
 
-    void preNotifyAdd(String name);
-    void postNotifyAdd(String name);
-    void preNotifyRemove(String name);
-    void postNotifyRemove(String name, boolean result);
+    void preNotify(UpdateType type, String name);
+    void postNotify(UpdateType type, String name, boolean result);
+    //void preNotifyRemove(String name);
+    //void postNotifyRemove(String name, boolean result);
 
     void globalNotifyChange(boolean newValue);
-
+    enum UpdateType{
+        ADD,
+        REMOVE
+    }
 }
