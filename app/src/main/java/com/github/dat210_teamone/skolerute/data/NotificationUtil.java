@@ -53,6 +53,15 @@ public class NotificationUtil implements INotificationUpdate {
         createNotification();
     }
 
+    @Override
+    public void globalNotifyChange(boolean newValue) {
+        if (newValue) {
+            createNotification();
+        } else {
+            removeAllNotifications();
+        }
+    }
+
     //This will run when you turn on all notifications
     public void createNotification() {
         if (!SM.getGlobalNotification()) {
@@ -65,14 +74,6 @@ public class NotificationUtil implements INotificationUpdate {
                 createNotification(svd);
             }
         }
-    }
-
-    //Create a notification for this school
-    public void createNotification(String school) {
-        //TODO: Add school to notification-array
-
-        //TODO: Test for all schools in notification-array if they have a notification on that day.
-
     }
 
     //Get a schoolVacationDay and create a Alarmnotification for it.
@@ -92,8 +93,6 @@ public class NotificationUtil implements INotificationUpdate {
 
     //This will run when you turn off all notifications.
     public void removeAllNotifications() {
-        //TODO: Remove all schools from notifications-aray
-
         HashSet hs = new HashSet();
         AlarmManager am = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(con, NotificationReceiver.class);
@@ -104,12 +103,5 @@ public class NotificationUtil implements INotificationUpdate {
                 am.cancel(pi);
             }
         }
-    }
-
-    //remove notifications for this school
-    public void removeNotifications(String school) {
-        //TODO: removeAllNotifications()
-        //TODO: remove school from notification-array
-        //TODO: createNotifications()
     }
 }
