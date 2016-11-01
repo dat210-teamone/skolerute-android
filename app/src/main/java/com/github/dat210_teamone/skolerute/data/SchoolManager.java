@@ -1,8 +1,6 @@
 package com.github.dat210_teamone.skolerute.data;
 
 
-import android.util.Log;
-
 import android.location.Location;
 
 
@@ -13,7 +11,6 @@ import com.github.dat210_teamone.skolerute.model.PostLink;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
-import java.lang.reflect.Array;
 import java.util.List;
 import java.util.regex.*;
 
@@ -193,43 +190,33 @@ public class SchoolManager {
     ArrayList<INotificationUpdate> allUpdates = new ArrayList<>();
 
     public void addNotifySchool(String school){
-        for (INotificationUpdate not : allUpdates)
-        {
-            not.preNotifyAdd(school);
-        }
+        runEvent(allUpdates, n -> n.preNotifyAdd(school));
         settings.addNotifySchool(school);
-        for (INotificationUpdate not: allUpdates)
-        {
-            not.postNotifyAdd(school);
-        }
+        runEvent(allUpdates, n -> n.postNotifyAdd(school));
     }
 
     public boolean removeNotifySchool(String school){
-        for (INotificationUpdate not : allUpdates)
-        {
-            not.preNotifyRemove(school);
-        }
+        runEvent(allUpdates, n -> n.preNotifyRemove(school));
         boolean result = settings.deleteNotifySchool(school);
-        for (INotificationUpdate not: allUpdates)
-        {
-            not.postNotifyRemove(school, result);
-        }
+        runEvent(allUpdates, n -> n.postNotifyRemove(school, result));
         return result;
     }
 
     public void setGlobalNotification(boolean value){
         settings.setGlobalNotify(value);
-        for (INotificationUpdate not : allUpdates)
-        {
-            not.globalNotifyChange(value);
-        }
+        runEvent(allUpdates, n -> n.globalNotifyChange(value));
     }
 
     public boolean getGlobalNotification(){
         return settings.getGlobalNotify();
     }
 
-    //private void <T> runNotification(ArrayList<T> list, Pre)
+    private <T>  void runEvent(ArrayList<T> list, ActionEvent<T> event)
+    {
+        for (T t : list){
+            event.action(t);
+        }
+    }
 
     public void subscribe(INotificationUpdate update) {
         allUpdates.add(update);
@@ -237,5 +224,8 @@ public class SchoolManager {
 
     public void unsubscribe(INotificationUpdate update){
         allUpdates.remove(update);
+    }
+    interface ActionEvent<T>{
+        void action(T t);
     }
 }
