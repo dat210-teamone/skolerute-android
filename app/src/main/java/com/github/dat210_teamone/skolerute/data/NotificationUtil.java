@@ -39,6 +39,8 @@ public class NotificationUtil {
     }
 
     public void createNotification() {
+        //TODO: Add all selected schools to notifications-array.
+
         HashSet hs = new HashSet();
         for (SchoolInfo s : SM.getSelectedSchools()) {
             for (SchoolVacationDay v : SM.getNextVacationDays(s.getSchoolName())) {
@@ -50,8 +52,15 @@ public class NotificationUtil {
         }
     }
 
+    //Create a notification for this school
+    public void createNotification(String school) {
+        //TODO: Add school to notification-array
 
-    //Get a schoolVacationDay and create a notification for it.
+        //TODO: Test for all schools in notification-array if they have a notification on that day.
+
+    }
+
+    //Get a schoolVacationDay and create a Alarmnotification for it.
     public void createNotification(SchoolVacationDay SVD) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(SVD.getDate());
@@ -67,11 +76,13 @@ public class NotificationUtil {
     }
 
     public void removeAllNotifications() {
+        //TODO: Remove all schools from notifications-aray
+
         HashSet hs = new HashSet();
         AlarmManager am = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(con, NotificationReceiver.class);
         PendingIntent pi;
-        for (SchoolInfo SI : SM.getSelectedSchools()) {
+        for (SchoolInfo SI : SM.getSelectedSchools()) { //TODO: change to use notification-array
             for (SchoolVacationDay SVD : SM.getNextVacationDays(SI.getSchoolName())) {
                 if (!hs.contains(SVD.getDate())) {
                     pi = PendingIntent.getBroadcast(con, (int)SVD.getDate().getTime(), i, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -79,5 +90,12 @@ public class NotificationUtil {
                 }
             }
         }
+    }
+
+    //remove notifications for this school
+    public void removeNotifications(String school) {
+        //TODO: removeAllNotifications()
+        //TODO: remove school from notification-array
+        //TODO: createNotifications()
     }
 }
