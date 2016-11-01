@@ -34,23 +34,18 @@ public class NotificationUtil implements INotificationUpdate {
     }
 
     @Override
-    public void preNotifyAdd(String name) {
-        
+    public void preNotify(UpdateType type, String name) {
+        removeAllNotifications();
     }
 
     @Override
-    public void postNotifyAdd(String name) {
-
+    public void postNotify(UpdateType type, String name, boolean result) {
+        createNotification();
     }
 
     @Override
-    public void preNotifyRemove(String name) {
-
-    }
-
-    @Override
-    public void postNotifyRemove(String name) {
-
+    public void globalNotifyChange(boolean newValue) {
+        removeAllNotifications();
     }
 
     //This will run when you turn on all notifications
@@ -116,4 +111,6 @@ public class NotificationUtil implements INotificationUpdate {
         //TODO: remove school from notification-array
         //TODO: createNotifications()
     }
+
+
 }

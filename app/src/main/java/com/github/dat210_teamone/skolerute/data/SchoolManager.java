@@ -190,15 +190,15 @@ public class SchoolManager {
     ArrayList<INotificationUpdate> allUpdates = new ArrayList<>();
 
     public void addNotifySchool(String school){
-        runEvent(allUpdates, n -> n.preNotifyAdd(school));
+        runEvent(allUpdates, n -> n.preNotify(INotificationUpdate.UpdateType.ADD, school));
         settings.addNotifySchool(school);
-        runEvent(allUpdates, n -> n.postNotifyAdd(school));
+        runEvent(allUpdates, n -> n.postNotify(INotificationUpdate.UpdateType.ADD, school, true));
     }
 
     public boolean removeNotifySchool(String school){
-        runEvent(allUpdates, n -> n.preNotifyRemove(school));
+        runEvent(allUpdates, n -> n.preNotify(INotificationUpdate.UpdateType.REMOVE, school));
         boolean result = settings.deleteNotifySchool(school);
-        runEvent(allUpdates, n -> n.postNotifyRemove(school, result));
+        runEvent(allUpdates, n -> n.postNotify(INotificationUpdate.UpdateType.REMOVE, school, result));
         return result;
     }
 
