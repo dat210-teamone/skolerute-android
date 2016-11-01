@@ -10,7 +10,6 @@ import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.util.Calendar;
-
 import java.util.HashSet;
 
 /**
@@ -26,6 +25,7 @@ public class NotificationUtil implements INotificationUpdate {
     public NotificationUtil(Context con) {
         this.con = con;
         this.SM = SchoolManager.getDefault();
+        this.SM.subscribe(this);
         defaultManager = this;
     }
 
@@ -35,36 +35,34 @@ public class NotificationUtil implements INotificationUpdate {
 
     @Override
     public void preNotifyAdd(String name) {
-        
+        removeAllNotifications();
     }
 
     @Override
     public void postNotifyAdd(String name) {
-
+        createNotification();
     }
 
     @Override
     public void preNotifyRemove(String name) {
-
+        removeAllNotifications();
     }
 
     @Override
-    public void postNotifyRemove(String name) {
-
+    public void postNotifyRemove(String name, boolean result) {
+        createNotification();
     }
 
     //This will run when you turn on all notifications
     public void createNotification() {
-        //SET GLOBAL flag true.
-
-
+        if (!SM.getGlobalNotification()) {
+            return;
+        }
         HashSet hs = new HashSet();
-        for (SchoolInfo s : SM.getSelectedSchools()) { //Change to list of notification-array.
-            for (SchoolVacationDay v : SM.getNextVacationDays(s.getSchoolName())) {
-                if (!hs.contains(v.getDate())) {
-                    hs.add(v.getDate());
-                    createNotification(v);
-                }
+        for (SchoolVacationDay svd : SM.getNextVacationsDays(SM.getNotifySchools())) {
+            if (!hs.contains(svd.getDate())) {
+                hs.add(svd.getDate());
+                createNotification(svd);
             }
         }
     }
@@ -100,12 +98,10 @@ public class NotificationUtil implements INotificationUpdate {
         AlarmManager am = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(con, NotificationReceiver.class);
         PendingIntent pi;
-        for (SchoolInfo SI : SM.getSelectedSchools()) { //TODO: change to use notification-array
-            for (SchoolVacationDay SVD : SM.getNextVacationDays(SI.getSchoolName())) {
-                if (!hs.contains(SVD.getDate())) {
-                    pi = PendingIntent.getBroadcast(con, (int)SVD.getDate().getTime(), i, PendingIntent.FLAG_CANCEL_CURRENT);
-                    am.cancel(pi);
-                }
+        for (SchoolVacationDay svd : SM.getNextVacationsDays(SM.getNotifySchools())) {
+            if (!hs.contains(svd.getDate())) {
+                pi = PendingIntent.getBroadcast(con, (int)svd.getDate().getTime(), i, PendingIntent.FLAG_CANCEL_CURRENT);
+                am.cancel(pi);
             }
         }
     }
