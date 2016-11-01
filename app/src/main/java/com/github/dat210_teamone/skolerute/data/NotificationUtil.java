@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.github.dat210_teamone.skolerute.data.interfaces.INotificationUpdate;
-import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.util.Calendar;

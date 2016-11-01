@@ -187,6 +187,16 @@ public class SchoolManager {
         return settings.getNotifySchools();
     }
 
+    public boolean getNotifySchool(String name){
+        String[] schools = getNotifySchools();
+        for (String s : schools) {
+            if (s.equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     ArrayList<INotificationUpdate> allUpdates = new ArrayList<>();
 
     public void addNotifySchool(String school){
