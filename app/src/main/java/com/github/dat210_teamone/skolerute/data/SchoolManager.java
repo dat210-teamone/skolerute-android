@@ -6,6 +6,7 @@ import android.util.Log;
 import android.location.Location;
 
 
+import com.github.dat210_teamone.skolerute.data.interfaces.INotificationUpdate;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
 import com.github.dat210_teamone.skolerute.model.PostLink;
@@ -189,12 +190,31 @@ public class SchoolManager {
         return settings.getNotifySchools();
     }
 
+    ArrayList<INotificationUpdate> allUpdates = new ArrayList<>();
+
     public void addNotifySchool(String school){
+        for (INotificationUpdate not : allUpdates)
+        {
+            not.preNotifyAdd(school);
+        }
         settings.addNotifySchool(school);
+        for (INotificationUpdate not: allUpdates)
+        {
+            not.postNotifyAdd(school);
+        }
     }
 
     public boolean removeNotifySchool(String school){
-        return settings.deleteNotifySchool(school);
+        for (INotificationUpdate not : allUpdates)
+        {
+            not.preNotifyRemove(school);
+        }
+        boolean result = settings.deleteNotifySchool(school);
+        for (INotificationUpdate not: allUpdates)
+        {
+            not.postNotifyRemove(school, result);
+        }
+        return result;
     }
 
     public void setGlobalNotification(boolean value){
@@ -203,5 +223,15 @@ public class SchoolManager {
 
     public boolean getGlobalNotification(){
         return settings.getGlobalNotify();
+    }
+
+
+
+    public void subscribe(INotificationUpdate update) {
+        allUpdates.add(update);
+    }
+
+    public void unsubscribe(INotificationUpdate update){
+        allUpdates.remove(update);
     }
 }
