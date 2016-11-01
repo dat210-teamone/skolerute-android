@@ -219,13 +219,17 @@ public class SchoolManager {
 
     public void setGlobalNotification(boolean value){
         settings.setGlobalNotify(value);
+        for (INotificationUpdate not : allUpdates)
+        {
+            not.globalNotifyChange(value);
+        }
     }
 
     public boolean getGlobalNotification(){
         return settings.getGlobalNotify();
     }
 
-
+    //private void <T> runNotification(ArrayList<T> list, Pre)
 
     public void subscribe(INotificationUpdate update) {
         allUpdates.add(update);
