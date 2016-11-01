@@ -11,4 +11,6 @@ public interface INotificationUpdate {
     void preNotifyRemove(String name);
     void postNotifyRemove(String name, boolean result);
 
+    void globalNotifyChange(boolean newValue);
+
 }
