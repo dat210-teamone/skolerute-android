@@ -30,6 +30,7 @@ import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.SearchSchools;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.NotificationUtil;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
@@ -37,6 +38,7 @@ import com.github.dat210_teamone.skolerute.data.UpdateService;
 import com.github.dat210_teamone.skolerute.data.locationService.LocationFinder;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     Location lastKnownLocation;
 
     public Set<String> schoolsToView = new HashSet<>();
+    public StoredSchoolsAdapter storedSchoolsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +166,16 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
          for (int i=0; i<selectedSchools.length;i++){
             schoolsToView.add(selectedSchools[i].getSchoolName());
          }
+    }
+
+    public void clearCheckedSchools(){
+        schoolsToView.clear();
+    }
+
+    public void refreshCheckedSchools(){
+        storedSchoolsAdapter.clear();
+        storedSchoolsAdapter.addAll(getAllStoredSchoolNames());
+        storedSchoolsAdapter.notifyDataSetChanged();
     }
 
     private boolean getAndCheckPermission(String permission) {
@@ -282,6 +295,23 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     public int getPosisjon() {
         return posisjon;
+    }
+
+
+    public String[] getAllStoredSchoolNames(){
+        String[] storedSchoolNames = new String[selectedSchools.length];
+        for (int x = 0; x < selectedSchools.length; x++) {
+            storedSchoolNames[x] = selectedSchools[x].getSchoolName();
+        }
+        return storedSchoolNames;
+    }
+
+    public Date[] getAllStoredSchoolDates(){
+        Date[] storedSchoolDates = new Date[selectedSchools.length];
+        for (int x = 0; x < selectedSchools.length; x++) {
+            storedSchoolDates[x] = schoolManager.getNextVacationDay(selectedSchools[x].getSchoolName()).getDate();
+        }
+        return storedSchoolDates;
     }
 
     @Override

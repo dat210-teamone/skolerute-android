@@ -71,14 +71,14 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
             }
         });
 
-        schoolName.setOnClickListener(new View.OnClickListener() {
+       /* schoolName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.schoolsToView.clear();
+                mainActivity.clearCheckedSchools();
                 mainActivity.schoolsToView.add(values[position]);
-                mainActivity.viewCalendarList();
+                mainActivity.refreshCheckedSchools();
             }
-        });
+        }); */
 
         //       String displayDate = "Neste fridag: " + dateFormatter(dates[position]);
         //      nextDate.setText(displayDate);
