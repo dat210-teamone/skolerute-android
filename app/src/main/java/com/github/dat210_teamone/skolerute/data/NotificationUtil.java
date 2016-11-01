@@ -1,11 +1,11 @@
 package com.github.dat210_teamone.skolerute.data;
 
 import android.app.AlarmManager;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+import com.github.dat210_teamone.skolerute.data.interfaces.INotificationUpdate;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
@@ -17,32 +17,49 @@ import java.util.HashSet;
  * Created by Fredrik Wigsnes on 05.10.2016.
  */
 
-public class NotificationUtil {
+public class NotificationUtil implements INotificationUpdate {
     private static NotificationUtil defaultManager;
 
     private Context con;
-    private int notiId;
     private SchoolManager SM;
-    private NotificationManager mNotificationManager;
-    private NotificationReceiver NR;
 
     public NotificationUtil(Context con) {
         this.con = con;
-        this.notiId = 0;
         this.SM = SchoolManager.getDefault();
         defaultManager = this;
-        NR = new NotificationReceiver();
     }
 
     public static NotificationUtil getDefault() {
         return defaultManager;
     }
 
+    @Override
+    public void preNotifyAdd(String name) {
+        
+    }
+
+    @Override
+    public void postNotifyAdd(String name) {
+
+    }
+
+    @Override
+    public void preNotifyRemove(String name) {
+
+    }
+
+    @Override
+    public void postNotifyRemove(String name) {
+
+    }
+
+    //This will run when you turn on all notifications
     public void createNotification() {
-        //TODO: Add all selected schools to notifications-array.
+        //SET GLOBAL flag true.
+
 
         HashSet hs = new HashSet();
-        for (SchoolInfo s : SM.getSelectedSchools()) {
+        for (SchoolInfo s : SM.getSelectedSchools()) { //Change to list of notification-array.
             for (SchoolVacationDay v : SM.getNextVacationDays(s.getSchoolName())) {
                 if (!hs.contains(v.getDate())) {
                     hs.add(v.getDate());
@@ -75,6 +92,7 @@ public class NotificationUtil {
         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);
     }
 
+    //This will run when you turn off all notifications.
     public void removeAllNotifications() {
         //TODO: Remove all schools from notifications-aray
 
