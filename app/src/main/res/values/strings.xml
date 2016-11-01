@@ -31,5 +31,12 @@
     <string name="add_schools_results_title">Søkeresultat</string>
     <string name="search_hint_text">Søk med skolenavn, postnummer eller adresse</string>
 
+    <string name="Mon">Mandag</string>
+    <string name="Tue">Tirsdag</string>
+    <string name="Wen">Onsdag</string>
+    <string name="Thu">Torsdag</string>
+    <string name="Fri">Fredag</string>
+    <string name="Sat">Lørdag</string>
+    <string name="Sun">Søndag</string>
 
 </resources>
