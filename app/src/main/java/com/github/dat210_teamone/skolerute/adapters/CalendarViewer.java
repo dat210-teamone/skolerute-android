@@ -163,11 +163,11 @@ public class CalendarViewer extends LinearLayout {
         this.events=events;
         ArrayList<Date> cells = new ArrayList<>();
         Calendar calendar = (Calendar)currentDate.clone();
-
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
-        int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 2;
+        int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
-        calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell);
+        calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell + 1);
 
         while (cells.size() < DAYS_COUNT) {
             cells.add(calendar.getTime());
