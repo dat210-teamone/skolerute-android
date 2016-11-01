@@ -108,11 +108,13 @@ public class SchoolManager {
 
     public void addDefault(String name) {
         settings.addSelectedSchool(name);
+        addNotifySchool(name);
         addAll(settings.getSelectedSchools());
     }
 
     public void removeDefault(String name){
         settings.deleteSelectedSchool(name);
+        removeNotifySchool(name);
         addAll(settings.getSelectedSchools());
     }
 
@@ -181,5 +183,25 @@ public class SchoolManager {
 
     public Location getKnownPosition(){
         return this.knownPosition;
+    }
+
+    public String[] getNotifySchools(){
+        return settings.getNotifySchools();
+    }
+
+    public void addNotifySchool(String school){
+        settings.addNotifySchool(school);
+    }
+
+    public boolean removeNotifySchool(String school){
+        return settings.deleteNotifySchool(school);
+    }
+
+    public void setGlobalNotification(boolean value){
+        settings.setGlobalNotify(value);
+    }
+
+    public boolean getGlobalNotification(){
+        return settings.getGlobalNotify();
     }
 }
