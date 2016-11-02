@@ -33,6 +33,10 @@ import java.util.List;
  * Use the {@link SearchSchools#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+
+// NO LONGER IN USE
+
 public class SearchSchools extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -85,7 +89,7 @@ public class SearchSchools extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_search_schools, container, false);
-        MainActivity mainActivity = (MainActivity)getActivity();
+/*      MainActivity mainActivity = (MainActivity)getActivity();
 
         // Generate list of all schools
         for (int x = 0; x< mainActivity.allSchools.length; x++){
@@ -109,9 +113,8 @@ public class SearchSchools extends Fragment {
         //search box and its listeners
         SearchView searchView = setupSearchView(view);
         setupSearchListeners(view, searchView, mainActivity, itemsAdapter);
-
-        mainActivity.showKeyboard();
-        // Inflate the layout for this fragment
+*/
+        // mainActivity.showKeyboard();
         return view;
     }
 
@@ -126,7 +129,7 @@ public class SearchSchools extends Fragment {
         textView.setHintTextColor(getResources().getColor(R.color.colorGreyText));
 
         searchView.setIconifiedByDefault(false);
-        searchView.requestFocus();
+        // searchView.requestFocus();
 
         return searchView;
     }
@@ -190,7 +193,6 @@ public class SearchSchools extends Fragment {
         if(mainActivity.inputMethodManager.isAcceptingText()){
             mainActivity.hideKeyboard();
         }
-
     }
 
     @Override

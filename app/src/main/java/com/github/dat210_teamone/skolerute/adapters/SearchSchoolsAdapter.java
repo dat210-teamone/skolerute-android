@@ -17,6 +17,9 @@ import com.github.dat210_teamone.skolerute.data.SchoolManager;
  * Created by Alex on 1010//16.
  */
 
+
+// NO LONGER IN USE
+
 public class SearchSchoolsAdapter extends ArrayAdapter<String> {
 
     private final Context context;
@@ -57,7 +60,7 @@ public class SearchSchoolsAdapter extends ArrayAdapter<String> {
         }
         View rowView = inflater.inflate(R.layout.add_schools_layout, parent, false);
 
-        SearchSchoolObject addSchoolObject = new SearchSchoolObject(SchoolManager.getDefault().checkName(values[position]));
+     /*   SearchSchoolObject addSchoolObject = new SearchSchoolObject(SchoolManager.getDefault().checkName(values[position]));
 
         TextView schoolName = (TextView) rowView.findViewById(R.id.school_name);
         schoolName.setText(values[position]);
@@ -83,7 +86,7 @@ public class SearchSchoolsAdapter extends ArrayAdapter<String> {
                     addSchool.setBackgroundResource(R.color.colorClickable);
                 }
             }
-        });
+        }); */
 
         return rowView;
     }

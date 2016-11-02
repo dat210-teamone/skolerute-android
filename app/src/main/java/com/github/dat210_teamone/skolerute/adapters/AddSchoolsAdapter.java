@@ -2,6 +2,7 @@ package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.data.OneUtils;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 /**
@@ -20,14 +22,16 @@ import com.github.dat210_teamone.skolerute.data.SchoolManager;
 public class AddSchoolsAdapter extends ArrayAdapter<String> {
 
     private final Context context;
-    private final String[] values;
+    private String[] values;
     private String[] valuesToDisplay;
+    public Fragment parentFragment;
 
-    public AddSchoolsAdapter(Context context, String[] values) {
-        super(context, -1, values);
+    public AddSchoolsAdapter(Context context, String[] values, Fragment fragment) {
+        super(context, -1, OneUtils.toArrayList(values));
         this.context = context;
         this.values = values;
         this.valuesToDisplay = values;
+        this.parentFragment = fragment;
     }
 
     public class AddSchoolObject {
@@ -51,12 +55,10 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        //if shoudln't be displayed, return null_item
+        //if should not be displayed, return null_item
         if(!shouldSchoolNameBeDisplayed(values[position])){
             return inflater.inflate(R.layout.null_item, null);
         }
-
         View rowView = inflater.inflate(R.layout.add_schools_layout, parent, false);
 
         AddSchoolObject addSchoolObject = new AddSchoolObject(SchoolManager.getDefault().checkName(values[position]));
@@ -111,6 +113,11 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
     //set school to be displayed and update view
     public void setSchoolsToView(String[] schoolsToView){
         valuesToDisplay = schoolsToView;
+        if (schoolsToView.length > 1) { //TODO: Temporary workaround to be able to sort the list
+            values = schoolsToView;
+        }
+        clear();
+        addAll(schoolsToView);
         this.notifyDataSetChanged();
     }
 
@@ -123,4 +130,5 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
         }
         return false;
     }
+
 }

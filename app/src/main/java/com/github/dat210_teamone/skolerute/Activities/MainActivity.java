@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     public Set<String> schoolsToView = new HashSet<>();
     public StoredSchoolsAdapter storedSchoolsAdapter;
+    public ImageView calendarViewToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             }
         });
 
-        changeCalendarView();
+        initCalendarViewToggle();
 
         if (selectedSchools.length == 0)
             goToAddSchools();
@@ -102,8 +103,9 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         NU.createNotification();
     }
 
-    private void changeCalendarView(){
-        ImageView calendarViewToggle = (ImageView) findViewById(R.id.calendar_view_toggle);
+    private void initCalendarViewToggle(){
+        calendarViewToggle = (ImageView) findViewById(R.id.calendar_view_toggle);
+        calendarViewToggle.setTag("list_view");
         calendarViewToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     public void goToAddSchools() {
         replaceMainFragment(new AddSchools());
+        // replaceMainFragment(new SearchSchools());
         clearSecondaryFragment();
     }
 
