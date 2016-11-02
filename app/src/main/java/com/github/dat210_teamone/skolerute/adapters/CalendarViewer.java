@@ -33,13 +33,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 
 public class CalendarViewer extends LinearLayout {
 
     private static final String LOGTAG = "Calendar View";
 
-    private static final int DAYS_COUNT = 42;
+    private static final int DAYS_COUNT = 48;
 
     private static final String DATE_FORMAT = "MMM yyyy";
 
@@ -245,10 +246,9 @@ public class CalendarViewer extends LinearLayout {
         @Override
         public View getView(int position, View view, ViewGroup parent)
         {
-            Date date = getItem(position);
-            int day = date.getDate();
-            int month = date.getMonth();
-            int year = date.getYear();
+
+
+
 
             Date today = new Date();
 
@@ -256,40 +256,52 @@ public class CalendarViewer extends LinearLayout {
                 view = inflater.inflate(R.layout.control_calendar_day, parent, false);
             }
             view.setBackgroundResource(0);
+            String text = "";
+            if (position % 8 == 0) {
+                Date date = getItem(position);
+                Calendar cal = Calendar.getInstance();
+                cal.setMinimalDaysInFirstWeek(4);
+                cal.set(date.getYear() + 1900, date.getMonth(), date.getDate());
 
-            if (position - day < 8 && position-day >= 0)
-            {
-                ((TextView)view).setTextColor(Color.BLACK);
+                text = Integer.toString(cal.get(Calendar.WEEK_OF_YEAR));
+                ((TextView) view).setTextColor(Color.LTGRAY);
             }
-            else
-            {
-                ((TextView)view).setTextColor(getResources().getColor(R.color.greyed_out));
-            }
+            else {
+                int mover = position / 8 + 1;
+                Date date = getItem(position - mover);
+                int day = date.getDate();
+                int month = date.getMonth();
+                int year = date.getYear();
+                if (position - day < 8 && position - day >= 0) {
+                    ((TextView) view).setTextColor(Color.BLACK);
+                } else {
+                    ((TextView) view).setTextColor(getResources().getColor(R.color.greyed_out));
+                }
 
-            if (eventDays != null) {
-                for (Date eventDate : eventDays) {
-                    if (eventDate.getDate() == day &&
-                            eventDate.getMonth() == month &&
-                            eventDate.getYear() == year) {
-                        //view.setBackgroundColor(R.color.colorSchoolClosedIcon);
-                        view.setBackgroundColor(Color.argb(255, 200, 200, 255));
-                        ((TextView)view).setTextColor(Color.RED);
-                        break;
+                if (eventDays != null) {
+                    for (Date eventDate : eventDays) {
+                        if (eventDate.getDate() == day &&
+                                eventDate.getMonth() == month &&
+                                eventDate.getYear() == year) {
+                            //view.setBackgroundColor(R.color.colorSchoolClosedIcon);
+                            view.setBackgroundColor(Color.argb(255, 200, 200, 255));
+                            ((TextView) view).setTextColor(Color.RED);
+                            break;
+                        }
                     }
                 }
+                ((TextView)view).setTypeface(null, Typeface.NORMAL);
+
+
+                if (day == today.getDate() && month == today.getMonth() && year == today.getYear()) {
+
+                    ((TextView)view).setTypeface(null, Typeface.BOLD);
+                    ((TextView)view).setTextColor(getResources().getColor(R.color.today));
+                }
+                text = Integer.toString(day);
             }
 
-
-            ((TextView)view).setTypeface(null, Typeface.NORMAL);
-
-
-            if (day == today.getDate() && month == today.getMonth() && year == today.getYear()) {
-
-                ((TextView)view).setTypeface(null, Typeface.BOLD);
-                ((TextView)view).setTextColor(getResources().getColor(R.color.today));
-            }
-
-            ((TextView)view).setText(String.valueOf(date.getDate()));
+            ((TextView)view).setText(String.valueOf(text));
 
             return view;
         }
@@ -302,6 +314,6 @@ public class CalendarViewer extends LinearLayout {
 
     public interface EventHandler {
         void onDayLongPress(Date date);
-        void onDayPress(Date date);
+        //void onDayPress(Date date);
     }
 }
