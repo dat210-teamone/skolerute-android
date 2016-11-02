@@ -237,15 +237,16 @@ public class CalendarViewer extends LinearLayout {
 
 
             ((TextView)view).setTypeface(null, Typeface.NORMAL);
-            ((TextView)view).setTextColor(getResources().getColor(R.color.greyed_out));
-            if(month==today.getMonth() && year==today.getYear()){
+            
+            if (position - day < 8 && position-day >= 0)
+            {
                 ((TextView)view).setTextColor(Color.BLACK);
             }
-
-            if (month != today.getMonth() || year != today.getYear()) {
-                ((TextView)view).setTextColor(Color.BLACK);
+            else
+            {
+                ((TextView)view).setTextColor(getResources().getColor(R.color.greyed_out));
             }
-            else if (day == today.getDate()) {
+            if (day == today.getDate() && month == today.getMonth() && year == today.getYear()) {
 
                 ((TextView)view).setTypeface(null, Typeface.BOLD);
                 ((TextView)view).setTextColor(getResources().getColor(R.color.today));
