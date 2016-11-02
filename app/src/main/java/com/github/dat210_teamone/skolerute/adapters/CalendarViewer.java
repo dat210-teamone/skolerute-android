@@ -166,7 +166,8 @@ public class CalendarViewer extends LinearLayout {
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-
+        if(monthBeginningCell == 0)
+            monthBeginningCell += 7;
         calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell + 1);
 
         while (cells.size() < DAYS_COUNT) {
