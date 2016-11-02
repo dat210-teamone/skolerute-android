@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -52,6 +53,7 @@ public class CalendarViewer extends LinearLayout {
     private HorizontalScrollView scroller;
     private HashSet<Date> events;
     private GestureDetector gestureDetector;
+    private int viewWidth;
 
     public CalendarViewer(Context context) {
         super(context);
@@ -102,6 +104,7 @@ public class CalendarViewer extends LinearLayout {
         Object o = findViewById(R.id.scroll_view);
         scroller = (HorizontalScrollView) o;
         grid = (GridView)findViewById(R.id.calendar_grid);
+        viewWidth=scroller.getWidth();
 
     }
 
@@ -111,6 +114,14 @@ public class CalendarViewer extends LinearLayout {
             @Override
             public void onClick(View v)
             {
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        scroller.smoothScrollTo(
+                                (int) scroller.getScrollX()
+                                        - viewWidth,
+                                (int) scroller.getScrollY());
+                    }
+                }, 100L);
                 currentDate.add(Calendar.MONTH, 1);
                 updateCalendar(events);
             }
@@ -119,6 +130,14 @@ public class CalendarViewer extends LinearLayout {
         btnPrev.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        scroller.smoothScrollTo(
+                                (int) scroller.getScrollX()
+                                        - viewWidth,
+                                (int) scroller.getScrollY());
+                    }
+                }, 100L);
                 currentDate.add(Calendar.MONTH, -1);
                 updateCalendar(events);
             }
@@ -250,6 +269,8 @@ public class CalendarViewer extends LinearLayout {
             if (month != today.getMonth() || year != today.getYear()) {
                 ((TextView)view).setTextColor(getResources().getColor(R.color.greyed_out));
             }
+
+
             else if (day == today.getDate()) {
 
                 ((TextView)view).setTypeface(null, Typeface.BOLD);
