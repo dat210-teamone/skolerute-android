@@ -288,7 +288,9 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     public void clearSecondaryFragment(){
         fragTrans = manager.beginTransaction();
-        fragTrans.remove(fragmentSecondary);
+        if(fragmentSecondary != null) {
+            fragTrans.remove(fragmentSecondary);
+        }
         fragTrans.commit();
     }
 

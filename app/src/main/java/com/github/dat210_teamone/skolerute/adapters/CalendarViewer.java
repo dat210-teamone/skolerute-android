@@ -291,6 +291,6 @@ public class CalendarViewer extends LinearLayout {
 
     public interface EventHandler {
         void onDayLongPress(Date date);
-        void onDayPress(Date date);
+       // void onDayPress(Date date);
     }
 }

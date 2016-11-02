@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.dat210_teamone.skolerute.Activities.MainActivity;
+import com.github.dat210_teamone.skolerute.Fragments.AddSchools;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.OneUtils;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
@@ -24,9 +26,9 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
     private final Context context;
     private String[] values;
     private String[] valuesToDisplay;
-    public Fragment parentFragment;
+    public AddSchools parentFragment;
 
-    public AddSchoolsAdapter(Context context, String[] values, Fragment fragment) {
+    public AddSchoolsAdapter(Context context, String[] values, AddSchools fragment) {
         super(context, -1, OneUtils.toArrayList(values));
         this.context = context;
         this.values = values;
@@ -105,6 +107,7 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
                     addSchool.setBackgroundResource(R.color.colorClickable);
                 }
             }
+
         });
 
         return rowView;
@@ -130,5 +133,7 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
         }
         return false;
     }
+
+
 
 }

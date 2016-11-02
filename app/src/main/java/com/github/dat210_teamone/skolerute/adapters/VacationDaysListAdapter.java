@@ -109,6 +109,12 @@ public class VacationDaysListAdapter extends ArrayAdapter {
         return rowView;
     }
 
+    public void updateVacationDaysList(VacationDayObject[] vacationDayObjects) {
+        clear();
+        addAll(vacationDayObjects);
+        this.notifyDataSetChanged();
+    }
+
 
 
 }
