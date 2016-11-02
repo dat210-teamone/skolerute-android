@@ -56,6 +56,14 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:textColor="#222222"
+            android:text="Uke"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:textColor="#222222"
             android:text="Man"/>
 
         <TextView
@@ -119,7 +127,7 @@
             android:id="@+id/calendar_grid"
             android:layout_width="match_parent"
             android:layout_height="425dp"
-            android:numColumns="7"/>
+            android:numColumns="8"/>
 
     </HorizontalScrollView>
 
