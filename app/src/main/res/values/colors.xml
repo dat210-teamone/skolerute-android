@@ -15,8 +15,8 @@
     <color name="colorDarkText">#000000</color>
     <color name="colorGreyText">#D3D3D3</color>
 
-    <color name="colorSchoolClosedIcon">#1A1A59</color>
-    <color name="colorSfoClosedIcon">#801515</color>
+    <color name="colorSchoolClosedIcon">#99CCFF</color>
+    <color name="colorSfoClosedIcon">#FF6666</color>
 
     <color name="today">#44EEBD</color>
     <color name="greyed_out">#448DBA</color>

@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
@@ -31,13 +33,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 
 public class CalendarViewer extends LinearLayout {
 
     private static final String LOGTAG = "Calendar View";
 
-    private static final int DAYS_COUNT = 42;
+    private static final int DAYS_COUNT = 48;
 
     private static final String DATE_FORMAT = "MMM yyyy";
 
@@ -115,8 +118,7 @@ public class CalendarViewer extends LinearLayout {
 
         btnNext.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 currentDate.add(Calendar.MONTH, 1);
                 updateCalendar(events);
             }
@@ -134,16 +136,30 @@ public class CalendarViewer extends LinearLayout {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> view, View cell, int position, long id) {
+
                 // handle long-press
                 if (eventHandler == null)
                     return false;
 
-                eventHandler.onDayLongPress((Date)view.getItemAtPosition(position));
+                if (position %  8 != 0) {
+                    int mover = position - (position / 8 + 1);
+                    eventHandler.onDayLongPress((Date) view.getItemAtPosition(mover));
+                }
                 return true;
             }
         });
-    }
 
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                if (position %  8 != 0) {
+                    int mover = position - (position / 8 + 1);
+                    eventHandler.onDayPress((Date) adapterView.getItemAtPosition(mover));
+                }
+            }
+        });
+    }
 
 
     private void assignScrollHandler(){
@@ -151,24 +167,33 @@ public class CalendarViewer extends LinearLayout {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                Log.d("GUI",Integer.toString(event.getAction()));
+                //Log.d("GUI",Integer.toString(event.getAction()));
+
                 if (baseEvent == null) {
+                    grid.setTranslationX(0);
                     baseEvent = MotionEvent.obtain(event);//event;
-                    //Log.d("BASEEVENT", "Setting Base event: "  + Float.toString(baseEvent.getX()) + ", " + Float.toString(baseEvent.getY()));
+                    Log.d("BASEEVENT", "Setting Base event: "  + Float.toString(baseEvent.getX()) + ", " + Float.toString(baseEvent.getY()));
                 }
                 grid.setTranslationX(event.getX() - baseEvent.getX());
-                if (event.getAction() == 1){
+                Log.d("BASEEVENT", "Current: "  + Float.toString(event.getX()) + ", " + Float.toString(event.getY()));
+                if (event.getAction() == 1 && baseEvent != null){
                     grid.setTranslationX(0);
+                    Animation move = null;
+                    int monthShift = 0;
                     if (baseEvent.getX() < event.getX()) {
-                        currentDate.add(Calendar.MONTH, -1);
-                        updateCalendar(events);
+                        move = AnimationUtils.loadAnimation(getContext(), R.anim.move);
+                        monthShift = -1;
                     } else {
-                        currentDate.add(Calendar.MONTH, 1);
-                        updateCalendar(events);
+                        move = AnimationUtils.loadAnimation(getContext(), R.anim.moverev);
+                        monthShift = 1;
                     }
-                    //Log.d("BASEEVENT", "Unsetting baseEvent");
+                    grid.startAnimation(move);
+                    currentDate.add(Calendar.MONTH, monthShift);
+                    updateCalendar(events);
+                    Log.d("BASEEVENT", "Unsetting baseEvent");
                     baseEvent = null;
                 }
+
                 return false;
             }
        });
@@ -213,6 +238,8 @@ public class CalendarViewer extends LinearLayout {
 
         int month = currentDate.get(Calendar.MONTH);
 
+
+
     }
 
     public void setMaxDate(Date maxDate) {
@@ -232,10 +259,9 @@ public class CalendarViewer extends LinearLayout {
         @Override
         public View getView(int position, View view, ViewGroup parent)
         {
-            Date date = getItem(position);
-            int day = date.getDate();
-            int month = date.getMonth();
-            int year = date.getYear();
+
+
+
 
             Date today = new Date();
 
@@ -243,40 +269,52 @@ public class CalendarViewer extends LinearLayout {
                 view = inflater.inflate(R.layout.control_calendar_day, parent, false);
             }
             view.setBackgroundResource(0);
+            String text = "";
+            if (position % 8 == 0) {
+                Date date = getItem(position);
+                Calendar cal = Calendar.getInstance();
+                cal.setMinimalDaysInFirstWeek(4);
+                cal.set(date.getYear() + 1900, date.getMonth(), date.getDate());
 
-            if (position - day < 8 && position-day >= 0)
-            {
-                ((TextView)view).setTextColor(Color.BLACK);
+                text = Integer.toString(cal.get(Calendar.WEEK_OF_YEAR));
+                ((TextView) view).setTextColor(Color.LTGRAY);
             }
-            else
-            {
-                ((TextView)view).setTextColor(getResources().getColor(R.color.greyed_out));
-            }
+            else {
+                int mover = position / 8 + 1;
+                Date date = getItem(position - mover);
+                int day = date.getDate();
+                int month = date.getMonth();
+                int year = date.getYear();
+                if (position - day < 8 + mover && position - day >= 0) {
+                    ((TextView) view).setTextColor(Color.BLACK);
+                } else {
+                    ((TextView) view).setTextColor(getResources().getColor(R.color.greyed_out));
+                }
 
-            if (eventDays != null) {
-                for (Date eventDate : eventDays) {
-                    if (eventDate.getDate() == day &&
-                            eventDate.getMonth() == month &&
-                            eventDate.getYear() == year) {
-                        //view.setBackgroundColor(R.color.colorSchoolClosedIcon);
-                        view.setBackgroundColor(Color.argb(255, 200, 200, 255));
-                        ((TextView)view).setTextColor(Color.RED);
-                        break;
+                if (eventDays != null) {
+                    for (Date eventDate : eventDays) {
+                        if (eventDate.getDate() == day &&
+                                eventDate.getMonth() == month &&
+                                eventDate.getYear() == year) {
+                            //view.setBackgroundColor(R.color.colorSchoolClosedIcon);
+                            view.setBackgroundColor(Color.argb(255, 200, 200, 255));
+                            ((TextView) view).setTextColor(Color.RED);
+                            break;
+                        }
                     }
                 }
+                ((TextView)view).setTypeface(null, Typeface.NORMAL);
+
+
+                if (day == today.getDate() && month == today.getMonth() && year == today.getYear()) {
+
+                    ((TextView)view).setTypeface(null, Typeface.BOLD);
+                    ((TextView)view).setTextColor(getResources().getColor(R.color.today));
+                }
+                text = Integer.toString(day);
             }
 
-
-            ((TextView)view).setTypeface(null, Typeface.NORMAL);
-
-
-            if (day == today.getDate() && month == today.getMonth() && year == today.getYear()) {
-
-                ((TextView)view).setTypeface(null, Typeface.BOLD);
-                ((TextView)view).setTextColor(getResources().getColor(R.color.today));
-            }
-
-            ((TextView)view).setText(String.valueOf(date.getDate()));
+            ((TextView)view).setText(String.valueOf(text));
 
             return view;
         }
@@ -289,5 +327,6 @@ public class CalendarViewer extends LinearLayout {
 
     public interface EventHandler {
         void onDayLongPress(Date date);
+        void onDayPress(Date date);
     }
 }
