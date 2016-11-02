@@ -118,8 +118,7 @@ public class CalendarViewer extends LinearLayout {
 
         btnNext.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 currentDate.add(Calendar.MONTH, 1);
                 updateCalendar(events);
             }
@@ -141,12 +140,19 @@ public class CalendarViewer extends LinearLayout {
                 if (eventHandler == null)
                     return false;
 
-                eventHandler.onDayLongPress((Date)view.getItemAtPosition(position));
+                eventHandler.onDayLongPress((Date) view.getItemAtPosition(position));
                 return true;
             }
         });
-    }
 
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+            }
+        });
+    }
 
 
     private void assignScrollHandler(){
@@ -314,6 +320,6 @@ public class CalendarViewer extends LinearLayout {
 
     public interface EventHandler {
         void onDayLongPress(Date date);
-        //void onDayPress(Date date);
+        void onDayPress(Date date);
     }
 }
