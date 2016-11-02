@@ -53,8 +53,9 @@ public class CalendarViewer extends LinearLayout {
     private GridView grid;
     private HorizontalScrollView scroller;
     private HashSet<Date> events;
-    private GestureDetector gestureDetector;
     private int viewWidth;
+    private MotionEvent baseEvent = null;
+
 
     public CalendarViewer(Context context) {
         super(context);
@@ -74,7 +75,6 @@ public class CalendarViewer extends LinearLayout {
     private void initControl(Context context, AttributeSet attrs) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.control_calendar, this);
-        //gestureDetector=new GestureDetector(context, new MyGestureDetector());
 
         loadDateFormat(attrs);
         assignUiElements();
@@ -141,7 +141,9 @@ public class CalendarViewer extends LinearLayout {
             }
         });
     }
-    MotionEvent baseEvent = null;
+
+
+
     private void assignScrollHandler(){
         scroller.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -199,8 +201,7 @@ public class CalendarViewer extends LinearLayout {
 
     }
 
-    private class CalendarAdapter extends ArrayAdapter<Date>
-    {
+    private class CalendarAdapter extends ArrayAdapter<Date> {
         private HashSet<Date> eventDays;
         private LayoutInflater inflater;
 
@@ -237,7 +238,7 @@ public class CalendarViewer extends LinearLayout {
 
 
             ((TextView)view).setTypeface(null, Typeface.NORMAL);
-            
+
             if (position - day < 8 && position-day >= 0)
             {
                 ((TextView)view).setTextColor(Color.BLACK);
@@ -263,8 +264,7 @@ public class CalendarViewer extends LinearLayout {
         this.eventHandler = eventHandler;
     }
 
-    public interface EventHandler
-    {
+    public interface EventHandler {
         void onDayLongPress(Date date);
     }
 }
