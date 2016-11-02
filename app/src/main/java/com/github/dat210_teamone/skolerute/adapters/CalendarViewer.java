@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.DragEvent;
@@ -73,7 +74,7 @@ public class CalendarViewer extends LinearLayout {
     private void initControl(Context context, AttributeSet attrs) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.control_calendar, this);
-        gestureDetector=new GestureDetector(context, new MyGestureDetector());
+        //gestureDetector=new GestureDetector(context, new MyGestureDetector());
 
         loadDateFormat(attrs);
         assignUiElements();
@@ -104,7 +105,7 @@ public class CalendarViewer extends LinearLayout {
         Object o = findViewById(R.id.scroll_view);
         scroller = (HorizontalScrollView) o;
         grid = (GridView)findViewById(R.id.calendar_grid);
-        viewWidth=scroller.getWidth();
+        viewWidth = scroller.getWidth();
 
     }
 
@@ -114,14 +115,6 @@ public class CalendarViewer extends LinearLayout {
             @Override
             public void onClick(View v)
             {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        scroller.smoothScrollTo(
-                                (int) scroller.getScrollX()
-                                        - viewWidth,
-                                (int) scroller.getScrollY());
-                    }
-                }, 100L);
                 currentDate.add(Calendar.MONTH, 1);
                 updateCalendar(events);
             }
@@ -130,14 +123,6 @@ public class CalendarViewer extends LinearLayout {
         btnPrev.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        scroller.smoothScrollTo(
-                                (int) scroller.getScrollX()
-                                        - viewWidth,
-                                (int) scroller.getScrollY());
-                    }
-                }, 100L);
                 currentDate.add(Calendar.MONTH, -1);
                 updateCalendar(events);
             }
@@ -162,12 +147,23 @@ public class CalendarViewer extends LinearLayout {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
+                Log.d("GUI",Integer.toString(event.getAction()));
                 if (baseEvent == null) {
                     baseEvent = MotionEvent.obtain(event);//event;
                     //Log.d("BASEEVENT", "Setting Base event: "  + Float.toString(baseEvent.getX()) + ", " + Float.toString(baseEvent.getY()));
                 }
-                if (gestureDetector.onTouchEvent(event)) {
-                    return true;
+                grid.setTranslationX(event.getX() - baseEvent.getX());
+                if (event.getAction() == 1){
+                    grid.setTranslationX(0);
+                    if (baseEvent.getX() < event.getX()) {
+                        currentDate.add(Calendar.MONTH, -1);
+                        updateCalendar(events);
+                    } else {
+                        currentDate.add(Calendar.MONTH, 1);
+                        updateCalendar(events);
+                    }
+                    //Log.d("BASEEVENT", "Unsetting baseEvent");
+                    baseEvent = null;
                 }
                 return false;
             }
@@ -185,7 +181,8 @@ public class CalendarViewer extends LinearLayout {
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-
+        if(monthBeginningCell == 0)
+            monthBeginningCell += 7;
         calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell + 1);
 
         while (cells.size() < DAYS_COUNT) {
@@ -201,29 +198,6 @@ public class CalendarViewer extends LinearLayout {
         int month = currentDate.get(Calendar.MONTH);
 
     }
-
-    private class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                               float velocityY) {
-            //Log.d("BASEEVENT", "Base Event : "  + Float.toString(baseEvent.getX()) + ", " + Float.toString(baseEvent.getY()));
-            //Log.d("BASEEVENT", "Other Event: "  + Float.toString(e2.getX()) + ", " + Float.toString(e2.getY()));
-            if (baseEvent.getX() < e2.getX()) {
-                currentDate.add(Calendar.MONTH, -1);
-                updateCalendar(events);
-            } else {
-                currentDate.add(Calendar.MONTH, 1);
-                updateCalendar(events);
-            }
-            //Log.d("BASEEVENT", "Unsetting baseEvent");
-            baseEvent = null;
-            return true;
-        }
-    }
-
-
-
 
     private class CalendarAdapter extends ArrayAdapter<Date>
     {
