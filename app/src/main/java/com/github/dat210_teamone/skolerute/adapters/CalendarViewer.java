@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
@@ -151,24 +153,33 @@ public class CalendarViewer extends LinearLayout {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                Log.d("GUI",Integer.toString(event.getAction()));
+                //Log.d("GUI",Integer.toString(event.getAction()));
+
                 if (baseEvent == null) {
+                    grid.setTranslationX(0);
                     baseEvent = MotionEvent.obtain(event);//event;
-                    //Log.d("BASEEVENT", "Setting Base event: "  + Float.toString(baseEvent.getX()) + ", " + Float.toString(baseEvent.getY()));
+                    Log.d("BASEEVENT", "Setting Base event: "  + Float.toString(baseEvent.getX()) + ", " + Float.toString(baseEvent.getY()));
                 }
                 grid.setTranslationX(event.getX() - baseEvent.getX());
-                if (event.getAction() == 1){
+                Log.d("BASEEVENT", "Current: "  + Float.toString(event.getX()) + ", " + Float.toString(event.getY()));
+                if (event.getAction() == 1 && baseEvent != null){
                     grid.setTranslationX(0);
+                    Animation move = null;
+                    int monthShift = 0;
                     if (baseEvent.getX() < event.getX()) {
-                        currentDate.add(Calendar.MONTH, -1);
-                        updateCalendar(events);
+                        move = AnimationUtils.loadAnimation(getContext(), R.anim.move);
+                        monthShift = -1;
                     } else {
-                        currentDate.add(Calendar.MONTH, 1);
-                        updateCalendar(events);
+                        move = AnimationUtils.loadAnimation(getContext(), R.anim.moverev);
+                        monthShift = 1;
                     }
-                    //Log.d("BASEEVENT", "Unsetting baseEvent");
+                    grid.startAnimation(move);
+                    currentDate.add(Calendar.MONTH, monthShift);
+                    updateCalendar(events);
+                    Log.d("BASEEVENT", "Unsetting baseEvent");
                     baseEvent = null;
                 }
+
                 return false;
             }
        });
