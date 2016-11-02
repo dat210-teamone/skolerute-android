@@ -5,7 +5,9 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.DragEvent;
@@ -52,6 +54,7 @@ public class CalendarViewer extends LinearLayout {
     private HorizontalScrollView scroller;
     private HashSet<Date> events;
     private GestureDetector gestureDetector;
+    private int viewWidth;
 
     public CalendarViewer(Context context) {
         super(context);
@@ -71,7 +74,7 @@ public class CalendarViewer extends LinearLayout {
     private void initControl(Context context, AttributeSet attrs) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.control_calendar, this);
-        gestureDetector=new GestureDetector(context, new MyGestureDetector());
+        //gestureDetector=new GestureDetector(context, new MyGestureDetector());
 
         loadDateFormat(attrs);
         assignUiElements();
@@ -102,6 +105,7 @@ public class CalendarViewer extends LinearLayout {
         Object o = findViewById(R.id.scroll_view);
         scroller = (HorizontalScrollView) o;
         grid = (GridView)findViewById(R.id.calendar_grid);
+        viewWidth = scroller.getWidth();
 
     }
 
@@ -143,12 +147,23 @@ public class CalendarViewer extends LinearLayout {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
+                Log.d("GUI",Integer.toString(event.getAction()));
                 if (baseEvent == null) {
                     baseEvent = MotionEvent.obtain(event);//event;
                     //Log.d("BASEEVENT", "Setting Base event: "  + Float.toString(baseEvent.getX()) + ", " + Float.toString(baseEvent.getY()));
                 }
-                if (gestureDetector.onTouchEvent(event)) {
-                    return true;
+                grid.setTranslationX(event.getX() - baseEvent.getX());
+                if (event.getAction() == 1){
+                    grid.setTranslationX(0);
+                    if (baseEvent.getX() < event.getX()) {
+                        currentDate.add(Calendar.MONTH, -1);
+                        updateCalendar(events);
+                    } else {
+                        currentDate.add(Calendar.MONTH, 1);
+                        updateCalendar(events);
+                    }
+                    //Log.d("BASEEVENT", "Unsetting baseEvent");
+                    baseEvent = null;
                 }
                 return false;
             }
@@ -166,7 +181,8 @@ public class CalendarViewer extends LinearLayout {
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-
+        if(monthBeginningCell == 0)
+            monthBeginningCell += 7;
         calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell + 1);
 
         while (cells.size() < DAYS_COUNT) {
@@ -182,29 +198,6 @@ public class CalendarViewer extends LinearLayout {
         int month = currentDate.get(Calendar.MONTH);
 
     }
-
-    private class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                               float velocityY) {
-            //Log.d("BASEEVENT", "Base Event : "  + Float.toString(baseEvent.getX()) + ", " + Float.toString(baseEvent.getY()));
-            //Log.d("BASEEVENT", "Other Event: "  + Float.toString(e2.getX()) + ", " + Float.toString(e2.getY()));
-            if (baseEvent.getX() < e2.getX()) {
-                currentDate.add(Calendar.MONTH, -1);
-                updateCalendar(events);
-            } else {
-                currentDate.add(Calendar.MONTH, 1);
-                updateCalendar(events);
-            }
-            //Log.d("BASEEVENT", "Unsetting baseEvent");
-            baseEvent = null;
-            return true;
-        }
-    }
-
-
-
 
     private class CalendarAdapter extends ArrayAdapter<Date>
     {
@@ -236,7 +229,7 @@ public class CalendarViewer extends LinearLayout {
                     if (eventDate.getDate() == day &&
                             eventDate.getMonth() == month &&
                             eventDate.getYear() == year) {
-                        view.setBackgroundResource(R.mipmap.ic_exclamation_point_emoticon);
+                            view.setBackgroundColor(R.color.colorSchoolClosedIcon);
                         break;
                     }
                 }
@@ -244,12 +237,16 @@ public class CalendarViewer extends LinearLayout {
 
 
             ((TextView)view).setTypeface(null, Typeface.NORMAL);
-            ((TextView)view).setTextColor(Color.BLACK);
-
-            if (month != today.getMonth() || year != today.getYear()) {
+            
+            if (position - day < 8 && position-day >= 0)
+            {
+                ((TextView)view).setTextColor(Color.BLACK);
+            }
+            else
+            {
                 ((TextView)view).setTextColor(getResources().getColor(R.color.greyed_out));
             }
-            else if (day == today.getDate()) {
+            if (day == today.getDate() && month == today.getMonth() && year == today.getYear()) {
 
                 ((TextView)view).setTypeface(null, Typeface.BOLD);
                 ((TextView)view).setTextColor(getResources().getColor(R.color.today));
