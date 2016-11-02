@@ -2,11 +2,14 @@ package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
@@ -45,8 +48,8 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
         schoolName.setText(values[position]);
         MainActivity mainActivity = (MainActivity)getContext();
 
+        //CHECKBOX
         CheckBox visibilityCheck = (CheckBox)rowView.findViewById(R.id.visibility_check);
-
 
         if(mainActivity.schoolsToView.contains(values[position])){
             visibilityCheck.setChecked(true);
@@ -70,6 +73,22 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                 mainActivity.viewCalendarList();
             }
         });
+        //CHECKBOX END
+
+        //SCHOOLSETTINGS
+        ImageView schoolSettingsBtn = (ImageView) rowView.findViewById(R.id.stored_schools_item_menu);
+
+        //POPUP
+        PopupMenu settingsMenu = new PopupMenu(context, schoolSettingsBtn); // Usikker på om dette er slik du gjør det.
+        //POPUP END
+
+        schoolSettingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingsMenu.show();
+            }
+        });
+        //SCHOOLSETTINGS END
 
        /* schoolName.setOnClickListener(new View.OnClickListener() {
             @Override
