@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.R;
@@ -63,6 +64,7 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
         TextView schoolName = (TextView) rowView.findViewById(R.id.school_name);
         schoolName.setText(values[position]);
         Button addSchool = (Button) rowView.findViewById(R.id.add_button);
+        LinearLayout schoolNameContainer = (LinearLayout) rowView.findViewById(R.id.school_add);
 
         if (addSchoolObject.getAlreadyStored()) {
             addSchool.setText("Fjern");
@@ -70,6 +72,23 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
         }
 
         addSchool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!addSchoolObject.getAlreadyStored()) {
+                    SchoolManager.getDefault().addDefault(values[position]);
+                    addSchoolObject.setAlreadyStored(true);
+                    addSchool.setText("Fjern");
+                    addSchool.setBackgroundResource(R.color.colorClickableSecondary);
+                } else {
+                    SchoolManager.getDefault().removeDefault(values[position]);
+                    addSchoolObject.setAlreadyStored(false);
+                    addSchool.setText("Lagre");
+                    addSchool.setBackgroundResource(R.color.colorClickable);
+                }
+            }
+        });
+
+        schoolNameContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!addSchoolObject.getAlreadyStored()) {
