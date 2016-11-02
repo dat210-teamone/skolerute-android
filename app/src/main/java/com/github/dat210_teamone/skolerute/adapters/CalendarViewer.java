@@ -229,7 +229,7 @@ public class CalendarViewer extends LinearLayout {
                     if (eventDate.getDate() == day &&
                             eventDate.getMonth() == month &&
                             eventDate.getYear() == year) {
-                        view.setBackgroundResource(R.mipmap.ic_exclamation_point_emoticon);
+                            view.setBackgroundColor(R.color.colorSchoolClosedIcon);
                         break;
                     }
                 }
