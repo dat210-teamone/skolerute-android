@@ -224,6 +224,8 @@ public class CalendarViewer extends LinearLayout {
 
         int month = currentDate.get(Calendar.MONTH);
 
+
+
     }
 
     public void setMaxDate(Date maxDate) {
@@ -300,5 +302,6 @@ public class CalendarViewer extends LinearLayout {
 
     public interface EventHandler {
         void onDayLongPress(Date date);
+        void onDayPress(Date date);
     }
 }
