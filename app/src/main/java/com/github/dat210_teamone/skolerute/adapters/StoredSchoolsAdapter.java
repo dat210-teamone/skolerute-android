@@ -67,7 +67,9 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                         mainActivity.schoolsToView.remove(values[position]);
                     }
                 }
-                mainActivity.viewCalendarList();
+                if (mainActivity.calendarViewToggle.getTag() == "list_view") {
+                    mainActivity.viewCalendarList();
+                }
             }
         });
 

@@ -108,4 +108,7 @@ public class VacationDaysListAdapter extends ArrayAdapter {
         }
         return rowView;
     }
+
+
+
 }
