@@ -1,6 +1,7 @@
 package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -55,6 +56,7 @@ public class CalendarViewer extends LinearLayout {
     private HashSet<Date> events;
     private int viewWidth;
     private MotionEvent baseEvent = null;
+    private Date maxDate;
 
 
     public CalendarViewer(Context context) {
@@ -177,6 +179,18 @@ public class CalendarViewer extends LinearLayout {
     }
 
     public void updateCalendar(HashSet<Date> events) {
+        if (maxDate != null && currentDate != null) {
+            int curMonth = currentDate.get(Calendar.MONTH);
+            int checkMonth = maxDate.getMonth();
+            int curYear = currentDate.get(Calendar.YEAR);
+            int checkYear = maxDate.getYear() + 1900;
+
+            int curDate = curMonth + curYear * 12;
+            int checkDate = checkMonth + checkYear * 12;
+
+            if (curDate > checkDate)
+                currentDate.add(Calendar.MONTH, -1);
+        }
         this.events=events;
         ArrayList<Date> cells = new ArrayList<>();
         Calendar calendar = (Calendar)currentDate.clone();
@@ -199,6 +213,10 @@ public class CalendarViewer extends LinearLayout {
 
         int month = currentDate.get(Calendar.MONTH);
 
+    }
+
+    public void setMaxDate(Date maxDate) {
+        this.maxDate = maxDate;
     }
 
     private class CalendarAdapter extends ArrayAdapter<Date> {
@@ -225,19 +243,6 @@ public class CalendarViewer extends LinearLayout {
                 view = inflater.inflate(R.layout.control_calendar_day, parent, false);
             }
             view.setBackgroundResource(0);
-            if (eventDays != null) {
-                for (Date eventDate : eventDays) {
-                    if (eventDate.getDate() == day &&
-                            eventDate.getMonth() == month &&
-                            eventDate.getYear() == year) {
-                            view.setBackgroundColor(R.color.colorSchoolClosedIcon);
-                        break;
-                    }
-                }
-            }
-
-
-            ((TextView)view).setTypeface(null, Typeface.NORMAL);
 
             if (position - day < 8 && position-day >= 0)
             {
@@ -247,6 +252,24 @@ public class CalendarViewer extends LinearLayout {
             {
                 ((TextView)view).setTextColor(getResources().getColor(R.color.greyed_out));
             }
+
+            if (eventDays != null) {
+                for (Date eventDate : eventDays) {
+                    if (eventDate.getDate() == day &&
+                            eventDate.getMonth() == month &&
+                            eventDate.getYear() == year) {
+                        //view.setBackgroundColor(R.color.colorSchoolClosedIcon);
+                        view.setBackgroundColor(Color.argb(255, 200, 200, 255));
+                        ((TextView)view).setTextColor(Color.RED);
+                        break;
+                    }
+                }
+            }
+
+
+            ((TextView)view).setTypeface(null, Typeface.NORMAL);
+
+
             if (day == today.getDate() && month == today.getMonth() && year == today.getYear()) {
 
                 ((TextView)view).setTypeface(null, Typeface.BOLD);
