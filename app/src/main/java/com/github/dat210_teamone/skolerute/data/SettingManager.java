@@ -17,6 +17,8 @@ public class SettingManager implements ISettingStorage {
     SharedPreferences preferences;
     private static final String SELECTEDSCHOOLS = "SelectedSchools";
     private static final String LASTUPDATEDATE = "LastUpdateDate";
+    private static final String NOTIFYSCHOOLS = "NotifySchools";
+    private static final String NOTIFYENABLED = "NotifyEnabled";
 
     private Set<String> defaults = new HashSet<>();
 
@@ -56,6 +58,41 @@ public class SettingManager implements ISettingStorage {
     @Override
     public void setLastUpdateTime(String time) {
         putString(LASTUPDATEDATE, time);
+    }
+
+    @Override
+    public String[] getNotifySchools() {
+        Set<String> set = preferences.getStringSet(SELECTEDSCHOOLS, defaults);
+        String[] array = new String[set.size()];
+        return set.toArray(array);
+    }
+
+    @Override
+    public void addNotifySchool(String s) {
+        Set<String> set = preferences.getStringSet(NOTIFYSCHOOLS, defaults);
+        set.add(s);
+        putStringSet(NOTIFYSCHOOLS, set);
+    }
+
+    @Override
+    public boolean deleteNotifySchool(String s) {
+        Set<String> set = preferences.getStringSet(NOTIFYSCHOOLS, defaults);
+        boolean found = false;
+        found = set.remove(s);
+        putStringSet(NOTIFYSCHOOLS, set);
+        return found;
+    }
+
+    @Override
+    public void setGlobalNotify(boolean value) {
+        SharedPreferences.Editor edit = getEditor(NOTIFYENABLED);
+        edit.putBoolean(NOTIFYENABLED, value);
+        edit.apply();
+    }
+
+    @Override
+    public boolean getGlobalNotify() {
+        return preferences.getBoolean(NOTIFYENABLED, false);
     }
 
     private void putString(String key, String value){
