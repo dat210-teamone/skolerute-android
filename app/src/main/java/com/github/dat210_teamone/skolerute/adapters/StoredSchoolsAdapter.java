@@ -1,8 +1,10 @@
 package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -90,6 +92,43 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
             public void onClick(View v) {
                 PopupMenu settingsMenu = new PopupMenu(context, schoolSettingsBtn);
                 //settingsMenu.setOnMenuItemClickListener(context);
+               /* if(mainActivity.schoolManager.getNotifySchool(values[position])){
+                    settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(true);
+                }*/
+                settingsMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if(item.getItemId() == R.id.itemNotification ){
+                            if(item.isChecked()){
+                                Log.i("checked status", "item is checked!");
+                                item.setChecked(false);
+                            } else{
+                                Log.i("checked status", "item is NOT checked!");
+                                item.setChecked(true);
+                            }
+                        }
+
+                        // start http://stackoverflow.com/a/31727213
+                        // Keep the popup menu open
+                        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+                        item.setActionView(new View(context));
+                        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                            @Override
+                            public boolean onMenuItemActionExpand(MenuItem item) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onMenuItemActionCollapse(MenuItem item) {
+                                return false;
+                            }
+                        });
+                        //end http://stackoverflow.com/a/31727213
+
+                        return false;
+                    }
+                });
                 settingsMenu.inflate(R.menu.stored_school_popup_menu);
                 settingsMenu.show();
             }
