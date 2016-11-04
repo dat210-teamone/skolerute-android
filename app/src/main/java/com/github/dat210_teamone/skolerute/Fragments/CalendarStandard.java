@@ -42,7 +42,7 @@ public class CalendarStandard extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private CalendarViewer calView;
-    private HashSet<Date> events ;
+    private HashSet<Date> events;
 
     private String mParam1;
     private String mParam2;
@@ -82,30 +82,40 @@ public class CalendarStandard extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_calendar_standard, container, false);
 
         events = new HashSet<>();
 
-        MainActivity mainActivity = (MainActivity)getActivity();
+        MainActivity mainActivity = (MainActivity) getActivity();
 
         SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getSelectedSchoolDays();
-        Date[] days=new Date[vacationDays.length];
+        Date[] days = new Date[vacationDays.length];
+        Date maxDay = new Date();
 
-        for (int x=0; x<vacationDays.length; x++){
-            days[x]=vacationDays[x].getDate();
-            events.add(days[x]);
+        for (int i = 0; i < vacationDays.length; i++) {
+            days[i] = vacationDays[i].getDate();
+            events.add(days[i]);
+            if (days[i].after(maxDay)){
+                maxDay = days[i];
+            }
         }
 
-        calView = ((CalendarViewer)view.findViewById(R.id.calendar_view));
+        calView = ((CalendarViewer) view.findViewById(R.id.calendar_view));
+        calView.setMaxDate(maxDay);
         calView.updateCalendar(events);
+
 
 
         calView.setEventHandler(new CalendarViewer.EventHandler() {
             @Override
-            public void onDayLongPress(Date date)
-            {
+            public void onDayLongPress(Date date) {
+                DateFormat df = SimpleDateFormat.getDateInstance();
+                Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onDayPress(Date date) {
                 DateFormat df = SimpleDateFormat.getDateInstance();
                 Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
             }

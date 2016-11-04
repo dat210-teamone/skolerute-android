@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/textView"
-                android:text="@string/add_schools_results_title"
+                android:text="@string/add_schools_nearby_title"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginTop="4dp"
                 android:textAlignment="center"

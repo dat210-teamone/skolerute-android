@@ -33,6 +33,10 @@ import java.util.List;
  * Use the {@link SearchSchools#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+
+// NO LONGER IN USE
+
 public class SearchSchools extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -85,7 +89,7 @@ public class SearchSchools extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_search_schools, container, false);
-        MainActivity mainActivity = (MainActivity)getActivity();
+/*      MainActivity mainActivity = (MainActivity)getActivity();
 
         // Generate list of all schools
         for (int x = 0; x< mainActivity.allSchools.length; x++){
@@ -108,9 +112,9 @@ public class SearchSchools extends Fragment {
 
         //search box and its listeners
         SearchView searchView = setupSearchView(view);
-        setupSearchListeners(searchView, mainActivity, itemsAdapter);
-
-        // Inflate the layout for this fragment
+        setupSearchListeners(view, searchView, mainActivity, itemsAdapter);
+*/
+        // mainActivity.showKeyboard();
         return view;
     }
 
@@ -125,12 +129,12 @@ public class SearchSchools extends Fragment {
         textView.setHintTextColor(getResources().getColor(R.color.colorGreyText));
 
         searchView.setIconifiedByDefault(false);
-        searchView.requestFocus();
+        // searchView.requestFocus();
 
         return searchView;
     }
 
-    public void setupSearchListeners(SearchView searchView, MainActivity mainActivity, SearchSchoolsAdapter itemsAdapter){
+    public void setupSearchListeners(View view, SearchView searchView, MainActivity mainActivity, SearchSchoolsAdapter itemsAdapter){
         // Toggle keyboard based on searchView focus
         searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -152,6 +156,11 @@ public class SearchSchools extends Fragment {
             }
             @Override
             public boolean onQueryTextChange(String newText) {
+                TextView textTitle = (TextView) view.findViewById(R.id.textView);
+                if(newText.equals("")){
+                    textTitle.setText(getString(R.string.add_schools_nearby_title));
+                } else{
+                    textTitle.setText(getString(R.string.add_schools_results_title));}
                 doSearch(newText, mainActivity, itemsAdapter);
                 return true;
             }
@@ -174,6 +183,15 @@ public class SearchSchools extends Fragment {
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onSearchSchoolsInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        MainActivity mainActivity = (MainActivity)getActivity();
+        if(mainActivity.inputMethodManager.isAcceptingText()){
+            mainActivity.hideKeyboard();
         }
     }
 
