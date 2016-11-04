@@ -79,33 +79,44 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
         });
         //CHECKBOX END
 
-        //SCHOOLSETTINGS
+        setupPopupMenu(rowView, mainActivity, position);
+
+        return rowView;
+    }
+
+    private void setupPopupMenu(View rowView, MainActivity mainActivity, int position){
         ImageView schoolSettingsBtn = (ImageView) rowView.findViewById(R.id.stored_schools_item_menu);
-
-        /*//POPUP
-        PopupMenu settingsMenu = new PopupMenu(context, schoolSettingsBtn); // Usikker på om dette er slik du gjør det.
-        //POPUP END*/
-
-
         schoolSettingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PopupMenu settingsMenu = new PopupMenu(context, schoolSettingsBtn);
                 //settingsMenu.setOnMenuItemClickListener(context);
-               /* if(mainActivity.schoolManager.getNotifySchool(values[position])){
-                    settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(true);
-                }*/
+                settingsMenu.inflate(R.menu.stored_school_popup_menu);
+
+                MenuItem notificationItem = settingsMenu.getMenu().findItem(R.id.itemNotification);
+                //If school should notify
+                if(mainActivity.schoolManager.getNotifySchool(values[position])){
+                    notificationItem.setChecked(true);
+                } else{
+                    notificationItem.setChecked(false);
+                }
+
+                if(mainActivity.schoolManager.getGlobalNotification()){
+                    notificationItem.setEnabled(true);
+                } else{
+                    notificationItem.setEnabled(false);
+                }
                 settingsMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if(item.getItemId() == R.id.itemNotification ){
                             if(item.isChecked()){
-                                Log.i("checked status", "item is checked!");
                                 item.setChecked(false);
+                                mainActivity.schoolManager.removeNotifySchool(values[position]);
                             } else{
-                                Log.i("checked status", "item is NOT checked!");
                                 item.setChecked(true);
+                                mainActivity.schoolManager.addNotifySchool(values[position]);
                             }
                         }
 
@@ -129,25 +140,8 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                         return false;
                     }
                 });
-                settingsMenu.inflate(R.menu.stored_school_popup_menu);
                 settingsMenu.show();
             }
         });
-        //SCHOOLSETTINGS END
-
-       /* schoolName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainActivity.clearCheckedSchools();
-                mainActivity.schoolsToView.add(values[position]);
-                mainActivity.refreshCheckedSchools();
-            }
-        }); */
-
-        //       String displayDate = "Neste fridag: " + dateFormatter(dates[position]);
-        //      nextDate.setText(displayDate);
-
-
-        return rowView;
     }
 }
