@@ -3,6 +3,7 @@ package com.github.dat210_teamone.skolerute.data;
 import android.location.Location;
 
 import com.android.internal.util.Predicate;
+import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 import java.io.InputStream;
@@ -91,30 +92,31 @@ public final class OneUtils {
         String months[] = {"Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember"};
         String dayOfWeekFinal = "Mandag";
 
+        //InterfaceManager.getContext().getResources().getString(R.string.Mon);
         switch(dayOfWeekShort){
             case "Mon":
-                dayOfWeekFinal = "Mandag";
+                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Mon);;
                 break;
             case "Tue":
-                dayOfWeekFinal = "Tirsdag";
+                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Tue);;
                 break;
             case "Wed":
-                dayOfWeekFinal = "Onsdag";
+                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Wen);;
                 break;
             case "Thu":
-                dayOfWeekFinal = "Torsdag";
+                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Thu);;
                 break;
             case "Fri":
-                dayOfWeekFinal = "Fredag";
+                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Fri);;
                 break;
             case "Sat":
-                dayOfWeekFinal = "Lørdag";
+                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Sat);;
                 break;
             case "Sun":
-                dayOfWeekFinal = "Søndag";
+                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Sun);;
         }
 
-        String displayDate = "" + dayOfWeekFinal + " - " + dateInMonth + ". " + months[month-1] + " " + year;
+        String displayDate = dayOfWeekFinal + " - " + dateInMonth + ". " + months[month-1] + " " + year;
 
         return displayDate;
     }
