@@ -123,7 +123,7 @@ public class CalendarStandard extends Fragment {
                 //Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
                 AlertDialog alertDialog = new AlertDialog.Builder(CalendarStandard.super.getContext()).create();
                 alertDialog.setTitle(df.format(date));
-                alertDialog.setMessage("Skolenavn");
+                alertDialog.setMessage("Skolenavn 1\nSkolenavn 2");
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
                         (dialog, which) -> {
                             dialog.dismiss();
