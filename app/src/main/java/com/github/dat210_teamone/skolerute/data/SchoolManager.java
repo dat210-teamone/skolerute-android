@@ -93,7 +93,17 @@ public class SchoolManager {
         return svd;
     }
 
-    public SchoolVacationDay[] getNextVacationsDays(String[] names){
+    public SchoolVacationDay[] getNextVacationDays(Date date){
+        ArrayList<SchoolVacationDay> allDays = new ArrayList<>();
+        for (SchoolVacationDay day : getSelectedSchoolDays()){
+            if (OneUtils.sameDay(day.getDate(), date)) {
+                allDays.add(day);
+            }
+        }
+        return allDays.toArray(new SchoolVacationDay[allDays.size()]);
+    }
+
+    public SchoolVacationDay[] getNextVacationDays(String[] names){
         return getNextVacationDays(names, true);
     }
 
