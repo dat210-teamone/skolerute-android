@@ -31,6 +31,7 @@ public class SchoolManagerTest {
     public SchoolManagerTest() {
         this.sm = new SchoolManager(si,iss);
     }
+    
 
     @Test
     public void TestCheckName() {
