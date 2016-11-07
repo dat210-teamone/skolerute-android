@@ -120,7 +120,7 @@ public class StoredSchools extends Fragment {
         int numberOfSchools = mainActivity.schoolManager.getSelectedSchools().length;
         int newHeight;
         if (numberOfSchools > 3) {
-            newHeight = ((3 * schoolNameHeight) + schoolNameHeight/2);
+            newHeight = (int)(3.5 * schoolNameHeight);
         } else if (numberOfSchools > 0){
             newHeight = numberOfSchools * schoolNameHeight;
         }  else {
@@ -216,6 +216,7 @@ public class StoredSchools extends Fragment {
         ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
         addSchoolButton.setVisibility(View.INVISIBLE);
         calendarViewToggle.setVisibility(View.INVISIBLE);
+        mainActivity.resetCalendarViewToggle();
     }
 
     @Override
