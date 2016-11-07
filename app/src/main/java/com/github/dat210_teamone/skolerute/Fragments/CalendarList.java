@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
@@ -77,6 +79,18 @@ public class CalendarList extends Fragment {
 
         calendarList = (ListView)view.findViewById(R.id.calendar_list);
         calendarList.setAdapter(calendarListAdapter);
+
+        calendarList.setOnItemClickListener((parent, view1, position, id) -> {
+            SchoolVacationDay day = (SchoolVacationDay) parent.getAdapter().getItem(position);
+            AlertDialog alertDialog = new AlertDialog.Builder(CalendarList.super.getContext()).create();
+            alertDialog.setTitle(day.getName());
+            alertDialog.setMessage(day.getComment());
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
+                    (dialog, which) -> {
+                        dialog.dismiss();
+                    });
+            alertDialog.show();
+        });
 
         return view;
     }
