@@ -11,4 +11,11 @@ public interface ISettingStorage {
 
     String getLastUpdateTime();
     void setLastUpdateTime(String time);
+
+    String[] getNotifySchools();
+    void addNotifySchool(String s);
+    boolean deleteNotifySchool(String s);
+
+    void setGlobalNotify(boolean value);
+    boolean getGlobalNotify();
 }

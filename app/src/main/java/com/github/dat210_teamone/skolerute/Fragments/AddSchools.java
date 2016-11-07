@@ -99,18 +99,6 @@ public class AddSchools extends Fragment {
 
         finished = (LinearLayout)view.findViewById(R.id.finished_container);
         setupFinishedListener(finished);
-        /* finished.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (finished.getTag() == ACTIVE) {
-                    // mainActivity.hideKeyboard();
-                    mainActivity.goToStoredSchools();
-                } else {
-                    // No schools stored, display message
-                    Toast.makeText(mainActivity, getResources().getString(R.string.no_schools_stored), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }); */
 
         schoolsList = (ListView)view.findViewById(R.id.schoolsList);
         schoolsList.setAdapter(itemsAdapter);
@@ -120,7 +108,6 @@ public class AddSchools extends Fragment {
         setupSearchListeners(view, searchView, mainActivity, itemsAdapter);
         updateFinishedButton();
 
-        // mainActivity.showKeyboard();
         return view;
 
 
@@ -227,10 +214,10 @@ public class AddSchools extends Fragment {
     @Override
     public void onPause(){
         super.onPause();
-        MainActivity mainActivity = (MainActivity)getActivity();
-        // if(mainActivity.inputMethodManager.isAcceptingText()){
+        /*MainActivity mainActivity = (MainActivity)getActivity();
+        if(mainActivity.inputMethodManager.isAcceptingText()){
             mainActivity.hideKeyboard();
-        // }
+        }*/
     }
 
     @Override

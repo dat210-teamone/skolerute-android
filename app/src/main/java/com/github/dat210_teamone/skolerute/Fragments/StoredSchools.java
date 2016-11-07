@@ -4,12 +4,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
@@ -107,9 +110,10 @@ public class StoredSchools extends Fragment {
         storedSchoolsList = (ListView) view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(storedSchoolsAdapter);
 
+        setupPopupMenu(view, mainActivity);
+
         return view;
     }
-
 
     public int setContainerHeight() {
         int schoolNameHeight = (int)mainActivity.getResources().getDimension(R.dimen.school_name_height);
@@ -123,6 +127,61 @@ public class StoredSchools extends Fragment {
             newHeight = schoolNameHeight;
         }
         return newHeight;
+    }
+
+
+    private void setupPopupMenu(View view, MainActivity mainActivity){
+        ImageView schoolSettingsBtn = (ImageView) view.findViewById(R.id.stored_schools_menu);
+        schoolSettingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu settingsMenu = new PopupMenu(mainActivity, schoolSettingsBtn);
+                settingsMenu.inflate(R.menu.stored_school_popup_menu);
+
+                //If school should notify
+                if(mainActivity.schoolManager.getGlobalNotification()){
+                    settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(true);
+                } else{
+                    settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(false);
+                }
+                settingsMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if(item.getItemId() == R.id.itemNotification ){
+                            if(item.isChecked()){
+                                item.setChecked(false);
+                                mainActivity.schoolManager.setGlobalNotification(false);
+                            } else{
+                                item.setChecked(true);
+                                mainActivity.schoolManager.setGlobalNotification(true);
+                            }
+                        }
+
+                        // start http://stackoverflow.com/a/31727213
+                        // Keep the popup menu open
+                        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+                        item.setActionView(new View(mainActivity));
+                        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                            @Override
+                            public boolean onMenuItemActionExpand(MenuItem item) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onMenuItemActionCollapse(MenuItem item) {
+                                return false;
+                            }
+                        });
+                        //end http://stackoverflow.com/a/31727213
+
+                        return false;
+                    }
+                });
+                //settingsMenu.inflate(R.menu.stored_school_popup_menu);
+                settingsMenu.show();
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

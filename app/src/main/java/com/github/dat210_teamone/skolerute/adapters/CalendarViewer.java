@@ -285,7 +285,7 @@ public class CalendarViewer extends LinearLayout {
                 int day = date.getDate();
                 int month = date.getMonth();
                 int year = date.getYear();
-                if (position - day < 8 && position - day >= 0) {
+                if (position - day < 8 + mover && position - day >= 0) {
                     ((TextView) view).setTextColor(Color.BLACK);
                 } else {
                     ((TextView) view).setTextColor(getResources().getColor(R.color.greyed_out));
