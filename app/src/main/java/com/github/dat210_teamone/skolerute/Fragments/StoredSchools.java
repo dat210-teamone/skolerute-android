@@ -107,6 +107,8 @@ public class StoredSchools extends Fragment {
         storedSchoolsList = (ListView) view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(storedSchoolsAdapter);
 
+
+
         return view;
     }
 

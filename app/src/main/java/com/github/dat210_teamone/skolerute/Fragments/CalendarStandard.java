@@ -118,7 +118,8 @@ public class CalendarStandard extends Fragment {
                 onDayPress(date);
             }
             @Override
-            public void onDayPress(Date date) {
+            public void
+            onDayPress(Date date) {
                 DateFormat df = SimpleDateFormat.getDateInstance();
                 //Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
                 AlertDialog alertDialog = new AlertDialog.Builder(CalendarStandard.super.getContext()).create();
