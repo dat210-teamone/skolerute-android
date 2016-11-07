@@ -63,6 +63,7 @@ public class SchoolManager {
         return false;
     }
 
+
     public SchoolInfo[] getSelectedSchools(){
         return  storage.getSchoolInfo(info -> checkName(info.getSchoolName()));
     }
@@ -73,6 +74,7 @@ public class SchoolManager {
         return days;
     }
 
+
     public SchoolVacationDay getNextVacationDay(String name) {
         return getNextVacationDays(name, true)[0];
     }
@@ -81,8 +83,14 @@ public class SchoolManager {
         return getNextVacationDays(name, includeToday)[0];
     }
 
+
     public SchoolVacationDay[] getNextVacationDays(String name) {
         return getNextVacationDays(name, true);
+    }
+
+    public SchoolVacationDay[] getNextVacationDays(String name, boolean includeToday) {
+        SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().toUpperCase().equals(name.toUpperCase()) && info.getDate().after(new Date(System.currentTimeMillis() - ( includeToday ? 86400000 : 0)))); // removed one day
+        return svd;
     }
 
     public SchoolVacationDay[] getNextVacationsDays(String[] names){
@@ -97,11 +105,6 @@ public class SchoolManager {
         SchoolVacationDay[] days = filter.toArray(new SchoolVacationDay[filter.size()]);
         Arrays.sort(days, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         return  days;
-    }
-
-    public SchoolVacationDay[] getNextVacationDays(String name, boolean includeToday) {
-        SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().toUpperCase().equals(name.toUpperCase()) && info.getDate().after(new Date(System.currentTimeMillis() - ( includeToday ? 86400000 : 0)))); // removed one day
-        return svd;
     }
 
     public void addDefault(String name) {
@@ -123,6 +126,19 @@ public class SchoolManager {
         return storage.getSchoolInfo();
     }
 
+    public SchoolInfo getSchoolInfo(String name){
+        return OneUtils.firstOrNull(storage.getSchoolInfo((s) -> s.getSchoolName().equals(name)));
+    }
+
+    public SchoolInfo[] getSchoolInfo(Date date){
+        ArrayList<SchoolInfo> allDays = new ArrayList<>();
+        for (SchoolVacationDay day : getSelectedSchoolDays()){
+            if (OneUtils.sameDay(day.getDate(), date)) {
+                allDays.add(getSchoolInfo(day.getName()));
+            }
+        }
+        return allDays.toArray(new SchoolInfo[allDays.size()]);
+    }
 
     public SchoolVacationDay[] getSchoolVecationInfo()
     {
@@ -221,8 +237,7 @@ public class SchoolManager {
         return settings.getGlobalNotify();
     }
 
-    private <T>  void runEvent(ArrayList<T> list, ActionEvent<T> event)
-    {
+    private <T>  void runEvent(ArrayList<T> list, ActionEvent<T> event) {
         for (T t : list){
             event.action(t);
         }

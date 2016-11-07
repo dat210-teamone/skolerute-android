@@ -111,7 +111,7 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if(item.getItemId() == R.id.itemNotification ){
-                            if(item.isChecked()){
+                            if((mainActivity.schoolManager.getNotifySchool(values[position]))){
                                 item.setChecked(false);
                                 mainActivity.schoolManager.removeNotifySchool(values[position]);
                             } else{
