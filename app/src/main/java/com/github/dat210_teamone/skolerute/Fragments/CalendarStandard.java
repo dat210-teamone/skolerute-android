@@ -125,7 +125,7 @@ public class CalendarStandard extends Fragment {
                 if (info.length > 0) {
                     String schools = "";
                     AlertDialog alertDialog = new AlertDialog.Builder(CalendarStandard.super.getContext()).create();
-                    alertDialog.setTitle(df.format(date) + " - " + info[0].getComment());
+                    alertDialog.setTitle(df.format(date) + ((info[0].getComment().length() > 0) ?  " - " + info[0].getComment() : ""));
                     for (int i = 0; i < info.length; i++)
                         schools += (info[i].isSfoDay()) ? info[i].getName() + "\n" : info[i].getName() +  " - SFO stengt" + "\n";
                     alertDialog.setMessage(schools);
