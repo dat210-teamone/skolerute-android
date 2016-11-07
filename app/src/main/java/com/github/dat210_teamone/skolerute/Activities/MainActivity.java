@@ -30,6 +30,7 @@ import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.SearchSchools;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.NotificationUtil;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
@@ -37,6 +38,7 @@ import com.github.dat210_teamone.skolerute.data.UpdateService;
 import com.github.dat210_teamone.skolerute.data.locationService.LocationFinder;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     public FragmentManager manager = getSupportFragmentManager();
     public Fragment fragment = manager.findFragmentById(R.id.fragment_container);
+    public Fragment fragmentSecondary = manager.findFragmentById(R.id.fragment_container_secondary);
     public FragmentTransaction fragTrans =  manager.beginTransaction();
     private int posisjon;
 
@@ -57,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     Location lastKnownLocation;
 
     public Set<String> schoolsToView = new HashSet<>();
+    public StoredSchoolsAdapter storedSchoolsAdapter;
+    public ImageView calendarViewToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,14 +88,11 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         goToAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(inputMethodManager.isAcceptingText()){
-                    hideKeyboard();
-                }
                 goToAddSchools();
             }
         });
 
-        changeCalendarView();
+        initCalendarViewToggle();
 
         if (selectedSchools.length == 0)
             goToAddSchools();
@@ -98,17 +100,16 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             goToStoredSchools();
 
         NotificationUtil NU = new NotificationUtil(this);
-        NU.createNotification();
     }
 
-
-    private void changeCalendarView(){
-        ImageView calendarViewToggle = (ImageView) findViewById(R.id.calendar_view_toggle);
+    private void initCalendarViewToggle(){
+        calendarViewToggle = (ImageView) findViewById(R.id.calendar_view_toggle);
+        calendarViewToggle.setTag("list_view");
         calendarViewToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String calendarToggleTag = (String) calendarViewToggle.getTag();
-                if(calendarToggleTag == "list_view"){
+                if(calendarToggleTag.equals("list_view")){
                     calendarViewToggle.setTag("calendar_view");
                     calendarViewToggle.setImageResource(R.drawable.list_button);
                     viewCalendar();
@@ -168,6 +169,16 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
          }
     }
 
+    public void clearCheckedSchools(){
+        schoolsToView.clear();
+    }
+
+    public void refreshCheckedSchools(){
+        storedSchoolsAdapter.clear();
+        storedSchoolsAdapter.addAll(getAllStoredSchoolNames());
+        storedSchoolsAdapter.notifyDataSetChanged();
+    }
+
     private boolean getAndCheckPermission(String permission) {
         int permissinCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissinCheck != PackageManager.PERMISSION_GRANTED) {
@@ -204,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
 
         // START - Set up AlarmManager update service
-        //UpdateService.setUpUpdateService();
+        UpdateService.setUpUpdateService();
         // END - Set up AlarmManager update service
     }
 
@@ -235,6 +246,8 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     public void goToAddSchools() {
         replaceMainFragment(new AddSchools());
+        // replaceMainFragment(new SearchSchools());
+        clearSecondaryFragment();
     }
 
     public void goToCalendarList() {
@@ -247,6 +260,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     public void goToSearchSchool() {
         replaceMainFragment(new SearchSchools());
+        clearSecondaryFragment();
     }
 
     public void viewCalendar() {
@@ -257,7 +271,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         replaceSecondaryFragment(new CalendarList());
     }
 
-
     public void replaceMainFragment(Fragment fragment){
         this.fragment = fragment;
         fragTrans = manager.beginTransaction();
@@ -266,9 +279,17 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     public void replaceSecondaryFragment(Fragment fragment){
-        this.fragment = fragment;
+        this.fragmentSecondary = fragment;
         fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container_secondary, fragment);
+        fragTrans.commit();
+    }
+
+    public void clearSecondaryFragment(){
+        fragTrans = manager.beginTransaction();
+        if(fragmentSecondary != null) {
+            fragTrans.remove(fragmentSecondary);
+        }
         fragTrans.commit();
     }
 
@@ -278,6 +299,23 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     public int getPosisjon() {
         return posisjon;
+    }
+
+
+    public String[] getAllStoredSchoolNames(){
+        String[] storedSchoolNames = new String[selectedSchools.length];
+        for (int x = 0; x < selectedSchools.length; x++) {
+            storedSchoolNames[x] = selectedSchools[x].getSchoolName();
+        }
+        return storedSchoolNames;
+    }
+
+    public Date[] getAllStoredSchoolDates(){
+        Date[] storedSchoolDates = new Date[selectedSchools.length];
+        for (int x = 0; x < selectedSchools.length; x++) {
+            storedSchoolDates[x] = schoolManager.getNextVacationDay(selectedSchools[x].getSchoolName()).getDate();
+        }
+        return storedSchoolDates;
     }
 
     @Override

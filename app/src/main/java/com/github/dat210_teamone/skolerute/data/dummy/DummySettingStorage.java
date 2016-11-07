@@ -56,4 +56,29 @@ public class DummySettingStorage implements ISettingStorage {
     public void setLastUpdateTime(String time) {
         lastUpdate = time;
     }
+
+    @Override
+    public String[] getNotifySchools() {
+        return new String[0];
+    }
+
+    @Override
+    public void addNotifySchool(String s) {
+
+    }
+
+    @Override
+    public boolean deleteNotifySchool(String s) {
+        return false;
+    }
+
+    @Override
+    public void setGlobalNotify(boolean value) {
+        //TODO: Implement dummy settings
+    }
+
+    @Override
+    public boolean getGlobalNotify() {
+        return false;
+    }
 }

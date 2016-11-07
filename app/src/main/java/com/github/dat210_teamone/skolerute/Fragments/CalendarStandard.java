@@ -1,9 +1,11 @@
 package com.github.dat210_teamone.skolerute.Fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import android.widget.Toast;
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.CalendarViewer;
+import com.github.dat210_teamone.skolerute.data.InterfaceManager;
+import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
@@ -42,7 +46,7 @@ public class CalendarStandard extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private CalendarViewer calView;
-    private HashSet<Date> events ;
+    private HashSet<Date> events;
 
     private String mParam1;
     private String mParam2;
@@ -82,32 +86,55 @@ public class CalendarStandard extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_calendar_standard, container, false);
 
         events = new HashSet<>();
 
-        MainActivity mainActivity = (MainActivity)getActivity();
+        MainActivity mainActivity = (MainActivity) getActivity();
 
         SchoolVacationDay vacationDays[] = mainActivity.schoolManager.getSelectedSchoolDays();
-        Date[] days=new Date[vacationDays.length];
+        Date[] days = new Date[vacationDays.length];
+        Date maxDay = new Date();
 
-        for (int x=0; x<vacationDays.length; x++){
-            days[x]=vacationDays[x].getDate();
-            events.add(days[x]);
+        for (int i = 0; i < vacationDays.length; i++) {
+            days[i] = vacationDays[i].getDate();
+            events.add(days[i]);
+            if (days[i].after(maxDay)){
+                maxDay = days[i];
+            }
         }
 
-        calView = ((CalendarViewer)view.findViewById(R.id.calendar_view));
+        calView = ((CalendarViewer) view.findViewById(R.id.calendar_view));
+        calView.setMaxDate(maxDay);
         calView.updateCalendar(events);
+
 
 
         calView.setEventHandler(new CalendarViewer.EventHandler() {
             @Override
-            public void onDayLongPress(Date date)
-            {
+            public void onDayLongPress(Date date) {
+                onDayPress(date);
+            }
+            @Override
+            public void onDayPress(Date date) {
                 DateFormat df = SimpleDateFormat.getDateInstance();
-                Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
+                SchoolVacationDay info[] = SchoolManager.getDefault().getNextVacationDays(date);
+                if (info.length > 0) {
+                    String schools = "";
+                    AlertDialog alertDialog = new AlertDialog.Builder(CalendarStandard.super.getContext()).create();
+                    alertDialog.setTitle(df.format(date) + ((info[0].getComment().length() > 0) ?  " - " + info[0].getComment() : ""));
+                    for (int i = 0; i < info.length; i++)
+                        schools += (info[i].isSfoDay()) ? info[i].getName() + "\n" : info[i].getName() +  " - SFO stengt" + "\n";
+                    alertDialog.setMessage(schools);
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
+                            (dialog, which) -> {
+                                dialog.dismiss();
+                            });
+                    alertDialog.show();
+                }
             }
         });
 

@@ -1,18 +1,16 @@
 package com.github.dat210_teamone.skolerute.data;
 
 
-import android.util.Log;
-
 import android.location.Location;
 
 
+import com.github.dat210_teamone.skolerute.data.interfaces.INotificationUpdate;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
 import com.github.dat210_teamone.skolerute.model.PostLink;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
-import java.lang.reflect.Array;
 import java.util.List;
 import java.util.regex.*;
 
@@ -65,6 +63,7 @@ public class SchoolManager {
         return false;
     }
 
+
     public SchoolInfo[] getSelectedSchools(){
         return  storage.getSchoolInfo(info -> checkName(info.getSchoolName()));
     }
@@ -75,6 +74,7 @@ public class SchoolManager {
         return days;
     }
 
+
     public SchoolVacationDay getNextVacationDay(String name) {
         return getNextVacationDays(name, true)[0];
     }
@@ -83,11 +83,27 @@ public class SchoolManager {
         return getNextVacationDays(name, includeToday)[0];
     }
 
+
     public SchoolVacationDay[] getNextVacationDays(String name) {
         return getNextVacationDays(name, true);
     }
 
-    public SchoolVacationDay[] getNextVacationsDays(String[] names){
+    public SchoolVacationDay[] getNextVacationDays(String name, boolean includeToday) {
+        SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().toUpperCase().equals(name.toUpperCase()) && info.getDate().after(new Date(System.currentTimeMillis() - ( includeToday ? 86400000 : 0)))); // removed one day
+        return svd;
+    }
+
+    public SchoolVacationDay[] getNextVacationDays(Date date){
+        ArrayList<SchoolVacationDay> allDays = new ArrayList<>();
+        for (SchoolVacationDay day : getSelectedSchoolDays()){
+            if (OneUtils.sameDay(day.getDate(), date)) {
+                allDays.add(day);
+            }
+        }
+        return allDays.toArray(new SchoolVacationDay[allDays.size()]);
+    }
+
+    public SchoolVacationDay[] getNextVacationDays(String[] names){
         return getNextVacationDays(names, true);
     }
 
@@ -101,18 +117,15 @@ public class SchoolManager {
         return  days;
     }
 
-    public SchoolVacationDay[] getNextVacationDays(String name, boolean includeToday) {
-        SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().toUpperCase().equals(name.toUpperCase()) && info.getDate().after(new Date(System.currentTimeMillis() - ( includeToday ? 86400000 : 0)))); // removed one day
-        return svd;
-    }
-
     public void addDefault(String name) {
         settings.addSelectedSchool(name);
+        addNotifySchool(name);
         addAll(settings.getSelectedSchools());
     }
 
     public void removeDefault(String name){
         settings.deleteSelectedSchool(name);
+        removeNotifySchool(name);
         addAll(settings.getSelectedSchools());
     }
 
@@ -123,6 +136,19 @@ public class SchoolManager {
         return storage.getSchoolInfo();
     }
 
+    public SchoolInfo getSchoolInfo(String name){
+        return OneUtils.firstOrNull(storage.getSchoolInfo((s) -> s.getSchoolName().equals(name)));
+    }
+
+    public SchoolInfo[] getSchoolInfo(Date date){
+        ArrayList<SchoolInfo> allDays = new ArrayList<>();
+        for (SchoolVacationDay day : getSelectedSchoolDays()){
+            if (OneUtils.sameDay(day.getDate(), date)) {
+                allDays.add(getSchoolInfo(day.getName()));
+            }
+        }
+        return allDays.toArray(new SchoolInfo[allDays.size()]);
+    }
 
     public SchoolVacationDay[] getSchoolVecationInfo()
     {
@@ -181,5 +207,60 @@ public class SchoolManager {
 
     public Location getKnownPosition(){
         return this.knownPosition;
+    }
+
+    public String[] getNotifySchools(){
+        return settings.getNotifySchools();
+    }
+
+    public boolean getNotifySchool(String name){
+        String[] schools = getNotifySchools();
+        for (String s : schools) {
+            if (s.equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    ArrayList<INotificationUpdate> allUpdates = new ArrayList<>();
+
+    public void addNotifySchool(String school){
+        runEvent(allUpdates, n -> n.preNotify(INotificationUpdate.UpdateType.ADD, school));
+        settings.addNotifySchool(school);
+        runEvent(allUpdates, n -> n.postNotify(INotificationUpdate.UpdateType.ADD, school, true));
+    }
+
+    public boolean removeNotifySchool(String school){
+        runEvent(allUpdates, n -> n.preNotify(INotificationUpdate.UpdateType.REMOVE, school));
+        boolean result = settings.deleteNotifySchool(school);
+        runEvent(allUpdates, n -> n.postNotify(INotificationUpdate.UpdateType.REMOVE, school, result));
+        return result;
+    }
+
+    public void setGlobalNotification(boolean value){
+        settings.setGlobalNotify(value);
+        runEvent(allUpdates, n -> n.globalNotifyChange(value));
+    }
+
+    public boolean getGlobalNotification(){
+        return settings.getGlobalNotify();
+    }
+
+    private <T>  void runEvent(ArrayList<T> list, ActionEvent<T> event) {
+        for (T t : list){
+            event.action(t);
+        }
+    }
+
+    public void subscribe(INotificationUpdate update) {
+        allUpdates.add(update);
+    }
+
+    public void unsubscribe(INotificationUpdate update){
+        allUpdates.remove(update);
+    }
+    interface ActionEvent<T>{
+        void action(T t);
     }
 }
