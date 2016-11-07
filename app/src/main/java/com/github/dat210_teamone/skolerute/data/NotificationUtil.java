@@ -42,7 +42,6 @@ public class NotificationUtil implements INotificationUpdate {
         createNotification();
     }
 
-
     @Override
     public void globalNotifyChange(boolean newValue) {
         if (newValue) {
