@@ -42,7 +42,6 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.stored_schools_layout, parent, false);
-        View schoolView = inflater.inflate(R.layout.fragment_stored_schools, parent, false);
         TextView schoolName = (TextView) rowView.findViewById(R.id.school_name);
         //      TextView nextDate = (TextView) rowView.findViewById(R.id.next_date);
         LinearLayout schoolNameContainer = (LinearLayout)rowView.findViewById(R.id.school_name_container);
@@ -80,7 +79,6 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
 
         //SCHOOLSETTINGS
         ImageView schoolSettingsBtn = (ImageView) rowView.findViewById(R.id.stored_schools_item_menu);
-        ImageView settingBtn = (ImageView) schoolView.findViewById(R.id.stored_schools_menu);
 
         schoolSettingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,15 +90,6 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
             }
         });
 
-        settingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu settingsMenu = new PopupMenu(context, settingBtn);
-
-                settingsMenu.inflate(R.menu.stored_school_popup_menu);
-                settingsMenu.show();
-            }
-        });
 
         //SCHOOLSETTINGS END
 

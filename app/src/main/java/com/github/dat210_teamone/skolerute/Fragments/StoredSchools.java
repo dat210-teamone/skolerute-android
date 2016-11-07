@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
@@ -107,7 +108,17 @@ public class StoredSchools extends Fragment {
         storedSchoolsList = (ListView) view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(storedSchoolsAdapter);
 
+        ImageView settingBtn = (ImageView) view.findViewById(R.id.stored_schools_menu);
 
+        settingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu settingsMenu = new PopupMenu(mainActivity, settingBtn);
+
+                settingsMenu.inflate(R.menu.stored_school_popup_menu);
+                settingsMenu.show();
+            }
+        });
 
         return view;
     }
