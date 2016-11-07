@@ -1,9 +1,11 @@
 package com.github.dat210_teamone.skolerute.Fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import android.widget.Toast;
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.CalendarViewer;
+import com.github.dat210_teamone.skolerute.data.InterfaceManager;
+import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
@@ -111,13 +115,20 @@ public class CalendarStandard extends Fragment {
         calView.setEventHandler(new CalendarViewer.EventHandler() {
             @Override
             public void onDayLongPress(Date date) {
-                DateFormat df = SimpleDateFormat.getDateInstance();
-                Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
+                onDayPress(date);
             }
             @Override
             public void onDayPress(Date date) {
                 DateFormat df = SimpleDateFormat.getDateInstance();
-                Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
+                AlertDialog alertDialog = new AlertDialog.Builder(CalendarStandard.super.getContext()).create();
+                alertDialog.setTitle(df.format(date));
+                alertDialog.setMessage("Skolenavn");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
+                        (dialog, which) -> {
+                            dialog.dismiss();
+                        });
+                alertDialog.show();
             }
         });
 
