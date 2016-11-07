@@ -24,6 +24,7 @@
     <dimen name="info_bar_height">30dp</dimen>
     <dimen name="app_main_bar_height">60dp</dimen>
     <dimen name="add_school_button_height">32dp</dimen>
+    <dimen name="school_name_height">50dp</dimen>
 
 
 </resources>

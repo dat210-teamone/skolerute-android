@@ -43,7 +43,7 @@
         android:id="@+id/stored_schools_list_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="160dp">
+        android:layout_height="wrap_content">
 
         <ListView
             android:layout_width="match_parent"

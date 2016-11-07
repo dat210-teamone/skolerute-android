@@ -30,6 +30,8 @@
     <string name="add_schools_nearby_title">Skoler i nærheten</string>
     <string name="add_schools_results_title">Søkeresultat</string>
     <string name="search_hint_text">Søk med skolenavn, postnummer eller adresse</string>
-
+    <string name="no_schools_stored">Du må velge minst 1 skole</string>
+    <string name="store_school">Lagre</string>
+    <string name="remove_school">Fjern</string>
 
 </resources>
