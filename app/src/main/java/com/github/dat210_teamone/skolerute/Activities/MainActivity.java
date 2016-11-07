@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             goToStoredSchools();
 
         NotificationUtil NU = new NotificationUtil(this);
-        NU.createNotification();
     }
 
     private void initCalendarViewToggle(){

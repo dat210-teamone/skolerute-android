@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_height"
         android:id="@+id/searchView"
-        android:queryHint="@string/search_hint_text">
+        android:queryHint="@string/search_hint_text"
+        android:focusable="false">
     </SearchView>
 
     <LinearLayout
