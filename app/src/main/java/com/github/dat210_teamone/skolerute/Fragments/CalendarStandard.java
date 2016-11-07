@@ -121,14 +121,20 @@ public class CalendarStandard extends Fragment {
             public void onDayPress(Date date) {
                 DateFormat df = SimpleDateFormat.getDateInstance();
                 //Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
-                AlertDialog alertDialog = new AlertDialog.Builder(CalendarStandard.super.getContext()).create();
-                alertDialog.setTitle(df.format(date));
-                alertDialog.setMessage("Skolenavn 1\nSkolenavn 2");
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
-                        (dialog, which) -> {
-                            dialog.dismiss();
-                        });
-                alertDialog.show();
+                SchoolVacationDay info[] = SchoolManager.getDefault().getNextVacationDays(date);
+                if (info.length > 0) {
+                    String schools = "";
+                    AlertDialog alertDialog = new AlertDialog.Builder(CalendarStandard.super.getContext()).create();
+                    alertDialog.setTitle(df.format(date) + " - " + info[0].getComment());
+                    for (int i = 0; i < info.length; i++)
+                        schools += (info[i].isSfoDay()) ? info[i].getName() + "\n" : info[i].getName() +  " - SFO stengt" + "\n";
+                    alertDialog.setMessage(schools);
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
+                            (dialog, which) -> {
+                                dialog.dismiss();
+                            });
+                    alertDialog.show();
+                }
             }
         });
 
