@@ -42,7 +42,6 @@ public class NotificationUtil implements INotificationUpdate {
         createNotification();
     }
 
-
     @Override
     public void globalNotifyChange(boolean newValue) {
         if (newValue) {
@@ -58,7 +57,7 @@ public class NotificationUtil implements INotificationUpdate {
             return;
         }
         HashSet hs = new HashSet();
-        for (SchoolVacationDay svd : SM.getNextVacationsDays(SM.getNotifySchools())) {
+        for (SchoolVacationDay svd : SM.getNextVacationDays(SM.getNotifySchools())) {
             if (!hs.contains(svd.getDate())) {
                 hs.add(svd.getDate());
                 createNotification(svd);
@@ -87,7 +86,7 @@ public class NotificationUtil implements INotificationUpdate {
         AlarmManager am = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(con, NotificationReceiver.class);
         PendingIntent pi;
-        for (SchoolVacationDay svd : SM.getNextVacationsDays(SM.getNotifySchools())) {
+        for (SchoolVacationDay svd : SM.getNextVacationDays(SM.getNotifySchools())) {
             if (!hs.contains(svd.getDate())) {
                 pi = PendingIntent.getBroadcast(con, (int)svd.getDate().getTime(), i, PendingIntent.FLAG_CANCEL_CURRENT);
                 am.cancel(pi);

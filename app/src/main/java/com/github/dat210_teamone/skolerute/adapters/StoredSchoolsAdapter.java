@@ -86,11 +86,11 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
 
     private void setupPopupMenu(View rowView, MainActivity mainActivity, int position){
         ImageView schoolSettingsBtn = (ImageView) rowView.findViewById(R.id.stored_schools_item_menu);
+
         schoolSettingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PopupMenu settingsMenu = new PopupMenu(context, schoolSettingsBtn);
-                //settingsMenu.setOnMenuItemClickListener(context);
                 settingsMenu.inflate(R.menu.stored_school_popup_menu);
 
                 MenuItem notificationItem = settingsMenu.getMenu().findItem(R.id.itemNotification);
@@ -111,7 +111,7 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if(item.getItemId() == R.id.itemNotification ){
-                            if(item.isChecked()){
+                            if((mainActivity.schoolManager.getNotifySchool(values[position]))){
                                 item.setChecked(false);
                                 mainActivity.schoolManager.removeNotifySchool(values[position]);
                             } else{

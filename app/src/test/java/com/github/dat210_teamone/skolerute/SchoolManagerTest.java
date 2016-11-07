@@ -8,6 +8,7 @@ import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -91,5 +92,27 @@ public class SchoolManagerTest {
         }else {
             Assert.assertEquals(q, l.get(0).getSchoolName());
         }
+    }
+
+
+    @Test
+    public void getSchoolInfo_gettoday() throws Exception{
+        Date d = new Date();
+        SchoolInfo[] infos = sm.getSchoolInfo(d);
+        Assert.assertEquals(2, infos.length);
+    }
+
+    @Test
+    public void getSchoolInfo_getanotherdaywithinfos() throws Exception{
+        Date d = new Date(new Date().getTime() + 86400000 * 3);
+        SchoolInfo[] infos = sm.getSchoolInfo(d);
+        Assert.assertEquals(2, infos.length);
+    }
+
+    @Test
+    public void getSchoolInfo_getanotherdaywithoutinfos() throws Exception{
+        Date d = new Date(new Date().getTime() + 86400000 * 10);
+        SchoolInfo[] infos = sm.getSchoolInfo(d);
+        Assert.assertEquals(0, infos.length);
     }
 }

@@ -112,7 +112,6 @@ public class StoredSchools extends Fragment {
 
         setupPopupMenu(view, mainActivity);
 
-
         return view;
     }
 
@@ -122,7 +121,6 @@ public class StoredSchools extends Fragment {
             @Override
             public void onClick(View v) {
                 PopupMenu settingsMenu = new PopupMenu(mainActivity, schoolSettingsBtn);
-                //settingsMenu.setOnMenuItemClickListener(context);
                 settingsMenu.inflate(R.menu.stored_school_popup_menu);
 
                 //If school should notify

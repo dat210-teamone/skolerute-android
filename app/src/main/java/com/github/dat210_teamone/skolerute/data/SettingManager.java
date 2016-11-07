@@ -62,7 +62,7 @@ public class SettingManager implements ISettingStorage {
 
     @Override
     public String[] getNotifySchools() {
-        Set<String> set = preferences.getStringSet(SELECTEDSCHOOLS, defaults);
+        Set<String> set = preferences.getStringSet(NOTIFYSCHOOLS, defaults);
         String[] array = new String[set.size()];
         return set.toArray(array);
     }

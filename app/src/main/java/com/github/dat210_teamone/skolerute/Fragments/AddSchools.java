@@ -95,7 +95,6 @@ public class AddSchools extends Fragment {
         finished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.hideKeyboard();
                 mainActivity.goToStoredSchools();
             }
         });
@@ -107,7 +106,6 @@ public class AddSchools extends Fragment {
         SearchView searchView = setupSearchView(view);
         setupSearchListeners(view, searchView, mainActivity, itemsAdapter);
 
-        // mainActivity.showKeyboard();
         return view;
 
 
@@ -239,10 +237,10 @@ public class AddSchools extends Fragment {
     @Override
     public void onPause(){
         super.onPause();
-        MainActivity mainActivity = (MainActivity)getActivity();
-        // if(mainActivity.inputMethodManager.isAcceptingText()){
+        /*MainActivity mainActivity = (MainActivity)getActivity();
+        if(mainActivity.inputMethodManager.isAcceptingText()){
             mainActivity.hideKeyboard();
-        // }
+        }*/
     }
 
     @Override

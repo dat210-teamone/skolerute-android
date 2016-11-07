@@ -11,7 +11,9 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Nicolas on 21.09.2016.
@@ -121,5 +123,20 @@ public final class OneUtils {
         return displayDate;
     }
 
+    public static <T> T firstOrNull(T[] array){
+        if (array.length > 0)
+            return array[0];
+        else
+            return null;
+    }
+
+    public static boolean sameDay(Date a, Date b) {
+        Calendar cA = Calendar.getInstance();
+        cA.setTime(a);
+        Calendar cB = Calendar.getInstance();
+        cB.setTime(b);
+
+        return cA.get(Calendar.YEAR) == cB.get(Calendar.YEAR) && cA.get(Calendar.MONTH) == cB.get(Calendar.MONTH) && cA.get(Calendar.DATE) == cB.get(Calendar.DATE);
+    }
 
 }

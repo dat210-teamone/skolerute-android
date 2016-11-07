@@ -4,27 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
-import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
 import com.github.dat210_teamone.skolerute.adapters.VacationDaysListAdapter;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
-import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
-
-import java.util.Date;
 
 public class CalendarList extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -81,13 +72,25 @@ public class CalendarList extends Fragment {
         MainActivity mainActivity = (MainActivity) getActivity();
 
         String[] checkedSchools = mainActivity.schoolsToView.toArray(new String[mainActivity.schoolsToView.size()]);
-        vacationDays = SchoolManager.getDefault().getNextVacationsDays(checkedSchools);
+        vacationDays = SchoolManager.getDefault().getNextVacationDays(checkedSchools);
 
         // Generate objects to display based on selected schools
         VacationDaysListAdapter calendarListAdapter = new VacationDaysListAdapter(mainActivity, vacationDays);
 
         calendarList = (ListView)view.findViewById(R.id.calendar_list);
         calendarList.setAdapter(calendarListAdapter);
+
+        calendarList.setOnItemClickListener((parent, view1, position, id) -> {
+            SchoolVacationDay day = (SchoolVacationDay) parent.getAdapter().getItem(position);
+            AlertDialog alertDialog = new AlertDialog.Builder(CalendarList.super.getContext()).create();
+            alertDialog.setTitle(day.getName());
+            alertDialog.setMessage(day.getComment());
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
+                    (dialog, which) -> {
+                        dialog.dismiss();
+                    });
+            alertDialog.show();
+        });
 
         return view;
     }
