@@ -79,6 +79,7 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
 
         //SCHOOLSETTINGS
         ImageView schoolSettingsBtn = (ImageView) rowView.findViewById(R.id.stored_schools_item_menu);
+        ImageView settingBtn = (ImageView) rowView.findViewById(R.id.stored_schools_menu);
 
         /*//POPUP
         PopupMenu settingsMenu = new PopupMenu(context, schoolSettingsBtn); // Usikker på om dette er slik du gjør det.
@@ -94,6 +95,17 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                 settingsMenu.show();
             }
         });
+
+        settingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu settingsMenu = new PopupMenu(context, settingBtn);
+
+                settingsMenu.inflate(R.menu.stored_school_popup_menu);
+                settingsMenu.show();
+            }
+        });
+
         //SCHOOLSETTINGS END
 
        /* schoolName.setOnClickListener(new View.OnClickListener() {
