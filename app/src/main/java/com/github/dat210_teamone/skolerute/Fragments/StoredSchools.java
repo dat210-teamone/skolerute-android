@@ -112,6 +112,18 @@ public class StoredSchools extends Fragment {
 
         setupPopupMenu(view, mainActivity);
 
+        ImageView settingBtn = (ImageView) view.findViewById(R.id.stored_schools_menu);
+
+        settingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu settingsMenu = new PopupMenu(mainActivity, settingBtn);
+
+                settingsMenu.inflate(R.menu.stored_school_popup_menu);
+                settingsMenu.show();
+            }
+        });
+
 
         return view;
     }
@@ -122,7 +134,6 @@ public class StoredSchools extends Fragment {
             @Override
             public void onClick(View v) {
                 PopupMenu settingsMenu = new PopupMenu(mainActivity, schoolSettingsBtn);
-                //settingsMenu.setOnMenuItemClickListener(context);
                 settingsMenu.inflate(R.menu.stored_school_popup_menu);
 
                 //If school should notify
