@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -40,7 +41,9 @@ public class StoredSchools extends Fragment {
 
     private ListView storedSchoolsList;
     private TextView finished;
+    private LinearLayout storedSchoolsListContainer;
 
+    private MainActivity mainActivity;
 
     private OnStoredSchoolsInteractionListener mListener;
 
@@ -87,7 +90,7 @@ public class StoredSchools extends Fragment {
         public String[] allSchoolNames = new String[allSchools.length];
 */
 
-        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity = (MainActivity) getActivity();
 
         //  mainActivity.inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_HIDDEN,0);
 
@@ -96,14 +99,11 @@ public class StoredSchools extends Fragment {
         String[] storedSchoolNames = mainActivity.getAllStoredSchoolNames();
         Date[] storedSchoolVacationDays = mainActivity.getAllStoredSchoolDates();
 
-     /*   for (int x = 0; x < mainActivity.selectedSchools.length; x++) {
-            storedSchoolNames[x] = mainActivity.selectedSchools[x].getSchoolName();
-            storedSchoolVacationDays[x] = mainActivity.schoolManager.getNextVacationDay(storedSchoolNames[x]).getDate();
-        } */
-
-        /*for (int x = 0; x < mainActivity.selectedSchools.length; x++) {
-            storedSchoolNames[x] = mainActivity.selectedSchools[x].getSchoolName();
-        }*/
+        //Set height of listView container based on number of stored schools
+        storedSchoolsListContainer = (LinearLayout) view.findViewById(R.id.stored_schools_list_container);
+        LinearLayout.LayoutParams listParamaters = (LinearLayout.LayoutParams)storedSchoolsListContainer.getLayoutParams();
+        listParamaters.height = setContainerHeight();
+        storedSchoolsListContainer.setLayoutParams(listParamaters);
 
         StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames, storedSchoolVacationDays);
         mainActivity.storedSchoolsAdapter = storedSchoolsAdapter;
@@ -114,6 +114,21 @@ public class StoredSchools extends Fragment {
 
         return view;
     }
+
+    public int setContainerHeight() {
+        int schoolNameHeight = (int)mainActivity.getResources().getDimension(R.dimen.school_name_height);
+        int numberOfSchools = mainActivity.schoolManager.getSelectedSchools().length;
+        int newHeight;
+        if (numberOfSchools > 3) {
+            newHeight = (int)(3.5 * schoolNameHeight);
+        } else if (numberOfSchools > 0){
+            newHeight = numberOfSchools * schoolNameHeight;
+        }  else {
+            newHeight = schoolNameHeight;
+        }
+        return newHeight;
+    }
+
 
     private void setupPopupMenu(View view, MainActivity mainActivity){
         ImageView schoolSettingsBtn = (ImageView) view.findViewById(R.id.stored_schools_menu);
@@ -201,6 +216,7 @@ public class StoredSchools extends Fragment {
         ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
         addSchoolButton.setVisibility(View.INVISIBLE);
         calendarViewToggle.setVisibility(View.INVISIBLE);
+        mainActivity.resetCalendarViewToggle();
     }
 
     @Override
