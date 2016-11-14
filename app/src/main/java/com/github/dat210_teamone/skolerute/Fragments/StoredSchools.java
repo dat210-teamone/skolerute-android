@@ -42,6 +42,11 @@ public class StoredSchools extends Fragment {
     private ListView storedSchoolsList;
     private TextView finished;
     private LinearLayout storedSchoolsListContainer;
+    private int containerHeight;
+    private LinearLayout.LayoutParams listParamaters;
+
+    private final String EXPANDED = "expanded";
+    private final String MINIMIZED = "minimized";
 
     private MainActivity mainActivity;
 
@@ -83,16 +88,9 @@ public class StoredSchools extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stored_schools, container, false);
-/*
-        public SchoolManager schoolManager = SchoolManager.getDefault();
-        public SchoolInfo[] allSchools = schoolManager.getSchoolInfo();
-        public SchoolInfo[] selectedSchools = schoolManager.getSelectedSchools();
-        public String[] allSchoolNames = new String[allSchools.length];
-*/
 
         mainActivity = (MainActivity) getActivity();
 
-        //  mainActivity.inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_HIDDEN,0);
 
         mainActivity.selectedSchools = mainActivity.schoolManager.getSelectedSchools();
 
@@ -100,33 +98,68 @@ public class StoredSchools extends Fragment {
         Date[] storedSchoolVacationDays = mainActivity.getAllStoredSchoolDates();
 
         //Set height of listView container based on number of stored schools
-        storedSchoolsListContainer = (LinearLayout) view.findViewById(R.id.stored_schools_list_container);
+        /*  storedSchoolsListContainer = (LinearLayout) view.findViewById(R.id.stored_schools_list_container);
         LinearLayout.LayoutParams listParamaters = (LinearLayout.LayoutParams)storedSchoolsListContainer.getLayoutParams();
-        listParamaters.height = setContainerHeight();
-        storedSchoolsListContainer.setLayoutParams(listParamaters);
+        containerHeight = setContainerHeight();
+        listParamaters.height = containerHeight;
+        storedSchoolsListContainer.setLayoutParams(listParamaters); */
+
+        setupContainer(view, mainActivity);
+
 
         StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames, storedSchoolVacationDays);
         mainActivity.storedSchoolsAdapter = storedSchoolsAdapter;
         storedSchoolsList = (ListView) view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(storedSchoolsAdapter);
 
+        setupExpandButton(view, mainActivity);
         setupPopupMenu(view, mainActivity);
 
         return view;
     }
 
-    public int setContainerHeight() {
+    public void setupContainer(View view, MainActivity mainActivity) {
+        storedSchoolsListContainer = (LinearLayout) view.findViewById(R.id.stored_schools_list_container);
+        listParamaters = (LinearLayout.LayoutParams)storedSchoolsListContainer.getLayoutParams();
+        containerHeight = getContainerHeight();
+        setContainerHeight(containerHeight);
+    }
+
+    public void setContainerHeight(int newHeight) {
+        listParamaters.height = newHeight;
+        storedSchoolsListContainer.setLayoutParams(listParamaters);
+    }
+
+
+    public void setupExpandButton(View view, MainActivity mainActivity) {
+        ImageView expandContainerButton = (ImageView) view.findViewById(R.id.stored_schools_expand);
+        expandContainerButton.setTag(EXPANDED);
+        expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
+        expandContainerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (expandContainerButton.getTag() == EXPANDED){
+                    expandContainerButton.setTag(MINIMIZED);
+                    expandContainerButton.setImageResource(R.drawable.ic_expand_more_white_24dp);
+                    setContainerHeight(0);
+                } else {
+                    expandContainerButton.setTag(EXPANDED);
+                    expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
+                    setContainerHeight(getContainerHeight());
+                }
+            }
+        });
+    }
+
+    public int getContainerHeight() {
         int schoolNameHeight = (int)mainActivity.getResources().getDimension(R.dimen.school_name_height);
         int numberOfSchools = mainActivity.schoolManager.getSelectedSchools().length;
-        int newHeight;
         if (numberOfSchools > 3) {
-            newHeight = (int)(3.5 * schoolNameHeight);
+            return (int)(3.5 * schoolNameHeight);
         } else if (numberOfSchools > 0){
-            newHeight = numberOfSchools * schoolNameHeight;
-        }  else {
-            newHeight = schoolNameHeight;
+            return numberOfSchools * schoolNameHeight;
         }
-        return newHeight;
+        return schoolNameHeight;
     }
 
 

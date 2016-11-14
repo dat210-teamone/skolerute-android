@@ -45,7 +45,6 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.stored_schools_layout, parent, false);
         TextView schoolName = (TextView) rowView.findViewById(R.id.school_name);
-        //      TextView nextDate = (TextView) rowView.findViewById(R.id.next_date);
         LinearLayout schoolNameContainer = (LinearLayout)rowView.findViewById(R.id.school_name_container);
         schoolName.setText(values[position]);
         MainActivity mainActivity = (MainActivity)getContext();
