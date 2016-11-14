@@ -110,8 +110,6 @@ public class CalendarStandard extends Fragment {
         calView.setMaxDate(maxDay);
         calView.updateCalendar(events);
 
-
-
         calView.setEventHandler(new CalendarViewer.EventHandler() {
             @Override
             public void onDayLongPress(Date date) {
@@ -120,12 +118,11 @@ public class CalendarStandard extends Fragment {
             @Override
             public void onDayPress(Date date) {
                 DateFormat df = SimpleDateFormat.getDateInstance();
-                //Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();
                 SchoolVacationDay info[] = SchoolManager.getDefault().getNextVacationDays(date);
                 if (info.length > 0) {
                     String schools = "";
                     AlertDialog alertDialog = new AlertDialog.Builder(CalendarStandard.super.getContext()).create();
-                    alertDialog.setTitle(df.format(date) + ((info[0].getComment().length() > 0) ?  " - " + info[0].getComment() : ""));
+                    alertDialog.setTitle(df.format(date) + ((info[0].getComment().length() > 0) ?  "\n" + info[0].getComment() : ""));
                     for (int i = 0; i < info.length; i++)
                         schools += (info[i].isSfoDay()) ? info[i].getName() + "\n" : info[i].getName() +  " - SFO stengt" + "\n";
                     alertDialog.setMessage(schools);
@@ -133,6 +130,7 @@ public class CalendarStandard extends Fragment {
                             (dialog, which) -> {
                                 dialog.dismiss();
                             });
+                    alertDialog.setIcon(R.drawable.calendar_icon_white);
                     alertDialog.show();
                 }
             }
