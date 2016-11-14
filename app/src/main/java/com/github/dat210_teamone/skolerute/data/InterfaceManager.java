@@ -44,15 +44,15 @@ public final class InterfaceManager {
     }
 
     public static IStorage getStorage() {
-        return new DummyStorage();
+        //return new DummyStorage();
         //return new CsvFileReader().initializeReader();
-        //return new SchoolStorage().initializeStorage();
+        return new SchoolStorage().initializeStorage();
     }
 
     public static ISettingStorage getSettings(){
-        return new DummySettingStorage(true);
+        //return new DummySettingStorage(true);
 
-        //return new SettingManager(getContext().getSharedPreferences("data", 0));
+        return new SettingManager(getContext().getSharedPreferences("data", 0));
     }
 
     public static ICsvGetter getBufferGetter() {
