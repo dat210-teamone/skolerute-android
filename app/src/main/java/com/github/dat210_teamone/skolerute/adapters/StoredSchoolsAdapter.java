@@ -96,7 +96,9 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                 //If school should notify
                 if(mainActivity.schoolManager.getNotifySchool(values[position])){
                     notificationItem.setChecked(true);
+                    //TODO: hide no notification bell icon
                 } else{
+                    //TODO: show no notification bell icon
                     notificationItem.setChecked(false);
                 }
 
