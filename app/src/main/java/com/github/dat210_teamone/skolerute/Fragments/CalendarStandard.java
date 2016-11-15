@@ -114,10 +114,6 @@ public class CalendarStandard extends Fragment {
 
         calView.setEventHandler(new CalendarViewer.EventHandler() {
             @Override
-            public void onDayLongPress(Date date) {
-                onDayPress(date);
-            }
-            @Override
             public void onDayPress(Date date) {
                 DateFormat df = SimpleDateFormat.getDateInstance();
                 //Toast.makeText(mainActivity, df.format(date), Toast.LENGTH_SHORT).show();

@@ -132,23 +132,6 @@ public class CalendarViewer extends LinearLayout {
             }
         });
 
-        grid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> view, View cell, int position, long id) {
-
-                // handle long-press
-                if (eventHandler == null)
-                    return false;
-
-                if (position %  8 != 0) {
-                    int mover = position - (position / 8 + 1);
-                    eventHandler.onDayLongPress((Date) view.getItemAtPosition(mover));
-                }
-                return true;
-            }
-        });
-
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -260,9 +243,6 @@ public class CalendarViewer extends LinearLayout {
         public View getView(int position, View view, ViewGroup parent)
         {
 
-
-
-
             Date today = new Date();
 
             if (view == null) {
@@ -326,7 +306,6 @@ public class CalendarViewer extends LinearLayout {
     }
 
     public interface EventHandler {
-        void onDayLongPress(Date date);
         void onDayPress(Date date);
     }
 }
