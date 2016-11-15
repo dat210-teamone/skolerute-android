@@ -112,10 +112,6 @@ public class CalendarStandard extends Fragment {
 
         calView.setEventHandler(new CalendarViewer.EventHandler() {
             @Override
-            public void onDayLongPress(Date date) {
-                onDayPress(date);
-            }
-            @Override
             public void onDayPress(Date date) {
                 DateFormat df = SimpleDateFormat.getDateInstance();
                 SchoolVacationDay info[] = SchoolManager.getDefault().getNextVacationDays(date);

@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.GjesdalSchoolInfoGetter;
 import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.StavangerSchoolInfoGetter;
+import com.github.dat210_teamone.skolerute.data.dummy.DummySettingStorage;
+import com.github.dat210_teamone.skolerute.data.dummy.DummyStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.ICsvGetter;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISchoolInfoGetter;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
