@@ -12,8 +12,8 @@
             android:checkable="true"/>
    <!-- </group>-->
     <item
-        android:id="@+id/item2"
-        android:title="instillinger 2"
+        android:id="@+id/itemSchoolInfo"
+        android:title="Skole Info"
         app:showAsAction="ifRoom|withText"
         android:visible="true"/>
     <item

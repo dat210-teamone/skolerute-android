@@ -1,6 +1,7 @@
 package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,8 +16,12 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
+import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.data.InterfaceManager;
+import com.github.dat210_teamone.skolerute.data.SchoolManager;
+import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -120,6 +125,19 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                             }
                         }
 
+                        else if (item.getItemId() == R.id.itemSchoolInfo) {
+                            AlertDialog schoolInfoDialog = new AlertDialog.Builder(getContext()).create();
+                            schoolInfoDialog.setTitle(values[position]);
+                            SchoolInfo info = SchoolManager.getDefault().getSchoolInfo(values[position]);
+                            schoolInfoDialog.setMessage(info.getAddress() + "\n\n" + info.getHomePage());
+                            schoolInfoDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
+                                    (dialog, which) -> {
+                                        dialog.dismiss();
+                                    });
+                            schoolInfoDialog.show();
+                            return true;
+                        }
+
                         // start http://stackoverflow.com/a/31727213
                         // Keep the popup menu open
                         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
@@ -140,6 +158,7 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                         return false;
                     }
                 });
+
                 settingsMenu.show();
             }
         });
