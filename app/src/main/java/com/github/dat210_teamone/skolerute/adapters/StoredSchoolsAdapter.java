@@ -2,6 +2,10 @@ package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -128,13 +132,23 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
 
                         else if (item.getItemId() == R.id.itemSchoolInfo) {
                             AlertDialog schoolInfoDialog = new AlertDialog.Builder(getContext()).create();
-                            schoolInfoDialog.setTitle(values[position]);
                             SchoolInfo info = SchoolManager.getDefault().getSchoolInfo(values[position]);
-                            schoolInfoDialog.setMessage(info.getAddress() + "\n\n" + info.getHomePage());
+                            schoolInfoDialog.setTitle(values[position]);
+
+                            TextView message = new TextView(getContext());
+                            SpannableStringBuilder infoMessage = new SpannableStringBuilder();
+                            infoMessage.append("\n      " + info.getAddress() + "\n\n      " + info.getHomePage());
+                            Linkify.addLinks(infoMessage, Linkify.WEB_URLS);
+                            message.setText(infoMessage);
+                            message.setMovementMethod(LinkMovementMethod.getInstance());
+                            message.setTextSize(16.0f);
+                            schoolInfoDialog.setView(message);
+
                             schoolInfoDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
                                     (dialog, which) -> {
                                         dialog.dismiss();
                                     });
+                            schoolInfoDialog.setIcon(R.drawable.ic_school_info);
                             schoolInfoDialog.show();
                             return true;
                         }
