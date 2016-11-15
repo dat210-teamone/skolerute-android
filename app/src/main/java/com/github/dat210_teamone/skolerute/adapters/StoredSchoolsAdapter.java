@@ -85,6 +85,13 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
 
     private void setupPopupMenu(View rowView, MainActivity mainActivity, int position){
         ImageView schoolSettingsBtn = (ImageView) rowView.findViewById(R.id.stored_schools_item_menu);
+        ImageView notiBell = (ImageView) rowView.findViewById(R.id.notification_bell);
+        //If notification icon should show
+        if(mainActivity.schoolManager.getNotifySchool(values[position])){
+            notiBell.setVisibility(View.INVISIBLE);
+        } else{
+            notiBell.setVisibility(View.VISIBLE);
+        }
 
         schoolSettingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,9 +120,11 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                             if((mainActivity.schoolManager.getNotifySchool(values[position]))){
                                 item.setChecked(false);
                                 mainActivity.schoolManager.removeNotifySchool(values[position]);
+                                notiBell.setVisibility(View.VISIBLE);
                             } else{
                                 item.setChecked(true);
                                 mainActivity.schoolManager.addNotifySchool(values[position]);
+                                notiBell.setVisibility(View.INVISIBLE);
                             }
                         }
 
