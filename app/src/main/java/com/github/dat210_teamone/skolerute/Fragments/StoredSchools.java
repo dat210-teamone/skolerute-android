@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -40,7 +41,14 @@ public class StoredSchools extends Fragment {
 
     private ListView storedSchoolsList;
     private TextView finished;
+    private LinearLayout storedSchoolsListContainer;
+    private int containerHeight;
+    private LinearLayout.LayoutParams listParamaters;
 
+    private final String EXPANDED = "expanded";
+    private final String MINIMIZED = "minimized";
+
+    private MainActivity mainActivity;
 
     private OnStoredSchoolsInteractionListener mListener;
 
@@ -80,40 +88,80 @@ public class StoredSchools extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stored_schools, container, false);
-/*
-        public SchoolManager schoolManager = SchoolManager.getDefault();
-        public SchoolInfo[] allSchools = schoolManager.getSchoolInfo();
-        public SchoolInfo[] selectedSchools = schoolManager.getSelectedSchools();
-        public String[] allSchoolNames = new String[allSchools.length];
-*/
 
-        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity = (MainActivity) getActivity();
 
-        //  mainActivity.inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_HIDDEN,0);
 
         mainActivity.selectedSchools = mainActivity.schoolManager.getSelectedSchools();
 
         String[] storedSchoolNames = mainActivity.getAllStoredSchoolNames();
         Date[] storedSchoolVacationDays = mainActivity.getAllStoredSchoolDates();
 
-     /*   for (int x = 0; x < mainActivity.selectedSchools.length; x++) {
-            storedSchoolNames[x] = mainActivity.selectedSchools[x].getSchoolName();
-            storedSchoolVacationDays[x] = mainActivity.schoolManager.getNextVacationDay(storedSchoolNames[x]).getDate();
-        } */
+        //Set height of listView container based on number of stored schools
+        /*  storedSchoolsListContainer = (LinearLayout) view.findViewById(R.id.stored_schools_list_container);
+        LinearLayout.LayoutParams listParamaters = (LinearLayout.LayoutParams)storedSchoolsListContainer.getLayoutParams();
+        containerHeight = setContainerHeight();
+        listParamaters.height = containerHeight;
+        storedSchoolsListContainer.setLayoutParams(listParamaters); */
 
-        /*for (int x = 0; x < mainActivity.selectedSchools.length; x++) {
-            storedSchoolNames[x] = mainActivity.selectedSchools[x].getSchoolName();
-        }*/
+        setupContainer(view, mainActivity);
+
 
         StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames, storedSchoolVacationDays);
         mainActivity.storedSchoolsAdapter = storedSchoolsAdapter;
         storedSchoolsList = (ListView) view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(storedSchoolsAdapter);
 
+        setupExpandButton(view, mainActivity);
         setupPopupMenu(view, mainActivity);
 
         return view;
     }
+
+    public void setupContainer(View view, MainActivity mainActivity) {
+        storedSchoolsListContainer = (LinearLayout) view.findViewById(R.id.stored_schools_list_container);
+        listParamaters = (LinearLayout.LayoutParams)storedSchoolsListContainer.getLayoutParams();
+        containerHeight = getContainerHeight();
+        setContainerHeight(containerHeight);
+    }
+
+    public void setContainerHeight(int newHeight) {
+        listParamaters.height = newHeight;
+        storedSchoolsListContainer.setLayoutParams(listParamaters);
+    }
+
+
+    public void setupExpandButton(View view, MainActivity mainActivity) {
+        ImageView expandContainerButton = (ImageView) view.findViewById(R.id.stored_schools_expand);
+        expandContainerButton.setTag(EXPANDED);
+        expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
+        expandContainerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (expandContainerButton.getTag() == EXPANDED){
+                    expandContainerButton.setTag(MINIMIZED);
+                    expandContainerButton.setImageResource(R.drawable.ic_expand_more_white_24dp);
+                    setContainerHeight(0);
+                } else {
+                    expandContainerButton.setTag(EXPANDED);
+                    expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
+                    setContainerHeight(getContainerHeight());
+                }
+            }
+        });
+    }
+
+    public int getContainerHeight() {
+        int schoolNameHeight = (int)mainActivity.getResources().getDimension(R.dimen.school_name_height);
+        int numberOfSchools = mainActivity.schoolManager.getSelectedSchools().length;
+        if (numberOfSchools > 3) {
+            return (int)(3.5 * schoolNameHeight);
+        } else if (numberOfSchools > 0){
+            return numberOfSchools * schoolNameHeight;
+        }
+        return schoolNameHeight;
+    }
+
 
     private void setupPopupMenu(View view, MainActivity mainActivity){
         ImageView schoolSettingsBtn = (ImageView) view.findViewById(R.id.stored_schools_menu);
@@ -201,6 +249,7 @@ public class StoredSchools extends Fragment {
         ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
         addSchoolButton.setVisibility(View.INVISIBLE);
         calendarViewToggle.setVisibility(View.INVISIBLE);
+        mainActivity.resetCalendarViewToggle();
     }
 
     @Override

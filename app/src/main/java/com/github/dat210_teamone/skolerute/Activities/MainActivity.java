@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     public StoredSchoolsAdapter storedSchoolsAdapter;
     public ImageView calendarViewToggle;
 
+    private final String LIST_VIEW = "list_view";
+    private final String CALENDAR_VIEW = "calendar_view";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -104,22 +107,27 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     private void initCalendarViewToggle(){
         calendarViewToggle = (ImageView) findViewById(R.id.calendar_view_toggle);
-        calendarViewToggle.setTag("list_view");
+        calendarViewToggle.setTag(LIST_VIEW);
         calendarViewToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String calendarToggleTag = (String) calendarViewToggle.getTag();
-                if(calendarToggleTag.equals("list_view")){
-                    calendarViewToggle.setTag("calendar_view");
+                if(calendarToggleTag.equals(LIST_VIEW)){
+                    calendarViewToggle.setTag(CALENDAR_VIEW);
                     calendarViewToggle.setImageResource(R.drawable.list_button);
                     viewCalendar();
                 } else{
-                    calendarViewToggle.setTag("list_view");
+                    calendarViewToggle.setTag(LIST_VIEW);
                     calendarViewToggle.setImageResource(R.drawable.calendar_icon_white);
                     viewCalendarList();
                 }
             }
         });
+    }
+
+    public void resetCalendarViewToggle(){
+        calendarViewToggle.setTag(LIST_VIEW);
+        calendarViewToggle.setImageResource(R.drawable.calendar_icon_white);
     }
 
 /*    private void setupNotificationToggle(){

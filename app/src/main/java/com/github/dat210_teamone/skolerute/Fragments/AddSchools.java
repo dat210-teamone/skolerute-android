@@ -11,11 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.AddSchoolsAdapter;
 import com.github.dat210_teamone.skolerute.adapters.SearchSchoolsAdapter;
+import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 import java.util.ArrayList;
@@ -42,6 +44,11 @@ public class AddSchools extends Fragment {
     private ListView schoolsList;
     private LinearLayout finished;
     private MainActivity mainActivity;
+
+    private final String INACTIVE = "inactive";
+    private final String ACTIVE = "active";
+
+
 
     private OnAddSchoolsInteractionListener mListener;
 
@@ -82,7 +89,6 @@ public class AddSchools extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_search_schools, container, false);
         mainActivity = (MainActivity)getActivity();
-
         // Generate list of all schools
         for (int x = 0; x< mainActivity.allSchools.length; x++){
             mainActivity.allSchoolNames[x]=mainActivity.allSchools[x].getSchoolName();
@@ -92,12 +98,7 @@ public class AddSchools extends Fragment {
                 new AddSchoolsAdapter(mainActivity, mainActivity.allSchoolNames, AddSchools.this);
 
         finished = (LinearLayout)view.findViewById(R.id.finished_container);
-        finished.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainActivity.goToStoredSchools();
-            }
-        });
+        setupFinishedListener(finished);
 
         schoolsList = (ListView)view.findViewById(R.id.schoolsList);
         schoolsList.setAdapter(itemsAdapter);
@@ -105,56 +106,32 @@ public class AddSchools extends Fragment {
         //search box and its listeners
         SearchView searchView = setupSearchView(view);
         setupSearchListeners(view, searchView, mainActivity, itemsAdapter);
+        updateFinishedButton();
 
         return view;
 
 
 
 
-     /*   View view = inflater.inflate(R.layout.fragment_add_schools, container, false);
 
-        MainActivity mainActivity = (MainActivity)getActivity();
-
-        // Generate list of all schools
-        for (int x = 0; x< mainActivity.allSchools.length; x++){
-            mainActivity.allSchoolNames[x]=mainActivity.allSchools[x].getSchoolName();
-        }
-
-        AddSchoolsAdapter itemsAdapter =
-                new AddSchoolsAdapter(mainActivity, mainActivity.allSchoolNames);
-
-
-
-        finished = (LinearLayout)view.findViewById(R.id.finished_container);
-        finished.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainActivity.goToStoredSchools();
-            }
-        });
-
-        schoolsList = (ListView)view.findViewById(R.id.schoolsList);
-        schoolsList.setAdapter(itemsAdapter);
-
-        SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
-        int editTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        TextView textView = (TextView) searchView.findViewById(editTextId);
-        textView.setTextSize(getResources().getDimension(R.dimen.search_hint_size));
-        textView.setTextColor(getResources().getColor(R.color.colorGreyText));
-        textView.setHintTextColor(getResources().getColor(R.color.colorGreyText));
-
-        searchView.setIconifiedByDefault(false);
-
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener(){
-            public void onFocusChange(View view, boolean has_focus){
-                mainActivity.goToSearchSchool();
-            }
-        });
-
-        // Inflate the layout for this fragment
-        return view; */
     }
 
+
+
+    public void setupFinishedListener(LinearLayout object) {
+        object.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (object.getTag() == ACTIVE) {
+                    // mainActivity.hideKeyboard();
+                    mainActivity.goToStoredSchools();
+                } else {
+                    // No schools stored, display message
+                    Toast.makeText(mainActivity, getResources().getString(R.string.no_schools_stored), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
     public SearchView setupSearchView(View view){
 
@@ -217,11 +194,11 @@ public class AddSchools extends Fragment {
     }
 
     public void updateFinishedButton() {
-        if (mainActivity.selectedSchools.length < 1){
-            finished.setTag("inactive");
+        if (SchoolManager.getDefault().getSelectedSchools().length < 1){
+            finished.setTag(INACTIVE);
             finished.setBackgroundColor(getResources().getColor(R.color.colorClickableSecondary));
         } else {
-            finished.setTag("active");
+            finished.setTag(ACTIVE);
             finished.setBackgroundColor(getResources().getColor(R.color.colorClickable));
         }
     }
