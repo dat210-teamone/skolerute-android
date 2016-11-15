@@ -25,16 +25,17 @@ public class UpdateService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        InterfaceManager.SetMainActivity(this);
         Calendar calendar = Calendar.getInstance();
         Log.d("UpdateService", "About to execute UpdateTask at: " + calendar.getTime());
         //TODO: Fix this, see bug on trello for more details
-        //new UpdateTask().doInBackground();
+        // Seems to be fixed
+        new UpdateTask().doInBackground();
     }
 
     private class UpdateTask extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... strings) {
-            // TODO: This probably needs some serious refactoring
             Log.d("UpdateService", "Calling doInBackground within UpdateTask");
             Log.d("UpdateService", "Last updated: "+ InterfaceManager.getSettings().getLastUpdateTime());
             if(CsvReaderGetter.fileHasBeenUpdated("http://open.stavanger.kommune.no/dataset/skolerute-stavanger")) {
@@ -52,7 +53,6 @@ public class UpdateService extends IntentService {
     }
 
     public static void setUpUpdateService() {
-        // TODO: Need to actually set initial update time somewhere, maybe not here
         if(InterfaceManager.getSettings().getLastUpdateTime().equals("")) {
             String lastUpdated = CsvReaderGetter
                     .getInfo("http://open.stavanger.kommune.no/dataset/skolerute-stavanger")
@@ -60,7 +60,6 @@ public class UpdateService extends IntentService {
             Log.d("UpdateService", "Setting initial update date: " + lastUpdated);
             InterfaceManager.getSettings().setLastUpdateTime(lastUpdated);
         }
-        // TODO: This probably needs some serious refactoring
         Calendar updateTime = Calendar.getInstance();
         updateTime.setTimeZone(TimeZone.getDefault());
 
