@@ -3,33 +3,30 @@ package com.github.dat210_teamone.skolerute.Activities;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.Image;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.dat210_teamone.skolerute.Fragments.AddSchools;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
@@ -112,26 +109,8 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
         NotificationUtil NU = new NotificationUtil(this);
 
-        final View mainActivityRootView = findViewById(R.id.main_container);
-        mainActivityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
-                if (heightDiff > dpToPx(mainActivityRootView.getContext(), 200)) {
-                    if(keyboardShown){
-                        keyboardShown = false;
-                    } else{
-                        keyboardShown = true;
-                    }
-                }
-            }
-        });
-    }
-
-    //http://stackoverflow.com/a/4737265
-    public static float dpToPx(Context context, float valueInDp) {
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
+        setupKeyboardTracker();
+        setupCloseKeyboardOnTouch();
     }
 
     private void initCalendarViewToggle(){
@@ -238,6 +217,65 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         }
     }
 
+    private void setupKeyboardTracker(){
+        final View mainActivityRootView = findViewById(R.id.main_container);
+        mainActivityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
+            int heightDiffNew = 0;
+            @Override
+            public void onGlobalLayout() {
+                if(fragment.getClass() == AddSchools.class ) {
+
+                    if (isKeyboardShown()) {
+                        keyboardShown = true;
+                        heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
+                    } else {
+                        keyboardShown = false;
+                        heightDiffNew = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
+                        if(heightDiff != heightDiffNew) {
+                            View addSchoolView = fragment.getView();
+                            delayShowHideFinishedButton(addSchoolView, true, 100);
+                        }
+                        heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
+                    }
+                }
+            }
+        });
+    }
+
+    public void setupCloseKeyboardOnTouch() {
+        final View mainActivityRootView = findViewById(R.id.main_container);
+            mainActivityRootView.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    if(fragment.getClass() == AddSchools.class ) {
+                        if (getKeyboardShown()) {
+                            hideKeyboard();
+                            View addSchoolView = fragment.getView();
+                            delayShowHideFinishedButton(addSchoolView, true, 100);
+                        }
+                    }
+                    return false;
+                }
+            });
+    }
+
+    public void delayShowHideFinishedButton(View view, boolean show, int milliseconds){
+        final LinearLayout finishedButtonLayout = (LinearLayout) view.findViewById(R.id.finished_container);
+        new CountDownTimer(milliseconds, 10) {
+            public void onFinish() {
+                //Log.i("onFinish", "finished");
+                if(show){
+                    finishedButtonLayout.setVisibility(LinearLayout.VISIBLE);
+                } else{
+                    finishedButtonLayout.setVisibility(LinearLayout.GONE);
+                }
+            }
+            public void onTick(long millisUntilFinished) {
+                //Log.i("onTick", "tick");
+            }
+        }.start();
+    }
+
     public void hideKeyboard() {
         if(keyboardShown) {
             inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
@@ -247,6 +285,20 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     public void showKeyboard() {
         if(!keyboardShown) {
             inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        }
+    }
+
+    public boolean getKeyboardShown(){
+        return keyboardShown;
+    }
+
+    public boolean isKeyboardShown(){
+        final View mainActivityRootView = findViewById(R.id.main_container);
+        int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
+        if (heightDiff > dpToPx(mainActivityRootView.getContext(), 200)) {
+            return true;
+        } else{
+            return false;
         }
     }
 
@@ -337,6 +389,12 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    //http://stackoverflow.com/a/4737265
+    public static float dpToPx(Context context, float valueInDp) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
     }
 
     // Abstract methods from fragments
