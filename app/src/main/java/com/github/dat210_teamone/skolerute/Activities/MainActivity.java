@@ -20,8 +20,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -68,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     private final String LIST_VIEW = "list_view";
     private final String CALENDAR_VIEW = "calendar_view";
+    private boolean keyboardShown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +111,27 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             goToStoredSchools();
 
         NotificationUtil NU = new NotificationUtil(this);
+
+        final View mainActivityRootView = findViewById(R.id.main_container);
+        mainActivityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
+                if (heightDiff > dpToPx(mainActivityRootView.getContext(), 200)) {
+                    if(keyboardShown){
+                        keyboardShown = false;
+                    } else{
+                        keyboardShown = true;
+                    }
+                }
+            }
+        });
+    }
+
+    //http://stackoverflow.com/a/4737265
+    public static float dpToPx(Context context, float valueInDp) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
     }
 
     private void initCalendarViewToggle(){
@@ -132,35 +158,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         calendarViewToggle.setTag(LIST_VIEW);
         calendarViewToggle.setImageResource(R.drawable.calendar_icon_white);
     }
-
-/*    private void setupNotificationToggle(){
-        ImageView notificationToggle = (ImageView) findViewById(R.id.notificationToggle);
-        notificationToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = getApplicationContext();
-                String text = "";
-                int duration = Toast.LENGTH_SHORT;
-
-                String viewTag = (String) notificationToggle.getTag();
-                if(viewTag.equals("alarm_off")){
-                    notificationToggle.setTag("alarm_on");
-                    notificationToggle.setImageResource(R.drawable.alarm_on);
-
-                    text = getResources().getString(R.string.alarm_paa);
-
-                } else{
-                    notificationToggle.setTag("alarm_off");
-                    notificationToggle.setImageResource(R.drawable.alarm_off);
-
-                    text = getResources().getString(R.string.alarm_av);
-                }
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-        });
-    } */
 
     private void initSchoolData(){
         allSchools = schoolManager.getSchoolInfo();
@@ -242,11 +239,15 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     public void hideKeyboard() {
-        inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_HIDDEN,0);
+        if(keyboardShown) {
+            inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+        }
     }
 
     public void showKeyboard() {
-        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+        if(!keyboardShown) {
+            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        }
     }
 
     public void goToStoredSchools() {

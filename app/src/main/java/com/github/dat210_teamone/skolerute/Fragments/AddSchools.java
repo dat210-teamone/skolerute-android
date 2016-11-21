@@ -109,21 +109,13 @@ public class AddSchools extends Fragment {
         updateFinishedButton();
 
         return view;
-
-
-
-
-
     }
-
-
 
     public void setupFinishedListener(LinearLayout object) {
         object.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (object.getTag() == ACTIVE) {
-                    // mainActivity.hideKeyboard();
                     mainActivity.goToStoredSchools();
                 } else {
                     // No schools stored, display message
