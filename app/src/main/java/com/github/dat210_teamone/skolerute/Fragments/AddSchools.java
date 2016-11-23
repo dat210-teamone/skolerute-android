@@ -3,13 +3,13 @@ package com.github.dat210_teamone.skolerute.Fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -24,7 +24,6 @@ import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -149,16 +148,20 @@ public class AddSchools extends Fragment {
 
     public void setupSearchListeners(View view, SearchView searchView, MainActivity mainActivity, AddSchoolsAdapter itemsAdapter){
 
-        /*int searchTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        int searchTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         EditText searchText = (EditText) searchView.findViewById(searchTextId);
-        searchText.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                //delayShowHideFinishedButton(view, false, 150);
-                return false;
+
+        int searchCloseId = searchView.getContext().getResources().getIdentifier("android:id/search_close_btn", null, null);
+        ImageView searchCloseButton = (ImageView) searchView.findViewById(searchCloseId);
+
+        searchCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchText.setText("");
+                searchView.setQuery("", false);
             }
         });
 
-        */
 
         // Handlers for searchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -204,7 +207,6 @@ public class AddSchools extends Fragment {
                             if(mainActivity.getKeyboardShown()) {
                                 finishedButton.setVisibility(View.VISIBLE);
                                 mainActivity.hideKeyboard();
-
                             }
                         }
                     } else {
@@ -212,7 +214,6 @@ public class AddSchools extends Fragment {
                             if(mainActivity.getKeyboardShown()) {
                                 finishedButton.setVisibility(View.VISIBLE);
                                 mainActivity.hideKeyboard();
-
                             }
                     }
                     return false;

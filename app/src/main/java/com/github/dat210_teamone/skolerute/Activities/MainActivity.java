@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         final View mainActivityRootView = findViewById(R.id.main_container);
         mainActivityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
-            int heightDiffNew = 0;
+            int heightDiffNew = 0;  //used to prevent multiple
 
             @Override
             public void onGlobalLayout() {
@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
                         heightDiffNew = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
 
                         if(heightDiff != heightDiffNew) {
-                            delayShowHideFinishedButton(addSchoolView, false, 0);
+                            delayShowFinishedButton(addSchoolView, false, 0);
                         }
                         heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
 
@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
                         heightDiffNew = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
 
                         if(heightDiff != heightDiffNew) {
-                            delayShowHideFinishedButton(addSchoolView, true, 100);
+                            delayShowFinishedButton(addSchoolView, true, 100);
                         }
                         heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
 
@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         });
     }
 
-    public void delayShowHideFinishedButton(View view, boolean show, int milliseconds){
+    public void delayShowFinishedButton(View view, boolean show, int milliseconds){
         final LinearLayout finishedButtonLayout = (LinearLayout) view.findViewById(R.id.finished_container);
         new CountDownTimer(milliseconds, 10) {
             public void onFinish() {
