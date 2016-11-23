@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -222,22 +223,32 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         mainActivityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
             int heightDiffNew = 0;
+
             @Override
             public void onGlobalLayout() {
                 if(fragment.getClass() == AddSchools.class ) {
+                    View addSchoolView = fragment.getView();
 
                     if (isKeyboardShown()) {
                         keyboardShown = true;
+                        heightDiffNew = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
+
+                        if(heightDiff != heightDiffNew) {
+                            delayShowHideFinishedButton(addSchoolView, false, 0);
+                        }
                         heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
+
                     } else {
                         keyboardShown = false;
                         heightDiffNew = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
+
                         if(heightDiff != heightDiffNew) {
-                            View addSchoolView = fragment.getView();
                             delayShowHideFinishedButton(addSchoolView, true, 100);
                         }
                         heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
+
                     }
+
                 }
             }
         });
@@ -245,25 +256,25 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     public void setupCloseKeyboardOnTouch() {
         final View mainActivityRootView = findViewById(R.id.main_container);
-            mainActivityRootView.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    if(fragment.getClass() == AddSchools.class ) {
-                        if (getKeyboardShown()) {
-                            hideKeyboard();
-                            View addSchoolView = fragment.getView();
-                            delayShowHideFinishedButton(addSchoolView, true, 100);
-                        }
+
+        mainActivityRootView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if(fragment.getClass() == AddSchools.class ) {
+                    if (getKeyboardShown()) {
+                        hideKeyboard();
                     }
-                    return false;
                 }
-            });
+                return false;
+            }
+        });
     }
 
     public void delayShowHideFinishedButton(View view, boolean show, int milliseconds){
         final LinearLayout finishedButtonLayout = (LinearLayout) view.findViewById(R.id.finished_container);
         new CountDownTimer(milliseconds, 10) {
             public void onFinish() {
-                //Log.i("onFinish", "finished");
+
                 if(show){
                     finishedButtonLayout.setVisibility(LinearLayout.VISIBLE);
                 } else{
@@ -271,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
                 }
             }
             public void onTick(long millisUntilFinished) {
-                //Log.i("onTick", "tick");
+
             }
         }.start();
     }

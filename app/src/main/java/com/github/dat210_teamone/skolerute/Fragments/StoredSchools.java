@@ -97,13 +97,6 @@ public class StoredSchools extends Fragment {
         String[] storedSchoolNames = mainActivity.getAllStoredSchoolNames();
         Date[] storedSchoolVacationDays = mainActivity.getAllStoredSchoolDates();
 
-        //Set height of listView container based on number of stored schools
-        /*  storedSchoolsListContainer = (LinearLayout) view.findViewById(R.id.stored_schools_list_container);
-        LinearLayout.LayoutParams listParamaters = (LinearLayout.LayoutParams)storedSchoolsListContainer.getLayoutParams();
-        containerHeight = setContainerHeight();
-        listParamaters.height = containerHeight;
-        storedSchoolsListContainer.setLayoutParams(listParamaters); */
-
         setupContainer(view, mainActivity);
 
 
@@ -169,7 +162,7 @@ public class StoredSchools extends Fragment {
             @Override
             public void onClick(View v) {
                 PopupMenu settingsMenu = new PopupMenu(mainActivity, schoolSettingsBtn);
-                settingsMenu.inflate(R.menu.stored_school_popup_menu);
+                settingsMenu.inflate(R.menu.stored_schools_popup_menu);
 
                 //If school should notify
                 if(mainActivity.schoolManager.getGlobalNotification()){
@@ -211,7 +204,7 @@ public class StoredSchools extends Fragment {
                         return false;
                     }
                 });
-                //settingsMenu.inflate(R.menu.stored_school_popup_menu);
+
                 settingsMenu.show();
             }
         });

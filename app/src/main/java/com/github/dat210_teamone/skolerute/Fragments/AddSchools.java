@@ -142,21 +142,23 @@ public class AddSchools extends Fragment {
         textView.setHintTextColor(getResources().getColor(R.color.colorGreyText));
 
         searchView.setIconifiedByDefault(false);
-        // searchView.requestFocus();
+
 
         return searchView;
     }
 
     public void setupSearchListeners(View view, SearchView searchView, MainActivity mainActivity, AddSchoolsAdapter itemsAdapter){
 
-        int searchTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        /*int searchTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         EditText searchText = (EditText) searchView.findViewById(searchTextId);
         searchText.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                delayShowHideFinishedButton(view, false, 150);
+                //delayShowHideFinishedButton(view, false, 150);
                 return false;
             }
         });
+
+        */
 
         // Handlers for searchView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -192,25 +194,25 @@ public class AddSchools extends Fragment {
     public void setupCloseKeyboardOnTouch(View view) {
         MainActivity mainActivity = (MainActivity)getActivity();
         View finishedButton = (View)view.findViewById(R.id.finished);
+
         if(!(view instanceof EditText)) {   //SearchView instanceOf EditText
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
                     if(view instanceof TextView) {
                         if (!getResources().getResourceEntryName(view.getId()).toString().equals("finished")) {
-                                //searchView.clearFocus();
+
                             if(mainActivity.getKeyboardShown()) {
                                 finishedButton.setVisibility(View.VISIBLE);
                                 mainActivity.hideKeyboard();
-                                delayShowHideFinishedButton(view, true, 100);
 
                             }
                         }
                     } else {
-                            //searchView.clearFocus();
+
                             if(mainActivity.getKeyboardShown()) {
                                 finishedButton.setVisibility(View.VISIBLE);
                                 mainActivity.hideKeyboard();
-                                delayShowHideFinishedButton(view, true, 100);
+
                             }
                     }
                     return false;
@@ -228,26 +230,6 @@ public class AddSchools extends Fragment {
             finished.setBackgroundColor(getResources().getColor(R.color.colorClickable));
         }
     }
-
-    public void delayShowHideFinishedButton(View view, boolean show, int milliseconds){
-        final LinearLayout finishedButtonLayout = (LinearLayout) view.findViewById(R.id.finished_container);
-        new CountDownTimer(milliseconds, 10) {
-            public void onFinish() {
-                //Log.i("onFinish", "finished");
-                if(show){
-                    finishedButtonLayout.setVisibility(LinearLayout.VISIBLE);
-                } else{
-                    finishedButtonLayout.setVisibility(LinearLayout.GONE);
-                }
-            }
-            public void onTick(long millisUntilFinished) {
-                //Log.i("onTick", "tick");
-            }
-        }.start();
-    }
-
-
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -270,10 +252,6 @@ public class AddSchools extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-    }
-
-    public void onAddClicked () {
-
     }
 
     @Override

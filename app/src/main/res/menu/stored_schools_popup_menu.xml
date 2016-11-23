@@ -9,10 +9,4 @@
         android:visible="true"
         android:checkable="true"/>
 
-    <item
-        android:id="@+id/itemSchoolInfo"
-        android:title="Skole Info"
-        app:showAsAction="ifRoom|withText"
-        android:visible="true"/>
-
 </menu>
