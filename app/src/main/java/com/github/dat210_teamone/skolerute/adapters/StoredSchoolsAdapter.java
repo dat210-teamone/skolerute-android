@@ -2,6 +2,10 @@ package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -90,6 +94,13 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
 
     private void setupPopupMenu(View rowView, MainActivity mainActivity, int position){
         ImageView schoolSettingsBtn = (ImageView) rowView.findViewById(R.id.stored_schools_item_menu);
+        ImageView notiBell = (ImageView) rowView.findViewById(R.id.notification_bell);
+        //If notification icon should show
+        if(mainActivity.schoolManager.getNotifySchool(values[position])){
+            notiBell.setVisibility(View.INVISIBLE);
+        } else{
+            notiBell.setVisibility(View.VISIBLE);
+        }
 
         schoolSettingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,21 +131,33 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                             if((mainActivity.schoolManager.getNotifySchool(values[position]))){
                                 item.setChecked(false);
                                 mainActivity.schoolManager.removeNotifySchool(values[position]);
+                                notiBell.setVisibility(View.VISIBLE);
                             } else{
                                 item.setChecked(true);
                                 mainActivity.schoolManager.addNotifySchool(values[position]);
+                                notiBell.setVisibility(View.INVISIBLE);
                             }
                         }
 
                         else if (item.getItemId() == R.id.itemSchoolInfo) {
                             AlertDialog schoolInfoDialog = new AlertDialog.Builder(getContext()).create();
-                            schoolInfoDialog.setTitle(values[position]);
                             SchoolInfo info = SchoolManager.getDefault().getSchoolInfo(values[position]);
-                            schoolInfoDialog.setMessage(info.getAddress() + "\n\n" + info.getHomePage());
+                            schoolInfoDialog.setTitle(values[position]);
+
+                            TextView message = new TextView(getContext());
+                            SpannableStringBuilder infoMessage = new SpannableStringBuilder();
+                            infoMessage.append("\n      " + info.getAddress() + "\n\n      " + info.getHomePage());
+                            Linkify.addLinks(infoMessage, Linkify.WEB_URLS);
+                            message.setText(infoMessage);
+                            message.setMovementMethod(LinkMovementMethod.getInstance());
+                            message.setTextSize(16.0f);
+                            schoolInfoDialog.setView(message);
+
                             schoolInfoDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
                                     (dialog, which) -> {
                                         dialog.dismiss();
                                     });
+                            schoolInfoDialog.setIcon(R.drawable.ic_school_info);
                             schoolInfoDialog.show();
                             return true;
                         }

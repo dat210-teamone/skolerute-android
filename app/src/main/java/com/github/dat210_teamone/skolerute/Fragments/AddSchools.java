@@ -3,10 +3,13 @@ package com.github.dat210_teamone.skolerute.Fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -16,12 +19,12 @@ import android.widget.Toast;
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.AddSchoolsAdapter;
-import com.github.dat210_teamone.skolerute.adapters.SearchSchoolsAdapter;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -106,24 +109,19 @@ public class AddSchools extends Fragment {
         //search box and its listeners
         SearchView searchView = setupSearchView(view);
         setupSearchListeners(view, searchView, mainActivity, itemsAdapter);
+
         updateFinishedButton();
+        //closes soft keyboard when touching outside of text box or other relevant buttons
+        setupCloseKeyboardOnTouch(view);
 
         return view;
-
-
-
-
-
     }
-
-
 
     public void setupFinishedListener(LinearLayout object) {
         object.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (object.getTag() == ACTIVE) {
-                    // mainActivity.hideKeyboard();
                     mainActivity.goToStoredSchools();
                 } else {
                     // No schools stored, display message
@@ -150,15 +148,13 @@ public class AddSchools extends Fragment {
     }
 
     public void setupSearchListeners(View view, SearchView searchView, MainActivity mainActivity, AddSchoolsAdapter itemsAdapter){
-        // Toggle keyboard based on searchView focus
-        searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    mainActivity.hideKeyboard();
-                } else {
-                    mainActivity.showKeyboard();
-                }
+
+        int searchTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        EditText searchText = (EditText) searchView.findViewById(searchTextId);
+        searchText.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                delayShowHideFinishedButton(view, false, 150);
+                return false;
             }
         });
 
@@ -193,6 +189,36 @@ public class AddSchools extends Fragment {
         itemsAdapter.setSchoolsToView(searchSchoolName);
     }
 
+    public void setupCloseKeyboardOnTouch(View view) {
+        MainActivity mainActivity = (MainActivity)getActivity();
+        View finishedButton = (View)view.findViewById(R.id.finished);
+        if(!(view instanceof EditText)) {   //SearchView instanceOf EditText
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    if(view instanceof TextView) {
+                        if (!getResources().getResourceEntryName(view.getId()).toString().equals("finished")) {
+                                //searchView.clearFocus();
+                            if(mainActivity.getKeyboardShown()) {
+                                finishedButton.setVisibility(View.VISIBLE);
+                                mainActivity.hideKeyboard();
+                                delayShowHideFinishedButton(view, true, 100);
+
+                            }
+                        }
+                    } else {
+                            //searchView.clearFocus();
+                            if(mainActivity.getKeyboardShown()) {
+                                finishedButton.setVisibility(View.VISIBLE);
+                                mainActivity.hideKeyboard();
+                                delayShowHideFinishedButton(view, true, 100);
+                            }
+                    }
+                    return false;
+                }
+            });
+        }
+    }
+
     public void updateFinishedButton() {
         if (SchoolManager.getDefault().getSelectedSchools().length < 1){
             finished.setTag(INACTIVE);
@@ -202,6 +228,25 @@ public class AddSchools extends Fragment {
             finished.setBackgroundColor(getResources().getColor(R.color.colorClickable));
         }
     }
+
+    public void delayShowHideFinishedButton(View view, boolean show, int milliseconds){
+        final LinearLayout finishedButtonLayout = (LinearLayout) view.findViewById(R.id.finished_container);
+        new CountDownTimer(milliseconds, 10) {
+            public void onFinish() {
+                //Log.i("onFinish", "finished");
+                if(show){
+                    finishedButtonLayout.setVisibility(LinearLayout.VISIBLE);
+                } else{
+                    finishedButtonLayout.setVisibility(LinearLayout.GONE);
+                }
+            }
+            public void onTick(long millisUntilFinished) {
+                //Log.i("onTick", "tick");
+            }
+        }.start();
+    }
+
+
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -214,10 +259,6 @@ public class AddSchools extends Fragment {
     @Override
     public void onPause(){
         super.onPause();
-        /*MainActivity mainActivity = (MainActivity)getActivity();
-        if(mainActivity.inputMethodManager.isAcceptingText()){
-            mainActivity.hideKeyboard();
-        }*/
     }
 
     @Override
