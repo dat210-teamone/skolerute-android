@@ -3,21 +3,17 @@ package com.github.dat210_teamone.skolerute.Activities;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.Image;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -25,7 +21,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.dat210_teamone.skolerute.Fragments.AddSchools;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
@@ -74,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
         super.onCreate(savedInstanceState);
 
-        InterfaceManager.SetMainActivity(this);
+        InterfaceManager.SetMainContext(this);
         schoolManager = SchoolManager.getDefault();
 
         if (getAndCheckPermission(Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -105,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         else
             goToStoredSchools();
 
-        NotificationUtil NU = new NotificationUtil(this);
+        schoolManager.subscribe(NotificationUtil.getDefault());
     }
 
     private void initCalendarViewToggle(){

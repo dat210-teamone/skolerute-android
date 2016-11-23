@@ -25,7 +25,7 @@ public class UpdateService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        InterfaceManager.SetMainActivity(this);
+        InterfaceManager.SetMainContext(this);
         Calendar calendar = Calendar.getInstance();
         Log.d("UpdateService", "About to execute UpdateTask at: " + calendar.getTime());
         //TODO: Fix this, see bug on trello for more details
