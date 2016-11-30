@@ -196,26 +196,15 @@ public class AddSchools extends Fragment {
 
     public void setupCloseKeyboardOnTouch(View view) {
         MainActivity mainActivity = (MainActivity)getActivity();
-        View finishedButton = (View)view.findViewById(R.id.finished);
 
         if(!(view instanceof EditText)) {   //SearchView instanceOf EditText
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
-                    if(view instanceof TextView) {
-                        if (!getResources().getResourceEntryName(view.getId()).toString().equals("finished")) {
 
-                            if(mainActivity.getKeyboardShown()) {
-                                finishedButton.setVisibility(View.VISIBLE);
-                                mainActivity.hideKeyboard();
-                            }
-                        }
-                    } else {
-
-                            if(mainActivity.getKeyboardShown()) {
-                                finishedButton.setVisibility(View.VISIBLE);
-                                mainActivity.hideKeyboard();
-                            }
+                    if(mainActivity.isKeyboardShown()) {
+                        mainActivity.hideKeyboard();
                     }
+
                     return false;
                 }
             });

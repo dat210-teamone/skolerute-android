@@ -18,7 +18,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -70,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     private final String LIST_VIEW = "list_view";
     private final String CALENDAR_VIEW = "calendar_view";
-    private boolean keyboardShown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,8 +219,8 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     private void setupKeyboardTracker(){
         final View mainActivityRootView = findViewById(R.id.main_container);
         mainActivityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
-            int heightDiffNew = 0;  //used to prevent multiple
+
+            boolean finishedButtonHidden = false;
 
             @Override
             public void onGlobalLayout() {
@@ -230,22 +228,18 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
                     View addSchoolView = fragment.getView();
 
                     if (isKeyboardShown()) {
-                        keyboardShown = true;
-                        heightDiffNew = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
 
-                        if(heightDiff != heightDiffNew) {
+                        if(finishedButtonHidden) {
+                            finishedButtonHidden = false;
                             delayShowFinishedButton(addSchoolView, false, 0);
                         }
-                        heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
 
                     } else {
-                        keyboardShown = false;
-                        heightDiffNew = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
 
-                        if(heightDiff != heightDiffNew) {
+                        if(!finishedButtonHidden) {
+                            finishedButtonHidden = true;
                             delayShowFinishedButton(addSchoolView, true, 100);
                         }
-                        heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
 
                     }
 
@@ -261,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             public boolean onTouch(View v, MotionEvent event) {
 
                 if(fragment.getClass() == AddSchools.class ) {
-                    if (getKeyboardShown()) {
+                    if (isKeyboardShown()) {
                         hideKeyboard();
                     }
                 }
@@ -288,24 +282,29 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     public void hideKeyboard() {
-        if(keyboardShown) {
-            inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+        View view = this.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(this);
         }
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
     }
 
     public void showKeyboard() {
-        if(!keyboardShown) {
-            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        View view = this.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(this);
         }
-    }
+        inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_FORCED);
 
-    public boolean getKeyboardShown(){
-        return keyboardShown;
     }
 
     public boolean isKeyboardShown(){
         final View mainActivityRootView = findViewById(R.id.main_container);
         int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
+
         if (heightDiff > dpToPx(mainActivityRootView.getContext(), 200)) {
             return true;
         } else{
