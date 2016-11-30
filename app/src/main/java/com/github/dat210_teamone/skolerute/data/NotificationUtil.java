@@ -71,12 +71,12 @@ public class NotificationUtil implements INotificationUpdate {
     //Get a schoolVacationDay and create a Alarmnotification for it.
     public void createNotification(SchoolVacationDay SVD) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, 2);
-        //calendar.setTime(SVD.getDate());
-        //calendar.set(Calendar.HOUR_OF_DAY, 8);
-        //calendar.set(Calendar.MINUTE, 54);
-        //calendar.set(Calendar.SECOND, 0);
-        Log.d("NOTIFICATION ADD", "createNotification for: " + SVD.getName() + " at: " + calendar.toString());
+        //calendar.add(Calendar.MINUTE, 2);
+        calendar.setTime(SVD.getDate());
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        //Log.d("NOTIFICATION ADD", "createNotification for: " + SVD.getName() + " at: " + calendar.toString());
 
         Intent i = new Intent(con, NotificationReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(con, (int)SVD.getDate().getTime(), i, PendingIntent.FLAG_UPDATE_CURRENT);

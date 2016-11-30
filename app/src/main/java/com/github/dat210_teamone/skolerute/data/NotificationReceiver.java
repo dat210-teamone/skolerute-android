@@ -44,7 +44,10 @@ public class NotificationReceiver extends BroadcastReceiver {
         SchoolVacationDay day = OneUtils.firstOrNull(days);
         String title = context.getResources().getString(R.string.NotiTitle);
         if (day != null){
-            title = day.getName();
+            title = "Fridag;" + day.getName();
+        }
+        if (days.length > 1) {
+            title += "...";
         }
 
         String comment = context.getResources().getString(R.string.NotiComment);
