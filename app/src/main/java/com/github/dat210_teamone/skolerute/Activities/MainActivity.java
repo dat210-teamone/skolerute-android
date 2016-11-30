@@ -31,7 +31,6 @@ import android.widget.TextView;
 import com.github.dat210_teamone.skolerute.Fragments.AddSchools;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
-import com.github.dat210_teamone.skolerute.Fragments.SearchSchools;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
@@ -48,7 +47,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, SearchSchools.OnSearchSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
+public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
 
     public FragmentManager manager = getSupportFragmentManager();
     public Fragment fragment = manager.findFragmentById(R.id.fragment_container);
@@ -69,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     private final String LIST_VIEW = "list_view";
     private final String CALENDAR_VIEW = "calendar_view";
-    private boolean keyboardShown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,24 +217,30 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     private void setupKeyboardTracker(){
         final View mainActivityRootView = findViewById(R.id.main_container);
         mainActivityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
-            int heightDiffNew = 0;
+
+            boolean finishedButtonHidden = false;
+
             @Override
             public void onGlobalLayout() {
                 if(fragment.getClass() == AddSchools.class ) {
+                    View addSchoolView = fragment.getView();
 
                     if (isKeyboardShown()) {
-                        keyboardShown = true;
-                        heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
-                    } else {
-                        keyboardShown = false;
-                        heightDiffNew = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
-                        if(heightDiff != heightDiffNew) {
-                            View addSchoolView = fragment.getView();
-                            delayShowHideFinishedButton(addSchoolView, true, 100);
+
+                        if(finishedButtonHidden) {
+                            finishedButtonHidden = false;
+                            delayShowFinishedButton(addSchoolView, false, 0);
                         }
-                        heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
+
+                    } else {
+
+                        if(!finishedButtonHidden) {
+                            finishedButtonHidden = true;
+                            delayShowFinishedButton(addSchoolView, true, 100);
+                        }
+
                     }
+
                 }
             }
         });
@@ -244,25 +248,25 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     public void setupCloseKeyboardOnTouch() {
         final View mainActivityRootView = findViewById(R.id.main_container);
-            mainActivityRootView.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    if(fragment.getClass() == AddSchools.class ) {
-                        if (getKeyboardShown()) {
-                            hideKeyboard();
-                            View addSchoolView = fragment.getView();
-                            delayShowHideFinishedButton(addSchoolView, true, 100);
-                        }
+
+        mainActivityRootView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if(fragment.getClass() == AddSchools.class ) {
+                    if (isKeyboardShown()) {
+                        hideKeyboard();
                     }
-                    return false;
                 }
-            });
+                return false;
+            }
+        });
     }
 
-    public void delayShowHideFinishedButton(View view, boolean show, int milliseconds){
+    public void delayShowFinishedButton(View view, boolean show, int milliseconds){
         final LinearLayout finishedButtonLayout = (LinearLayout) view.findViewById(R.id.finished_container);
         new CountDownTimer(milliseconds, 10) {
             public void onFinish() {
-                //Log.i("onFinish", "finished");
+
                 if(show){
                     finishedButtonLayout.setVisibility(LinearLayout.VISIBLE);
                 } else{
@@ -270,30 +274,35 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
                 }
             }
             public void onTick(long millisUntilFinished) {
-                //Log.i("onTick", "tick");
+
             }
         }.start();
     }
 
     public void hideKeyboard() {
-        if(keyboardShown) {
-            inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_HIDDEN, 0);
+        View view = this.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(this);
         }
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
     }
 
     public void showKeyboard() {
-        if(!keyboardShown) {
-            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        View view = this.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(this);
         }
-    }
+        inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_FORCED);
 
-    public boolean getKeyboardShown(){
-        return keyboardShown;
     }
 
     public boolean isKeyboardShown(){
         final View mainActivityRootView = findViewById(R.id.main_container);
         int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
+
         if (heightDiff > dpToPx(mainActivityRootView.getContext(), 200)) {
             return true;
         } else{
@@ -319,11 +328,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     public void goToCalendarView() {
         replaceMainFragment(new CalendarStandard());
-    }
-
-    public void goToSearchSchool() {
-        replaceMainFragment(new SearchSchools());
-        clearSecondaryFragment();
     }
 
     public void viewCalendar() {
@@ -417,8 +421,4 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     }
 
-    @Override
-    public void onSearchSchoolsInteraction(Uri uri) {
-
-    }
 }
