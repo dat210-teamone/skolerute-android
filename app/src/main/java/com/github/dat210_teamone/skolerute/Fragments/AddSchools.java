@@ -89,7 +89,7 @@ public class AddSchools extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_search_schools, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_schools, container, false);
         mainActivity = (MainActivity)getActivity();
         // Generate list of all schools
         for (int x = 0; x< mainActivity.allSchools.length; x++){

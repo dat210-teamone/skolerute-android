@@ -31,7 +31,6 @@ import android.widget.TextView;
 import com.github.dat210_teamone.skolerute.Fragments.AddSchools;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
-import com.github.dat210_teamone.skolerute.Fragments.SearchSchools;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
@@ -48,7 +47,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, SearchSchools.OnSearchSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
+public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
 
     public FragmentManager manager = getSupportFragmentManager();
     public Fragment fragment = manager.findFragmentById(R.id.fragment_container);
@@ -332,11 +331,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         replaceMainFragment(new CalendarStandard());
     }
 
-    public void goToSearchSchool() {
-        replaceMainFragment(new SearchSchools());
-        clearSecondaryFragment();
-    }
-
     public void viewCalendar() {
         replaceSecondaryFragment(new CalendarStandard());
     }
@@ -428,8 +422,4 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     }
 
-    @Override
-    public void onSearchSchoolsInteraction(Uri uri) {
-
-    }
 }
