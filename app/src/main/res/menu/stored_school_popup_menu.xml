@@ -15,4 +15,10 @@
         app:showAsAction="ifRoom|withText"
         android:visible="true"/>
 
+    <item
+        android:id="@+id/itemRemoveSchool"
+        android:title="Fjern skole"
+        app:showAsAction="ifRoom|withText"
+        android:visible="true"/>
+
 </menu>

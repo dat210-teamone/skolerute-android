@@ -137,6 +137,24 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                                 mainActivity.schoolManager.addNotifySchool(values[position]);
                                 notiBell.setVisibility(View.INVISIBLE);
                             }
+
+                            // start http://stackoverflow.com/a/31727213
+                            // Keep the popup menu open
+                            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+                            item.setActionView(new View(context));
+                            item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                                @Override
+                                public boolean onMenuItemActionExpand(MenuItem item) {
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onMenuItemActionCollapse(MenuItem item) {
+                                    return false;
+                                }
+                            });
+                            //end http://stackoverflow.com/a/31727213
+
                         }
 
                         else if (item.getItemId() == R.id.itemSchoolInfo) {
@@ -162,22 +180,15 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                             return true;
                         }
 
-                        // start http://stackoverflow.com/a/31727213
-                        // Keep the popup menu open
-                        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-                        item.setActionView(new View(context));
-                        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                            @Override
-                            public boolean onMenuItemActionExpand(MenuItem item) {
-                                return false;
+                        else if (item.getItemId() == R.id.itemRemoveSchool) {
+                            mainActivity.schoolManager.getDefault().removeDefault(values[position]);
+                            int lol = mainActivity.schoolManager.getSelectedSchools().length;
+                            if (mainActivity.schoolManager.getSelectedSchools().length < 1) {
+                                mainActivity.goToAddSchools();
+                            } else {
+                                mainActivity.goToStoredSchools();
                             }
-
-                            @Override
-                            public boolean onMenuItemActionCollapse(MenuItem item) {
-                                return false;
-                            }
-                        });
-                        //end http://stackoverflow.com/a/31727213
+                        }
 
                         return false;
                     }
