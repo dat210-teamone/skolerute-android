@@ -5,8 +5,8 @@
     <string name="title_activity_add_school">AddSchoolActivit</string>
     <string name="alle_skoler">Alle skoler</string>
     <string name="listevisning">Listevisning</string>
-    <string name="NotiTitle">Valgt skoler imorgen...</string>
-    <string name="NotiComment">trykk for å se.</string>
+    <string name="NotiTitle">En skole har fri...</string>
+    <string name="NotiComment">trykk for å se mer.</string>
     <string name="alarm_paa">Alarmvarsling på</string>
     <string name="alarm_av">Alarmvarsling av</string>
 
@@ -30,7 +30,11 @@
     <string name="add_schools_nearby_title">Skoler i nærheten</string>
     <string name="add_schools_results_title">Søkeresultat</string>
     <string name="search_hint_text">Søk med skolenavn, postnummer eller adresse</string>
+    <string name="no_schools_stored">Du må velge minst 1 skole</string>
+    <string name="store_school">Lagre</string>
+    <string name="remove_school">Fjern</string>
 
+    <!-- Formatting values -->
     <string name="Mon">Mandag</string>
     <string name="Tue">Tirsdag</string>
     <string name="Wen">Onsdag</string>

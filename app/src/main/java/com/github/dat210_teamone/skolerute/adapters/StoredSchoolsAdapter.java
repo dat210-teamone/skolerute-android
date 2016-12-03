@@ -1,6 +1,11 @@
 package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,8 +20,12 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
+import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
+import com.github.dat210_teamone.skolerute.data.InterfaceManager;
+import com.github.dat210_teamone.skolerute.data.SchoolManager;
+import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -45,7 +54,6 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.stored_schools_layout, parent, false);
         TextView schoolName = (TextView) rowView.findViewById(R.id.school_name);
-        //      TextView nextDate = (TextView) rowView.findViewById(R.id.next_date);
         LinearLayout schoolNameContainer = (LinearLayout)rowView.findViewById(R.id.school_name_container);
         schoolName.setText(values[position]);
         MainActivity mainActivity = (MainActivity)getContext();
@@ -86,6 +94,13 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
 
     private void setupPopupMenu(View rowView, MainActivity mainActivity, int position){
         ImageView schoolSettingsBtn = (ImageView) rowView.findViewById(R.id.stored_schools_item_menu);
+        ImageView notiBell = (ImageView) rowView.findViewById(R.id.notification_bell);
+        //If notification icon should show
+        if(mainActivity.schoolManager.getNotifySchool(values[position])){
+            notiBell.setVisibility(View.INVISIBLE);
+        } else{
+            notiBell.setVisibility(View.VISIBLE);
+        }
 
         schoolSettingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +112,9 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                 //If school should notify
                 if(mainActivity.schoolManager.getNotifySchool(values[position])){
                     notificationItem.setChecked(true);
+                    //TODO: hide no notification bell icon
                 } else{
+                    //TODO: show no notification bell icon
                     notificationItem.setChecked(false);
                 }
 
@@ -114,32 +131,69 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                             if((mainActivity.schoolManager.getNotifySchool(values[position]))){
                                 item.setChecked(false);
                                 mainActivity.schoolManager.removeNotifySchool(values[position]);
+                                notiBell.setVisibility(View.VISIBLE);
                             } else{
                                 item.setChecked(true);
                                 mainActivity.schoolManager.addNotifySchool(values[position]);
+                                notiBell.setVisibility(View.INVISIBLE);
                             }
+
+                            // start http://stackoverflow.com/a/31727213
+                            // Keep the popup menu open
+                            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+                            item.setActionView(new View(context));
+                            item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                                @Override
+                                public boolean onMenuItemActionExpand(MenuItem item) {
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onMenuItemActionCollapse(MenuItem item) {
+                                    return false;
+                                }
+                            });
+                            //end http://stackoverflow.com/a/31727213
+
                         }
 
-                        // start http://stackoverflow.com/a/31727213
-                        // Keep the popup menu open
-                        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-                        item.setActionView(new View(context));
-                        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                            @Override
-                            public boolean onMenuItemActionExpand(MenuItem item) {
-                                return false;
-                            }
+                        else if (item.getItemId() == R.id.itemSchoolInfo) {
+                            AlertDialog schoolInfoDialog = new AlertDialog.Builder(getContext()).create();
+                            SchoolInfo info = SchoolManager.getDefault().getSchoolInfo(values[position]);
+                            schoolInfoDialog.setTitle(values[position]);
 
-                            @Override
-                            public boolean onMenuItemActionCollapse(MenuItem item) {
-                                return false;
+                            TextView message = new TextView(getContext());
+                            SpannableStringBuilder infoMessage = new SpannableStringBuilder();
+                            infoMessage.append("\n      " + info.getAddress() + "\n\n      " + info.getHomePage());
+                            Linkify.addLinks(infoMessage, Linkify.WEB_URLS);
+                            message.setText(infoMessage);
+                            message.setMovementMethod(LinkMovementMethod.getInstance());
+                            message.setTextSize(16.0f);
+                            schoolInfoDialog.setView(message);
+
+                            schoolInfoDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
+                                    (dialog, which) -> {
+                                        dialog.dismiss();
+                                    });
+                            schoolInfoDialog.setIcon(R.drawable.ic_school_info);
+                            schoolInfoDialog.show();
+                            return true;
+                        }
+
+                        else if (item.getItemId() == R.id.itemRemoveSchool) {
+                            mainActivity.schoolManager.getDefault().removeDefault(values[position]);
+                            int lol = mainActivity.schoolManager.getSelectedSchools().length;
+                            if (mainActivity.schoolManager.getSelectedSchools().length < 1) {
+                                mainActivity.goToAddSchools();
+                            } else {
+                                mainActivity.goToStoredSchools();
                             }
-                        });
-                        //end http://stackoverflow.com/a/31727213
+                        }
 
                         return false;
                     }
                 });
+
                 settingsMenu.show();
             }
         });

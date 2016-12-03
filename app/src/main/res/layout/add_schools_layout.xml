@@ -20,7 +20,7 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/add_school_button_height"
+        android:layout_height="32dp"
         android:text="@string/add_school_store_text"
         android:textSize="@dimen/add_button_text_size"
         android:layout_marginRight="12dp"

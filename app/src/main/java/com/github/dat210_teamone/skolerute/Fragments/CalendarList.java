@@ -15,7 +15,12 @@ import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.VacationDaysListAdapter;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
+import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class CalendarList extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -82,13 +87,17 @@ public class CalendarList extends Fragment {
 
         calendarList.setOnItemClickListener((parent, view1, position, id) -> {
             SchoolVacationDay day = (SchoolVacationDay) parent.getAdapter().getItem(position);
+            DateFormat df = SimpleDateFormat.getDateInstance();
+            Date date = day.getDate();
+            //SchoolInfo info = SchoolManager.getDefault().getSchoolInfo(day.getName());
             AlertDialog alertDialog = new AlertDialog.Builder(CalendarList.super.getContext()).create();
-            alertDialog.setTitle(day.getName());
-            alertDialog.setMessage(day.getComment());
+            alertDialog.setTitle(df.format(date) + ((day.getComment().length() > 0) ?  "\n" + day.getComment() : ""));
+            alertDialog.setMessage(day.getName()+ "\n" + (day.isStudentDay() ? "" : "- Skole stengt\n") + (day.isSfoDay() ? "" : "- SFO stengt"));
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
                     (dialog, which) -> {
                         dialog.dismiss();
                     });
+            alertDialog.setIcon(R.drawable.calendar_icon_white);
             alertDialog.show();
         });
 

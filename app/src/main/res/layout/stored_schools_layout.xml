@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/school_name_height"
         android:id="@+id/school_name_container"
         android:gravity="center_vertical|center_horizontal"
         android:padding="@dimen/list_margin_bottom">
@@ -37,6 +37,13 @@
             android:textColor="@color/colorDarkText"/>
         <!-- android:layout_weight="1" -->
 
+        <ImageView
+            android:id="@+id/notification_bell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/alarm_off"
+            android:layout_marginRight="1dp"
+            />
 
         <ImageView
             android:id="@+id/stored_schools_item_menu"

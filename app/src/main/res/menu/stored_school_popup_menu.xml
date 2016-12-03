@@ -2,23 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
-  <!--  <group
-        android:checkableBehavior="all">-->
-        <item
-            android:id="@+id/itemNotification"
-            android:title="Notifications"
-            app:showAsAction="ifRoom|withText"
-            android:visible="true"
-            android:checkable="true"/>
-   <!-- </group>-->
     <item
-        android:id="@+id/item2"
-        android:title="instillinger 2"
+        android:id="@+id/itemNotification"
+        android:title="Notifications"
+        app:showAsAction="ifRoom|withText"
+        android:visible="true"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/itemSchoolInfo"
+        android:title="Skole Info"
         app:showAsAction="ifRoom|withText"
         android:visible="true"/>
+
     <item
-        android:id="@+id/item3"
-        android:title="instillinger 3"
+        android:id="@+id/itemRemoveSchool"
+        android:title="Fjern skole"
         app:showAsAction="ifRoom|withText"
         android:visible="true"/>
 

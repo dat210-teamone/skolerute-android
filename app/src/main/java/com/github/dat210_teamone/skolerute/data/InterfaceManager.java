@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.GjesdalSchoolInfoGetter;
 import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.StavangerSchoolInfoGetter;
+import com.github.dat210_teamone.skolerute.data.dummy.DummySettingStorage;
+import com.github.dat210_teamone.skolerute.data.dummy.DummyStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.ICsvGetter;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISchoolInfoGetter;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
@@ -24,12 +26,12 @@ public final class InterfaceManager {
 
     }
 
-    public static void SetMainActivity(Activity activity){
+    public static void SetMainContext(Activity activity){
         mainActivity = activity;
         context = activity.getApplicationContext();
     }
 
-    public static void SetMainActivity(Context context){
+    public static void SetMainContext(Context context){
         InterfaceManager.context = context;
     }
 
