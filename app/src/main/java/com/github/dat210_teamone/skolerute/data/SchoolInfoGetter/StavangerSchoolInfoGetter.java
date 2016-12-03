@@ -1,10 +1,5 @@
 package com.github.dat210_teamone.skolerute.data.SchoolInfoGetter;
 
-import android.os.AsyncTask;
-
-import com.github.dat210_teamone.skolerute.data.CsvFileReader;
-import com.github.dat210_teamone.skolerute.data.GetPageInfoTask;
-import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.OneUtils;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISchoolInfoGetter;
 import com.github.dat210_teamone.skolerute.model.PageInfo;
@@ -13,7 +8,6 @@ import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

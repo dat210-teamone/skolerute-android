@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 
 import com.github.dat210_teamone.skolerute.data.interfaces.ICsvGetter;
 import com.github.dat210_teamone.skolerute.model.PageInfo;
-import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 import java.io.BufferedReader;
 import java.io.File;

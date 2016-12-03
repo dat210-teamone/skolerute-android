@@ -4,7 +4,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 
-import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 /**

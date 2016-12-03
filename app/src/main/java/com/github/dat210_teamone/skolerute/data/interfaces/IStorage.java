@@ -1,9 +1,8 @@
 package com.github.dat210_teamone.skolerute.data.interfaces;
 
 import com.android.internal.util.Predicate;
-import com.github.dat210_teamone.skolerute.model.*;
-
-import java.util.function.Function;
+import com.github.dat210_teamone.skolerute.model.SchoolInfo;
+import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 /**
  * Created by Nicolas on 19.09.2016.

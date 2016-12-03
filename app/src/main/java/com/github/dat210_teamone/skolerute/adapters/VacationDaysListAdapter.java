@@ -1,27 +1,16 @@
 package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
-import android.icu.text.DateFormat;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.OneUtils;
-import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
-
-import org.w3c.dom.Text;
 
 import java.util.Date;
 

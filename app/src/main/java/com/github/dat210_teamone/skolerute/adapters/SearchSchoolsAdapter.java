@@ -1,17 +1,13 @@
 package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.OneUtils;
-import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 /**
  * Created by Alex on 1010//16.
