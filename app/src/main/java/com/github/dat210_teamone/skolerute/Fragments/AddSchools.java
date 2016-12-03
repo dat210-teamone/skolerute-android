@@ -24,11 +24,9 @@ import java.util.List;
 
 public class AddSchools extends Fragment {
 
-    private ListView schoolsList;
     private LinearLayout finished;
     private MainActivity mainActivity;
 
-    private final String INACTIVE = "inactive";
     private final String ACTIVE = "active";
 
 
@@ -51,7 +49,7 @@ public class AddSchools extends Fragment {
         finished = (LinearLayout) view.findViewById(R.id.finished_container);
         setupFinishedListener(finished);
 
-        schoolsList = (ListView) view.findViewById(R.id.schoolsList);
+        ListView schoolsList = (ListView) view.findViewById(R.id.schoolsList);
         schoolsList.setAdapter(itemsAdapter);
 
         //search box and its listeners
@@ -160,6 +158,7 @@ public class AddSchools extends Fragment {
         int colorInactive = ContextCompat.getColor(getContext(), R.color.colorClickableSecondary);
         int colorActive = ContextCompat.getColor(getContext(), R.color.colorClickable);
         if (SchoolManager.getDefault().getSelectedSchools().length < 1) {
+            String INACTIVE = "inactive";
             finished.setTag(INACTIVE);
             finished.setBackgroundColor(colorInactive);
         } else {

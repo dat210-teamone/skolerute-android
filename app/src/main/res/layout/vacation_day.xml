@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="40dp">
+    android:layout_height="40dp"
+    android:baselineAligned="false"
+    tools:targetApi="lollipop">
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
@@ -18,7 +22,8 @@
             android:backgroundTint="@color/colorSchoolClosedIcon"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginLeft="10dp"
-            android:contentDescription="Skole Stengt"/>
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/school_closed"/>
 
         <ImageView
             android:id="@+id/sfo_closed_icon"
@@ -29,7 +34,7 @@
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:contentDescription="SFO Stengt"/>
+            android:contentDescription="@string/sfo_closed"/>
 
     </LinearLayout>
     <LinearLayout
@@ -71,7 +76,8 @@
             android:paddingRight="5dp"
             android:layout_gravity="center_vertical|center_horizontal"
             android:textColor="@color/colorDarkText"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"/>
     </LinearLayout>
 
 </LinearLayout>

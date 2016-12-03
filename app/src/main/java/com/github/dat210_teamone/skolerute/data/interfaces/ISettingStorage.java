@@ -8,6 +8,7 @@ package com.github.dat210_teamone.skolerute.data.interfaces;
 public interface ISettingStorage {
     String[] getSelectedSchools();
     void addSelectedSchool(String s);
+    @SuppressWarnings("UnusedReturnValue")
     boolean deleteSelectedSchool(String s);
 
     String getLastUpdateTime();

@@ -1,6 +1,8 @@
 package com.github.dat210_teamone.skolerute.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,8 +55,10 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
         }
     }
 
+    @SuppressLint("InflateParams")
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    @NonNull
+    public View getView(int position, View convertView,@NonNull ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //if should not be displayed, return null_item
@@ -120,7 +124,7 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
     //used when checking if school should be displayed
     private boolean shouldSchoolNameBeDisplayed(String schoolName){
         for (String aValuesToDisplay : valuesToDisplay) {
-            if (schoolName == aValuesToDisplay) {
+            if (schoolName.equals(aValuesToDisplay)) {
                 return true;
             }
         }

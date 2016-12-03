@@ -20,9 +20,6 @@ import java.util.Locale;
 
 public class StavangerSchoolInfoGetter implements ISchoolInfoGetter {
 
-    private final String schoolInfoURL = "http://open.stavanger.kommune.no/dataset/skoler-stavanger";
-    private final String schoolVacationURL = "http://open.stavanger.kommune.no/dataset/skolerute-stavanger";
-
     @Override
     public boolean IsUpToDate() {
         return true;
@@ -30,6 +27,7 @@ public class StavangerSchoolInfoGetter implements ISchoolInfoGetter {
 
     @Override
     public SchoolInfo[] getAllSchoolInfo() {
+        String schoolInfoURL = "http://open.stavanger.kommune.no/dataset/skoler-stavanger";
         PageInfo info = OpenStavangerUtils.getInfo(schoolInfoURL);
         ArrayList<SchoolInfo> allInfos = readSchoolInfoCsv(OpenStavangerUtils.getFileReader(info.getCsvURL()));
 
@@ -38,6 +36,7 @@ public class StavangerSchoolInfoGetter implements ISchoolInfoGetter {
 
     @Override
     public SchoolVacationDay[] getAllSchoolVacationDays() {
+        String schoolVacationURL = "http://open.stavanger.kommune.no/dataset/skolerute-stavanger";
         PageInfo info = OpenStavangerUtils.getInfo(schoolVacationURL);
         ArrayList<SchoolVacationDay> allInfos = readSchoolVacationDayCsv(OpenStavangerUtils.getFileReader(info.getCsvURL()));
 

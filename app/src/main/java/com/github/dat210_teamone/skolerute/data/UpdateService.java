@@ -34,7 +34,7 @@ public class UpdateService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        InterfaceManager.SetMainContext(this);
+        InterfaceManager.setMainContext(this);
         Calendar calendar = Calendar.getInstance();
         Log.d("UpdateService", "About to execute UpdateTask at: " + calendar.getTime());
         new UpdateTask().doInBackground();

@@ -20,6 +20,7 @@ import java.util.HashMap;
  * Part of project skolerute-android
  */
 
+@SuppressWarnings("unused")
 public class OpenStavangerUtils {
 
     private static final HashMap<String, PageInfo> infoCache = new HashMap<>();

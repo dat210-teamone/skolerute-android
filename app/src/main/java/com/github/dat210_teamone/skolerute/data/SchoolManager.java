@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  * Part of project skolerute-android
  */
 
-@SuppressWarnings("Convert2streamapi")
+@SuppressWarnings({"Convert2streamapi", "unused"})
 public class SchoolManager {
     private static SchoolManager defaultManager;
     private final IStorage storage;
@@ -226,6 +226,7 @@ public class SchoolManager {
         runEvent(allUpdates, n -> n.postNotify(INotificationUpdate.UpdateType.ADD, school, true));
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public boolean removeNotifySchool(String school){
         runEvent(allUpdates, n -> n.preNotify(INotificationUpdate.UpdateType.REMOVE, school));
         boolean result = settings.deleteNotifySchool(school);

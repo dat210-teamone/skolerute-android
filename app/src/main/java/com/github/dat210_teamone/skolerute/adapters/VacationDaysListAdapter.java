@@ -1,6 +1,8 @@
 package com.github.dat210_teamone.skolerute.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,13 +32,6 @@ public class VacationDaysListAdapter extends ArrayAdapter<SchoolVacationDay> {
         this.context = context;
         this.schoolVacationDays = schoolVacationDays;
     }
-
-    /* public SearchSchoolsAdapter(Context context, String[] values) {
-        super(context, -1, OneUtils.toArrayList(values));
-        this.context = context;
-        this.values = values;
-        this.valuesToDisplay = values;
-    } */
 
 
     public class VacationDayObject {
@@ -71,11 +66,12 @@ public class VacationDaysListAdapter extends ArrayAdapter<SchoolVacationDay> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    @NonNull
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rowView = inflater.inflate(R.layout.vacation_day, parent, false);
+        @SuppressLint("ViewHolder") View rowView = inflater.inflate(R.layout.vacation_day, parent, false);
 
         // Switch for actual selected schools
         VacationDaysListAdapter.VacationDayObject vacationDay = new VacationDaysListAdapter.VacationDayObject(schoolVacationDays[position]);

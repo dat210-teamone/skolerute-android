@@ -9,6 +9,7 @@ import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
  */
 
 public interface ISchoolInfoGetter {
+    @SuppressWarnings({"unused", "SameReturnValue"})
     boolean IsUpToDate();
     SchoolInfo[] getAllSchoolInfo();
     SchoolVacationDay[] getAllSchoolVacationDays();

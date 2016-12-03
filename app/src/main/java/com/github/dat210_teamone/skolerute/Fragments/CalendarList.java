@@ -19,8 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CalendarList extends Fragment {
-    private ListView calendarList;
-    private SchoolVacationDay[] vacationDays;
 
     public CalendarList() {
         // Required empty public constructor
@@ -35,12 +33,12 @@ public class CalendarList extends Fragment {
         MainActivity mainActivity = (MainActivity) getActivity();
 
         String[] checkedSchools = mainActivity.schoolsToView.toArray(new String[mainActivity.schoolsToView.size()]);
-        vacationDays = SchoolManager.getDefault().getNextVacationDays(checkedSchools);
+        SchoolVacationDay[] vacationDays = SchoolManager.getDefault().getNextVacationDays(checkedSchools);
 
         // Generate objects to display based on selected schools
         VacationDaysListAdapter calendarListAdapter = new VacationDaysListAdapter(mainActivity, vacationDays);
 
-        calendarList = (ListView) view.findViewById(R.id.calendar_list);
+        ListView calendarList = (ListView) view.findViewById(R.id.calendar_list);
         calendarList.setAdapter(calendarListAdapter);
 
         calendarList.setOnItemClickListener((parent, view1, position, id) -> {

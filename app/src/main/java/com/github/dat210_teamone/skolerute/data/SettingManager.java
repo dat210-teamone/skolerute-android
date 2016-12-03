@@ -43,8 +43,7 @@ public class SettingManager implements ISettingStorage {
     @Override
     public boolean deleteSelectedSchool(String s) {
         Set<String> set = preferences.getStringSet(SELECTED_SCHOOLS, defaults);
-        boolean found = false;
-        found = set.remove(s);
+        boolean found = set.remove(s);
         putStringSet(SELECTED_SCHOOLS, set);
         return found;
     }
@@ -76,8 +75,7 @@ public class SettingManager implements ISettingStorage {
     @Override
     public boolean deleteNotifySchool(String s) {
         Set<String> set = preferences.getStringSet(NOTIFY_SCHOOLS, defaults);
-        boolean found = false;
-        found = set.remove(s);
+        boolean found = set.remove(s);
         putStringSet(NOTIFY_SCHOOLS, set);
         return found;
     }
@@ -94,6 +92,7 @@ public class SettingManager implements ISettingStorage {
         return preferences.getBoolean(NOTIFY_ENABLED, false);
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void putString(String key, String value){
         SharedPreferences.Editor editor = getEditor(key);
         editor.putString(key, value);

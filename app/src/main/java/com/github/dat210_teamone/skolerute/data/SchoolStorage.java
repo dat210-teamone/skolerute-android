@@ -142,7 +142,7 @@ public class SchoolStorage implements IStorage {
 
     @Override
     public SchoolVacationDay[] getVacationDays() {
-        return schoolInfos.toArray(new SchoolVacationDay[schoolVacationDays.size()]);
+        return schoolVacationDays.toArray(new SchoolVacationDay[schoolVacationDays.size()]);
     }
 
     @Override

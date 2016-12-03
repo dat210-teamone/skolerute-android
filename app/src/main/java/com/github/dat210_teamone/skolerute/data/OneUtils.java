@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Nicolas on 21.09.2016.
@@ -50,8 +51,10 @@ public final class OneUtils {
             }else{
                 bytes = new byte[available];
             }
-            inputStream.read(bytes);
-            outputStream.write(bytes);
+            int read = inputStream.read(bytes);
+            if (read < 0)
+                break;
+            outputStream.write(bytes, 0, read);
             available = inputStream.available();
         }
     }
@@ -72,11 +75,10 @@ public final class OneUtils {
     }
 
     public static String dateFormatter(Date date){
-
-        int month = Integer.parseInt(new SimpleDateFormat("MM").format(date));
-        String dayOfWeekShort = new SimpleDateFormat("EEE").format(date);
-        String dateInMonth = new SimpleDateFormat("dd").format(date);
-        String year = new SimpleDateFormat("yyyy").format(date);
+        int month = Integer.parseInt(new SimpleDateFormat("MM", Locale.getDefault()).format(date));
+        String dayOfWeekShort = new SimpleDateFormat("EEE", Locale.getDefault()).format(date);
+        String dateInMonth = new SimpleDateFormat("dd", Locale.getDefault()).format(date);
+        String year = new SimpleDateFormat("yyyy", Locale.getDefault()).format(date);
 
         String months[] = {"Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember"};
         String dayOfWeekFinal = "Mandag";
@@ -84,25 +86,25 @@ public final class OneUtils {
         //InterfaceManager.getContext().getResources().getString(R.string.Mon);
         switch(dayOfWeekShort){
             case "Mon":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Mon);
+                dayOfWeekFinal = InterfaceManager.getResources().getString(R.string.Mon);
                 break;
             case "Tue":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Tue);
+                dayOfWeekFinal = InterfaceManager.getResources().getString(R.string.Tue);
                 break;
             case "Wed":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Wen);
+                dayOfWeekFinal = InterfaceManager.getResources().getString(R.string.Wen);
                 break;
             case "Thu":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Thu);
+                dayOfWeekFinal = InterfaceManager.getResources().getString(R.string.Thu);
                 break;
             case "Fri":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Fri);
+                dayOfWeekFinal = InterfaceManager.getResources().getString(R.string.Fri);
                 break;
             case "Sat":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Sat);
+                dayOfWeekFinal = InterfaceManager.getResources().getString(R.string.Sat);
                 break;
             case "Sun":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Sun);
+                dayOfWeekFinal = InterfaceManager.getResources().getString(R.string.Sun);
         }
 
         return dayOfWeekFinal + " - " + dateInMonth + ". " + months[month-1] + " " + year;

@@ -20,9 +20,6 @@ import java.util.HashSet;
 
 public class CalendarStandard extends Fragment {
 
-    private CalendarViewer calView;
-    private HashSet<Date> events;
-
     public CalendarStandard() {
         // Required empty public constructor
     }
@@ -33,7 +30,7 @@ public class CalendarStandard extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_calendar_standard, container, false);
 
-        events = new HashSet<>();
+        HashSet<Date> events = new HashSet<>();
 
         MainActivity mainActivity = (MainActivity) getActivity();
 
@@ -49,7 +46,7 @@ public class CalendarStandard extends Fragment {
             }
         }
 
-        calView = ((CalendarViewer) view.findViewById(R.id.calendar_view));
+        CalendarViewer calView = ((CalendarViewer) view.findViewById(R.id.calendar_view));
         calView.setMaxDate(maxDay);
         calView.updateCalendar(events);
 

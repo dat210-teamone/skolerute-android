@@ -16,14 +16,10 @@ import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
 
-import java.util.Date;
-
 public class StoredSchools extends Fragment {
 
-    private ListView storedSchoolsList;
-    private TextView finished;
+    //private TextView finished;
     private LinearLayout storedSchoolsListContainer;
-    private int containerHeight;
     private LinearLayout.LayoutParams listParameters;
 
     private final String EXPANDED = "expanded";
@@ -47,14 +43,14 @@ public class StoredSchools extends Fragment {
         mainActivity.selectedSchools = mainActivity.schoolManager.getSelectedSchools();
 
         String[] storedSchoolNames = mainActivity.getAllStoredSchoolNames();
-        Date[] storedSchoolVacationDays = mainActivity.getAllStoredSchoolDates();
+        //Date[] storedSchoolVacationDays = mainActivity.getAllStoredSchoolDates();
 
         setupContainer(view);
 
 
-        StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames, storedSchoolVacationDays);
-        mainActivity.storedSchoolsAdapter = storedSchoolsAdapter;
-        storedSchoolsList = (ListView) view.findViewById(R.id.storedSchoolsList);
+        StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames);
+        //mainActivity.storedSchoolsAdapter = storedSchoolsAdapter;
+        ListView storedSchoolsList = (ListView) view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(storedSchoolsAdapter);
 
         setupExpandButton(view);
@@ -66,7 +62,7 @@ public class StoredSchools extends Fragment {
     private void setupContainer(View view) {
         storedSchoolsListContainer = (LinearLayout) view.findViewById(R.id.stored_schools_list_container);
         listParameters = (LinearLayout.LayoutParams) storedSchoolsListContainer.getLayoutParams();
-        containerHeight = getContainerHeight();
+        int containerHeight = getContainerHeight();
         setContainerHeight(containerHeight);
     }
 

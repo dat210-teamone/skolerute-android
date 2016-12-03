@@ -8,12 +8,10 @@ import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.SortedMap;
 
 /**
  * Created by Nicolas on 24.10.2016.
@@ -22,9 +20,6 @@ import java.util.SortedMap;
 
 public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
 
-    private final String schoolInfoURL = "http://open.stavanger.kommune.no/dataset/skoler-i-gjesdal-kommune";
-    private final String schoolVacationURL = "http://open.stavanger.kommune.no/dataset/skoleruten-for-gjesdal-kommune";
-
     @Override
     public boolean IsUpToDate() {
         return true;
@@ -32,6 +27,7 @@ public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
 
     @Override
     public SchoolInfo[] getAllSchoolInfo() {
+        String schoolInfoURL = "http://open.stavanger.kommune.no/dataset/skoler-i-gjesdal-kommune";
         PageInfo info = OpenStavangerUtils.getInfo(schoolInfoURL);
         ArrayList<SchoolInfo> allInfos = readSchoolInfoCsv(OpenStavangerUtils.getFileReader(info.getCsvURL()));
 
@@ -40,6 +36,7 @@ public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
 
     @Override
     public SchoolVacationDay[] getAllSchoolVacationDays() {
+        String schoolVacationURL = "http://open.stavanger.kommune.no/dataset/skoleruten-for-gjesdal-kommune";
         PageInfo info = OpenStavangerUtils.getInfo(schoolVacationURL);
         ArrayList<SchoolVacationDay> allInfos = readSchoolVacationDayCsv(OpenStavangerUtils.getFileReader(info.getCsvURL(), "ISO-8859-1"));
 
@@ -87,14 +84,12 @@ public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
             while ((line = reader.readLine()) != null) {
                 if(line.equals(""))
                     break;
-                SortedMap<String, Charset> map = Charset.availableCharsets();
                 String[] values = line.split(",");
                 SchoolVacationDay tmpVacationDay = new SchoolVacationDay();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
                 tmpVacationDay.setDate(formatter.parse(values[0]));
                 tmpVacationDay.setName(values[1].trim());
                 tmpVacationDay.setStudentDay(values[2].trim().toUpperCase().equals("JA"));
-                //tmpVacationDay.setTeacherDay(attrib[3].equals("Ja"));
                 tmpVacationDay.setSfoDay(values[3].trim().toUpperCase().equals("JA"));
                 if(values.length > 4) {
                     tmpVacationDay.setComment(values[4].trim());

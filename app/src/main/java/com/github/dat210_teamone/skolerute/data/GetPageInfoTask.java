@@ -20,11 +20,11 @@ public class GetPageInfoTask extends AsyncTask<URL, Void, byte[]> {
         URL mainUrl = params[0];
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-        InputStream input = null;
+        InputStream input;
         try {
             input = mainUrl.openStream();
 
-            int read = 0;
+            int read;
             byte[] bytes = new byte[1024];
             while ((read = input.read(bytes)) > 0){
                 stream.write(bytes, 0, read);

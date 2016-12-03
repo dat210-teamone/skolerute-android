@@ -31,7 +31,6 @@ import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
-import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.NotificationUtil;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
@@ -39,7 +38,6 @@ import com.github.dat210_teamone.skolerute.data.UpdateService;
 import com.github.dat210_teamone.skolerute.data.locationService.LocationFinder;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     private final FragmentManager manager = getSupportFragmentManager();
     private Fragment fragment = manager.findFragmentById(R.id.fragment_container);
     private Fragment fragmentSecondary = manager.findFragmentById(R.id.fragment_container_secondary);
-    private int posisjon;
 
     public SchoolManager schoolManager;// = SchoolManager.getDefault();
     public SchoolInfo[] allSchools;// = schoolManager.getSchoolInfo();
@@ -60,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private Location lastKnownLocation;
 
     public final Set<String> schoolsToView = new HashSet<>();
-    public StoredSchoolsAdapter storedSchoolsAdapter;
+    //public StoredSchoolsAdapter storedSchoolsAdapter;
     public ImageView calendarViewToggle;
 
     private final String LIST_VIEW = "list_view";
@@ -71,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        InterfaceManager.SetMainContext(this);
+        InterfaceManager.setMainContext(this);
         schoolManager = SchoolManager.getDefault();
 
         if (getAndCheckPermission(Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -152,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         storedSchoolsAdapter.notifyDataSetChanged();
     }*/
 
+    @SuppressWarnings("SameParameterValue")
     private boolean getAndCheckPermission(String permission) {
         int permissionCheck = ContextCompat.checkSelfPermission(this, permission);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
@@ -361,14 +359,6 @@ public class MainActivity extends AppCompatActivity {
         return storedSchoolNames;
     }
 
-    public Date[] getAllStoredSchoolDates(){
-        Date[] storedSchoolDates = new Date[selectedSchools.length];
-        for (int x = 0; x < selectedSchools.length; x++) {
-            storedSchoolDates[x] = schoolManager.getNextVacationDay(selectedSchools[x].getSchoolName()).getDate();
-        }
-        return storedSchoolDates;
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 && fragment.getClass() != StoredSchools.class){
@@ -379,6 +369,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //http://stackoverflow.com/a/4737265
+    @SuppressWarnings("SameParameterValue")
     private static float dpToPx(Context context, float valueInDp) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);

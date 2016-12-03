@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 
 public class CalendarViewer extends LinearLayout {
 
@@ -185,12 +187,8 @@ public class CalendarViewer extends LinearLayout {
 
         grid.setAdapter(new CalendarAdapter(getContext(), cells, events));
 
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.getDefault());
         txtDate.setText(sdf.format(currentDate.getTime()));
-
-        int month = currentDate.get(Calendar.MONTH);
-
-
 
     }
 
@@ -221,6 +219,7 @@ public class CalendarViewer extends LinearLayout {
             return cal.get(Calendar.WEEK_OF_YEAR);
         }
 
+        @SuppressWarnings("SameParameterValue")
         private Calendar setTime(Calendar c, int hour_of_day, int minute, int second, int millisecond){
             c.set(Calendar.HOUR_OF_DAY, hour_of_day);
             c.set(Calendar.MINUTE, minute);
@@ -230,8 +229,7 @@ public class CalendarViewer extends LinearLayout {
         }
 
         private Calendar resetTimeToZero(Calendar c){
-            setTime(c, 0, 0, 0, 0);
-            return c;
+            return setTime(c, 0, 0, 0, 0);
         }
 
         private boolean isSameDate(Calendar a, Calendar b){
@@ -241,7 +239,8 @@ public class CalendarViewer extends LinearLayout {
         }
 
         @Override
-        public View getView(int position, View view, ViewGroup parent)
+        @NonNull
+        public View getView(int position, View view,@NonNull ViewGroup parent)
         {
             Calendar today = Calendar.getInstance();
 
@@ -249,7 +248,7 @@ public class CalendarViewer extends LinearLayout {
                 view = inflater.inflate(R.layout.control_calendar_day, parent, false);
             }
             view.setBackgroundResource(0);
-            String text = "";
+            String text;
             if (position % 8 == 0) {
                 text = Integer.toString(getWeekNumber(getItem(position)));
                 ((TextView) view).setTextColor(Color.LTGRAY);

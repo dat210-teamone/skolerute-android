@@ -23,13 +23,12 @@ import static com.github.dat210_teamone.skolerute.data.OneUtils.Contains;
 
 public class SchoolManagerTest {
 
-    private final IStorage si = new DummyStorage();
-    private final ISettingStorage iss = new DummySettingStorage(true);
-
     private final SchoolManager sm;
 
     public SchoolManagerTest() {
-        this.sm = new SchoolManager(si,iss);
+        ISettingStorage iss = new DummySettingStorage(true);
+        IStorage si = new DummyStorage();
+        this.sm = new SchoolManager(si, iss);
     }
     
 

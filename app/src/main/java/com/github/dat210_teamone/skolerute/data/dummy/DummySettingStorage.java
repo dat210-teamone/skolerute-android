@@ -17,6 +17,7 @@ public class DummySettingStorage implements ISettingStorage {
         selectedSchools = new ArrayList<>();
     }
 
+    @SuppressWarnings("SameParameterValue")
     public DummySettingStorage(boolean initTest)
     {
         this();
@@ -24,6 +25,7 @@ public class DummySettingStorage implements ISettingStorage {
             initTestData();
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     private DummySettingStorage initTestData(){
         selectedSchools.clear();
         selectedSchools.add("Skole 2");

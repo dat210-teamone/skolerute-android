@@ -4,20 +4,20 @@
 
     <item
         android:id="@+id/itemNotification"
-        android:title="Notifications"
+        android:title="@string/notifications"
         app:showAsAction="ifRoom|withText"
         android:visible="true"
         android:checkable="true"/>
 
     <item
         android:id="@+id/itemSchoolInfo"
-        android:title="Skole Info"
+        android:title="@string/school_info"
         app:showAsAction="ifRoom|withText"
         android:visible="true"/>
 
     <item
         android:id="@+id/itemRemoveSchool"
-        android:title="Fjern skole"
+        android:title="@string/remove_school2"
         app:showAsAction="ifRoom|withText"
         android:visible="true"/>
 
