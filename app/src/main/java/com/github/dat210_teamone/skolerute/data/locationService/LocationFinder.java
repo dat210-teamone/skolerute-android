@@ -4,11 +4,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 
-import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 /**
  * Created by Nicolas on 05.10.2016.
+ * Part of project skolerute-android
  */
 
 public class LocationFinder implements LocationListener {

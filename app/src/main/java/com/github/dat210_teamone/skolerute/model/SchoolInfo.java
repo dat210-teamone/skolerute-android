@@ -4,7 +4,9 @@ import android.location.Location;
 
 /**
  * Created by Nicolas on 14.09.2016.
+ * Part of project skolerute-android
  */
+@SuppressWarnings("unused")
 public class SchoolInfo implements java.io.Serializable {
     private static final long serialVersionUID = 8001578383494727861L;
     private int id;

@@ -8,10 +8,11 @@ import org.junit.Test;
 
 /**
  * Created by espen on 21.09.16.
+ * Part of project skolerute-android
  */
 
 public class SettingStorageTest {
-    private ISettingStorage settingStorage = new DummySettingStorage(true);
+    private final ISettingStorage settingStorage = new DummySettingStorage(true);
 
     public SettingStorageTest(){
     }

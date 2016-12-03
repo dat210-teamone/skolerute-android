@@ -17,13 +17,15 @@ import java.util.HashMap;
 
 /**
  * Created by Nicolas on 24.10.2016.
+ * Part of project skolerute-android
  */
 
+@SuppressWarnings("unused")
 public class OpenStavangerUtils {
 
-    private static HashMap<String, PageInfo> infoCache = new HashMap<>();
+    private static final HashMap<String, PageInfo> infoCache = new HashMap<>();
 
-    public static void initData(){
+    private static void initData(){
         try {
             String s1 = "http://open.stavanger.kommune.no/dataset/skoler-stavanger";
             String s2 = "http://open.stavanger.kommune.no/dataset/skolerute-stavanger";
@@ -73,7 +75,7 @@ public class OpenStavangerUtils {
         return null;
     }
 
-    public static String lastCsvUrl(String s){
+    private static String lastCsvUrl(String s){
         String searchString = "class=\"resource-item\" data-id=\"";
         int i = s.lastIndexOf(searchString);
         int begin = s.indexOf("<a href=\"http://open.stavanger.kommune.no/", i) + 9;
@@ -81,14 +83,12 @@ public class OpenStavangerUtils {
         return s.substring(begin, end);
     }
 
-    public static String lastUpdated(String s){
+    private static String lastUpdated(String s){
         String searchString = "<th scope=\"row\" class=\"dataset-label\">Last Updated</th>";
         int i = s.indexOf(searchString);
         int begin = s.indexOf("<span class=\"automatic-local-datetime\" data-datetime=\"", i) + 80;
         int end = s.indexOf("<", begin);
-        String date = s.substring(begin, end).trim();
-        //SchoolManager.getDefault().setLastUpdateTime(date);
-        return date;
+        return s.substring(begin, end).trim();
     }
 
     public static PageInfo getInfo(String url) {

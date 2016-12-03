@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
@@ -20,7 +19,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
@@ -33,7 +31,6 @@ import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
-import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
 import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.NotificationUtil;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
@@ -41,29 +38,26 @@ import com.github.dat210_teamone.skolerute.data.UpdateService;
 import com.github.dat210_teamone.skolerute.data.locationService.LocationFinder;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 
-public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
+public class MainActivity extends AppCompatActivity {
 
-    public FragmentManager manager = getSupportFragmentManager();
-    public Fragment fragment = manager.findFragmentById(R.id.fragment_container);
-    public Fragment fragmentSecondary = manager.findFragmentById(R.id.fragment_container_secondary);
-    public FragmentTransaction fragTrans =  manager.beginTransaction();
-    private int posisjon;
+    private final FragmentManager manager = getSupportFragmentManager();
+    private Fragment fragment = manager.findFragmentById(R.id.fragment_container);
+    private Fragment fragmentSecondary = manager.findFragmentById(R.id.fragment_container_secondary);
 
     public SchoolManager schoolManager;// = SchoolManager.getDefault();
     public SchoolInfo[] allSchools;// = schoolManager.getSchoolInfo();
     public SchoolInfo[] selectedSchools;// = schoolManager.getSelectedSchools();
     public String[] allSchoolNames;// = new String[allSchools.length];
-    public InputMethodManager inputMethodManager;
-    Location lastKnownLocation;
+    private InputMethodManager inputMethodManager;
+    private Location lastKnownLocation;
 
-    public Set<String> schoolsToView = new HashSet<>();
-    public StoredSchoolsAdapter storedSchoolsAdapter;
+    public final Set<String> schoolsToView = new HashSet<>();
+    //public StoredSchoolsAdapter storedSchoolsAdapter;
     public ImageView calendarViewToggle;
 
     private final String LIST_VIEW = "list_view";
@@ -74,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
         super.onCreate(savedInstanceState);
 
-        InterfaceManager.SetMainContext(this);
+        InterfaceManager.setMainContext(this);
         schoolManager = SchoolManager.getDefault();
 
         if (getAndCheckPermission(Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -91,12 +85,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         setContentView(R.layout.activity_main);
 
         TextView goToAdd = (TextView)findViewById(R.id.go_to_add);
-        goToAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToAddSchools();
-            }
-        });
+        goToAdd.setOnClickListener(v -> goToAddSchools());
 
         initCalendarViewToggle();
 
@@ -113,19 +102,16 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     private void initCalendarViewToggle(){
         calendarViewToggle = (ImageView) findViewById(R.id.calendar_view_toggle);
         calendarViewToggle.setTag(LIST_VIEW);
-        calendarViewToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String calendarToggleTag = (String) calendarViewToggle.getTag();
-                if(calendarToggleTag.equals(LIST_VIEW)){
-                    calendarViewToggle.setTag(CALENDAR_VIEW);
-                    calendarViewToggle.setImageResource(R.drawable.list_button);
-                    viewCalendar();
-                } else{
-                    calendarViewToggle.setTag(LIST_VIEW);
-                    calendarViewToggle.setImageResource(R.drawable.calendar_icon_white);
-                    viewCalendarList();
-                }
+        calendarViewToggle.setOnClickListener(v -> {
+            String calendarToggleTag = (String) calendarViewToggle.getTag();
+            if(calendarToggleTag.equals(LIST_VIEW)){
+                calendarViewToggle.setTag(CALENDAR_VIEW);
+                calendarViewToggle.setImageResource(R.drawable.list_button);
+                viewCalendar();
+            } else{
+                calendarViewToggle.setTag(LIST_VIEW);
+                calendarViewToggle.setImageResource(R.drawable.calendar_icon_white);
+                viewCalendarList();
             }
         });
     }
@@ -145,15 +131,15 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         selectedSchools = schoolManager.getSelectedSchools();
     }
 
-    public void initCheckedSchools() {
+    private void initCheckedSchools() {
         updateSelectedSchools();
         schoolsToView.clear();
-         for (int i=0; i<selectedSchools.length;i++){
-            schoolsToView.add(selectedSchools[i].getSchoolName());
-         }
+        for (SchoolInfo selectedSchool : selectedSchools) {
+            schoolsToView.add(selectedSchool.getSchoolName());
+        }
     }
 
-    public void clearCheckedSchools(){
+    /*public void clearCheckedSchools(){
         schoolsToView.clear();
     }
 
@@ -161,12 +147,13 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         storedSchoolsAdapter.clear();
         storedSchoolsAdapter.addAll(getAllStoredSchoolNames());
         storedSchoolsAdapter.notifyDataSetChanged();
-    }
+    }*/
 
+    @SuppressWarnings("SameParameterValue")
     private boolean getAndCheckPermission(String permission) {
-        int permissinCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (permissinCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        int permissionCheck = ContextCompat.checkSelfPermission(this, permission);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{permission}, 1);
             return false;
         }
         return true;
@@ -174,16 +161,16 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     private void getLastKnownPosition(){
         LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        LocationListener listner = new LocationFinder();
+        LocationListener listener = new LocationFinder();
         List<String> providers = manager.getAllProviders();
         try {
-            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, listner);
-            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, listner);
+            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, listener);
+            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, listener);
             for(String s: providers) {
 
                 Location loc = manager.getLastKnownLocation(s);
                 if (loc == null)
-                    continue;;
+                    continue;
                 if (lastKnownLocation == null){
                     lastKnownLocation = loc;
                 }
@@ -246,23 +233,21 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         });
     }
 
-    public void setupCloseKeyboardOnTouch() {
+    private void setupCloseKeyboardOnTouch() {
         final View mainActivityRootView = findViewById(R.id.main_container);
 
-        mainActivityRootView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
+        mainActivityRootView.setOnTouchListener((v, event) -> {
 
-                if(fragment.getClass() == AddSchools.class ) {
-                    if (isKeyboardShown()) {
-                        hideKeyboard();
-                    }
+            if(fragment.getClass() == AddSchools.class ) {
+                if (isKeyboardShown()) {
+                    hideKeyboard();
                 }
-                return false;
             }
+            return false;
         });
     }
 
-    public void delayShowFinishedButton(View view, boolean show, int milliseconds){
+    private void delayShowFinishedButton(View view, boolean show, int milliseconds){
         final LinearLayout finishedButtonLayout = (LinearLayout) view.findViewById(R.id.finished_container);
         new CountDownTimer(milliseconds, 10) {
             public void onFinish() {
@@ -289,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     }
 
-    public void showKeyboard() {
+    /*public void showKeyboard() {
         View view = this.getCurrentFocus();
         //If no view currently has focus, create a new one, just so we can grab a window token from it
         if (view == null) {
@@ -297,17 +282,13 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         }
         inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_FORCED);
 
-    }
+    }*/
 
     public boolean isKeyboardShown(){
         final View mainActivityRootView = findViewById(R.id.main_container);
         int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
 
-        if (heightDiff > dpToPx(mainActivityRootView.getContext(), 200)) {
-            return true;
-        } else{
-            return false;
-        }
+        return heightDiff > dpToPx(mainActivityRootView.getContext(), 200);
     }
 
     public void goToStoredSchools() {
@@ -322,15 +303,15 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         clearSecondaryFragment();
     }
 
-    public void goToCalendarList() {
+    /*public void goToCalendarList() {
         replaceMainFragment(new CalendarList());
     }
 
     public void goToCalendarView() {
         replaceMainFragment(new CalendarStandard());
     }
-
-    public void viewCalendar() {
+*/
+    private void viewCalendar() {
         replaceSecondaryFragment(new CalendarStandard());
     }
 
@@ -338,36 +319,37 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         replaceSecondaryFragment(new CalendarList());
     }
 
-    public void replaceMainFragment(Fragment fragment){
+    private void replaceMainFragment(Fragment fragment){
         this.fragment = fragment;
-        fragTrans = manager.beginTransaction();
+        FragmentTransaction fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container, fragment);
         fragTrans.commit();
     }
 
-    public void replaceSecondaryFragment(Fragment fragment){
+    private void replaceSecondaryFragment(Fragment fragment){
         this.fragmentSecondary = fragment;
-        fragTrans = manager.beginTransaction();
+        FragmentTransaction fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container_secondary, fragment);
         fragTrans.commit();
     }
 
-    public void clearSecondaryFragment(){
-        fragTrans = manager.beginTransaction();
+    private void clearSecondaryFragment(){
+        FragmentTransaction fragTrans = manager.beginTransaction();
         if(fragmentSecondary != null) {
             fragTrans.remove(fragmentSecondary);
         }
         fragTrans.commit();
     }
 
-    public void setPosisjon(int a){
+    /*
+    public void setPosition(int a){
         posisjon=a;
     }
 
     public int getPosisjon() {
         return posisjon;
     }
-
+*/
 
     public String[] getAllStoredSchoolNames(){
         String[] storedSchoolNames = new String[selectedSchools.length];
@@ -375,14 +357,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
             storedSchoolNames[x] = selectedSchools[x].getSchoolName();
         }
         return storedSchoolNames;
-    }
-
-    public Date[] getAllStoredSchoolDates(){
-        Date[] storedSchoolDates = new Date[selectedSchools.length];
-        for (int x = 0; x < selectedSchools.length; x++) {
-            storedSchoolDates[x] = schoolManager.getNextVacationDay(selectedSchools[x].getSchoolName()).getDate();
-        }
-        return storedSchoolDates;
     }
 
     @Override
@@ -395,30 +369,9 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     //http://stackoverflow.com/a/4737265
-    public static float dpToPx(Context context, float valueInDp) {
+    @SuppressWarnings("SameParameterValue")
+    private static float dpToPx(Context context, float valueInDp) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
     }
-
-    // Abstract methods from fragments
-    @Override
-    public void onAddSchoolsInteraction(Uri uri){
-
-    }
-
-    @Override
-    public void onCalendarListInteraction(Uri uri){
-
-    }
-
-    @Override
-    public void onStoredSchoolsInteraction(Uri uri){
-
-    }
-
-    @Override
-    public void onCalendarStandardInteraction(Uri uri){
-
-    }
-
 }

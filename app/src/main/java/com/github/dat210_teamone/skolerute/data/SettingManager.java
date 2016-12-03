@@ -1,7 +1,5 @@
 package com.github.dat210_teamone.skolerute.data;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
@@ -11,16 +9,17 @@ import java.util.Set;
 
 /**
  * Created by Nicolas on 28.09.2016.
+ * Part of project skolerute-android
  */
 
 public class SettingManager implements ISettingStorage {
-    SharedPreferences preferences;
-    private static final String SELECTEDSCHOOLS = "SelectedSchools";
-    private static final String LASTUPDATEDATE = "LastUpdateDate";
-    private static final String NOTIFYSCHOOLS = "NotifySchools";
-    private static final String NOTIFYENABLED = "NotifyEnabled";
+    private final SharedPreferences preferences;
+    private static final String SELECTED_SCHOOLS = "SelectedSchools";
+    private static final String LAST_UPDATE_DATE = "LastUpdateDate";
+    private static final String NOTIFY_SCHOOLS = "NotifySchools";
+    private static final String NOTIFY_ENABLED = "NotifyEnabled";
 
-    private Set<String> defaults = new HashSet<>();
+    private final Set<String> defaults = new HashSet<>();
 
 
     public SettingManager(SharedPreferences preferences){
@@ -29,72 +28,71 @@ public class SettingManager implements ISettingStorage {
 
     @Override
     public String[] getSelectedSchools() {
-        Set<String> set = preferences.getStringSet(SELECTEDSCHOOLS, defaults);
+        Set<String> set = preferences.getStringSet(SELECTED_SCHOOLS, defaults);
         String[] array = new String[set.size()];
         return set.toArray(array);
     }
 
     @Override
     public void addSelectedSchool(String s) {
-        Set<String> set = preferences.getStringSet(SELECTEDSCHOOLS, defaults);
+        Set<String> set = preferences.getStringSet(SELECTED_SCHOOLS, defaults);
         set.add(s);
-        putStringSet(SELECTEDSCHOOLS, set);
+        putStringSet(SELECTED_SCHOOLS, set);
     }
 
     @Override
     public boolean deleteSelectedSchool(String s) {
-        Set<String> set = preferences.getStringSet(SELECTEDSCHOOLS, defaults);
-        boolean found = false;
-        found = set.remove(s);
-        putStringSet(SELECTEDSCHOOLS, set);
+        Set<String> set = preferences.getStringSet(SELECTED_SCHOOLS, defaults);
+        boolean found = set.remove(s);
+        putStringSet(SELECTED_SCHOOLS, set);
         return found;
     }
 
     @Override
     public String getLastUpdateTime() {
-        return preferences.getString(LASTUPDATEDATE, "");
+        return preferences.getString(LAST_UPDATE_DATE, "");
     }
 
     @Override
     public void setLastUpdateTime(String time) {
-        putString(LASTUPDATEDATE, time);
+        putString(LAST_UPDATE_DATE, time);
     }
 
     @Override
     public String[] getNotifySchools() {
-        Set<String> set = preferences.getStringSet(NOTIFYSCHOOLS, defaults);
+        Set<String> set = preferences.getStringSet(NOTIFY_SCHOOLS, defaults);
         String[] array = new String[set.size()];
         return set.toArray(array);
     }
 
     @Override
     public void addNotifySchool(String s) {
-        Set<String> set = preferences.getStringSet(NOTIFYSCHOOLS, defaults);
+        Set<String> set = preferences.getStringSet(NOTIFY_SCHOOLS, defaults);
         set.add(s);
-        putStringSet(NOTIFYSCHOOLS, set);
+        putStringSet(NOTIFY_SCHOOLS, set);
     }
 
     @Override
     public boolean deleteNotifySchool(String s) {
-        Set<String> set = preferences.getStringSet(NOTIFYSCHOOLS, defaults);
-        boolean found = false;
-        found = set.remove(s);
-        putStringSet(NOTIFYSCHOOLS, set);
+        Set<String> set = preferences.getStringSet(NOTIFY_SCHOOLS, defaults);
+        boolean found = set.remove(s);
+        putStringSet(NOTIFY_SCHOOLS, set);
         return found;
     }
 
     @Override
     public void setGlobalNotify(boolean value) {
-        SharedPreferences.Editor edit = getEditor(NOTIFYENABLED);
-        edit.putBoolean(NOTIFYENABLED, value);
+        SharedPreferences.Editor edit = getEditor(NOTIFY_ENABLED);
+        edit.putBoolean(NOTIFY_ENABLED, value);
         edit.apply();
     }
 
     @Override
     public boolean getGlobalNotify() {
-        return preferences.getBoolean(NOTIFYENABLED, false);
+        return preferences.getBoolean(NOTIFY_ENABLED, false);
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void putString(String key, String value){
         SharedPreferences.Editor editor = getEditor(key);
         editor.putString(key, value);

@@ -1,8 +1,9 @@
 package com.github.dat210_teamone.skolerute.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +13,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.Fragments.AddSchools;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.OneUtils;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 /**
- * Created by Alex on 289//16.
+ * Created by Alex on 28/9/16.
+ * Part of project skolerute-android
  */
 
 public class AddSchoolsAdapter extends ArrayAdapter<String> {
@@ -27,7 +28,7 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
     private final Context context;
     private String[] values;
     private String[] valuesToDisplay;
-    public AddSchools parentFragment;
+    private final AddSchools parentFragment;
 
     public AddSchoolsAdapter(Context context, String[] values, AddSchools fragment) {
         super(context, -1, OneUtils.toArrayList(values));
@@ -54,8 +55,10 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
         }
     }
 
+    @SuppressLint("InflateParams")
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    @NonNull
+    public View getView(int position, View convertView,@NonNull ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //if should not be displayed, return null_item
@@ -85,24 +88,23 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
     }
 
 
-    public void setupAddListener(View object, Button addSchool, AddSchoolObject addSchoolObject, int position) {
-        object.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!addSchoolObject.getAlreadyStored()) {
-                    SchoolManager.getDefault().addDefault(values[position]);
-                    addSchoolObject.setAlreadyStored(true);
-                    addSchool.setText(R.string.remove_school);
-                    addSchool.setBackgroundColor(context.getResources().getColor(R.color.colorClickableSecondary));
-                } else {
-                    SchoolManager.getDefault().removeDefault(values[position]);
-                    addSchoolObject.setAlreadyStored(false);
-                    addSchool.setText(R.string.store_school);
-                    addSchool.setBackgroundColor(context.getResources().getColor(R.color.colorClickable));
-                }
-                Log.i("add school stuff", "id of view: " + object.getId() );
-                parentFragment.updateFinishedButton();
+    private void setupAddListener(View object, Button addSchool, AddSchoolObject addSchoolObject, int position) {
+        object.setOnClickListener((View v) -> {
+            int colorRemove = ContextCompat.getColor(getContext(), R.color.colorClickableSecondary);
+            int colorSave = ContextCompat.getColor(getContext(), R.color.colorClickable);
+            if (!addSchoolObject.getAlreadyStored()) {
+                SchoolManager.getDefault().addDefault(values[position]);
+                addSchoolObject.setAlreadyStored(true);
+                addSchool.setText(R.string.remove_school);
+                addSchool.setBackgroundColor(colorRemove);
+            } else {
+                SchoolManager.getDefault().removeDefault(values[position]);
+                addSchoolObject.setAlreadyStored(false);
+                addSchool.setText(R.string.store_school);
+                addSchool.setBackgroundColor(colorSave);
             }
+            Log.i("add school stuff", "id of view: " + object.getId() );
+            parentFragment.updateFinishedButton();
         });
     }
 
@@ -121,8 +123,8 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
 
     //used when checking if school should be displayed
     private boolean shouldSchoolNameBeDisplayed(String schoolName){
-        for(int i=0; i<valuesToDisplay.length; i++) {
-            if (schoolName == valuesToDisplay[i]) {
+        for (String aValuesToDisplay : valuesToDisplay) {
+            if (schoolName.equals(aValuesToDisplay)) {
                 return true;
             }
         }

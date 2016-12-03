@@ -6,16 +6,18 @@ import java.util.ArrayList;
 
 /**
  * Created by espen on 21.09.16.
+ * Part of project skolerute-android
  */
 
 public class DummySettingStorage implements ISettingStorage {
-    private ArrayList<String> selectedSchools;
+    private final ArrayList<String> selectedSchools;
     private String lastUpdate;
 
-    public DummySettingStorage() {
+    private DummySettingStorage() {
         selectedSchools = new ArrayList<>();
     }
 
+    @SuppressWarnings("SameParameterValue")
     public DummySettingStorage(boolean initTest)
     {
         this();
@@ -23,7 +25,8 @@ public class DummySettingStorage implements ISettingStorage {
             initTestData();
     }
 
-    public DummySettingStorage initTestData(){
+    @SuppressWarnings("UnusedReturnValue")
+    private DummySettingStorage initTestData(){
         selectedSchools.clear();
         selectedSchools.add("Skole 2");
         selectedSchools.add("Skole 6");

@@ -1,15 +1,15 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
+    <!--<dimen name="activity_horizontal_margin">16dp</dimen>-->
+    <!--<dimen name="activity_vertical_margin">16dp</dimen>-->
+    <!--<dimen name="fab_margin">16dp</dimen>-->
     <dimen name="list_margin_bottom">10dp</dimen>
 
 
     <!-- Text sizes -->
     <dimen name="stored_schools_size">20sp</dimen>
-    <dimen name="vacation_day_school_size">15sp</dimen>
-    <dimen name="vacation_day_date_size">15sp</dimen>
+    <!--<dimen name="vacation_day_school_size">15sp</dimen>
+    <dimen name="vacation_day_date_size">15sp</dimen>-->
 
     <dimen name="app_title_size">30sp</dimen>
     <dimen name="add_school_name_size">20sp</dimen>
@@ -20,10 +20,10 @@
 
     <!-- Heights of buttons and bars -->
     <dimen name="title_bar_height">40dp</dimen>
-    <dimen name="button_bar_height">45dp</dimen>
+    <!--<dimen name="button_bar_height">45dp</dimen>-->
     <dimen name="info_bar_height">30dp</dimen>
     <dimen name="app_main_bar_height">60dp</dimen>
-    <dimen name="add_school_button_height">32dp</dimen>
+    <!--<dimen name="add_school_button_height">32dp</dimen>-->
     <dimen name="school_name_height">50dp</dimen>
 
 

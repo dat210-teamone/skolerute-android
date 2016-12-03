@@ -3,7 +3,6 @@ package com.github.dat210_teamone.skolerute.data;
 
 import android.location.Location;
 
-
 import com.github.dat210_teamone.skolerute.data.interfaces.INotificationUpdate;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
@@ -11,25 +10,26 @@ import com.github.dat210_teamone.skolerute.model.PostLink;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
-import java.util.List;
-import java.util.regex.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by Nicolas on 21.09.2016.
+ * Part of project skolerute-android
  */
 
+@SuppressWarnings({"Convert2streamapi", "unused"})
 public class SchoolManager {
-    static SchoolManager defaultManager;
-    IStorage storage;
-    ISettingStorage settings;
-    ArrayList<String> selectedSchools;
-    Location knownPosition;
+    private static SchoolManager defaultManager;
+    private final IStorage storage;
+    private final ISettingStorage settings;
+    private final ArrayList<String> selectedSchools;
+    private Location knownPosition;
 
-    public SchoolManager()
+    private SchoolManager()
     {
         this(InterfaceManager.getStorage(), InterfaceManager.getSettings());
     }
@@ -50,9 +50,7 @@ public class SchoolManager {
 
     private void addAll(String[] names){
         selectedSchools.clear();
-        for(String s : names){
-            selectedSchools.add(s);
-        }
+        selectedSchools.addAll(Arrays.asList(names));
     }
 
     public boolean checkName(String name){
@@ -88,9 +86,8 @@ public class SchoolManager {
         return getNextVacationDays(name, true);
     }
 
-    public SchoolVacationDay[] getNextVacationDays(String name, boolean includeToday) {
-        SchoolVacationDay[] svd = storage.getVacationDays(info -> info.getName().toUpperCase().equals(name.toUpperCase()) && info.getDate().after(new Date(System.currentTimeMillis() - ( includeToday ? 86400000 : 0)))); // removed one day
-        return svd;
+    private SchoolVacationDay[] getNextVacationDays(String name, boolean includeToday) {
+        return storage.getVacationDays(info -> info.getName().toUpperCase().equals(name.toUpperCase()) && info.getDate().after(new Date(System.currentTimeMillis() - ( includeToday ? 86400000 : 0)))); // removed one day;
     }
 
     public SchoolVacationDay[] getNextVacationDays(Date date){
@@ -107,10 +104,10 @@ public class SchoolManager {
         return getNextVacationDays(names, true);
     }
 
-    public SchoolVacationDay[] getNextVacationDays(String[] names, boolean includeToday){
+    private SchoolVacationDay[] getNextVacationDays(String[] names, boolean includeToday){
         ArrayList<SchoolVacationDay> filter = new ArrayList<>();
-        for(int i = 0; i < names.length; i++){
-            filter.addAll(OneUtils.toArrayList(getNextVacationDays(names[i], includeToday)));
+        for (String name : names) {
+            filter.addAll(OneUtils.toArrayList(getNextVacationDays(name, includeToday)));
         }
         SchoolVacationDay[] days = filter.toArray(new SchoolVacationDay[filter.size()]);
         Arrays.sort(days, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
@@ -150,18 +147,18 @@ public class SchoolManager {
         return allDays.toArray(new SchoolInfo[allDays.size()]);
     }
 
-    public SchoolVacationDay[] getSchoolVecationInfo()
+    public SchoolVacationDay[] getSchoolVacationInfo()
     {
         return storage.getVacationDays();
     }
 
-    public SchoolInfo[] getClosestSchools(Location location) {
+    private SchoolInfo[] getClosestSchools(Location location) {
         SchoolInfo[] data = storage.getSchoolInfo();
         Arrays.sort(data, (a, b) -> Float.compare(a.getLocation().distanceTo(location), b.getLocation().distanceTo(location)));
         return data;
     }
 
-    public List getMatchingSchools(String query) {
+    public List<SchoolInfo> getMatchingSchools(String query) {
         ArrayList<SchoolInfo> m = new ArrayList<>();
         if (query.length() == 0)
             m.addAll(OneUtils.toArrayList(getSchoolInfo()));
@@ -173,9 +170,7 @@ public class SchoolManager {
                 l.setLongitude(link.getLng());
                 l.setLatitude(link.getLat());
                 SchoolInfo[] all = getClosestSchools(l);
-                for (int i = 0; i < all.length; i++){
-                    m.add(all[i]);
-                }
+                m.addAll(Arrays.asList(all));
             }
         }
         else {
@@ -223,7 +218,7 @@ public class SchoolManager {
         return false;
     }
 
-    ArrayList<INotificationUpdate> allUpdates = new ArrayList<>();
+    private final ArrayList<INotificationUpdate> allUpdates = new ArrayList<>();
 
     public void addNotifySchool(String school){
         runEvent(allUpdates, n -> n.preNotify(INotificationUpdate.UpdateType.ADD, school));
@@ -231,6 +226,7 @@ public class SchoolManager {
         runEvent(allUpdates, n -> n.postNotify(INotificationUpdate.UpdateType.ADD, school, true));
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public boolean removeNotifySchool(String school){
         runEvent(allUpdates, n -> n.preNotify(INotificationUpdate.UpdateType.REMOVE, school));
         boolean result = settings.deleteNotifySchool(school);
@@ -257,7 +253,7 @@ public class SchoolManager {
         allUpdates.add(update);
     }
 
-    public void unsubscribe(INotificationUpdate update){
+    public void unSubscribe(INotificationUpdate update){
         allUpdates.remove(update);
     }
     interface ActionEvent<T>{

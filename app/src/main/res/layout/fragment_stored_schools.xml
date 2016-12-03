@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -20,12 +19,14 @@
             android:layout_height="wrap_content"
             android:visibility="visible"
             android:layout_marginLeft="10dp"
-            android:tag="expanded"/>
+            android:layout_marginStart="10dp"
+            android:tag="expanded"
+            android:contentDescription="@string/open_close_all_schools"/>
 
         <TextView
             android:id="@+id/stored_schools_title"
             android:text="@string/stored_schools_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:gravity="center_horizontal|center_vertical"
@@ -36,7 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_more_vert_white_24dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="@string/stored_school_menu"/>
 
     </LinearLayout>
 

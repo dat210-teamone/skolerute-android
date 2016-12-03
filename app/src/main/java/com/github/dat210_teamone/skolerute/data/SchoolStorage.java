@@ -16,8 +16,10 @@ import java.util.ArrayList;
 
 /**
  * Created by Nicolas on 24.10.2016.
+ * Part of project skolerute-android
  */
 
+@SuppressWarnings("Convert2streamapi")
 public class SchoolStorage implements IStorage {
     private ArrayList<SchoolInfo> schoolInfos = new ArrayList<>();
     private ArrayList<SchoolVacationDay> schoolVacationDays = new ArrayList<>();
@@ -28,11 +30,11 @@ public class SchoolStorage implements IStorage {
 
     }
 
-    public SchoolStorage(ISchoolInfoGetter[] schoolGetters){
+    private SchoolStorage(ISchoolInfoGetter[] schoolGetters){
         this.schoolInfoGetters = schoolGetters;
     }
 
-    private ISchoolInfoGetter[] schoolInfoGetters;
+    private final ISchoolInfoGetter[] schoolInfoGetters;
 
     private enum SerializeType {
         SCHOOL_INFO,
@@ -43,7 +45,7 @@ public class SchoolStorage implements IStorage {
         return initializeStorage(true);
     }
 
-    public SchoolStorage initializeStorage(boolean useCache) {
+    private SchoolStorage initializeStorage(boolean useCache) {
         // TODO: CHECK: File may need to be stored somewhere else on Android
         this.useCache = useCache;
         if (useCache) {
@@ -75,16 +77,21 @@ public class SchoolStorage implements IStorage {
         return this;
     }
 
+    @Override
+    public void forceUpdate(){
+        initializeStorage(false);
+    }
+
     private void loadSchoolInfo(){
-        for(int i = 0; i < schoolInfoGetters.length; i++){
-            schoolInfos.addAll(OneUtils.toArrayList(schoolInfoGetters[i].getAllSchoolInfo()));
+        for (ISchoolInfoGetter schoolInfoGetter : schoolInfoGetters) {
+            schoolInfos.addAll(OneUtils.toArrayList(schoolInfoGetter.getAllSchoolInfo()));
         }
         serializeSchoolObjects(SerializeType.SCHOOL_INFO);
     }
 
     private void loadSchoolVacationDays(){
-        for(int i = 0; i < schoolInfoGetters.length; i++){
-            schoolVacationDays.addAll(OneUtils.toArrayList(schoolInfoGetters[i].getAllSchoolVacationDays()));
+        for (ISchoolInfoGetter schoolInfoGetter : schoolInfoGetters) {
+            schoolVacationDays.addAll(OneUtils.toArrayList(schoolInfoGetter.getAllSchoolVacationDays()));
         }
         serializeSchoolObjects(SerializeType.VACATION_DAYS);
     }
@@ -104,17 +111,24 @@ public class SchoolStorage implements IStorage {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void deserializeSchoolObjects(SerializeType selector) {
         try {
             String filename = (selector == SerializeType.SCHOOL_INFO) ? "schoolInfo.ser" : "vacationDays.ser";
             File dir = InterfaceManager.getStoragePath();
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(new File(dir, filename)));
-            if(selector == SerializeType.SCHOOL_INFO)
-                schoolInfos = (ArrayList<SchoolInfo>) objectInputStream.readObject();
-            else if(selector == SerializeType.VACATION_DAYS)
+
+            if(selector == SerializeType.SCHOOL_INFO) {
+                //noinspection unchecked
+                schoolInfos = (ArrayList<SchoolInfo>)objectInputStream.readObject();
+            }
+            else if(selector == SerializeType.VACATION_DAYS) {
+                //noinspection unchecked
                 schoolVacationDays = (ArrayList<SchoolVacationDay>) objectInputStream.readObject();
-            else
+            }
+            else {
                 System.err.println("Deserialize error");
+            }
             objectInputStream.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -128,7 +142,7 @@ public class SchoolStorage implements IStorage {
 
     @Override
     public SchoolVacationDay[] getVacationDays() {
-        return schoolInfos.toArray(new SchoolVacationDay[schoolVacationDays.size()]);
+        return schoolVacationDays.toArray(new SchoolVacationDay[schoolVacationDays.size()]);
     }
 
     @Override

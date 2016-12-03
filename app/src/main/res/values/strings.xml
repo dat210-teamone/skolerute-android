@@ -1,17 +1,18 @@
 <resources>
     <string name="app_name">Skoleruter</string>
-    <string name="finn_n_rmeste_skole">Finn nærmeste Skole</string>
+    <!--<string name="finn_n_rmeste_skole">Finn nærmeste Skole</string>
     <string name="knapp_finn_nermeste">Finn nærmeste skole</string>
-    <string name="title_activity_add_school">AddSchoolActivit</string>
+    <string name="title_activity_add_school">AddSchoolActivity</string>
     <string name="alle_skoler">Alle skoler</string>
     <string name="listevisning">Listevisning</string>
-    <string name="NotiTitle">En skole har fri...</string>
-    <string name="NotiComment">trykk for å se mer.</string>
     <string name="alarm_paa">Alarmvarsling på</string>
-    <string name="alarm_av">Alarmvarsling av</string>
+    <string name="alarm_av">Alarmvarsling av</string>-->
+    <string name="NotiTitle">En skole har fri.</string>
+    <string name="NotiComment">trykk for å se mer.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="notifications">Notifications</string>
+    <string name="school_info">Skole Info</string>
+    <string name="remove_school2">Fjern skole</string>
 
 
     <string name="app_main_title_text">Skoleruter</string>
@@ -20,13 +21,30 @@
     <string name="school_closed_text">Stengt skole</string>
     <string name="sfo_closed_text">Stengt SFO</string>
     <string name="calendar_list_title">Fridager</string>
+    <string name="check_box">CheckBox</string>
+    <string name="add">+</string>
+    <string name="school_closed">Skole Stengt</string>
+    <string name="sfo_closed">SFO Stengt</string>
+    <string name="open_close_all_schools">Åpne lukke alle skoler</string>
+    <string name="last_month">Forrige Måned</string>
+    <string name="next_month">Neste Måned</string>
+    <string name="current_date">current date</string>
+    <string name="stored_school_menu">Lagrede skoler meny</string>
+    <string name="notification_off">Notifikasjon av</string>
+    <string name="calendar">Kalender</string>
+    <string name="closed_school_info">Stengt skole info</string>
+    <string name="finish">Ferdig</string>
+    <!--<string name="sfo">SFO</string>-->
+    <string name="sfo_school_closed_info">SFO Skole stengt info</string>
+
+
 
     <!-- Stored Schools -->
     <string name="stored_schools_title">Dine skoler</string>
 
     <!-- Add/Search Schools -->
     <string name="add_school_store_text">Lagre</string>
-    <string name="add_school_remove_text">Fjern</string>
+    <!--<string name="add_school_remove_text">Fjern</string>-->
     <string name="add_schools_nearby_title">Skoler i nærheten</string>
     <string name="add_schools_results_title">Søkeresultat</string>
     <string name="search_hint_text">Søk med skolenavn, postnummer eller adresse</string>
@@ -42,5 +60,14 @@
     <string name="Fri">Fredag</string>
     <string name="Sat">Lørdag</string>
     <string name="Sun">Søndag</string>
+
+    <string name="week">Uke</string>
+    <string name="mon_short">Man</string>
+    <string name="tue_short">Tir</string>
+    <string name="wen_short">Ons</string>
+    <string name="thu_short">Tor</string>
+    <string name="fri_short">Fre</string>
+    <string name="sat_short">Lør</string>
+    <string name="sun_short">Søn</string>
 
 </resources>

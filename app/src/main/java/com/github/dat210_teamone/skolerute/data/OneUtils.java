@@ -1,22 +1,21 @@
 package com.github.dat210_teamone.skolerute.data;
 
-import android.location.Location;
-
 import com.android.internal.util.Predicate;
 import com.github.dat210_teamone.skolerute.R;
-import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by Nicolas on 21.09.2016.
+ * Part of project skolerute-android
  */
 
 public final class OneUtils {
@@ -52,17 +51,12 @@ public final class OneUtils {
             }else{
                 bytes = new byte[available];
             }
-            inputStream.read(bytes);
-            outputStream.write(bytes);
+            int read = inputStream.read(bytes);
+            if (read < 0)
+                break;
+            outputStream.write(bytes, 0, read);
             available = inputStream.available();
         }
-    }
-
-    public static Location getLocationFromSchool(SchoolInfo info){
-        Location location = new Location("SchoolInfo model");
-        location.setLatitude(info.getLatitude());
-        location.setLongitude(info.getLongitude());
-        return location;
     }
 
     public static boolean isNumber(String s){
@@ -77,19 +71,14 @@ public final class OneUtils {
 
     public static <T> ArrayList<T> toArrayList(T[] items)
     {
-        ArrayList<T> returnItems = new ArrayList<T>();
-        for (int i = 0; i < items.length; i++){
-            returnItems.add(items[i]);
-        }
-        return returnItems;
+        return new ArrayList<>(Arrays.asList(items));
     }
 
     public static String dateFormatter(Date date){
-
-        int month = Integer.parseInt(new SimpleDateFormat("MM").format(date));
-        String dayOfWeekShort = new SimpleDateFormat("EEE").format(date);
-        String dateInMonth = new SimpleDateFormat("dd").format(date);
-        String year = new SimpleDateFormat("yyyy").format(date);
+        int month = Integer.parseInt(new SimpleDateFormat("MM", Locale.getDefault()).format(date));
+        String dayOfWeekShort = new SimpleDateFormat("EEE", Locale.getDefault()).format(date);
+        String dateInMonth = new SimpleDateFormat("dd", Locale.getDefault()).format(date);
+        String year = new SimpleDateFormat("yyyy", Locale.getDefault()).format(date);
 
         String months[] = {"Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember"};
         String dayOfWeekFinal = "Mandag";
@@ -97,30 +86,28 @@ public final class OneUtils {
         //InterfaceManager.getContext().getResources().getString(R.string.Mon);
         switch(dayOfWeekShort){
             case "Mon":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Mon);;
+                dayOfWeekFinal = InterfaceManager.getResources().getString(R.string.Mon);
                 break;
             case "Tue":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Tue);;
+                dayOfWeekFinal = InterfaceManager.getResources().getString(R.string.Tue);
                 break;
             case "Wed":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Wen);;
+                dayOfWeekFinal = InterfaceManager.getResources().getString(R.string.Wen);
                 break;
             case "Thu":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Thu);;
+                dayOfWeekFinal = InterfaceManager.getResources().getString(R.string.Thu);
                 break;
             case "Fri":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Fri);;
+                dayOfWeekFinal = InterfaceManager.getResources().getString(R.string.Fri);
                 break;
             case "Sat":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Sat);;
+                dayOfWeekFinal = InterfaceManager.getResources().getString(R.string.Sat);
                 break;
             case "Sun":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Sun);;
+                dayOfWeekFinal = InterfaceManager.getResources().getString(R.string.Sun);
         }
 
-        String displayDate = dayOfWeekFinal + " - " + dateInMonth + ". " + months[month-1] + " " + year;
-
-        return displayDate;
+        return dayOfWeekFinal + " - " + dateInMonth + ". " + months[month-1] + " " + year;
     }
 
     public static <T> T firstOrNull(T[] array){

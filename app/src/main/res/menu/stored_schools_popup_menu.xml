@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/itemNotification"
-        android:title="Notifications"
+        android:title="@string/notifications"
         app:showAsAction="ifRoom|withText"
         android:visible="true"
         android:checkable="true"/>
