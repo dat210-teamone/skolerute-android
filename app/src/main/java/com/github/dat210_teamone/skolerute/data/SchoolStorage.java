@@ -28,11 +28,11 @@ public class SchoolStorage implements IStorage {
 
     }
 
-    public SchoolStorage(ISchoolInfoGetter[] schoolGetters){
+    private SchoolStorage(ISchoolInfoGetter[] schoolGetters){
         this.schoolInfoGetters = schoolGetters;
     }
 
-    private ISchoolInfoGetter[] schoolInfoGetters;
+    private final ISchoolInfoGetter[] schoolInfoGetters;
 
     private enum SerializeType {
         SCHOOL_INFO,
@@ -43,7 +43,7 @@ public class SchoolStorage implements IStorage {
         return initializeStorage(true);
     }
 
-    public SchoolStorage initializeStorage(boolean useCache) {
+    private SchoolStorage initializeStorage(boolean useCache) {
         // TODO: CHECK: File may need to be stored somewhere else on Android
         this.useCache = useCache;
         if (useCache) {
@@ -75,6 +75,11 @@ public class SchoolStorage implements IStorage {
         return this;
     }
 
+    @Override
+    public void forceUpdate(){
+        initializeStorage(false);
+    }
+
     private void loadSchoolInfo(){
         for(int i = 0; i < schoolInfoGetters.length; i++){
             schoolInfos.addAll(OneUtils.toArrayList(schoolInfoGetters[i].getAllSchoolInfo()));
@@ -104,17 +109,24 @@ public class SchoolStorage implements IStorage {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void deserializeSchoolObjects(SerializeType selector) {
         try {
             String filename = (selector == SerializeType.SCHOOL_INFO) ? "schoolInfo.ser" : "vacationDays.ser";
             File dir = InterfaceManager.getStoragePath();
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(new File(dir, filename)));
-            if(selector == SerializeType.SCHOOL_INFO)
-                schoolInfos = (ArrayList<SchoolInfo>) objectInputStream.readObject();
-            else if(selector == SerializeType.VACATION_DAYS)
+
+            if(selector == SerializeType.SCHOOL_INFO) {
+                //noinspection unchecked
+                schoolInfos = (ArrayList<SchoolInfo>)objectInputStream.readObject();
+            }
+            else if(selector == SerializeType.VACATION_DAYS) {
+                //noinspection unchecked
                 schoolVacationDays = (ArrayList<SchoolVacationDay>) objectInputStream.readObject();
-            else
+            }
+            else {
                 System.err.println("Deserialize error");
+            }
             objectInputStream.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

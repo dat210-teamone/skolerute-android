@@ -11,7 +11,7 @@ import org.junit.Test;
  */
 
 public class SettingStorageTest {
-    private ISettingStorage settingStorage = new DummySettingStorage(true);
+    private final ISettingStorage settingStorage = new DummySettingStorage(true);
 
     public SettingStorageTest(){
     }

@@ -1,18 +1,12 @@
 package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
-import android.os.Handler;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,12 +27,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 
 public class CalendarViewer extends LinearLayout {
-
-    private static final String LOGTAG = "Calendar View";
 
     private static final int DAYS_COUNT = 48;
 
@@ -46,20 +37,18 @@ public class CalendarViewer extends LinearLayout {
 
     private String dateFormat;
 
-    private Calendar currentDate = Calendar.getInstance();
+    private final Calendar currentDate = Calendar.getInstance();
 
     private EventHandler eventHandler = null;
 
-    private LinearLayout header;
     private ImageView btnPrev;
     private ImageView btnNext;
     private TextView txtDate;
     private GridView grid;
     private HorizontalScrollView scroller;
     private HashSet<Date> events;
-    private int viewWidth;
     private MotionEvent baseEvent = null;
-    private Date maxDate;
+    private Calendar maxDate;
 
 
     public CalendarViewer(Context context) {
@@ -103,14 +92,12 @@ public class CalendarViewer extends LinearLayout {
     }
 
     private void assignUiElements() {
-        header = (LinearLayout)findViewById(R.id.calendar_header);
         btnPrev = (ImageView)findViewById(R.id.calendar_prev_button);
         btnNext = (ImageView)findViewById(R.id.calendar_next_button);
         txtDate = (TextView)findViewById(R.id.calendar_date_display);
         Object o = findViewById(R.id.scroll_view);
         scroller = (HorizontalScrollView) o;
         grid = (GridView)findViewById(R.id.calendar_grid);
-        viewWidth = scroller.getWidth();
 
     }
 
@@ -173,7 +160,7 @@ public class CalendarViewer extends LinearLayout {
                     grid.startAnimation(move);
                     currentDate.add(Calendar.MONTH, monthShift);
                     updateCalendar(events);
-                    Log.d("BASEEVENT", "Unsetting baseEvent");
+                    Log.d("BASEEVENT", "Un-setting baseEvent");
                     baseEvent = null;
                 }
 
@@ -182,23 +169,19 @@ public class CalendarViewer extends LinearLayout {
        });
     }
 
-    public void updateCalendar(){
+    private void updateCalendar(){
         updateCalendar(null);
     }
 
     public void updateCalendar(HashSet<Date> events) {
-        if (maxDate != null && currentDate != null) {
-            int curMonth = currentDate.get(Calendar.MONTH);
-            int checkMonth = maxDate.getMonth();
-            int curYear = currentDate.get(Calendar.YEAR);
-            int checkYear = maxDate.getYear() + 1900;
+        /*if (currentDate == null) {
+            return;
+        }*/
 
-            int curDate = curMonth + curYear * 12;
-            int checkDate = checkMonth + checkYear * 12;
-
-            if (curDate > checkDate)
+        if (maxDate != null && currentDate.after(maxDate)) {
                 currentDate.add(Calendar.MONTH, -1);
         }
+
         this.events=events;
         ArrayList<Date> cells = new ArrayList<>();
         Calendar calendar = (Calendar)currentDate.clone();
@@ -226,12 +209,13 @@ public class CalendarViewer extends LinearLayout {
     }
 
     public void setMaxDate(Date maxDate) {
-        this.maxDate = maxDate;
+        this.maxDate = Calendar.getInstance();
+        this.maxDate.setTime(maxDate);
     }
 
     private class CalendarAdapter extends ArrayAdapter<Date> {
-        private HashSet<Date> eventDays;
-        private LayoutInflater inflater;
+        private final HashSet<Date> eventDays;
+        private final LayoutInflater inflater;
 
         public CalendarAdapter(Context context, ArrayList<Date> days, HashSet<Date> eventDays) {
             super(context, R.layout.control_calendar_day, days);
@@ -239,11 +223,41 @@ public class CalendarViewer extends LinearLayout {
             inflater = LayoutInflater.from(context);
         }
 
+        private Calendar getCalendar(Date date){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            return cal;
+        }
+
+        private int getWeekNumber(Date date){
+            Calendar cal = getCalendar(date);
+            cal.setMinimalDaysInFirstWeek(4);
+            return cal.get(Calendar.WEEK_OF_YEAR);
+        }
+
+        private Calendar setTime(Calendar c, int hour_of_day, int minute, int secound, int millisecound){
+            c.set(Calendar.HOUR_OF_DAY, hour_of_day);
+            c.set(Calendar.MINUTE, minute);
+            c.set(Calendar.SECOND, secound);
+            c.set(Calendar.MILLISECOND, millisecound);
+            return c;
+        }
+
+        private Calendar resetTimeToZero(Calendar c){
+            setTime(c, 0, 0, 0, 0);
+            return c;
+        }
+
+        private boolean isSameDate(Calendar a, Calendar b){
+            Calendar first = resetTimeToZero((Calendar) a.clone());
+            Calendar second = resetTimeToZero((Calendar) b.clone());
+            return first.equals(second);
+        }
+
         @Override
         public View getView(int position, View view, ViewGroup parent)
         {
-
-            Date today = new Date();
+            Calendar today = Calendar.getInstance();
 
             if (view == null) {
                 view = inflater.inflate(R.layout.control_calendar_day, parent, false);
@@ -251,31 +265,29 @@ public class CalendarViewer extends LinearLayout {
             view.setBackgroundResource(0);
             String text = "";
             if (position % 8 == 0) {
-                Date date = getItem(position);
-                Calendar cal = Calendar.getInstance();
-                cal.setMinimalDaysInFirstWeek(4);
-                cal.set(date.getYear() + 1900, date.getMonth(), date.getDate());
-
-                text = Integer.toString(cal.get(Calendar.WEEK_OF_YEAR));
+                text = Integer.toString(getWeekNumber(getItem(position)));
                 ((TextView) view).setTextColor(Color.LTGRAY);
             }
             else {
-                int mover = position / 8 + 1;
-                Date date = getItem(position - mover);
-                int day = date.getDate();
-                int month = date.getMonth();
-                int year = date.getYear();
-                if (position - day < 8 + mover && position - day >= 0) {
-                    ((TextView) view).setTextColor(Color.BLACK);
+                int weekIndexCorrection = position / 8 + 1;
+
+                Date date = getItem(position - weekIndexCorrection);
+                Calendar cal = getCalendar(date);
+
+                int day = cal.get(Calendar.DATE);
+
+                int colorTextThisMonth = Color.BLACK;
+                int colorTextOtherMonth = ContextCompat.getColor(getContext(), R.color.greyed_out);
+
+                if (position - day < 8 + weekIndexCorrection && position - day >= 0) {
+                    ((TextView) view).setTextColor(colorTextThisMonth);
                 } else {
-                    ((TextView) view).setTextColor(getResources().getColor(R.color.greyed_out));
+                    ((TextView) view).setTextColor(colorTextOtherMonth);
                 }
 
                 if (eventDays != null) {
                     for (Date eventDate : eventDays) {
-                        if (eventDate.getDate() == day &&
-                                eventDate.getMonth() == month &&
-                                eventDate.getYear() == year) {
+                        if (isSameDate(getCalendar(eventDate), cal)) {
                             //view.setBackgroundColor(R.color.colorSchoolClosedIcon);
                             view.setBackgroundColor(Color.argb(255, 200, 200, 255));
                             ((TextView) view).setTextColor(Color.RED);
@@ -286,10 +298,9 @@ public class CalendarViewer extends LinearLayout {
                 ((TextView)view).setTypeface(null, Typeface.NORMAL);
 
 
-                if (day == today.getDate() && month == today.getMonth() && year == today.getYear()) {
-
+                if (isSameDate(cal, today)) {
                     ((TextView)view).setTypeface(null, Typeface.BOLD);
-                    ((TextView)view).setTextColor(getResources().getColor(R.color.today));
+                    ((TextView)view).setTextColor(ContextCompat.getColor(getContext(), R.color.today));
                 }
                 text = Integer.toString(day);
             }

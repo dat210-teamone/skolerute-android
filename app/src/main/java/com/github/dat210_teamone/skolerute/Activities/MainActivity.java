@@ -49,20 +49,20 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
 
-    public FragmentManager manager = getSupportFragmentManager();
-    public Fragment fragment = manager.findFragmentById(R.id.fragment_container);
-    public Fragment fragmentSecondary = manager.findFragmentById(R.id.fragment_container_secondary);
-    public FragmentTransaction fragTrans =  manager.beginTransaction();
+    private final FragmentManager manager = getSupportFragmentManager();
+    private Fragment fragment = manager.findFragmentById(R.id.fragment_container);
+    private Fragment fragmentSecondary = manager.findFragmentById(R.id.fragment_container_secondary);
+    private FragmentTransaction fragTrans =  manager.beginTransaction();
     private int posisjon;
 
     public SchoolManager schoolManager;// = SchoolManager.getDefault();
     public SchoolInfo[] allSchools;// = schoolManager.getSchoolInfo();
     public SchoolInfo[] selectedSchools;// = schoolManager.getSelectedSchools();
     public String[] allSchoolNames;// = new String[allSchools.length];
-    public InputMethodManager inputMethodManager;
-    Location lastKnownLocation;
+    private InputMethodManager inputMethodManager;
+    private Location lastKnownLocation;
 
-    public Set<String> schoolsToView = new HashSet<>();
+    public final Set<String> schoolsToView = new HashSet<>();
     public StoredSchoolsAdapter storedSchoolsAdapter;
     public ImageView calendarViewToggle;
 
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         selectedSchools = schoolManager.getSelectedSchools();
     }
 
-    public void initCheckedSchools() {
+    private void initCheckedSchools() {
         updateSelectedSchools();
         schoolsToView.clear();
          for (int i=0; i<selectedSchools.length;i++){
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
          }
     }
 
-    public void clearCheckedSchools(){
+    /*public void clearCheckedSchools(){
         schoolsToView.clear();
     }
 
@@ -161,11 +161,11 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         storedSchoolsAdapter.clear();
         storedSchoolsAdapter.addAll(getAllStoredSchoolNames());
         storedSchoolsAdapter.notifyDataSetChanged();
-    }
+    }*/
 
     private boolean getAndCheckPermission(String permission) {
-        int permissinCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (permissinCheck != PackageManager.PERMISSION_GRANTED) {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             return false;
         }
@@ -174,16 +174,16 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     private void getLastKnownPosition(){
         LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        LocationListener listner = new LocationFinder();
+        LocationListener listener = new LocationFinder();
         List<String> providers = manager.getAllProviders();
         try {
-            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, listner);
-            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, listner);
+            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, listener);
+            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, listener);
             for(String s: providers) {
 
                 Location loc = manager.getLastKnownLocation(s);
                 if (loc == null)
-                    continue;;
+                    continue;
                 if (lastKnownLocation == null){
                     lastKnownLocation = loc;
                 }
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         });
     }
 
-    public void setupCloseKeyboardOnTouch() {
+    private void setupCloseKeyboardOnTouch() {
         final View mainActivityRootView = findViewById(R.id.main_container);
 
         mainActivityRootView.setOnTouchListener(new View.OnTouchListener() {
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         });
     }
 
-    public void delayShowFinishedButton(View view, boolean show, int milliseconds){
+    private void delayShowFinishedButton(View view, boolean show, int milliseconds){
         final LinearLayout finishedButtonLayout = (LinearLayout) view.findViewById(R.id.finished_container);
         new CountDownTimer(milliseconds, 10) {
             public void onFinish() {
@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     }
 
-    public void showKeyboard() {
+    /*public void showKeyboard() {
         View view = this.getCurrentFocus();
         //If no view currently has focus, create a new one, just so we can grab a window token from it
         if (view == null) {
@@ -297,17 +297,13 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         }
         inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_FORCED);
 
-    }
+    }*/
 
     public boolean isKeyboardShown(){
         final View mainActivityRootView = findViewById(R.id.main_container);
         int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
 
-        if (heightDiff > dpToPx(mainActivityRootView.getContext(), 200)) {
-            return true;
-        } else{
-            return false;
-        }
+        return heightDiff > dpToPx(mainActivityRootView.getContext(), 200);
     }
 
     public void goToStoredSchools() {
@@ -322,15 +318,15 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         clearSecondaryFragment();
     }
 
-    public void goToCalendarList() {
+    /*public void goToCalendarList() {
         replaceMainFragment(new CalendarList());
     }
 
     public void goToCalendarView() {
         replaceMainFragment(new CalendarStandard());
     }
-
-    public void viewCalendar() {
+*/
+    private void viewCalendar() {
         replaceSecondaryFragment(new CalendarStandard());
     }
 
@@ -338,21 +334,21 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         replaceSecondaryFragment(new CalendarList());
     }
 
-    public void replaceMainFragment(Fragment fragment){
+    private void replaceMainFragment(Fragment fragment){
         this.fragment = fragment;
         fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container, fragment);
         fragTrans.commit();
     }
 
-    public void replaceSecondaryFragment(Fragment fragment){
+    private void replaceSecondaryFragment(Fragment fragment){
         this.fragmentSecondary = fragment;
         fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container_secondary, fragment);
         fragTrans.commit();
     }
 
-    public void clearSecondaryFragment(){
+    private void clearSecondaryFragment(){
         fragTrans = manager.beginTransaction();
         if(fragmentSecondary != null) {
             fragTrans.remove(fragmentSecondary);
@@ -360,14 +356,15 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         fragTrans.commit();
     }
 
-    public void setPosisjon(int a){
+    /*
+    public void setPosition(int a){
         posisjon=a;
     }
 
     public int getPosisjon() {
         return posisjon;
     }
-
+*/
 
     public String[] getAllStoredSchoolNames(){
         String[] storedSchoolNames = new String[selectedSchools.length];
@@ -395,7 +392,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     }
 
     //http://stackoverflow.com/a/4737265
-    public static float dpToPx(Context context, float valueInDp) {
+    private static float dpToPx(Context context, float valueInDp) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
     }

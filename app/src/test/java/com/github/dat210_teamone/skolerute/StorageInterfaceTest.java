@@ -12,7 +12,7 @@ import org.junit.Test;
  * Created by Nicolas on 19.09.2016.
  */
 public class StorageInterfaceTest {
-    IStorage si = new DummyStorage();
+    private final IStorage si = new DummyStorage();
     public StorageInterfaceTest()
     {
 

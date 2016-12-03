@@ -4,12 +4,12 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.github.dat210_teamone.skolerute.data.interfaces.INotificationUpdate;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 
 /**
@@ -19,8 +19,8 @@ import java.util.HashSet;
 public class NotificationUtil implements INotificationUpdate {
     private static NotificationUtil defaultManager;
 
-    private Context con;
-    private SchoolManager SM;
+    private final Context con;
+    private final SchoolManager SM;
 
     private NotificationUtil(Context con, SchoolManager sm) {
         this.con = con;
@@ -55,11 +55,11 @@ public class NotificationUtil implements INotificationUpdate {
     }
 
     //This will run when you turn on all notifications
-    public void createNotification() {
+    private void createNotification() {
         if (!SM.getGlobalNotification()) {
             return;
         }
-        HashSet hs = new HashSet();
+        HashSet<Date> hs = new HashSet<>();
         for (SchoolVacationDay svd : SM.getNextVacationDays(SM.getNotifySchools())) {
             if (!hs.contains(svd.getDate())) {
                 hs.add(svd.getDate());
@@ -69,7 +69,7 @@ public class NotificationUtil implements INotificationUpdate {
     }
 
     //Get a schoolVacationDay and create a Alarmnotification for it.
-    public void createNotification(SchoolVacationDay SVD) {
+    private void createNotification(SchoolVacationDay SVD) {
         Calendar calendar = Calendar.getInstance();
         //calendar.add(Calendar.MINUTE, 2);
         calendar.setTime(SVD.getDate());
@@ -86,8 +86,8 @@ public class NotificationUtil implements INotificationUpdate {
     }
 
     //This will run when you turn off all notifications.
-    public void removeAllNotifications() {
-        HashSet hs = new HashSet();
+    private void removeAllNotifications() {
+        HashSet<Date> hs = new HashSet<>();
         AlarmManager am = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(con, NotificationReceiver.class);
         PendingIntent pi;

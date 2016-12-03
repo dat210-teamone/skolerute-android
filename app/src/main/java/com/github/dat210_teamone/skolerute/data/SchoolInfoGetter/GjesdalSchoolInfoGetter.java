@@ -21,8 +21,8 @@ import java.util.SortedMap;
 
 public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
 
-    private String schoolInfoURL = "http://open.stavanger.kommune.no/dataset/skoler-i-gjesdal-kommune";
-    private String schoolVacationURL = "http://open.stavanger.kommune.no/dataset/skoleruten-for-gjesdal-kommune";
+    private final String schoolInfoURL = "http://open.stavanger.kommune.no/dataset/skoler-i-gjesdal-kommune";
+    private final String schoolVacationURL = "http://open.stavanger.kommune.no/dataset/skoleruten-for-gjesdal-kommune";
 
     @Override
     public boolean IsUpToDate() {
@@ -83,7 +83,7 @@ public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {
     }
 
     private String[] loadedSchools = new String[0];
-    public ArrayList<SchoolVacationDay> readSchoolVacationDayCsv(BufferedReader reader) {
+    private ArrayList<SchoolVacationDay> readSchoolVacationDayCsv(BufferedReader reader) {
         ArrayList<SchoolVacationDay> vacationDays = new ArrayList<>();
         String line;
         try {

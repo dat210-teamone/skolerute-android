@@ -8,7 +8,6 @@ import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -23,10 +22,10 @@ import static com.github.dat210_teamone.skolerute.data.OneUtils.Contains;
 
 public class SchoolManagerTest {
 
-    IStorage si = new DummyStorage();
-    ISettingStorage iss = new DummySettingStorage(true);
+    private final IStorage si = new DummyStorage();
+    private final ISettingStorage iss = new DummySettingStorage(true);
 
-    private SchoolManager sm;
+    private final SchoolManager sm;
 
     public SchoolManagerTest() {
         this.sm = new SchoolManager(si,iss);

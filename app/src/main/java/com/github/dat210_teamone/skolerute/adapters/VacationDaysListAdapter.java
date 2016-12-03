@@ -1,27 +1,16 @@
 package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
-import android.icu.text.DateFormat;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.github.dat210_teamone.skolerute.Activities.MainActivity;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.OneUtils;
-import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
-
-import org.w3c.dom.Text;
 
 import java.util.Date;
 
@@ -29,11 +18,11 @@ import java.util.Date;
  * Created by Alex on 2410//16.
  */
 
-public class VacationDaysListAdapter extends ArrayAdapter {
+public class VacationDaysListAdapter extends ArrayAdapter<SchoolVacationDay> {
 
 
     private final Context context;
-    private SchoolVacationDay[] schoolVacationDays; // Not in use yet
+    private final SchoolVacationDay[] schoolVacationDays; // Not in use yet
 
     public VacationDaysListAdapter(Context context, SchoolVacationDay[] schoolVacationDays) {
         super(context, -1, schoolVacationDays);
@@ -51,10 +40,10 @@ public class VacationDaysListAdapter extends ArrayAdapter {
 
     public class VacationDayObject {
 
-        private Boolean schoolOpen;
-        private Boolean sfoOpen;
-        private Date vacationDate;
-        private String schoolName;
+        private final Boolean schoolOpen;
+        private final Boolean sfoOpen;
+        private final Date vacationDate;
+        private final String schoolName;
 
         VacationDayObject(SchoolVacationDay day) {
             this.schoolOpen = day.isStudentDay();
@@ -108,13 +97,4 @@ public class VacationDaysListAdapter extends ArrayAdapter {
         }
         return rowView;
     }
-
-    public void updateVacationDaysList(VacationDayObject[] vacationDayObjects) {
-        clear();
-        addAll(vacationDayObjects);
-        this.notifyDataSetChanged();
-    }
-
-
-
 }

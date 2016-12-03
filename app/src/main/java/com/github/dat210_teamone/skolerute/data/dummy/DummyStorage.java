@@ -12,8 +12,8 @@ import java.util.Date;
  * Created by espen on 19.09.16.
  */
 public class DummyStorage implements IStorage {
-    private ArrayList<SchoolInfo> schoolInfo;
-    private ArrayList<SchoolVacationDay> schoolVacationDay;
+    private final ArrayList<SchoolInfo> schoolInfo;
+    private final ArrayList<SchoolVacationDay> schoolVacationDay;
 
     public DummyStorage() {
         schoolInfo = new ArrayList<>();
@@ -58,7 +58,7 @@ public class DummyStorage implements IStorage {
 
     @Override
     public SchoolVacationDay[] getVacationDays() {
-        return (SchoolVacationDay[])schoolVacationDay.toArray(new SchoolVacationDay[schoolVacationDay.size()]);
+        return schoolVacationDay.toArray(new SchoolVacationDay[schoolVacationDay.size()]);
     }
 
     @Override
@@ -74,6 +74,11 @@ public class DummyStorage implements IStorage {
     }
 
     @Override
+    public void forceUpdate(){
+
+    }
+
+    @Override
     public SchoolVacationDay[] getVacationDays(Predicate<SchoolVacationDay> func) {
         ArrayList<SchoolVacationDay> filter = new ArrayList<SchoolVacationDay>();
         for (SchoolVacationDay obj : schoolVacationDay)
@@ -82,6 +87,6 @@ public class DummyStorage implements IStorage {
                 filter.add(obj);
             }
         }
-        return (SchoolVacationDay[])filter.toArray(new SchoolVacationDay[filter.size()]);
+        return filter.toArray(new SchoolVacationDay[filter.size()]);
     }
 }

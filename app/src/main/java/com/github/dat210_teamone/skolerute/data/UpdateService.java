@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.OpenStavangerUtils;
+
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -16,11 +18,17 @@ import java.util.TimeZone;
  */
 
 public class UpdateService extends IntentService {
-    private CsvFileReader csvFileReader;
+    private final String[] schools = new String[]{
+            "http://open.stavanger.kommune.no/dataset/schools-stavanger",
+            "http://open.stavanger.kommune.no/dataset/schools-i-gjesdal-kommune"
+    };
+    private final String[] routes = new String[]{
+            "http://open.stavanger.kommune.no/dataset/skolerute-stavanger",
+            "http://open.stavanger.kommune.no/dataset/skoleruten-for-gjesdal-kommune",
+    };
 
     public UpdateService() {
         super("UpdateServiceName");
-        csvFileReader = new CsvFileReader();
     }
 
     @Override
@@ -28,8 +36,6 @@ public class UpdateService extends IntentService {
         InterfaceManager.SetMainContext(this);
         Calendar calendar = Calendar.getInstance();
         Log.d("UpdateService", "About to execute UpdateTask at: " + calendar.getTime());
-        //TODO: Fix this, see bug on trello for more details
-        // Seems to be fixed
         new UpdateTask().doInBackground();
     }
 
@@ -38,12 +44,15 @@ public class UpdateService extends IntentService {
         protected Boolean doInBackground(String... strings) {
             Log.d("UpdateService", "Calling doInBackground within UpdateTask");
             Log.d("UpdateService", "Last updated: "+ InterfaceManager.getSettings().getLastUpdateTime());
-            if(CsvReaderGetter.fileHasBeenUpdated("http://open.stavanger.kommune.no/dataset/skolerute-stavanger")) {
+            if(OpenStavangerUtils.fileHasBeenUpdated(schools[0])
+                    || OpenStavangerUtils.fileHasBeenUpdated(schools[1])
+                    || OpenStavangerUtils.fileHasBeenUpdated(routes[0])
+                    || OpenStavangerUtils.fileHasBeenUpdated(routes[1]))
+            {
                 Log.d("UpdateService", "New CSV update found");
-                csvFileReader.readSchoolInfoCsv(new CsvReaderGetter().getSchoolReader());
-                csvFileReader.readSchoolVacationDayCsv(new CsvReaderGetter().getSchoolDayReader());
+                InterfaceManager.getStorage().forceUpdate();
                 Log.d("UpdateService", "Got updated CSV files");
-                String lastUpdated = CsvReaderGetter.getInfo("http://open.stavanger.kommune.no/dataset/skolerute-stavanger").getLastUpdated();
+                String lastUpdated = OpenStavangerUtils.getInfo("http://open.stavanger.kommune.no/dataset/skolerute-stavanger").getLastUpdated();
                 InterfaceManager.getSettings().setLastUpdateTime(lastUpdated);
             } else {
                 Log.d("UpdateService", "CSV already at latest version");
@@ -53,10 +62,8 @@ public class UpdateService extends IntentService {
     }
 
     public static void setUpUpdateService() {
-        // TODO: Need to actually set initial update time somewhere, maybe not here
-        //TODO: Rewrite to either use OpenStavangerUtils or The Interface.getSchoolGetters
         if(InterfaceManager.getSettings().getLastUpdateTime().equals("")) {
-            String lastUpdated = CsvReaderGetter
+            String lastUpdated = OpenStavangerUtils
                     .getInfo("http://open.stavanger.kommune.no/dataset/skolerute-stavanger")
                     .getLastUpdated();
             Log.d("UpdateService", "Setting initial update date: " + lastUpdated);
@@ -64,9 +71,6 @@ public class UpdateService extends IntentService {
         }
         Calendar updateTime = Calendar.getInstance();
         updateTime.setTimeZone(TimeZone.getDefault());
-
-        // TODO: set check interval to One Month
-        //updateTime.add(Calendar.MONTH, 1);
 
         updateTime.set(Calendar.HOUR_OF_DAY, 8);
         updateTime.set(Calendar.MINUTE, 0);
@@ -77,7 +81,7 @@ public class UpdateService extends IntentService {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(),
-                1000 * 60 /* TODO Switch with proper value, AlarmManager.INTERVAL_DAY */,
+                AlarmManager.INTERVAL_DAY,
                 pendingIntent);
         Log.d("MainActivity", "Set alarmManager.setInexactRepeating to: " + updateTime.getTime().toString());
     }

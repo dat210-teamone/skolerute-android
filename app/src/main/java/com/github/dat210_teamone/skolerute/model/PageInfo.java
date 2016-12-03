@@ -4,6 +4,7 @@ package com.github.dat210_teamone.skolerute.model;
  * Created by Nicolas on 26.09.2016.
  */
 
+@SuppressWarnings("unused")
 public class PageInfo {
     private String baseURL;
     private String csvURL;

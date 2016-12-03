@@ -2,16 +2,9 @@ package com.github.dat210_teamone.skolerute.data;
 
 import android.os.AsyncTask;
 
-import com.github.dat210_teamone.skolerute.model.PageInfo;
-
-import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.ByteBuffer;
-import java.nio.MappedByteBuffer;
-import java.util.ArrayList;
 
 /**
  * Created by Nicolas on 03.10.2016.

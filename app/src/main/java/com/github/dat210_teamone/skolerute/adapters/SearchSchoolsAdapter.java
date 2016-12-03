@@ -1,17 +1,13 @@
 package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.data.OneUtils;
-import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 /**
  * Created by Alex on 1010//16.
@@ -20,7 +16,7 @@ import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 // NO LONGER IN USE
 
-public class SearchSchoolsAdapter extends ArrayAdapter<String> {
+class SearchSchoolsAdapter extends ArrayAdapter<String> {
 
     private final Context context;
     private String[] values;
@@ -58,37 +54,8 @@ public class SearchSchoolsAdapter extends ArrayAdapter<String> {
         if(!shouldSchoolNameBeDisplayed(values[position])){
             return inflater.inflate(R.layout.null_item, null);
         }
-        View rowView = inflater.inflate(R.layout.add_schools_layout, parent, false);
 
-     /*   SearchSchoolObject addSchoolObject = new SearchSchoolObject(SchoolManager.getDefault().checkName(values[position]));
-
-        TextView schoolName = (TextView) rowView.findViewById(R.id.school_name);
-        schoolName.setText(values[position]);
-        Button addSchool = (Button) rowView.findViewById(R.id.add_button);
-
-        if (addSchoolObject.getAlreadyStored()) {
-            addSchool.setText("Fjern");
-            addSchool.setBackgroundResource(R.color.colorClickableSecondary);
-        }
-
-        addSchool.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!addSchoolObject.getAlreadyStored()) {
-                    SchoolManager.getDefault().addDefault(values[position]);
-                    addSchoolObject.setAlreadyStored(true);
-                    addSchool.setText("Fjern");
-                    addSchool.setBackgroundResource(R.color.colorClickableSecondary);
-                } else {
-                    SchoolManager.getDefault().removeDefault(values[position]);
-                    addSchoolObject.setAlreadyStored(false);
-                    addSchool.setText("Lagre");
-                    addSchool.setBackgroundResource(R.color.colorClickable);
-                }
-            }
-        }); */
-
-        return rowView;
+        return inflater.inflate(R.layout.add_schools_layout, parent, false);
     }
 
     //set school to be displayed and update view

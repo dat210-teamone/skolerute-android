@@ -2,13 +2,10 @@ package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +17,10 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.github.dat210_teamone.skolerute.Activities.MainActivity;
-import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
-import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
-import com.github.dat210_teamone.skolerute.data.InterfaceManager;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -164,7 +156,12 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
 
                             TextView message = new TextView(getContext());
                             SpannableStringBuilder infoMessage = new SpannableStringBuilder();
-                            infoMessage.append("\n      " + info.getAddress() + "\n\n      " + info.getHomePage());
+
+                            infoMessage.append("\n      ");
+                            infoMessage.append(info.getAddress());
+                            infoMessage.append("\n\n      ");
+                            infoMessage.append(info.getHomePage());
+
                             Linkify.addLinks(infoMessage, Linkify.WEB_URLS);
                             message.setText(infoMessage);
                             message.setMovementMethod(LinkMovementMethod.getInstance());
@@ -181,7 +178,7 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                         }
 
                         else if (item.getItemId() == R.id.itemRemoveSchool) {
-                            mainActivity.schoolManager.getDefault().removeDefault(values[position]);
+                            SchoolManager.getDefault().removeDefault(values[position]);
                             int lol = mainActivity.schoolManager.getSelectedSchools().length;
                             if (mainActivity.schoolManager.getSelectedSchools().length < 1) {
                                 mainActivity.goToAddSchools();
