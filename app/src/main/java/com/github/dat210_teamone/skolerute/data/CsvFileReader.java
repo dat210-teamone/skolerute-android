@@ -22,6 +22,7 @@ import java.util.Locale;
  * Created by espen on 21.09.16.
  */
 
+@Deprecated
 public class CsvFileReader implements IStorage {
     private ArrayList<SchoolInfo> schoolInfos;
     private ArrayList<SchoolVacationDay> vacationDays;
@@ -34,9 +35,11 @@ public class CsvFileReader implements IStorage {
         VACATION_DAYS,
     }
 
+
     public CsvFileReader() {
         this(InterfaceManager.getBufferGetter());
     }
+
 
     public CsvFileReader(ICsvGetter getter) {
         schoolInfos = new ArrayList<>();
