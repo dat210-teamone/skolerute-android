@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -79,15 +78,12 @@ public class AddSchools extends Fragment {
     }
 
     private void setupFinishedListener(LinearLayout object) {
-        object.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (object.getTag() == ACTIVE) {
-                    mainActivity.goToStoredSchools();
-                } else {
-                    // No schools stored, display message
-                    Toast.makeText(mainActivity, getResources().getString(R.string.no_schools_stored), Toast.LENGTH_SHORT).show();
-                }
+        object.setOnClickListener(v -> {
+            if (object.getTag() == ACTIVE) {
+                mainActivity.goToStoredSchools();
+            } else {
+                // No schools stored, display message
+                Toast.makeText(mainActivity, getResources().getString(R.string.no_schools_stored), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -118,12 +114,9 @@ public class AddSchools extends Fragment {
         int searchCloseId = searchView.getContext().getResources().getIdentifier("android:id/search_close_btn", null, null);
         ImageView searchCloseButton = (ImageView) searchView.findViewById(searchCloseId);
 
-        searchCloseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchText.setText("");
-                searchView.setQuery("", false);
-            }
+        searchCloseButton.setOnClickListener(v -> {
+            searchText.setText("");
+            searchView.setQuery("", false);
         });
 
 
@@ -162,15 +155,13 @@ public class AddSchools extends Fragment {
         MainActivity mainActivity = (MainActivity)getActivity();
 
         if(!(view instanceof EditText)) {   //SearchView instanceOf EditText
-            view.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
+            view.setOnTouchListener((v, event) -> {
 
-                    if(mainActivity.isKeyboardShown()) {
-                        mainActivity.hideKeyboard();
-                    }
-
-                    return false;
+                if(mainActivity.isKeyboardShown()) {
+                    mainActivity.hideKeyboard();
                 }
+
+                return false;
             });
         }
     }

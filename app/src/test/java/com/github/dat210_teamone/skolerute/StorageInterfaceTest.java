@@ -49,7 +49,7 @@ public class StorageInterfaceTest {
     }
     @Test
     public void TestManyVacationDaysFilter() throws Exception {
-        SchoolVacationDay[] infos = si.getVacationDays((test) -> test.isStudentDay());
+        SchoolVacationDay[] infos = si.getVacationDays(SchoolVacationDay::isStudentDay);
         Assert.assertEquals(25, infos.length);
     }
 

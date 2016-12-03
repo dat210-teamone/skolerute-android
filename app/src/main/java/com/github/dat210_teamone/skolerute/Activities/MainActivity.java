@@ -20,7 +20,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
@@ -91,12 +90,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         setContentView(R.layout.activity_main);
 
         TextView goToAdd = (TextView)findViewById(R.id.go_to_add);
-        goToAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToAddSchools();
-            }
-        });
+        goToAdd.setOnClickListener(v -> goToAddSchools());
 
         initCalendarViewToggle();
 
@@ -113,19 +107,16 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     private void initCalendarViewToggle(){
         calendarViewToggle = (ImageView) findViewById(R.id.calendar_view_toggle);
         calendarViewToggle.setTag(LIST_VIEW);
-        calendarViewToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String calendarToggleTag = (String) calendarViewToggle.getTag();
-                if(calendarToggleTag.equals(LIST_VIEW)){
-                    calendarViewToggle.setTag(CALENDAR_VIEW);
-                    calendarViewToggle.setImageResource(R.drawable.list_button);
-                    viewCalendar();
-                } else{
-                    calendarViewToggle.setTag(LIST_VIEW);
-                    calendarViewToggle.setImageResource(R.drawable.calendar_icon_white);
-                    viewCalendarList();
-                }
+        calendarViewToggle.setOnClickListener(v -> {
+            String calendarToggleTag = (String) calendarViewToggle.getTag();
+            if(calendarToggleTag.equals(LIST_VIEW)){
+                calendarViewToggle.setTag(CALENDAR_VIEW);
+                calendarViewToggle.setImageResource(R.drawable.list_button);
+                viewCalendar();
+            } else{
+                calendarViewToggle.setTag(LIST_VIEW);
+                calendarViewToggle.setImageResource(R.drawable.calendar_icon_white);
+                viewCalendarList();
             }
         });
     }
@@ -148,9 +139,9 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     private void initCheckedSchools() {
         updateSelectedSchools();
         schoolsToView.clear();
-         for (int i=0; i<selectedSchools.length;i++){
-            schoolsToView.add(selectedSchools[i].getSchoolName());
-         }
+        for (SchoolInfo selectedSchool : selectedSchools) {
+            schoolsToView.add(selectedSchool.getSchoolName());
+        }
     }
 
     /*public void clearCheckedSchools(){
@@ -249,16 +240,14 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
     private void setupCloseKeyboardOnTouch() {
         final View mainActivityRootView = findViewById(R.id.main_container);
 
-        mainActivityRootView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
+        mainActivityRootView.setOnTouchListener((v, event) -> {
 
-                if(fragment.getClass() == AddSchools.class ) {
-                    if (isKeyboardShown()) {
-                        hideKeyboard();
-                    }
+            if(fragment.getClass() == AddSchools.class ) {
+                if (isKeyboardShown()) {
+                    hideKeyboard();
                 }
-                return false;
             }
+            return false;
         });
     }
 

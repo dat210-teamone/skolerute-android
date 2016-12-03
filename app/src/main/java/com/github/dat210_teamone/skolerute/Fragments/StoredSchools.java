@@ -90,18 +90,15 @@ public class StoredSchools extends Fragment {
         ImageView expandContainerButton = (ImageView) view.findViewById(R.id.stored_schools_expand);
         expandContainerButton.setTag(EXPANDED);
         expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
-        expandContainerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (expandContainerButton.getTag() == EXPANDED){
-                    expandContainerButton.setTag(MINIMIZED);
-                    expandContainerButton.setImageResource(R.drawable.ic_expand_more_white_24dp);
-                    setContainerHeight(0);
-                } else {
-                    expandContainerButton.setTag(EXPANDED);
-                    expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
-                    setContainerHeight(getContainerHeight());
-                }
+        expandContainerButton.setOnClickListener(v -> {
+            if (expandContainerButton.getTag() == EXPANDED){
+                expandContainerButton.setTag(MINIMIZED);
+                expandContainerButton.setImageResource(R.drawable.ic_expand_more_white_24dp);
+                setContainerHeight(0);
+            } else {
+                expandContainerButton.setTag(EXPANDED);
+                expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
+                setContainerHeight(getContainerHeight());
             }
         });
     }
@@ -120,55 +117,48 @@ public class StoredSchools extends Fragment {
 
     private void setupPopupMenu(View view, MainActivity mainActivity){
         ImageView schoolSettingsBtn = (ImageView) view.findViewById(R.id.stored_schools_menu);
-        schoolSettingsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu settingsMenu = new PopupMenu(mainActivity, schoolSettingsBtn);
-                settingsMenu.inflate(R.menu.stored_schools_popup_menu);
+        schoolSettingsBtn.setOnClickListener(v -> {
+            PopupMenu settingsMenu = new PopupMenu(mainActivity, schoolSettingsBtn);
+            settingsMenu.inflate(R.menu.stored_schools_popup_menu);
 
-                //If school should notify
-                if(mainActivity.schoolManager.getGlobalNotification()){
-                    settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(true);
-                } else{
-                    settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(false);
+            //If school should notify
+            if(mainActivity.schoolManager.getGlobalNotification()){
+                settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(true);
+            } else{
+                settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(false);
+            }
+            settingsMenu.setOnMenuItemClickListener(item -> {
+                if(item.getItemId() == R.id.itemNotification ){
+                    if(item.isChecked()){
+                        item.setChecked(false);
+                        mainActivity.schoolManager.setGlobalNotification(false);
+                    } else{
+                        item.setChecked(true);
+                        mainActivity.schoolManager.setGlobalNotification(true);
+                    }
                 }
-                settingsMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                // start http://stackoverflow.com/a/31727213
+                // Keep the popup menu open
+                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+                item.setActionView(new View(mainActivity));
+                item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        return false;
+                    }
 
                     @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId() == R.id.itemNotification ){
-                            if(item.isChecked()){
-                                item.setChecked(false);
-                                mainActivity.schoolManager.setGlobalNotification(false);
-                            } else{
-                                item.setChecked(true);
-                                mainActivity.schoolManager.setGlobalNotification(true);
-                            }
-                        }
-
-                        // start http://stackoverflow.com/a/31727213
-                        // Keep the popup menu open
-                        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-                        item.setActionView(new View(mainActivity));
-                        item.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-                            @Override
-                            public boolean onMenuItemActionExpand(MenuItem item) {
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onMenuItemActionCollapse(MenuItem item) {
-                                return false;
-                            }
-                        });
-                        //end http://stackoverflow.com/a/31727213
-
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
                         return false;
                     }
                 });
+                //end http://stackoverflow.com/a/31727213
 
-                settingsMenu.show();
-            }
+                return false;
+            });
+
+            settingsMenu.show();
         });
     }
 
