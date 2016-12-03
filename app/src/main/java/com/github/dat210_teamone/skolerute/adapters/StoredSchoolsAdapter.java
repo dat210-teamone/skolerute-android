@@ -25,6 +25,7 @@ import java.util.Date;
 
 /**
  * Created by Alex on 289//16.
+ * Part of project skolerute-android
  */
 
 public class StoredSchoolsAdapter extends ArrayAdapter<String> {

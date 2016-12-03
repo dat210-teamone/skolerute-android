@@ -49,7 +49,9 @@
             android:backgroundTint="@color/colorSchoolClosedIcon"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:contentDescription="Stengt skole info"
+            />
 
         <TextView
             android:id="@+id/school_closed_text"
@@ -69,7 +71,9 @@
             android:backgroundTint="@color/colorSfoClosedIcon"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:contentDescription="SFO Skole stengt info"
+            />
 
         <TextView
             android:id="@+id/sfo_closed_text"

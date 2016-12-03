@@ -8,6 +8,7 @@ import org.junit.Test;
 
 /**
  * Created by espen on 21.09.16.
+ * Part of project skolerute-android
  */
 
 public class SettingStorageTest {

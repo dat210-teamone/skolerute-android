@@ -1,7 +1,5 @@
 package com.github.dat210_teamone.skolerute.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,7 +24,7 @@ public class StoredSchools extends Fragment {
     private TextView finished;
     private LinearLayout storedSchoolsListContainer;
     private int containerHeight;
-    private LinearLayout.LayoutParams listParamaters;
+    private LinearLayout.LayoutParams listParameters;
 
     private final String EXPANDED = "expanded";
     private final String MINIMIZED = "minimized";
@@ -51,7 +49,7 @@ public class StoredSchools extends Fragment {
         String[] storedSchoolNames = mainActivity.getAllStoredSchoolNames();
         Date[] storedSchoolVacationDays = mainActivity.getAllStoredSchoolDates();
 
-        setupContainer(view, mainActivity);
+        setupContainer(view);
 
 
         StoredSchoolsAdapter storedSchoolsAdapter = new StoredSchoolsAdapter(mainActivity, storedSchoolNames, storedSchoolVacationDays);
@@ -59,26 +57,26 @@ public class StoredSchools extends Fragment {
         storedSchoolsList = (ListView) view.findViewById(R.id.storedSchoolsList);
         storedSchoolsList.setAdapter(storedSchoolsAdapter);
 
-        setupExpandButton(view, mainActivity);
+        setupExpandButton(view);
         setupPopupMenu(view, mainActivity);
 
         return view;
     }
 
-    private void setupContainer(View view, MainActivity mainActivity) {
+    private void setupContainer(View view) {
         storedSchoolsListContainer = (LinearLayout) view.findViewById(R.id.stored_schools_list_container);
-        listParamaters = (LinearLayout.LayoutParams) storedSchoolsListContainer.getLayoutParams();
+        listParameters = (LinearLayout.LayoutParams) storedSchoolsListContainer.getLayoutParams();
         containerHeight = getContainerHeight();
         setContainerHeight(containerHeight);
     }
 
     private void setContainerHeight(int newHeight) {
-        listParamaters.height = newHeight;
-        storedSchoolsListContainer.setLayoutParams(listParamaters);
+        listParameters.height = newHeight;
+        storedSchoolsListContainer.setLayoutParams(listParameters);
     }
 
 
-    private void setupExpandButton(View view, MainActivity mainActivity) {
+    private void setupExpandButton(View view) {
         ImageView expandContainerButton = (ImageView) view.findViewById(R.id.stored_schools_expand);
         expandContainerButton.setTag(EXPANDED);
         expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);

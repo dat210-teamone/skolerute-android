@@ -8,6 +8,7 @@ import java.net.URL;
 
 /**
  * Created by Nicolas on 03.10.2016.
+ * Part of project skolerute-android
  */
 
 public class GetPageInfoTask extends AsyncTask<URL, Void, byte[]> {

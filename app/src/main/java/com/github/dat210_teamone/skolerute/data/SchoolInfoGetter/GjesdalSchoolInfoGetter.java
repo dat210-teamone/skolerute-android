@@ -17,6 +17,7 @@ import java.util.SortedMap;
 
 /**
  * Created by Nicolas on 24.10.2016.
+ * Part of project skolerute-android
  */
 
 public class GjesdalSchoolInfoGetter implements ISchoolInfoGetter {

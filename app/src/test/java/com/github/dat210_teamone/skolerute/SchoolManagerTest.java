@@ -18,6 +18,7 @@ import static com.github.dat210_teamone.skolerute.data.OneUtils.Contains;
 
 /**
  * Created by Fredrik Wigsnes on 21.09.2016.
+ * Part of project skolerute-android
  */
 
 public class SchoolManagerTest {
@@ -69,7 +70,7 @@ public class SchoolManagerTest {
     }
 
     @Test
-    public void TestaddDefault() {
+    public void testAddDefault() {
         sm.addDefault("Skole 99");
         Assert.assertTrue("Skole 99 is not correctly added", sm.checkName("Skole 99"));
     }
@@ -95,21 +96,21 @@ public class SchoolManagerTest {
 
 
     @Test
-    public void getSchoolInfo_gettoday() throws Exception{
+    public void getSchoolInfo_getToday() throws Exception{
         Date d = new Date();
         SchoolInfo[] infos = sm.getSchoolInfo(d);
         Assert.assertEquals(2, infos.length);
     }
 
     @Test
-    public void getSchoolInfo_getanotherdaywithinfos() throws Exception{
+    public void getSchoolInfo_getAnotherDayWithInfos() throws Exception{
         Date d = new Date(new Date().getTime() + 86400000 * 3);
         SchoolInfo[] infos = sm.getSchoolInfo(d);
         Assert.assertEquals(2, infos.length);
     }
 
     @Test
-    public void getSchoolInfo_getanotherdaywithoutinfos() throws Exception{
+    public void getSchoolInfo_getAnotherDayWithoutInfos() throws Exception{
         Date d = new Date(new Date().getTime() + 86400000 * 10);
         SchoolInfo[] infos = sm.getSchoolInfo(d);
         Assert.assertEquals(0, infos.length);

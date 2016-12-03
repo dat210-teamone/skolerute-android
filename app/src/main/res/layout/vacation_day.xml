@@ -17,7 +17,8 @@
             android:background="@drawable/rounded_corners"
             android:backgroundTint="@color/colorSchoolClosedIcon"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:contentDescription="Skole Stengt"/>
 
         <ImageView
             android:id="@+id/sfo_closed_icon"
@@ -27,7 +28,8 @@
             android:backgroundTint="@color/colorSfoClosedIcon"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:contentDescription="SFO Stengt"/>
 
     </LinearLayout>
     <LinearLayout

@@ -2,6 +2,7 @@ package com.github.dat210_teamone.skolerute;
 
 /**
  * Created by Fredrik Wigsnes on 26.09.2016.
+ * Part of project skolerute-android
  */
 
 class CsvUrlGetterTest {

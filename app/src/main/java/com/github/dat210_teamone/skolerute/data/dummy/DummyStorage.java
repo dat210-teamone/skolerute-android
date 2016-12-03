@@ -10,6 +10,7 @@ import java.util.Date;
 
 /**
  * Created by espen on 19.09.16.
+ * Part of project skolerute-android
  */
 @SuppressWarnings("Convert2streamapi")
 public class DummyStorage implements IStorage {

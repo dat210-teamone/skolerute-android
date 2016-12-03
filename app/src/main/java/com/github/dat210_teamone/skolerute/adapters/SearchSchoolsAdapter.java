@@ -11,6 +11,7 @@ import com.github.dat210_teamone.skolerute.data.OneUtils;
 
 /**
  * Created by Alex on 1010//16.
+ * Part of project skolerute-android
  */
 
 

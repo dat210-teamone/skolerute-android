@@ -13,6 +13,7 @@ import java.io.File;
 
 /**
  * Created by Nicolas on 21.09.2016.
+ * Part of project skolerute-android
  */
 
 public final class InterfaceManager {

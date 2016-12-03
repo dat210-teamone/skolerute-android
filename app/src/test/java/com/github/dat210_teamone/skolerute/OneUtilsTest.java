@@ -11,6 +11,7 @@ import java.util.Date;
 
 /**
  * Created by Nicolas on 03.10.2016.
+ * Part of project skolerute-android
  */
 
 public class OneUtilsTest {

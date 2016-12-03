@@ -17,6 +17,7 @@ import java.util.Date;
 
 /**
  * Created by Fredrik Wigsnes on 17.10.2016.
+ * Part of project skolerute-android
  */
 
 public class NotificationReceiver extends BroadcastReceiver {

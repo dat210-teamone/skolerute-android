@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Nicolas on 24.10.2016.
+ * Part of project skolerute-android
  */
 
 @SuppressWarnings("Convert2streamapi")

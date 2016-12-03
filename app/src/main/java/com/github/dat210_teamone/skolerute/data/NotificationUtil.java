@@ -14,6 +14,7 @@ import java.util.HashSet;
 
 /**
  * Created by Fredrik Wigsnes on 05.10.2016.
+ * Part of project skolerute-android
  */
 
 public class NotificationUtil implements INotificationUpdate {

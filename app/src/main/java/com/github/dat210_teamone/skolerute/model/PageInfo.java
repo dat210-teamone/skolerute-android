@@ -2,6 +2,7 @@ package com.github.dat210_teamone.skolerute.model;
 
 /**
  * Created by Nicolas on 26.09.2016.
+ * Part of project skolerute-android
  */
 
 @SuppressWarnings("unused")

@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:visibility="visible"
             android:layout_marginLeft="10dp"
-            android:tag="expanded"/>
+            android:tag="expanded"
+            android:contentDescription="Åpne lukke alle skoler"/>
 
         <TextView
             android:id="@+id/stored_schools_title"
@@ -35,7 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_more_vert_white_24dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:contentDescription="Lagrede skoler meny"/>
 
     </LinearLayout>
 

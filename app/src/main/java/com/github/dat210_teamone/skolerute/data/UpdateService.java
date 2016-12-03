@@ -15,6 +15,7 @@ import java.util.TimeZone;
 
 /**
  * Created by espen on 10.10.16.
+ * Part of project skolerute-android
  */
 
 public class UpdateService extends IntentService {

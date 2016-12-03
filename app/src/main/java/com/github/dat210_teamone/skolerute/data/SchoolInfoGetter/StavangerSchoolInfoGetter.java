@@ -15,6 +15,7 @@ import java.util.Locale;
 
 /**
  * Created by Nicolas on 24.10.2016.
+ * Part of project skolerute-android
  */
 
 public class StavangerSchoolInfoGetter implements ISchoolInfoGetter {

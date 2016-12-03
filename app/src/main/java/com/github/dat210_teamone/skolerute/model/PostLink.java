@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Nicolas on 10.10.2016.
+ * Part of project skolerute-android
  */
 
 @SuppressWarnings("unused")

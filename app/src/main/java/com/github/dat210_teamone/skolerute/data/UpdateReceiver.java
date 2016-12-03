@@ -7,6 +7,7 @@ import android.util.Log;
 
 /**
  * Created by espen on 10.10.16.
+ * Part of project skolerute-android
  */
 
 public class UpdateReceiver extends BroadcastReceiver {

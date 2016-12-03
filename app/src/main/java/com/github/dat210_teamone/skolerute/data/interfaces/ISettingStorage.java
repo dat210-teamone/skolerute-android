@@ -2,6 +2,7 @@ package com.github.dat210_teamone.skolerute.data.interfaces;
 
 /**
  * Created by Nicolas on 21.09.2016.
+ * Part of project skolerute-android
  */
 
 public interface ISettingStorage {

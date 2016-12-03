@@ -16,6 +16,7 @@ import java.util.Date;
 
 /**
  * Created by Alex on 2410//16.
+ * Part of project skolerute-android
  */
 
 public class VacationDaysListAdapter extends ArrayAdapter<SchoolVacationDay> {

@@ -18,6 +18,7 @@ import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 /**
  * Created by Alex on 28/9/16.
+ * Part of project skolerute-android
  */
 
 public class AddSchoolsAdapter extends ArrayAdapter<String> {

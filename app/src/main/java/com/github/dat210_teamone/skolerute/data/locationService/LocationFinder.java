@@ -8,6 +8,7 @@ import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 /**
  * Created by Nicolas on 05.10.2016.
+ * Part of project skolerute-android
  */
 
 public class LocationFinder implements LocationListener {

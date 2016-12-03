@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="12dp"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:textColor="@color/colorBrightText"
             android:padding="7dp"
             android:layout_marginLeft="15dp"
@@ -50,7 +50,9 @@
             app:srcCompat="@drawable/calendar_icon_white"
             android:id="@+id/calendar_view_toggle"
             android:visibility="invisible"
-            android:tag="list_view"/>
+            android:tag="list_view"
+            android:contentDescription="Kalender"
+            />
 
     </LinearLayout>
 

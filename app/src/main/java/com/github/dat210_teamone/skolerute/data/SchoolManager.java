@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by Nicolas on 21.09.2016.
+ * Part of project skolerute-android
  */
 
 @SuppressWarnings("Convert2streamapi")
@@ -146,7 +147,7 @@ public class SchoolManager {
         return allDays.toArray(new SchoolInfo[allDays.size()]);
     }
 
-    public SchoolVacationDay[] getSchoolVecationInfo()
+    public SchoolVacationDay[] getSchoolVacationInfo()
     {
         return storage.getVacationDays();
     }
@@ -251,7 +252,7 @@ public class SchoolManager {
         allUpdates.add(update);
     }
 
-    public void unsubscribe(INotificationUpdate update){
+    public void unSubscribe(INotificationUpdate update){
         allUpdates.remove(update);
     }
     interface ActionEvent<T>{

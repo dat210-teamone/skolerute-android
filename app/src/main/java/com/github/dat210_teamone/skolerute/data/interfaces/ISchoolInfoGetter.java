@@ -5,6 +5,7 @@ import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 /**
  * Created by Nicolas on 24.10.2016.
+ * Part of project skolerute-android
  */
 
 public interface ISchoolInfoGetter {

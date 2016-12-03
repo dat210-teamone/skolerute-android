@@ -43,6 +43,7 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/alarm_off"
             android:layout_marginRight="1dp"
+            android:contentDescription="Notifikasjon av"
             />
 
         <ImageView
@@ -51,6 +52,7 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_more_vert_black_24dp"
             android:layout_marginRight="1dp"
+            android:contentDescription="Lagrede skoler meny"
              />
 
     </LinearLayout>

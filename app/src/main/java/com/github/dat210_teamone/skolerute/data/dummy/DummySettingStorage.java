@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 /**
  * Created by espen on 21.09.16.
+ * Part of project skolerute-android
  */
 
 public class DummySettingStorage implements ISettingStorage {

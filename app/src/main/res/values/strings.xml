@@ -5,7 +5,7 @@
     <string name="title_activity_add_school">AddSchoolActivity</string>
     <string name="alle_skoler">Alle skoler</string>
     <string name="listevisning">Listevisning</string>
-    <string name="NotiTitle">En skole har fri...</string>
+    <string name="NotiTitle">En skole har fri.</string>
     <string name="NotiComment">trykk for å se mer.</string>
     <string name="alarm_paa">Alarmvarsling på</string>
     <string name="alarm_av">Alarmvarsling av</string>
