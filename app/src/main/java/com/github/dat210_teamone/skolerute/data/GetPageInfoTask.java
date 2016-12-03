@@ -8,6 +8,7 @@ import java.net.URL;
 
 /**
  * Created by Nicolas on 03.10.2016.
+ * Part of project skolerute-android
  */
 
 public class GetPageInfoTask extends AsyncTask<URL, Void, byte[]> {
@@ -19,11 +20,11 @@ public class GetPageInfoTask extends AsyncTask<URL, Void, byte[]> {
         URL mainUrl = params[0];
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-        InputStream input = null;
+        InputStream input;
         try {
             input = mainUrl.openStream();
 
-            int read = 0;
+            int read;
             byte[] bytes = new byte[1024];
             while ((read = input.read(bytes)) > 0){
                 stream.write(bytes, 0, read);

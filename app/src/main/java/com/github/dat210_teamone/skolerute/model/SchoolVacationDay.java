@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * Created by Nicolas on 14.09.2016.
+ * Part of project skolerute-android
  */
 public class SchoolVacationDay implements java.io.Serializable {
     private static final long serialVersionUID = -1407129006141936767L;

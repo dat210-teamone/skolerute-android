@@ -17,6 +17,7 @@ import java.util.Date;
 
 /**
  * Created by Fredrik Wigsnes on 17.10.2016.
+ * Part of project skolerute-android
  */
 
 public class NotificationReceiver extends BroadcastReceiver {
@@ -26,7 +27,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        InterfaceManager.SetMainContext(context);
+        InterfaceManager.setMainContext(context);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

@@ -11,6 +11,7 @@ import java.util.Date;
 
 /**
  * Created by Nicolas on 03.10.2016.
+ * Part of project skolerute-android
  */
 
 public class OneUtilsTest {
@@ -50,7 +51,7 @@ public class OneUtilsTest {
     }
 
     @Test
-    public void sameDay_samedate() throws Exception{
+    public void sameDay_sameDate() throws Exception{
         Date a = new Date();
         Assert.assertTrue("Date is the same day", OneUtils.sameDay(a, a));
     }

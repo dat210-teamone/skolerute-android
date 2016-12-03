@@ -15,6 +15,7 @@ import java.util.TimeZone;
 
 /**
  * Created by espen on 10.10.16.
+ * Part of project skolerute-android
  */
 
 public class UpdateService extends IntentService {
@@ -33,7 +34,7 @@ public class UpdateService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        InterfaceManager.SetMainContext(this);
+        InterfaceManager.setMainContext(this);
         Calendar calendar = Calendar.getInstance();
         Log.d("UpdateService", "About to execute UpdateTask at: " + calendar.getTime());
         new UpdateTask().doInBackground();

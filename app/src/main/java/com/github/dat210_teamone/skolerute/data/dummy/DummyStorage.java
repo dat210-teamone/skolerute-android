@@ -10,7 +10,9 @@ import java.util.Date;
 
 /**
  * Created by espen on 19.09.16.
+ * Part of project skolerute-android
  */
+@SuppressWarnings("Convert2streamapi")
 public class DummyStorage implements IStorage {
     private final ArrayList<SchoolInfo> schoolInfo;
     private final ArrayList<SchoolVacationDay> schoolVacationDay;
@@ -63,7 +65,7 @@ public class DummyStorage implements IStorage {
 
     @Override
     public SchoolInfo[] getSchoolInfo(Predicate<SchoolInfo> func) {
-        ArrayList<SchoolInfo> filter = new ArrayList<SchoolInfo>();
+        ArrayList<SchoolInfo> filter = new ArrayList<>();
         for (SchoolInfo obj : schoolInfo)
         {
             if (func.apply(obj)) {
@@ -80,7 +82,7 @@ public class DummyStorage implements IStorage {
 
     @Override
     public SchoolVacationDay[] getVacationDays(Predicate<SchoolVacationDay> func) {
-        ArrayList<SchoolVacationDay> filter = new ArrayList<SchoolVacationDay>();
+        ArrayList<SchoolVacationDay> filter = new ArrayList<>();
         for (SchoolVacationDay obj : schoolVacationDay)
         {
             if (func.apply(obj)) {

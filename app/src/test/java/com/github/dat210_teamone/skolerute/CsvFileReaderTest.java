@@ -2,6 +2,7 @@ package com.github.dat210_teamone.skolerute;
 
 /**
  * Created by espen on 21.09.16.
+ * Part of project skolerute-android
  */
 
 /*public class CsvFileReaderTest {

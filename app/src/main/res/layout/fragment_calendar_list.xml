@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.github.dat210_teamone.skolerute.Fragments.CalendarList"
-    android:weightSum="1">
+    android:weightSum="1"
+    tools:targetApi="lollipop">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +17,7 @@
             android:id="@+id/calendar_list_title"
             android:text="@string/calendar_list_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_gravity="center_horizontal|center_vertical"
             android:layout_marginTop="4dp"
@@ -26,7 +27,7 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:id="@+id/calendar_list"
         android:layout_weight="1"
         android:layout_gravity="center_horizontal"
@@ -49,7 +50,11 @@
             android:backgroundTint="@color/colorSchoolClosedIcon"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:contentDescription="@string/closed_school_info"
+            />
 
         <TextView
             android:id="@+id/school_closed_text"
@@ -59,7 +64,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"/>
 
         <ImageView
             android:id="@+id/sfo_closed_info"
@@ -69,7 +75,9 @@
             android:backgroundTint="@color/colorSfoClosedIcon"
             android:layout_gravity="center_vertical|center_horizontal"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:contentDescription="@string/sfo_school_closed_info"
+            />
 
         <TextView
             android:id="@+id/sfo_closed_text"
@@ -79,7 +87,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"/>
 
     </LinearLayout>
 

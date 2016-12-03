@@ -1,5 +1,6 @@
 package com.github.dat210_teamone.skolerute.data;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -14,9 +15,11 @@ import java.util.HashSet;
 
 /**
  * Created by Fredrik Wigsnes on 05.10.2016.
+ * Part of project skolerute-android
  */
 
 public class NotificationUtil implements INotificationUpdate {
+    @SuppressLint("StaticFieldLeak")
     private static NotificationUtil defaultManager;
 
     private final Context con;
@@ -95,6 +98,7 @@ public class NotificationUtil implements INotificationUpdate {
             if (!hs.contains(svd.getDate())) {
                 pi = PendingIntent.getBroadcast(con, (int)svd.getDate().getTime(), i, PendingIntent.FLAG_CANCEL_CURRENT);
                 am.cancel(pi);
+                hs.add(svd.getDate());
             }
         }
     }

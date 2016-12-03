@@ -18,8 +18,10 @@ import java.util.regex.Pattern;
 
 /**
  * Created by Nicolas on 21.09.2016.
+ * Part of project skolerute-android
  */
 
+@SuppressWarnings({"Convert2streamapi", "unused"})
 public class SchoolManager {
     private static SchoolManager defaultManager;
     private final IStorage storage;
@@ -104,8 +106,8 @@ public class SchoolManager {
 
     private SchoolVacationDay[] getNextVacationDays(String[] names, boolean includeToday){
         ArrayList<SchoolVacationDay> filter = new ArrayList<>();
-        for(int i = 0; i < names.length; i++){
-            filter.addAll(OneUtils.toArrayList(getNextVacationDays(names[i], includeToday)));
+        for (String name : names) {
+            filter.addAll(OneUtils.toArrayList(getNextVacationDays(name, includeToday)));
         }
         SchoolVacationDay[] days = filter.toArray(new SchoolVacationDay[filter.size()]);
         Arrays.sort(days, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
@@ -145,7 +147,7 @@ public class SchoolManager {
         return allDays.toArray(new SchoolInfo[allDays.size()]);
     }
 
-    public SchoolVacationDay[] getSchoolVecationInfo()
+    public SchoolVacationDay[] getSchoolVacationInfo()
     {
         return storage.getVacationDays();
     }
@@ -224,6 +226,7 @@ public class SchoolManager {
         runEvent(allUpdates, n -> n.postNotify(INotificationUpdate.UpdateType.ADD, school, true));
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public boolean removeNotifySchool(String school){
         runEvent(allUpdates, n -> n.preNotify(INotificationUpdate.UpdateType.REMOVE, school));
         boolean result = settings.deleteNotifySchool(school);
@@ -250,7 +253,7 @@ public class SchoolManager {
         allUpdates.add(update);
     }
 
-    public void unsubscribe(INotificationUpdate update){
+    public void unSubscribe(INotificationUpdate update){
         allUpdates.remove(update);
     }
     interface ActionEvent<T>{

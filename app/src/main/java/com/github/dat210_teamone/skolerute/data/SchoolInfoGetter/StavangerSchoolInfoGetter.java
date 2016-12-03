@@ -15,12 +15,10 @@ import java.util.Locale;
 
 /**
  * Created by Nicolas on 24.10.2016.
+ * Part of project skolerute-android
  */
 
 public class StavangerSchoolInfoGetter implements ISchoolInfoGetter {
-
-    private final String schoolInfoURL = "http://open.stavanger.kommune.no/dataset/skoler-stavanger";
-    private final String schoolVacationURL = "http://open.stavanger.kommune.no/dataset/skolerute-stavanger";
 
     @Override
     public boolean IsUpToDate() {
@@ -29,6 +27,7 @@ public class StavangerSchoolInfoGetter implements ISchoolInfoGetter {
 
     @Override
     public SchoolInfo[] getAllSchoolInfo() {
+        String schoolInfoURL = "http://open.stavanger.kommune.no/dataset/skoler-stavanger";
         PageInfo info = OpenStavangerUtils.getInfo(schoolInfoURL);
         ArrayList<SchoolInfo> allInfos = readSchoolInfoCsv(OpenStavangerUtils.getFileReader(info.getCsvURL()));
 
@@ -37,6 +36,7 @@ public class StavangerSchoolInfoGetter implements ISchoolInfoGetter {
 
     @Override
     public SchoolVacationDay[] getAllSchoolVacationDays() {
+        String schoolVacationURL = "http://open.stavanger.kommune.no/dataset/skolerute-stavanger";
         PageInfo info = OpenStavangerUtils.getInfo(schoolVacationURL);
         ArrayList<SchoolVacationDay> allInfos = readSchoolVacationDayCsv(OpenStavangerUtils.getFileReader(info.getCsvURL()));
 
@@ -49,22 +49,22 @@ public class StavangerSchoolInfoGetter implements ISchoolInfoGetter {
         try {
             reader.readLine();
             while ((line = reader.readLine()) != null) {
-                String[] attribs = line.split(",");
+                String[] values = line.split(",");
                 SchoolInfo tmpInfo = new SchoolInfo();
-                tmpInfo.setNorth(Double.parseDouble(attribs[0]));
-                tmpInfo.setEast(Double.parseDouble((attribs[1])));
-                tmpInfo.setLatitude(Double.parseDouble(attribs[2]));
-                tmpInfo.setLongitude(Double.parseDouble(attribs[3]));
-                tmpInfo.setId(Integer.parseInt(attribs[4]));
-                tmpInfo.setObjectType(attribs[5]);
-                tmpInfo.setKomm(Integer.parseInt(attribs[6]));
-                tmpInfo.setByggTyp_NBR(Integer.parseInt(attribs[7]));
-                tmpInfo.setInformation(attribs[8]);
-                tmpInfo.setSchoolName(attribs[9].trim());
-                tmpInfo.setAddress(attribs[10]);
-                tmpInfo.setHomePage(attribs[11]);
-                tmpInfo.setSudents(attribs[12]);
-                tmpInfo.setCapacity(attribs[13]);
+                tmpInfo.setNorth(Double.parseDouble(values[0]));
+                tmpInfo.setEast(Double.parseDouble((values[1])));
+                tmpInfo.setLatitude(Double.parseDouble(values[2]));
+                tmpInfo.setLongitude(Double.parseDouble(values[3]));
+                tmpInfo.setId(Integer.parseInt(values[4]));
+                tmpInfo.setObjectType(values[5]);
+                tmpInfo.setKomm(Integer.parseInt(values[6]));
+                tmpInfo.setByggTyp_NBR(Integer.parseInt(values[7]));
+                tmpInfo.setInformation(values[8]);
+                tmpInfo.setSchoolName(values[9].trim());
+                tmpInfo.setAddress(values[10]);
+                tmpInfo.setHomePage(values[11]);
+                tmpInfo.setSudents(values[12]);
+                tmpInfo.setCapacity(values[13]);
                 if (loadedSchools.length == 0 || OneUtils.Contains(loadedSchools, (a) -> a.toUpperCase().equals(tmpInfo.getSchoolName().toUpperCase()))) {
                     schoolInfos.add(tmpInfo);
                 }
@@ -90,16 +90,16 @@ public class StavangerSchoolInfoGetter implements ISchoolInfoGetter {
                 if(line.equals(""))
                     break;
 
-                String[] attrib = line.split(",");
+                String[] values = line.split(",");
                 SchoolVacationDay tmpVacationDay = new SchoolVacationDay();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                tmpVacationDay.setDate(formatter.parse(attrib[0]));
-                tmpVacationDay.setName(attrib[1].trim());
-                tmpVacationDay.setStudentDay(attrib[2].trim().toUpperCase().equals("JA"));
-                tmpVacationDay.setTeacherDay(attrib[3].trim().toUpperCase().equals("JA"));
-                tmpVacationDay.setSfoDay(attrib[4].trim().toUpperCase().equals("JA"));
-                if(attrib.length > 5) {
-                    tmpVacationDay.setComment(attrib[5]);
+                tmpVacationDay.setDate(formatter.parse(values[0]));
+                tmpVacationDay.setName(values[1].trim());
+                tmpVacationDay.setStudentDay(values[2].trim().toUpperCase().equals("JA"));
+                tmpVacationDay.setTeacherDay(values[3].trim().toUpperCase().equals("JA"));
+                tmpVacationDay.setSfoDay(values[4].trim().toUpperCase().equals("JA"));
+                if(values.length > 5) {
+                    tmpVacationDay.setComment(values[5]);
                 } else {
                     tmpVacationDay.setComment("");
                 }

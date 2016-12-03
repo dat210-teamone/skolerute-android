@@ -16,8 +16,10 @@ import java.util.ArrayList;
 
 /**
  * Created by Nicolas on 24.10.2016.
+ * Part of project skolerute-android
  */
 
+@SuppressWarnings("Convert2streamapi")
 public class SchoolStorage implements IStorage {
     private ArrayList<SchoolInfo> schoolInfos = new ArrayList<>();
     private ArrayList<SchoolVacationDay> schoolVacationDays = new ArrayList<>();
@@ -81,15 +83,15 @@ public class SchoolStorage implements IStorage {
     }
 
     private void loadSchoolInfo(){
-        for(int i = 0; i < schoolInfoGetters.length; i++){
-            schoolInfos.addAll(OneUtils.toArrayList(schoolInfoGetters[i].getAllSchoolInfo()));
+        for (ISchoolInfoGetter schoolInfoGetter : schoolInfoGetters) {
+            schoolInfos.addAll(OneUtils.toArrayList(schoolInfoGetter.getAllSchoolInfo()));
         }
         serializeSchoolObjects(SerializeType.SCHOOL_INFO);
     }
 
     private void loadSchoolVacationDays(){
-        for(int i = 0; i < schoolInfoGetters.length; i++){
-            schoolVacationDays.addAll(OneUtils.toArrayList(schoolInfoGetters[i].getAllSchoolVacationDays()));
+        for (ISchoolInfoGetter schoolInfoGetter : schoolInfoGetters) {
+            schoolVacationDays.addAll(OneUtils.toArrayList(schoolInfoGetter.getAllSchoolVacationDays()));
         }
         serializeSchoolObjects(SerializeType.VACATION_DAYS);
     }
@@ -140,7 +142,7 @@ public class SchoolStorage implements IStorage {
 
     @Override
     public SchoolVacationDay[] getVacationDays() {
-        return schoolInfos.toArray(new SchoolVacationDay[schoolVacationDays.size()]);
+        return schoolVacationDays.toArray(new SchoolVacationDay[schoolVacationDays.size()]);
     }
 
     @Override

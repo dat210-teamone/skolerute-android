@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 
 public class CalendarViewer extends LinearLayout {
 
@@ -103,70 +104,57 @@ public class CalendarViewer extends LinearLayout {
 
     private void assignClickHandlers() {
 
-        btnNext.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentDate.add(Calendar.MONTH, 1);
-                updateCalendar(events);
-            }
+        btnNext.setOnClickListener(v -> {
+            currentDate.add(Calendar.MONTH, 1);
+            updateCalendar(events);
         });
 
-        btnPrev.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentDate.add(Calendar.MONTH, -1);
-                updateCalendar(events);
-            }
+        btnPrev.setOnClickListener(v -> {
+            currentDate.add(Calendar.MONTH, -1);
+            updateCalendar(events);
         });
 
-        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                if (position %  8 != 0) {
-                    int mover = position - (position / 8 + 1);
-                    eventHandler.onDayPress((Date) adapterView.getItemAtPosition(mover));
-                }
+        grid.setOnItemClickListener((adapterView, view, position, id) -> {
+            if (position %  8 != 0) {
+                int mover = position - (position / 8 + 1);
+                eventHandler.onDayPress((Date) adapterView.getItemAtPosition(mover));
             }
         });
     }
 
 
     private void assignScrollHandler(){
-        scroller.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
+        scroller.setOnTouchListener((v, event) -> {
 
-                //Log.d("GUI",Integer.toString(event.getAction()));
+            //Log.d("GUI",Integer.toString(event.getAction()));
 
-                if (baseEvent == null) {
-                    grid.setTranslationX(0);
-                    baseEvent = MotionEvent.obtain(event);//event;
-                    Log.d("BASEEVENT", "Setting Base event: "  + Float.toString(baseEvent.getX()) + ", " + Float.toString(baseEvent.getY()));
-                }
-                grid.setTranslationX(event.getX() - baseEvent.getX());
-                Log.d("BASEEVENT", "Current: "  + Float.toString(event.getX()) + ", " + Float.toString(event.getY()));
-                if (event.getAction() == 1 && baseEvent != null){
-                    grid.setTranslationX(0);
-                    Animation move = null;
-                    int monthShift = 0;
-                    if (baseEvent.getX() < event.getX()) {
-                        move = AnimationUtils.loadAnimation(getContext(), R.anim.move);
-                        monthShift = -1;
-                    } else {
-                        move = AnimationUtils.loadAnimation(getContext(), R.anim.moverev);
-                        monthShift = 1;
-                    }
-                    grid.startAnimation(move);
-                    currentDate.add(Calendar.MONTH, monthShift);
-                    updateCalendar(events);
-                    Log.d("BASEEVENT", "Un-setting baseEvent");
-                    baseEvent = null;
-                }
-
-                return false;
+            if (baseEvent == null) {
+                grid.setTranslationX(0);
+                baseEvent = MotionEvent.obtain(event);//event;
+                Log.d("BASEEVENT", "Setting Base event: "  + Float.toString(baseEvent.getX()) + ", " + Float.toString(baseEvent.getY()));
             }
-       });
+            grid.setTranslationX(event.getX() - baseEvent.getX());
+            Log.d("BASEEVENT", "Current: "  + Float.toString(event.getX()) + ", " + Float.toString(event.getY()));
+            if (event.getAction() == 1 && baseEvent != null){
+                grid.setTranslationX(0);
+                Animation move = null;
+                int monthShift = 0;
+                if (baseEvent.getX() < event.getX()) {
+                    move = AnimationUtils.loadAnimation(getContext(), R.anim.move);
+                    monthShift = -1;
+                } else {
+                    move = AnimationUtils.loadAnimation(getContext(), R.anim.moverev);
+                    monthShift = 1;
+                }
+                grid.startAnimation(move);
+                currentDate.add(Calendar.MONTH, monthShift);
+                updateCalendar(events);
+                Log.d("BASEEVENT", "Un-setting baseEvent");
+                baseEvent = null;
+            }
+
+            return false;
+        });
     }
 
     private void updateCalendar(){
@@ -199,12 +187,8 @@ public class CalendarViewer extends LinearLayout {
 
         grid.setAdapter(new CalendarAdapter(getContext(), cells, events));
 
-        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.getDefault());
         txtDate.setText(sdf.format(currentDate.getTime()));
-
-        int month = currentDate.get(Calendar.MONTH);
-
-
 
     }
 
@@ -235,17 +219,17 @@ public class CalendarViewer extends LinearLayout {
             return cal.get(Calendar.WEEK_OF_YEAR);
         }
 
-        private Calendar setTime(Calendar c, int hour_of_day, int minute, int secound, int millisecound){
+        @SuppressWarnings("SameParameterValue")
+        private Calendar setTime(Calendar c, int hour_of_day, int minute, int second, int millisecond){
             c.set(Calendar.HOUR_OF_DAY, hour_of_day);
             c.set(Calendar.MINUTE, minute);
-            c.set(Calendar.SECOND, secound);
-            c.set(Calendar.MILLISECOND, millisecound);
+            c.set(Calendar.SECOND, second);
+            c.set(Calendar.MILLISECOND, millisecond);
             return c;
         }
 
         private Calendar resetTimeToZero(Calendar c){
-            setTime(c, 0, 0, 0, 0);
-            return c;
+            return setTime(c, 0, 0, 0, 0);
         }
 
         private boolean isSameDate(Calendar a, Calendar b){
@@ -255,7 +239,8 @@ public class CalendarViewer extends LinearLayout {
         }
 
         @Override
-        public View getView(int position, View view, ViewGroup parent)
+        @NonNull
+        public View getView(int position, View view,@NonNull ViewGroup parent)
         {
             Calendar today = Calendar.getInstance();
 
@@ -263,7 +248,7 @@ public class CalendarViewer extends LinearLayout {
                 view = inflater.inflate(R.layout.control_calendar_day, parent, false);
             }
             view.setBackgroundResource(0);
-            String text = "";
+            String text;
             if (position % 8 == 0) {
                 text = Integer.toString(getWeekNumber(getItem(position)));
                 ((TextView) view).setTextColor(Color.LTGRAY);

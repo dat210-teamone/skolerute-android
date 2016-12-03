@@ -17,8 +17,10 @@ import java.util.HashMap;
 
 /**
  * Created by Nicolas on 24.10.2016.
+ * Part of project skolerute-android
  */
 
+@SuppressWarnings("unused")
 public class OpenStavangerUtils {
 
     private static final HashMap<String, PageInfo> infoCache = new HashMap<>();
