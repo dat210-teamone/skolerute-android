@@ -17,7 +17,6 @@ import java.io.File;
  */
 
 public final class InterfaceManager {
-    private static Activity mainActivity;
     private static Context context;
 
     private  InterfaceManager(){
@@ -25,7 +24,6 @@ public final class InterfaceManager {
     }
 
     public static void SetMainActivity(Activity activity){
-        mainActivity = activity;
         context = activity.getApplicationContext();
     }
 
@@ -53,6 +51,7 @@ public final class InterfaceManager {
         return new SettingManager(getContext().getSharedPreferences("data", 0));
     }
 
+    @Deprecated
     public static ICsvGetter getBufferGetter() {
         return new CsvReaderGetter();
     }

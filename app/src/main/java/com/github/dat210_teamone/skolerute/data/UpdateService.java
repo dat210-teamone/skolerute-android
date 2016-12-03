@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.OpenStavangerUtils;
+
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -53,9 +55,8 @@ public class UpdateService extends IntentService {
 
     public static void setUpUpdateService() {
         // TODO: Need to actually set initial update time somewhere, maybe not here
-        //TODO: Rewrite to either use OpenStavangerUtils or The Interface.getSchoolGetters
         if(InterfaceManager.getSettings().getLastUpdateTime().equals("")) {
-            String lastUpdated = CsvReaderGetter
+            String lastUpdated = OpenStavangerUtils
                     .getInfo("http://open.stavanger.kommune.no/dataset/skolerute-stavanger")
                     .getLastUpdated();
             Log.d("UpdateService", "Setting initial update date: " + lastUpdated);
