@@ -18,11 +18,11 @@ import java.util.TimeZone;
  */
 
 public class UpdateService extends IntentService {
-    private String schools[] = new String[]{
+    private final String[] schools = new String[]{
             "http://open.stavanger.kommune.no/dataset/schools-stavanger",
             "http://open.stavanger.kommune.no/dataset/schools-i-gjesdal-kommune"
     };
-    private String routes[] = new String[]{
+    private final String[] routes = new String[]{
             "http://open.stavanger.kommune.no/dataset/skolerute-stavanger",
             "http://open.stavanger.kommune.no/dataset/skoleruten-for-gjesdal-kommune",
     };

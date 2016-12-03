@@ -2,7 +2,7 @@
     <string name="app_name">Skoleruter</string>
     <string name="finn_n_rmeste_skole">Finn nærmeste Skole</string>
     <string name="knapp_finn_nermeste">Finn nærmeste skole</string>
-    <string name="title_activity_add_school">AddSchoolActivit</string>
+    <string name="title_activity_add_school">AddSchoolActivity</string>
     <string name="alle_skoler">Alle skoler</string>
     <string name="listevisning">Listevisning</string>
     <string name="NotiTitle">En skole har fri...</string>

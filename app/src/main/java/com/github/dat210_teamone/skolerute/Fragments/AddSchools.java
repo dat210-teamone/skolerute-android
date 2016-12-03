@@ -23,7 +23,6 @@ import com.github.dat210_teamone.skolerute.adapters.AddSchoolsAdapter;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,15 +42,9 @@ public class AddSchools extends Fragment {
 
 
 
-    private OnAddSchoolsInteractionListener mListener;
 
     public AddSchools() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -85,7 +78,7 @@ public class AddSchools extends Fragment {
         return view;
     }
 
-    public void setupFinishedListener(LinearLayout object) {
+    private void setupFinishedListener(LinearLayout object) {
         object.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +92,7 @@ public class AddSchools extends Fragment {
         });
     }
 
-    public SearchView setupSearchView(View view){
+    private SearchView setupSearchView(View view){
 
         SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
         //text Settings
@@ -117,7 +110,7 @@ public class AddSchools extends Fragment {
         return searchView;
     }
 
-    public void setupSearchListeners(View view, SearchView searchView, MainActivity mainActivity, AddSchoolsAdapter itemsAdapter){
+    private void setupSearchListeners(View view, SearchView searchView, MainActivity mainActivity, AddSchoolsAdapter itemsAdapter){
 
         int searchTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         EditText searchText = (EditText) searchView.findViewById(searchTextId);
@@ -154,8 +147,9 @@ public class AddSchools extends Fragment {
         });
     }
 
-    public void doSearch(String query, MainActivity mainActivity, AddSchoolsAdapter itemsAdapter) {
+    private void doSearch(String query, MainActivity mainActivity, AddSchoolsAdapter itemsAdapter) {
         List<SchoolInfo> searchResult = mainActivity.schoolManager.getMatchingSchools(query);
+
 
         String[] searchSchoolName = new String[searchResult.size()];
         for(int i=0; i<searchResult.size();i++){
@@ -164,7 +158,7 @@ public class AddSchools extends Fragment {
         itemsAdapter.setSchoolsToView(searchSchoolName);
     }
 
-    public void setupCloseKeyboardOnTouch(View view) {
+    private void setupCloseKeyboardOnTouch(View view) {
         MainActivity mainActivity = (MainActivity)getActivity();
 
         if(!(view instanceof EditText)) {   //SearchView instanceOf EditText
@@ -194,15 +188,10 @@ public class AddSchools extends Fragment {
     }
 
     @Override
-    public void onPause(){
-        super.onPause();
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnAddSchoolsInteractionListener) {
-            mListener = (OnAddSchoolsInteractionListener) context;
+            //mListener = (OnAddSchoolsInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -212,7 +201,7 @@ public class AddSchools extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        //mListener = null;
     }
 
     /**

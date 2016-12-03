@@ -4,7 +4,7 @@ package com.github.dat210_teamone.skolerute;
  * Created by Fredrik Wigsnes on 26.09.2016.
  */
 
-public class CsvUrlGetterTest {
+class CsvUrlGetterTest {
 
     /*@Test
     public void TestGetFileReader() {

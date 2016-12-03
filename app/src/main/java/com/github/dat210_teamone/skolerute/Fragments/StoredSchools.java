@@ -46,11 +46,6 @@ public class StoredSchools extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -78,20 +73,20 @@ public class StoredSchools extends Fragment {
         return view;
     }
 
-    public void setupContainer(View view, MainActivity mainActivity) {
+    private void setupContainer(View view, MainActivity mainActivity) {
         storedSchoolsListContainer = (LinearLayout) view.findViewById(R.id.stored_schools_list_container);
         listParamaters = (LinearLayout.LayoutParams)storedSchoolsListContainer.getLayoutParams();
         containerHeight = getContainerHeight();
         setContainerHeight(containerHeight);
     }
 
-    public void setContainerHeight(int newHeight) {
+    private void setContainerHeight(int newHeight) {
         listParamaters.height = newHeight;
         storedSchoolsListContainer.setLayoutParams(listParamaters);
     }
 
 
-    public void setupExpandButton(View view, MainActivity mainActivity) {
+    private void setupExpandButton(View view, MainActivity mainActivity) {
         ImageView expandContainerButton = (ImageView) view.findViewById(R.id.stored_schools_expand);
         expandContainerButton.setTag(EXPANDED);
         expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
@@ -111,7 +106,7 @@ public class StoredSchools extends Fragment {
         });
     }
 
-    public int getContainerHeight() {
+    private int getContainerHeight() {
         int schoolNameHeight = (int)mainActivity.getResources().getDimension(R.dimen.school_name_height);
         int numberOfSchools = mainActivity.schoolManager.getSelectedSchools().length;
         if (numberOfSchools > 3) {

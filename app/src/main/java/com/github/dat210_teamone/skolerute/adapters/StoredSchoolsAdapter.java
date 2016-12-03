@@ -156,7 +156,12 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
 
                             TextView message = new TextView(getContext());
                             SpannableStringBuilder infoMessage = new SpannableStringBuilder();
-                            infoMessage.append("\n      " + info.getAddress() + "\n\n      " + info.getHomePage());
+
+                            infoMessage.append("\n      ");
+                            infoMessage.append(info.getAddress());
+                            infoMessage.append("\n\n      ");
+                            infoMessage.append(info.getHomePage());
+
                             Linkify.addLinks(infoMessage, Linkify.WEB_URLS);
                             message.setText(infoMessage);
                             message.setMovementMethod(LinkMovementMethod.getInstance());

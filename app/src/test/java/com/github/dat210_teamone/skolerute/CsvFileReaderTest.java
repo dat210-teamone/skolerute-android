@@ -4,8 +4,8 @@ package com.github.dat210_teamone.skolerute;
  * Created by espen on 21.09.16.
  */
 
-public class CsvFileReaderTest {
-   /* private CsvFileReader csvFileReader;// = new CsvFileReader();
+/*public class CsvFileReaderTest {
+    private CsvFileReader csvFileReader;// = new CsvFileReader();
 
     public CsvFileReaderTest(){
         csvFileReader = new CsvFileReader(new DummyCsvReaderGetter());
@@ -22,5 +22,5 @@ public class CsvFileReaderTest {
     public void TestVacationDaysFilter() {
         SchoolVacationDay[] infos = csvFileReader.getVacationDays((test) -> test.getName().equals("Auglend skole"));
         Assert.assertEquals(10, infos.length);
-    }*/
-}
+    }
+}*/

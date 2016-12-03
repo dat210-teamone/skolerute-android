@@ -12,8 +12,8 @@ import java.util.Date;
  * Created by espen on 19.09.16.
  */
 public class DummyStorage implements IStorage {
-    private ArrayList<SchoolInfo> schoolInfo;
-    private ArrayList<SchoolVacationDay> schoolVacationDay;
+    private final ArrayList<SchoolInfo> schoolInfo;
+    private final ArrayList<SchoolVacationDay> schoolVacationDay;
 
     public DummyStorage() {
         schoolInfo = new ArrayList<>();

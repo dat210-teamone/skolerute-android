@@ -17,7 +17,7 @@ import com.github.dat210_teamone.skolerute.data.OneUtils;
 import com.github.dat210_teamone.skolerute.data.SchoolManager;
 
 /**
- * Created by Alex on 289//16.
+ * Created by Alex on 28/9/16.
  */
 
 public class AddSchoolsAdapter extends ArrayAdapter<String> {
@@ -25,7 +25,7 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
     private final Context context;
     private String[] values;
     private String[] valuesToDisplay;
-    public AddSchools parentFragment;
+    private final AddSchools parentFragment;
 
     public AddSchoolsAdapter(Context context, String[] values, AddSchools fragment) {
         super(context, -1, OneUtils.toArrayList(values));
@@ -83,7 +83,7 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
     }
 
 
-    public void setupAddListener(View object, Button addSchool, AddSchoolObject addSchoolObject, int position) {
+    private void setupAddListener(View object, Button addSchool, AddSchoolObject addSchoolObject, int position) {
         object.setOnClickListener((View v) -> {
             int colorRemove = ContextCompat.getColor(getContext(), R.color.colorClickableSecondary);
             int colorSave = ContextCompat.getColor(getContext(), R.color.colorClickable);

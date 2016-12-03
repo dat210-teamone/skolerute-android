@@ -19,8 +19,8 @@ import java.util.HashSet;
 public class NotificationUtil implements INotificationUpdate {
     private static NotificationUtil defaultManager;
 
-    private Context con;
-    private SchoolManager SM;
+    private final Context con;
+    private final SchoolManager SM;
 
     private NotificationUtil(Context con, SchoolManager sm) {
         this.con = con;
@@ -55,7 +55,7 @@ public class NotificationUtil implements INotificationUpdate {
     }
 
     //This will run when you turn on all notifications
-    public void createNotification() {
+    private void createNotification() {
         if (!SM.getGlobalNotification()) {
             return;
         }
@@ -69,7 +69,7 @@ public class NotificationUtil implements INotificationUpdate {
     }
 
     //Get a schoolVacationDay and create a Alarmnotification for it.
-    public void createNotification(SchoolVacationDay SVD) {
+    private void createNotification(SchoolVacationDay SVD) {
         Calendar calendar = Calendar.getInstance();
         //calendar.add(Calendar.MINUTE, 2);
         calendar.setTime(SVD.getDate());
@@ -86,7 +86,7 @@ public class NotificationUtil implements INotificationUpdate {
     }
 
     //This will run when you turn off all notifications.
-    public void removeAllNotifications() {
+    private void removeAllNotifications() {
         HashSet<Date> hs = new HashSet<>();
         AlarmManager am = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(con, NotificationReceiver.class);

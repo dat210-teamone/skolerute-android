@@ -9,10 +9,10 @@ import java.util.ArrayList;
  */
 
 public class DummySettingStorage implements ISettingStorage {
-    private ArrayList<String> selectedSchools;
+    private final ArrayList<String> selectedSchools;
     private String lastUpdate;
 
-    public DummySettingStorage() {
+    private DummySettingStorage() {
         selectedSchools = new ArrayList<>();
     }
 
@@ -23,7 +23,7 @@ public class DummySettingStorage implements ISettingStorage {
             initTestData();
     }
 
-    public DummySettingStorage initTestData(){
+    private DummySettingStorage initTestData(){
         selectedSchools.clear();
         selectedSchools.add("Skole 2");
         selectedSchools.add("Skole 6");

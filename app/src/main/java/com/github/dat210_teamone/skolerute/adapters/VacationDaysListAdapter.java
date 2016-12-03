@@ -22,7 +22,7 @@ public class VacationDaysListAdapter extends ArrayAdapter<SchoolVacationDay> {
 
 
     private final Context context;
-    private SchoolVacationDay[] schoolVacationDays; // Not in use yet
+    private final SchoolVacationDay[] schoolVacationDays; // Not in use yet
 
     public VacationDaysListAdapter(Context context, SchoolVacationDay[] schoolVacationDays) {
         super(context, -1, schoolVacationDays);
@@ -40,10 +40,10 @@ public class VacationDaysListAdapter extends ArrayAdapter<SchoolVacationDay> {
 
     public class VacationDayObject {
 
-        private Boolean schoolOpen;
-        private Boolean sfoOpen;
-        private Date vacationDate;
-        private String schoolName;
+        private final Boolean schoolOpen;
+        private final Boolean sfoOpen;
+        private final Date vacationDate;
+        private final String schoolName;
 
         VacationDayObject(SchoolVacationDay day) {
             this.schoolOpen = day.isStudentDay();

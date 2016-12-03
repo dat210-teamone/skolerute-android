@@ -12,13 +12,13 @@ import java.util.Set;
  */
 
 public class SettingManager implements ISettingStorage {
-    SharedPreferences preferences;
+    private final SharedPreferences preferences;
     private static final String SELECTEDSCHOOLS = "SelectedSchools";
     private static final String LASTUPDATEDATE = "LastUpdateDate";
     private static final String NOTIFYSCHOOLS = "NotifySchools";
     private static final String NOTIFYENABLED = "NotifyEnabled";
 
-    private Set<String> defaults = new HashSet<>();
+    private final Set<String> defaults = new HashSet<>();
 
 
     public SettingManager(SharedPreferences preferences){

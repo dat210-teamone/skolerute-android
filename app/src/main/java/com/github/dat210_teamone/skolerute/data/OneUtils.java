@@ -1,16 +1,14 @@
 package com.github.dat210_teamone.skolerute.data;
 
-import android.location.Location;
-
 import com.android.internal.util.Predicate;
 import com.github.dat210_teamone.skolerute.R;
-import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -57,13 +55,6 @@ public final class OneUtils {
         }
     }
 
-    public static Location getLocationFromSchool(SchoolInfo info){
-        Location location = new Location("SchoolInfo model");
-        location.setLatitude(info.getLatitude());
-        location.setLongitude(info.getLongitude());
-        return location;
-    }
-
     public static boolean isNumber(String s){
 
         for (int i = 0; i < s.length(); i++)
@@ -76,11 +67,7 @@ public final class OneUtils {
 
     public static <T> ArrayList<T> toArrayList(T[] items)
     {
-        ArrayList<T> returnItems = new ArrayList<T>();
-        for (int i = 0; i < items.length; i++){
-            returnItems.add(items[i]);
-        }
-        return returnItems;
+        return new ArrayList<T>(Arrays.asList(items));
     }
 
     public static String dateFormatter(Date date){
@@ -117,9 +104,7 @@ public final class OneUtils {
                 dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Sun);
         }
 
-        String displayDate = dayOfWeekFinal + " - " + dateInMonth + ". " + months[month-1] + " " + year;
-
-        return displayDate;
+        return dayOfWeekFinal + " - " + dateInMonth + ". " + months[month-1] + " " + year;
     }
 
     public static <T> T firstOrNull(T[] array){

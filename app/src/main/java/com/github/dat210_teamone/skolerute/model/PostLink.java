@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * Created by Nicolas on 10.10.2016.
  */
 
+@SuppressWarnings("unused")
 public class PostLink {
     public double getLat() {
         return lat;
@@ -35,7 +36,7 @@ public class PostLink {
     private double lat;
     private double lng;
 
-    public PostLink(String postNumber, double lat, double lng) {
+    private PostLink(String postNumber, double lat, double lng) {
         this.postNumber = postNumber;
         this.lat = lat;
         this.lng = lng;
