@@ -259,10 +259,6 @@ public class CalendarViewer extends LinearLayout {
         @Override
         public View getView(int position, View view, ViewGroup parent)
         {
-
-
-
-
             Date today = new Date();
 
             if (view == null) {
