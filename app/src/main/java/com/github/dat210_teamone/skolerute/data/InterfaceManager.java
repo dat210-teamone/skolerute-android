@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.GjesdalSchoolInfoGetter;
 import com.github.dat210_teamone.skolerute.data.SchoolInfoGetter.StavangerSchoolInfoGetter;
-import com.github.dat210_teamone.skolerute.data.interfaces.ICsvGetter;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISchoolInfoGetter;
 import com.github.dat210_teamone.skolerute.data.interfaces.ISettingStorage;
 import com.github.dat210_teamone.skolerute.data.interfaces.IStorage;
@@ -41,20 +40,18 @@ public final class InterfaceManager {
 
     public static IStorage getStorage() {
         //return new DummyStorage();
-        //return new CsvFileReader().initializeReader();
         return new SchoolStorage().initializeStorage();
     }
 
     public static ISettingStorage getSettings(){
         //return new DummySettingStorage(true);
-
         return new SettingManager(getContext().getSharedPreferences("data", 0));
     }
 
-    @Deprecated
+    /*@Deprecated
     public static ICsvGetter getBufferGetter() {
         return new CsvReaderGetter();
-    }
+    }*/
 
     public static ISchoolInfoGetter[] getSchoolGetters()
     {

@@ -84,25 +84,22 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
 
 
     public void setupAddListener(View object, Button addSchool, AddSchoolObject addSchoolObject, int position) {
-        object.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int colorRemove = ContextCompat.getColor(getContext(), R.color.colorClickableSecondary);
-                int colorSave = ContextCompat.getColor(getContext(), R.color.colorClickable);
-                if (!addSchoolObject.getAlreadyStored()) {
-                    SchoolManager.getDefault().addDefault(values[position]);
-                    addSchoolObject.setAlreadyStored(true);
-                    addSchool.setText(R.string.remove_school);
-                    addSchool.setBackgroundColor(colorRemove);
-                } else {
-                    SchoolManager.getDefault().removeDefault(values[position]);
-                    addSchoolObject.setAlreadyStored(false);
-                    addSchool.setText(R.string.store_school);
-                    addSchool.setBackgroundColor(colorSave);
-                }
-                Log.i("add school stuff", "id of view: " + object.getId() );
-                parentFragment.updateFinishedButton();
+        object.setOnClickListener((View v) -> {
+            int colorRemove = ContextCompat.getColor(getContext(), R.color.colorClickableSecondary);
+            int colorSave = ContextCompat.getColor(getContext(), R.color.colorClickable);
+            if (!addSchoolObject.getAlreadyStored()) {
+                SchoolManager.getDefault().addDefault(values[position]);
+                addSchoolObject.setAlreadyStored(true);
+                addSchool.setText(R.string.remove_school);
+                addSchool.setBackgroundColor(colorRemove);
+            } else {
+                SchoolManager.getDefault().removeDefault(values[position]);
+                addSchoolObject.setAlreadyStored(false);
+                addSchool.setText(R.string.store_school);
+                addSchool.setBackgroundColor(colorSave);
             }
+            Log.i("add school stuff", "id of view: " + object.getId() );
+            parentFragment.updateFinishedButton();
         });
     }
 

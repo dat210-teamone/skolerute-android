@@ -25,8 +25,6 @@ import java.util.Date;
  * Activities that contain this fragment must implement the
  * {@link StoredSchools.OnStoredSchoolsInteractionListener} interface
  * to handle interaction events.
- * Use the {@link StoredSchools#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class StoredSchools extends Fragment {
 
@@ -45,22 +43,6 @@ public class StoredSchools extends Fragment {
 
     public StoredSchools() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StoredSchools.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static StoredSchools newInstance(String param1, String param2) {
-        StoredSchools fragment = new StoredSchools();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -195,12 +177,6 @@ public class StoredSchools extends Fragment {
         });
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onStoredSchoolsInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {

@@ -1,9 +1,5 @@
 package com.github.dat210_teamone.skolerute;
 
-import com.github.dat210_teamone.skolerute.data.CsvReaderGetter;
-import junit.framework.Assert;
-import org.junit.Test;
-
 /**
  * Created by Fredrik Wigsnes on 26.09.2016.
  */

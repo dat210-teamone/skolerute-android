@@ -31,8 +31,6 @@ import java.util.List;
  * Activities that contain this fragment must implement the
  * {@link AddSchools.OnAddSchoolsInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AddSchools#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class AddSchools extends Fragment {
 
@@ -49,20 +47,6 @@ public class AddSchools extends Fragment {
 
     public AddSchools() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment AddSchools.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AddSchools newInstance(String param1, String param2) {
-        AddSchools fragment = new AddSchools();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
