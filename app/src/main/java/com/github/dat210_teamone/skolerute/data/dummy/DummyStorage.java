@@ -74,6 +74,11 @@ public class DummyStorage implements IStorage {
     }
 
     @Override
+    public void forceUpdate(){
+
+    }
+
+    @Override
     public SchoolVacationDay[] getVacationDays(Predicate<SchoolVacationDay> func) {
         ArrayList<SchoolVacationDay> filter = new ArrayList<SchoolVacationDay>();
         for (SchoolVacationDay obj : schoolVacationDay)

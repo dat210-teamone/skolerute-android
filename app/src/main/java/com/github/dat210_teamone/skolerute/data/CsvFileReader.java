@@ -208,6 +208,11 @@ public class CsvFileReader implements IStorage {
     }
 
     @Override
+    public void forceUpdate(){
+
+    }
+
+    @Override
     public SchoolVacationDay[] getVacationDays(Predicate<SchoolVacationDay> func) {
         ArrayList<SchoolVacationDay> filter = new ArrayList<>();
         for (SchoolVacationDay obj : vacationDays)

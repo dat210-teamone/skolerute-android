@@ -75,6 +75,11 @@ public class SchoolStorage implements IStorage {
         return this;
     }
 
+    @Override
+    public void forceUpdate(){
+        initializeStorage(false);
+    }
+
     private void loadSchoolInfo(){
         for(int i = 0; i < schoolInfoGetters.length; i++){
             schoolInfos.addAll(OneUtils.toArrayList(schoolInfoGetters[i].getAllSchoolInfo()));

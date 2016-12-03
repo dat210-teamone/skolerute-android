@@ -9,6 +9,7 @@ import com.github.dat210_teamone.skolerute.data.interfaces.INotificationUpdate;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 
 /**
@@ -58,7 +59,7 @@ public class NotificationUtil implements INotificationUpdate {
         if (!SM.getGlobalNotification()) {
             return;
         }
-        HashSet hs = new HashSet();
+        HashSet<Date> hs = new HashSet<>();
         for (SchoolVacationDay svd : SM.getNextVacationDays(SM.getNotifySchools())) {
             if (!hs.contains(svd.getDate())) {
                 hs.add(svd.getDate());
