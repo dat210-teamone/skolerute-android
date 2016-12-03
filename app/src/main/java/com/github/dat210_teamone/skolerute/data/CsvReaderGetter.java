@@ -18,6 +18,7 @@ import java.util.HashMap;
  * Created by Fredrik Wigsnes on 26.09.2016.
  */
 
+@Deprecated
 public class CsvReaderGetter implements ICsvGetter {
 
     public static void initData(){

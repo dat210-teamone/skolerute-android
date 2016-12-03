@@ -53,6 +53,7 @@ public class UpdateService extends IntentService {
 
     public static void setUpUpdateService() {
         // TODO: Need to actually set initial update time somewhere, maybe not here
+        //TODO: Rewrite to either use OpenStavangerUtils or The Interface.getSchoolGetters
         if(InterfaceManager.getSettings().getLastUpdateTime().equals("")) {
             String lastUpdated = CsvReaderGetter
                     .getInfo("http://open.stavanger.kommune.no/dataset/skolerute-stavanger")
