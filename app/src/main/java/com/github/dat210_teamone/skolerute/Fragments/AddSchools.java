@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -121,8 +122,10 @@ public class AddSchools extends Fragment {
         int editTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         TextView textView = (TextView) searchView.findViewById(editTextId);
         textView.setTextSize(getResources().getDimension(R.dimen.search_hint_size));
-        textView.setTextColor(getResources().getColor(R.color.colorGreyText));
-        textView.setHintTextColor(getResources().getColor(R.color.colorGreyText));
+
+        int color = ContextCompat.getColor(getContext(), R.color.colorGreyText);
+        textView.setTextColor(color);
+        textView.setHintTextColor(color);
 
         searchView.setIconifiedByDefault(false);
 
@@ -168,8 +171,7 @@ public class AddSchools extends Fragment {
     }
 
     public void doSearch(String query, MainActivity mainActivity, AddSchoolsAdapter itemsAdapter) {
-        List<SchoolInfo> searchResult = new ArrayList<>();
-        searchResult = mainActivity.schoolManager.getMatchingSchools(query);
+        List<SchoolInfo> searchResult = mainActivity.schoolManager.getMatchingSchools(query);
 
         String[] searchSchoolName = new String[searchResult.size()];
         for(int i=0; i<searchResult.size();i++){
@@ -196,19 +198,14 @@ public class AddSchools extends Fragment {
     }
 
     public void updateFinishedButton() {
+        int colorInactive = ContextCompat.getColor(getContext(), R.color.colorClickableSecondary);
+        int colorActive = ContextCompat.getColor(getContext(), R.color.colorClickable);
         if (SchoolManager.getDefault().getSelectedSchools().length < 1){
             finished.setTag(INACTIVE);
-            finished.setBackgroundColor(getResources().getColor(R.color.colorClickableSecondary));
+            finished.setBackgroundColor(colorInactive);
         } else {
             finished.setTag(ACTIVE);
-            finished.setBackgroundColor(getResources().getColor(R.color.colorClickable));
-        }
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onAddSchoolsInteraction(uri);
+            finished.setBackgroundColor(colorActive);
         }
     }
 

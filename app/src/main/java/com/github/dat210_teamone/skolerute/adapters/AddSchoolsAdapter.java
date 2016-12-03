@@ -1,6 +1,7 @@
 package com.github.dat210_teamone.skolerute.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,16 +87,18 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
         object.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int colorRemove = ContextCompat.getColor(getContext(), R.color.colorClickableSecondary);
+                int colorSave = ContextCompat.getColor(getContext(), R.color.colorClickable);
                 if (!addSchoolObject.getAlreadyStored()) {
                     SchoolManager.getDefault().addDefault(values[position]);
                     addSchoolObject.setAlreadyStored(true);
                     addSchool.setText(R.string.remove_school);
-                    addSchool.setBackgroundColor(context.getResources().getColor(R.color.colorClickableSecondary));
+                    addSchool.setBackgroundColor(colorRemove);
                 } else {
                     SchoolManager.getDefault().removeDefault(values[position]);
                     addSchoolObject.setAlreadyStored(false);
                     addSchool.setText(R.string.store_school);
-                    addSchool.setBackgroundColor(context.getResources().getColor(R.color.colorClickable));
+                    addSchool.setBackgroundColor(colorSave);
                 }
                 Log.i("add school stuff", "id of view: " + object.getId() );
                 parentFragment.updateFinishedButton();

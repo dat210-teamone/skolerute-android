@@ -30,8 +30,6 @@ import java.util.HashSet;
 
 public class CalendarViewer extends LinearLayout {
 
-    private static final String LOGTAG = "Calendar View";
-
     private static final int DAYS_COUNT = 48;
 
     private static final String DATE_FORMAT = "MMM yyyy";
@@ -42,14 +40,12 @@ public class CalendarViewer extends LinearLayout {
 
     private EventHandler eventHandler = null;
 
-    private LinearLayout header;
     private ImageView btnPrev;
     private ImageView btnNext;
     private TextView txtDate;
     private GridView grid;
     private HorizontalScrollView scroller;
     private HashSet<Date> events;
-    private int viewWidth;
     private MotionEvent baseEvent = null;
     private Date maxDate;
 
@@ -95,14 +91,12 @@ public class CalendarViewer extends LinearLayout {
     }
 
     private void assignUiElements() {
-        header = (LinearLayout)findViewById(R.id.calendar_header);
         btnPrev = (ImageView)findViewById(R.id.calendar_prev_button);
         btnNext = (ImageView)findViewById(R.id.calendar_next_button);
         txtDate = (TextView)findViewById(R.id.calendar_date_display);
         Object o = findViewById(R.id.scroll_view);
         scroller = (HorizontalScrollView) o;
         grid = (GridView)findViewById(R.id.calendar_grid);
-        viewWidth = scroller.getWidth();
 
     }
 
@@ -245,7 +239,8 @@ public class CalendarViewer extends LinearLayout {
                 Date date = getItem(position);
                 Calendar cal = Calendar.getInstance();
                 cal.setMinimalDaysInFirstWeek(4);
-                cal.set(date.getYear() + 1900, date.getMonth(), date.getDate());
+                cal.setTime(date);
+                //cal.set(date.getYear() + 1900, date.getMonth(), date.getDate());
 
                 text = Integer.toString(cal.get(Calendar.WEEK_OF_YEAR));
                 ((TextView) view).setTextColor(Color.LTGRAY);

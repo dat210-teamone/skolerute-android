@@ -18,7 +18,7 @@ import java.util.Date;
  * Created by Alex on 2410//16.
  */
 
-public class VacationDaysListAdapter extends ArrayAdapter {
+public class VacationDaysListAdapter extends ArrayAdapter<SchoolVacationDay> {
 
 
     private final Context context;
@@ -97,13 +97,4 @@ public class VacationDaysListAdapter extends ArrayAdapter {
         }
         return rowView;
     }
-
-    public void updateVacationDaysList(VacationDayObject[] vacationDayObjects) {
-        clear();
-        addAll(vacationDayObjects);
-        this.notifyDataSetChanged();
-    }
-
-
-
 }

@@ -173,7 +173,7 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
                         }
 
                         else if (item.getItemId() == R.id.itemRemoveSchool) {
-                            mainActivity.schoolManager.getDefault().removeDefault(values[position]);
+                            SchoolManager.getDefault().removeDefault(values[position]);
                             int lol = mainActivity.schoolManager.getSelectedSchools().length;
                             if (mainActivity.schoolManager.getSelectedSchools().length < 1) {
                                 mainActivity.goToAddSchools();

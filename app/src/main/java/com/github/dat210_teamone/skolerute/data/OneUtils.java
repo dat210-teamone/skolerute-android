@@ -96,25 +96,25 @@ public final class OneUtils {
         //InterfaceManager.getContext().getResources().getString(R.string.Mon);
         switch(dayOfWeekShort){
             case "Mon":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Mon);;
+                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Mon);
                 break;
             case "Tue":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Tue);;
+                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Tue);
                 break;
             case "Wed":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Wen);;
+                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Wen);
                 break;
             case "Thu":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Thu);;
+                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Thu);
                 break;
             case "Fri":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Fri);;
+                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Fri);
                 break;
             case "Sat":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Sat);;
+                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Sat);
                 break;
             case "Sun":
-                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Sun);;
+                dayOfWeekFinal = InterfaceManager.getContext().getResources().getString(R.string.Sun);
         }
 
         String displayDate = dayOfWeekFinal + " - " + dateInMonth + ". " + months[month-1] + " " + year;

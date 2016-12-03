@@ -58,7 +58,7 @@ public class DummyStorage implements IStorage {
 
     @Override
     public SchoolVacationDay[] getVacationDays() {
-        return (SchoolVacationDay[])schoolVacationDay.toArray(new SchoolVacationDay[schoolVacationDay.size()]);
+        return schoolVacationDay.toArray(new SchoolVacationDay[schoolVacationDay.size()]);
     }
 
     @Override
@@ -87,6 +87,6 @@ public class DummyStorage implements IStorage {
                 filter.add(obj);
             }
         }
-        return (SchoolVacationDay[])filter.toArray(new SchoolVacationDay[filter.size()]);
+        return filter.toArray(new SchoolVacationDay[filter.size()]);
     }
 }

@@ -87,7 +87,7 @@ public class NotificationUtil implements INotificationUpdate {
 
     //This will run when you turn off all notifications.
     public void removeAllNotifications() {
-        HashSet hs = new HashSet();
+        HashSet<Date> hs = new HashSet<>();
         AlarmManager am = (AlarmManager) con.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(con, NotificationReceiver.class);
         PendingIntent pi;

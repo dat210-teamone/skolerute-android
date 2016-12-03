@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
                 Location loc = manager.getLastKnownLocation(s);
                 if (loc == null)
-                    continue;;
+                    continue;
                 if (lastKnownLocation == null){
                     lastKnownLocation = loc;
                 }
@@ -303,11 +303,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         final View mainActivityRootView = findViewById(R.id.main_container);
         int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
 
-        if (heightDiff > dpToPx(mainActivityRootView.getContext(), 200)) {
-            return true;
-        } else{
-            return false;
-        }
+        return heightDiff > dpToPx(mainActivityRootView.getContext(), 200);
     }
 
     public void goToStoredSchools() {

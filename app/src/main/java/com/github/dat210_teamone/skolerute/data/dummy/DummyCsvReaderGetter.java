@@ -9,6 +9,7 @@ import java.io.StringReader;
  * Created by Nicolas on 26.09.2016.
  */
 
+@Deprecated
 public class DummyCsvReaderGetter implements ICsvGetter {
     String schoolTester;
     String schoolDayTester;
