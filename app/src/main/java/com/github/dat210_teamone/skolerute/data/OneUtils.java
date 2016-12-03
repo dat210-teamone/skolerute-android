@@ -67,7 +67,7 @@ public final class OneUtils {
 
     public static <T> ArrayList<T> toArrayList(T[] items)
     {
-        return new ArrayList<T>(Arrays.asList(items));
+        return new ArrayList<>(Arrays.asList(items));
     }
 
     public static String dateFormatter(Date date){

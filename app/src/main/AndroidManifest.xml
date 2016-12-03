@@ -27,8 +27,8 @@
 
 
         // START - Required for update service
-        <service android:name=".data.UpdateService"></service>
-        <receiver android:name=".data.UpdateReceiver"></receiver>
+        <service android:name=".data.UpdateService" />
+        <receiver android:name=".data.UpdateReceiver" />
         // END - Required for update service
 
 

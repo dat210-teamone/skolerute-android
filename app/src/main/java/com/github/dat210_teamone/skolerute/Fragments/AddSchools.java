@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -25,12 +24,6 @@ import com.github.dat210_teamone.skolerute.model.SchoolInfo;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AddSchools.OnAddSchoolsInteractionListener} interface
- * to handle interaction events.
- */
 public class AddSchools extends Fragment {
 
     private ListView schoolsList;
@@ -41,30 +34,26 @@ public class AddSchools extends Fragment {
     private final String ACTIVE = "active";
 
 
-
-
     public AddSchools() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_schools, container, false);
-        mainActivity = (MainActivity)getActivity();
+        mainActivity = (MainActivity) getActivity();
         // Generate list of all schools
-        for (int x = 0; x< mainActivity.allSchools.length; x++){
-            mainActivity.allSchoolNames[x]=mainActivity.allSchools[x].getSchoolName();
+        for (int i = 0; i < mainActivity.allSchools.length; i++) {
+            mainActivity.allSchoolNames[i] = mainActivity.allSchools[i].getSchoolName();
         }
 
         AddSchoolsAdapter itemsAdapter =
                 new AddSchoolsAdapter(mainActivity, mainActivity.allSchoolNames, AddSchools.this);
 
-        finished = (LinearLayout)view.findViewById(R.id.finished_container);
+        finished = (LinearLayout) view.findViewById(R.id.finished_container);
         setupFinishedListener(finished);
 
-        schoolsList = (ListView)view.findViewById(R.id.schoolsList);
+        schoolsList = (ListView) view.findViewById(R.id.schoolsList);
         schoolsList.setAdapter(itemsAdapter);
 
         //search box and its listeners
@@ -79,20 +68,17 @@ public class AddSchools extends Fragment {
     }
 
     private void setupFinishedListener(LinearLayout object) {
-        object.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (object.getTag() == ACTIVE) {
-                    mainActivity.goToStoredSchools();
-                } else {
-                    // No schools stored, display message
-                    Toast.makeText(mainActivity, getResources().getString(R.string.no_schools_stored), Toast.LENGTH_SHORT).show();
-                }
+        object.setOnClickListener(v -> {
+            if (object.getTag() == ACTIVE) {
+                mainActivity.goToStoredSchools();
+            } else {
+                // No schools stored, display message
+                Toast.makeText(mainActivity, getResources().getString(R.string.no_schools_stored), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private SearchView setupSearchView(View view){
+    private SearchView setupSearchView(View view) {
 
         SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
         //text Settings
@@ -110,7 +96,7 @@ public class AddSchools extends Fragment {
         return searchView;
     }
 
-    private void setupSearchListeners(View view, SearchView searchView, MainActivity mainActivity, AddSchoolsAdapter itemsAdapter){
+    private void setupSearchListeners(View view, SearchView searchView, MainActivity mainActivity, AddSchoolsAdapter itemsAdapter) {
 
         int searchTextId = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         EditText searchText = (EditText) searchView.findViewById(searchTextId);
@@ -118,12 +104,9 @@ public class AddSchools extends Fragment {
         int searchCloseId = searchView.getContext().getResources().getIdentifier("android:id/search_close_btn", null, null);
         ImageView searchCloseButton = (ImageView) searchView.findViewById(searchCloseId);
 
-        searchCloseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchText.setText("");
-                searchView.setQuery("", false);
-            }
+        searchCloseButton.setOnClickListener(v -> {
+            searchText.setText("");
+            searchView.setQuery("", false);
         });
 
 
@@ -134,13 +117,15 @@ public class AddSchools extends Fragment {
                 doSearch(submitText, mainActivity, itemsAdapter);
                 return true;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 TextView textTitle = (TextView) view.findViewById(R.id.textView);
-                if(newText.equals("")){
+                if (newText.equals("")) {
                     textTitle.setText(getString(R.string.add_schools_nearby_title));
-                } else{
-                    textTitle.setText(getString(R.string.add_schools_results_title));}
+                } else {
+                    textTitle.setText(getString(R.string.add_schools_results_title));
+                }
                 doSearch(newText, mainActivity, itemsAdapter);
                 return true;
             }
@@ -152,25 +137,23 @@ public class AddSchools extends Fragment {
 
 
         String[] searchSchoolName = new String[searchResult.size()];
-        for(int i=0; i<searchResult.size();i++){
+        for (int i = 0; i < searchResult.size(); i++) {
             searchSchoolName[i] = searchResult.get(i).getSchoolName();
         }
         itemsAdapter.setSchoolsToView(searchSchoolName);
     }
 
     private void setupCloseKeyboardOnTouch(View view) {
-        MainActivity mainActivity = (MainActivity)getActivity();
+        MainActivity mainActivity = (MainActivity) getActivity();
 
-        if(!(view instanceof EditText)) {   //SearchView instanceOf EditText
-            view.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
+        if (!(view instanceof EditText)) {   //SearchView instanceOf EditText
+            view.setOnTouchListener((v, event) -> {
 
-                    if(mainActivity.isKeyboardShown()) {
-                        mainActivity.hideKeyboard();
-                    }
-
-                    return false;
+                if (mainActivity.isKeyboardShown()) {
+                    mainActivity.hideKeyboard();
                 }
+
+                return false;
             });
         }
     }
@@ -178,44 +161,12 @@ public class AddSchools extends Fragment {
     public void updateFinishedButton() {
         int colorInactive = ContextCompat.getColor(getContext(), R.color.colorClickableSecondary);
         int colorActive = ContextCompat.getColor(getContext(), R.color.colorClickable);
-        if (SchoolManager.getDefault().getSelectedSchools().length < 1){
+        if (SchoolManager.getDefault().getSelectedSchools().length < 1) {
             finished.setTag(INACTIVE);
             finished.setBackgroundColor(colorInactive);
         } else {
             finished.setTag(ACTIVE);
             finished.setBackgroundColor(colorActive);
         }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnAddSchoolsInteractionListener) {
-            //mListener = (OnAddSchoolsInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        //mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnAddSchoolsInteractionListener {
-        // TODO: Update argument type and name
-        void onAddSchoolsInteraction(Uri uri);
     }
 }

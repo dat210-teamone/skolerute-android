@@ -118,8 +118,8 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
 
     //used when checking if school should be displayed
     private boolean shouldSchoolNameBeDisplayed(String schoolName){
-        for(int i=0; i<valuesToDisplay.length; i++) {
-            if (schoolName == valuesToDisplay[i]) {
+        for (String aValuesToDisplay : valuesToDisplay) {
+            if (schoolName == aValuesToDisplay) {
                 return true;
             }
         }
