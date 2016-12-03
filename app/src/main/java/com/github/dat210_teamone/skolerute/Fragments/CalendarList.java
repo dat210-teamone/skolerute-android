@@ -24,8 +24,6 @@ public class CalendarList extends Fragment {
     private ListView calendarList;
     private SchoolVacationDay[] vacationDays;
 
-    private OnCalendarListInteractionListener mListener;
-
     public CalendarList() {
         // Required empty public constructor
     }
@@ -44,7 +42,7 @@ public class CalendarList extends Fragment {
         // Generate objects to display based on selected schools
         VacationDaysListAdapter calendarListAdapter = new VacationDaysListAdapter(mainActivity, vacationDays);
 
-        calendarList = (ListView)view.findViewById(R.id.calendar_list);
+        calendarList = (ListView) view.findViewById(R.id.calendar_list);
         calendarList.setAdapter(calendarListAdapter);
 
         calendarList.setOnItemClickListener((parent, view1, position, id) -> {
@@ -53,8 +51,8 @@ public class CalendarList extends Fragment {
             Date date = day.getDate();
             //SchoolInfo info = SchoolManager.getDefault().getSchoolInfo(day.getName());
             AlertDialog alertDialog = new AlertDialog.Builder(CalendarList.super.getContext()).create();
-            alertDialog.setTitle(df.format(date) + ((day.getComment().length() > 0) ?  "\n" + day.getComment() : ""));
-            alertDialog.setMessage(day.getName()+ "\n" + (day.isStudentDay() ? "" : "- Skole stengt\n") + (day.isSfoDay() ? "" : "- SFO stengt"));
+            alertDialog.setTitle(df.format(date) + ((day.getComment().length() > 0) ? "\n" + day.getComment() : ""));
+            alertDialog.setMessage(day.getName() + "\n" + (day.isStudentDay() ? "" : "- Skole stengt\n") + (day.isSfoDay() ? "" : "- SFO stengt"));
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Ok",
                     (dialog, which) -> {
                         dialog.dismiss();
@@ -64,37 +62,5 @@ public class CalendarList extends Fragment {
         });
 
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnCalendarListInteractionListener) {
-            mListener = (OnCalendarListInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnCalendarListInteractionListener {
-        // TODO: Update argument type and name
-        void onCalendarListInteraction(Uri uri);
     }
 }

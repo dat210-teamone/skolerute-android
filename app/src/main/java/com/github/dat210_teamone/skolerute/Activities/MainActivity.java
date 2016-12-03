@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
+public class MainActivity extends AppCompatActivity {
 
     private final FragmentManager manager = getSupportFragmentManager();
     private Fragment fragment = manager.findFragmentById(R.id.fragment_container);
@@ -385,26 +385,4 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
     }
-
-    // Abstract methods from fragments
-    @Override
-    public void onAddSchoolsInteraction(Uri uri){
-
-    }
-
-    @Override
-    public void onCalendarListInteraction(Uri uri){
-
-    }
-
-    @Override
-    public void onStoredSchoolsInteraction(Uri uri){
-
-    }
-
-    @Override
-    public void onCalendarStandardInteraction(Uri uri){
-
-    }
-
 }

@@ -20,12 +20,6 @@ import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
 
 import java.util.Date;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link StoredSchools.OnStoredSchoolsInteractionListener} interface
- * to handle interaction events.
- */
 public class StoredSchools extends Fragment {
 
     private ListView storedSchoolsList;
@@ -38,8 +32,6 @@ public class StoredSchools extends Fragment {
     private final String MINIMIZED = "minimized";
 
     private MainActivity mainActivity;
-
-    private OnStoredSchoolsInteractionListener mListener;
 
     public StoredSchools() {
         // Required empty public constructor
@@ -75,7 +67,7 @@ public class StoredSchools extends Fragment {
 
     private void setupContainer(View view, MainActivity mainActivity) {
         storedSchoolsListContainer = (LinearLayout) view.findViewById(R.id.stored_schools_list_container);
-        listParamaters = (LinearLayout.LayoutParams)storedSchoolsListContainer.getLayoutParams();
+        listParamaters = (LinearLayout.LayoutParams) storedSchoolsListContainer.getLayoutParams();
         containerHeight = getContainerHeight();
         setContainerHeight(containerHeight);
     }
@@ -91,7 +83,7 @@ public class StoredSchools extends Fragment {
         expandContainerButton.setTag(EXPANDED);
         expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
         expandContainerButton.setOnClickListener(v -> {
-            if (expandContainerButton.getTag() == EXPANDED){
+            if (expandContainerButton.getTag() == EXPANDED) {
                 expandContainerButton.setTag(MINIMIZED);
                 expandContainerButton.setImageResource(R.drawable.ic_expand_more_white_24dp);
                 setContainerHeight(0);
@@ -104,35 +96,35 @@ public class StoredSchools extends Fragment {
     }
 
     private int getContainerHeight() {
-        int schoolNameHeight = (int)mainActivity.getResources().getDimension(R.dimen.school_name_height);
+        int schoolNameHeight = (int) mainActivity.getResources().getDimension(R.dimen.school_name_height);
         int numberOfSchools = mainActivity.schoolManager.getSelectedSchools().length;
         if (numberOfSchools > 3) {
-            return (int)(3.5 * schoolNameHeight);
-        } else if (numberOfSchools > 0){
+            return (int) (3.5 * schoolNameHeight);
+        } else if (numberOfSchools > 0) {
             return numberOfSchools * schoolNameHeight;
         }
         return schoolNameHeight;
     }
 
 
-    private void setupPopupMenu(View view, MainActivity mainActivity){
+    private void setupPopupMenu(View view, MainActivity mainActivity) {
         ImageView schoolSettingsBtn = (ImageView) view.findViewById(R.id.stored_schools_menu);
         schoolSettingsBtn.setOnClickListener(v -> {
             PopupMenu settingsMenu = new PopupMenu(mainActivity, schoolSettingsBtn);
             settingsMenu.inflate(R.menu.stored_schools_popup_menu);
 
             //If school should notify
-            if(mainActivity.schoolManager.getGlobalNotification()){
+            if (mainActivity.schoolManager.getGlobalNotification()) {
                 settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(true);
-            } else{
+            } else {
                 settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(false);
             }
             settingsMenu.setOnMenuItemClickListener(item -> {
-                if(item.getItemId() == R.id.itemNotification ){
-                    if(item.isChecked()){
+                if (item.getItemId() == R.id.itemNotification) {
+                    if (item.isChecked()) {
                         item.setChecked(false);
                         mainActivity.schoolManager.setGlobalNotification(false);
-                    } else{
+                    } else {
                         item.setChecked(true);
                         mainActivity.schoolManager.setGlobalNotification(true);
                     }
@@ -162,28 +154,10 @@ public class StoredSchools extends Fragment {
         });
     }
 
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnStoredSchoolsInteractionListener) {
-            mListener = (OnStoredSchoolsInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
     @Override
     public void onPause() {
         super.onPause();
-        MainActivity mainActivity = (MainActivity)getActivity();
+        MainActivity mainActivity = (MainActivity) getActivity();
         TextView addSchoolButton = (TextView) mainActivity.findViewById(R.id.go_to_add);
         ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
         addSchoolButton.setVisibility(View.INVISIBLE);
@@ -194,26 +168,10 @@ public class StoredSchools extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        MainActivity mainActivity = (MainActivity)getActivity();
+        MainActivity mainActivity = (MainActivity) getActivity();
         TextView addSchoolButton = (TextView) mainActivity.findViewById(R.id.go_to_add);
         ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
         addSchoolButton.setVisibility(View.VISIBLE);
         calendarViewToggle.setVisibility(View.VISIBLE);
-    }
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnStoredSchoolsInteractionListener {
-        // TODO: Update argument type and name
-        void onStoredSchoolsInteraction(Uri uri);
     }
 }
