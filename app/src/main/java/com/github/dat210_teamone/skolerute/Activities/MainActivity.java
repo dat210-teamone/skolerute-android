@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     private final FragmentManager manager = getSupportFragmentManager();
     private Fragment fragment = manager.findFragmentById(R.id.fragment_container);
     private Fragment fragmentSecondary = manager.findFragmentById(R.id.fragment_container_secondary);
-    private FragmentTransaction fragTrans =  manager.beginTransaction();
     private int posisjon;
 
     public SchoolManager schoolManager;// = SchoolManager.getDefault();
@@ -324,20 +323,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void replaceMainFragment(Fragment fragment){
         this.fragment = fragment;
-        fragTrans = manager.beginTransaction();
+        FragmentTransaction fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container, fragment);
         fragTrans.commit();
     }
 
     private void replaceSecondaryFragment(Fragment fragment){
         this.fragmentSecondary = fragment;
-        fragTrans = manager.beginTransaction();
+        FragmentTransaction fragTrans = manager.beginTransaction();
         fragTrans.replace(R.id.fragment_container_secondary, fragment);
         fragTrans.commit();
     }
 
     private void clearSecondaryFragment(){
-        fragTrans = manager.beginTransaction();
+        FragmentTransaction fragTrans = manager.beginTransaction();
         if(fragmentSecondary != null) {
             fragTrans.remove(fragmentSecondary);
         }
