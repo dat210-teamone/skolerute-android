@@ -3,6 +3,7 @@ package com.github.dat210_teamone.skolerute.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,6 +100,7 @@ public class AddSchoolsAdapter extends ArrayAdapter<String> {
                     addSchool.setText(R.string.store_school);
                     addSchool.setBackgroundColor(context.getResources().getColor(R.color.colorClickable));
                 }
+                Log.i("add school stuff", "id of view: " + object.getId() );
                 parentFragment.updateFinishedButton();
             }
         });

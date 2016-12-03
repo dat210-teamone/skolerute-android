@@ -7,9 +7,9 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -17,17 +17,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.dat210_teamone.skolerute.Fragments.AddSchools;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarList;
 import com.github.dat210_teamone.skolerute.Fragments.CalendarStandard;
-import com.github.dat210_teamone.skolerute.Fragments.SearchSchools;
 import com.github.dat210_teamone.skolerute.Fragments.StoredSchools;
 import com.github.dat210_teamone.skolerute.R;
 import com.github.dat210_teamone.skolerute.adapters.StoredSchoolsAdapter;
@@ -44,7 +47,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, SearchSchools.OnSearchSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
+public class MainActivity extends AppCompatActivity implements AddSchools.OnAddSchoolsInteractionListener, CalendarList.OnCalendarListInteractionListener, StoredSchools.OnStoredSchoolsInteractionListener, CalendarStandard.OnCalendarStandardInteractionListener{
 
     public FragmentManager manager = getSupportFragmentManager();
     public Fragment fragment = manager.findFragmentById(R.id.fragment_container);
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
         super.onCreate(savedInstanceState);
 
-        InterfaceManager.SetMainActivity(this);
+        InterfaceManager.SetMainContext(this);
         schoolManager = SchoolManager.getDefault();
 
         if (getAndCheckPermission(Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -102,7 +105,9 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         else
             goToStoredSchools();
 
-        NotificationUtil NU = new NotificationUtil(this);
+        schoolManager.subscribe(NotificationUtil.getDefault());
+        setupKeyboardTracker();
+        setupCloseKeyboardOnTouch();
     }
 
     private void initCalendarViewToggle(){
@@ -129,35 +134,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         calendarViewToggle.setTag(LIST_VIEW);
         calendarViewToggle.setImageResource(R.drawable.calendar_icon_white);
     }
-
-/*    private void setupNotificationToggle(){
-        ImageView notificationToggle = (ImageView) findViewById(R.id.notificationToggle);
-        notificationToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = getApplicationContext();
-                String text = "";
-                int duration = Toast.LENGTH_SHORT;
-
-                String viewTag = (String) notificationToggle.getTag();
-                if(viewTag.equals("alarm_off")){
-                    notificationToggle.setTag("alarm_on");
-                    notificationToggle.setImageResource(R.drawable.alarm_on);
-
-                    text = getResources().getString(R.string.alarm_paa);
-
-                } else{
-                    notificationToggle.setTag("alarm_off");
-                    notificationToggle.setImageResource(R.drawable.alarm_off);
-
-                    text = getResources().getString(R.string.alarm_av);
-                }
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-        });
-    } */
 
     private void initSchoolData(){
         allSchools = schoolManager.getSchoolInfo();
@@ -238,12 +214,100 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         }
     }
 
+    private void setupKeyboardTracker(){
+        final View mainActivityRootView = findViewById(R.id.main_container);
+        mainActivityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            boolean finishedButtonHidden = false;
+
+            @Override
+            public void onGlobalLayout() {
+                if(fragment.getClass() == AddSchools.class ) {
+                    View addSchoolView = fragment.getView();
+
+                    if (isKeyboardShown()) {
+
+                        if(finishedButtonHidden) {
+                            finishedButtonHidden = false;
+                            delayShowFinishedButton(addSchoolView, false, 0);
+                        }
+
+                    } else {
+
+                        if(!finishedButtonHidden) {
+                            finishedButtonHidden = true;
+                            delayShowFinishedButton(addSchoolView, true, 100);
+                        }
+
+                    }
+
+                }
+            }
+        });
+    }
+
+    public void setupCloseKeyboardOnTouch() {
+        final View mainActivityRootView = findViewById(R.id.main_container);
+
+        mainActivityRootView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if(fragment.getClass() == AddSchools.class ) {
+                    if (isKeyboardShown()) {
+                        hideKeyboard();
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
+    public void delayShowFinishedButton(View view, boolean show, int milliseconds){
+        final LinearLayout finishedButtonLayout = (LinearLayout) view.findViewById(R.id.finished_container);
+        new CountDownTimer(milliseconds, 10) {
+            public void onFinish() {
+
+                if(show){
+                    finishedButtonLayout.setVisibility(LinearLayout.VISIBLE);
+                } else{
+                    finishedButtonLayout.setVisibility(LinearLayout.GONE);
+                }
+            }
+            public void onTick(long millisUntilFinished) {
+
+            }
+        }.start();
+    }
+
     public void hideKeyboard() {
-        inputMethodManager.toggleSoftInput(InputMethodManager.RESULT_HIDDEN,0);
+        View view = this.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(this);
+        }
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
     }
 
     public void showKeyboard() {
-        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+        View view = this.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(this);
+        }
+        inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_FORCED);
+
+    }
+
+    public boolean isKeyboardShown(){
+        final View mainActivityRootView = findViewById(R.id.main_container);
+        int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
+
+        if (heightDiff > dpToPx(mainActivityRootView.getContext(), 200)) {
+            return true;
+        } else{
+            return false;
+        }
     }
 
     public void goToStoredSchools() {
@@ -264,11 +328,6 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     public void goToCalendarView() {
         replaceMainFragment(new CalendarStandard());
-    }
-
-    public void goToSearchSchool() {
-        replaceMainFragment(new SearchSchools());
-        clearSecondaryFragment();
     }
 
     public void viewCalendar() {
@@ -335,6 +394,12 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
         return super.onKeyDown(keyCode, event);
     }
 
+    //http://stackoverflow.com/a/4737265
+    public static float dpToPx(Context context, float valueInDp) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
+    }
+
     // Abstract methods from fragments
     @Override
     public void onAddSchoolsInteraction(Uri uri){
@@ -356,8 +421,4 @@ public class MainActivity extends AppCompatActivity implements AddSchools.OnAddS
 
     }
 
-    @Override
-    public void onSearchSchoolsInteraction(Uri uri) {
-
-    }
 }

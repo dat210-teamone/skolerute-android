@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.github.dat210_teamone.skolerute.data.interfaces.INotificationUpdate;
 import com.github.dat210_teamone.skolerute.model.SchoolVacationDay;
@@ -21,14 +22,16 @@ public class NotificationUtil implements INotificationUpdate {
     private Context con;
     private SchoolManager SM;
 
-    public NotificationUtil(Context con) {
+    private NotificationUtil(Context con, SchoolManager sm) {
         this.con = con;
-        this.SM = SchoolManager.getDefault();
-        this.SM.subscribe(this);
+        this.SM = sm;
         defaultManager = this;
     }
 
     public static NotificationUtil getDefault() {
+        if (defaultManager == null){
+            defaultManager = new NotificationUtil(InterfaceManager.getContext(), SchoolManager.getDefault());
+        }
         return defaultManager;
     }
 
@@ -68,10 +71,12 @@ public class NotificationUtil implements INotificationUpdate {
     //Get a schoolVacationDay and create a Alarmnotification for it.
     public void createNotification(SchoolVacationDay SVD) {
         Calendar calendar = Calendar.getInstance();
+        //calendar.add(Calendar.MINUTE, 2);
         calendar.setTime(SVD.getDate());
-        calendar.set(Calendar.HOUR_OF_DAY, 10);
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
+        //Log.d("NOTIFICATION ADD", "createNotification for: " + SVD.getName() + " at: " + calendar.toString());
 
         Intent i = new Intent(con, NotificationReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(con, (int)SVD.getDate().getTime(), i, PendingIntent.FLAG_UPDATE_CURRENT);

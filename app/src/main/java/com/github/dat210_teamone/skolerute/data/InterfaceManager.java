@@ -26,12 +26,12 @@ public final class InterfaceManager {
 
     }
 
-    public static void SetMainActivity(Activity activity){
+    public static void SetMainContext(Activity activity){
         mainActivity = activity;
         context = activity.getApplicationContext();
     }
 
-    public static void SetMainActivity(Context context){
+    public static void SetMainContext(Context context){
         InterfaceManager.context = context;
     }
 
