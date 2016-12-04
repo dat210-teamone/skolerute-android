@@ -10,7 +10,7 @@ dependencies:
     
 general:
   artifacts:
-    - "~\app\build\outputs"
+    - "~/app/build/outputs"
 
 dependencies:
   pre:
