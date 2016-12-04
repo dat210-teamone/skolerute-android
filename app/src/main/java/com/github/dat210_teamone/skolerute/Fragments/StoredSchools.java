@@ -126,20 +126,13 @@ public class StoredSchools extends Fragment {
             settingsMenu.inflate(R.menu.stored_schools_popup_menu);
 
             //If school should notify
-            if (mainActivity.schoolManager.getGlobalNotification()) {
-                settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(true);
-            } else {
-                settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(false);
-            }
+            settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(mainActivity.schoolManager.getGlobalNotification());
+
             settingsMenu.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.itemNotification) {
-                    if (item.isChecked()) {
-                        item.setChecked(false);
-                        mainActivity.schoolManager.setGlobalNotification(false);
-                    } else {
-                        item.setChecked(true);
-                        mainActivity.schoolManager.setGlobalNotification(true);
-                    }
+
+                    item.setChecked(!item.isChecked()); //Invert check
+                    mainActivity.schoolManager.setGlobalNotification(item.isChecked()); //Set new status
                 }
 
                 // start http://stackoverflow.com/a/31727213
@@ -169,21 +162,21 @@ public class StoredSchools extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        MainActivity mainActivity = (MainActivity) getActivity();
-        TextView addSchoolButton = (TextView) mainActivity.findViewById(R.id.go_to_add);
-        ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
-        addSchoolButton.setVisibility(View.INVISIBLE);
-        calendarViewToggle.setVisibility(View.INVISIBLE);
+        setVisibility(View.INVISIBLE);
         mainActivity.resetCalendarViewToggle();
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        setVisibility(View.VISIBLE);
+    }
+
+    private void setVisibility(int visible){
         MainActivity mainActivity = (MainActivity) getActivity();
         TextView addSchoolButton = (TextView) mainActivity.findViewById(R.id.go_to_add);
         ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
-        addSchoolButton.setVisibility(View.VISIBLE);
-        calendarViewToggle.setVisibility(View.VISIBLE);
+        addSchoolButton.setVisibility(visible);
+        calendarViewToggle.setVisibility(visible);
     }
 }
