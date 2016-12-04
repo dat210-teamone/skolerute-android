@@ -8,9 +8,10 @@ dependencies:
   cache_directories:
     - "custom_1"   # relative to the build directory
     
-general:
-  artifacts:
-    - "~/app/build/outputs"
+test:
+  override:
+    - ./gradlew assembleRelease
+    - cp -r skolerute-android/build/outputs $CIRCLE_ARTIFACTS
 
 dependencies:
   pre:
