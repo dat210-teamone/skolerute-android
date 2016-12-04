@@ -21,6 +21,7 @@ public class StoredSchools extends Fragment {
     //private TextView finished;
     private LinearLayout storedSchoolsListContainer;
     private LinearLayout.LayoutParams listParameters;
+    private ImageView expandContainerButton;
 
     private final String EXPANDED = "expanded";
     private final String MINIMIZED = "minimized";
@@ -73,20 +74,37 @@ public class StoredSchools extends Fragment {
 
 
     private void setupExpandButton(View view) {
-        ImageView expandContainerButton = (ImageView) view.findViewById(R.id.stored_schools_expand);
+        expandContainerButton = (ImageView) view.findViewById(R.id.stored_schools_expand);
         expandContainerButton.setTag(EXPANDED);
         expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
-        expandContainerButton.setOnClickListener(v -> {
-            if (expandContainerButton.getTag() == EXPANDED) {
-                expandContainerButton.setTag(MINIMIZED);
-                expandContainerButton.setImageResource(R.drawable.ic_expand_more_white_24dp);
-                setContainerHeight(0);
-            } else {
-                expandContainerButton.setTag(EXPANDED);
-                expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
-                setContainerHeight(getContainerHeight());
-            }
-        });
+
+        expandContainerButton.setOnClickListener(v -> toggleCollapse());
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public void toggleCollapse(){
+        if (expandContainerButton.getTag() == EXPANDED){
+            collapse();
+        }
+        else{
+            expand();
+        }
+    }
+
+    public void collapse(){
+        if (expandContainerButton.getTag() == EXPANDED) {
+            expandContainerButton.setTag(MINIMIZED);
+            expandContainerButton.setImageResource(R.drawable.ic_expand_more_white_24dp);
+            setContainerHeight(0);
+        }
+    }
+
+    public void expand(){
+        if (expandContainerButton.getTag() == MINIMIZED){
+            expandContainerButton.setTag(EXPANDED);
+            expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
+            setContainerHeight(getContainerHeight());
+        }
     }
 
     private int getContainerHeight() {

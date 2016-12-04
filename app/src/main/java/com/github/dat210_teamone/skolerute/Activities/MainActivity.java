@@ -274,16 +274,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /*public void showKeyboard() {
-        View view = this.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(this);
-        }
-        inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_FORCED);
-
-    }*/
-
     public boolean isKeyboardShown(){
         final View mainActivityRootView = findViewById(R.id.main_container);
         int heightDiff = mainActivityRootView.getRootView().getHeight() - mainActivityRootView.getHeight();
@@ -303,14 +293,7 @@ public class MainActivity extends AppCompatActivity {
         clearSecondaryFragment();
     }
 
-    /*public void goToCalendarList() {
-        replaceMainFragment(new CalendarList());
-    }
 
-    public void goToCalendarView() {
-        replaceMainFragment(new CalendarStandard());
-    }
-*/
     private void viewCalendar() {
         replaceSecondaryFragment(new CalendarStandard());
     }
@@ -341,22 +324,24 @@ public class MainActivity extends AppCompatActivity {
         fragTrans.commit();
     }
 
-    /*
-    public void setPosition(int a){
-        posisjon=a;
-    }
-
-    public int getPosisjon() {
-        return posisjon;
-    }
-*/
-
     public String[] getAllStoredSchoolNames(){
         String[] storedSchoolNames = new String[selectedSchools.length];
         for (int x = 0; x < selectedSchools.length; x++) {
             storedSchoolNames[x] = selectedSchools[x].getSchoolName();
         }
         return storedSchoolNames;
+    }
+
+    public void collapseMainFragment(){
+        if (fragment.getClass() == StoredSchools.class){
+            ((StoredSchools)fragment).collapse();
+        }
+    }
+
+    public void expandMainFragment(){
+        if (fragment.getClass() == StoredSchools.class){
+            ((StoredSchools)fragment).expand();
+        }
     }
 
     @Override
