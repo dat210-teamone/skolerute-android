@@ -162,9 +162,6 @@ public class CalendarViewer extends LinearLayout {
     }
 
     public void updateCalendar(HashSet<Date> events) {
-        /*if (currentDate == null) {
-            return;
-        }*/
 
         if (maxDate != null && currentDate.after(maxDate)) {
                 currentDate.add(Calendar.MONTH, -1);

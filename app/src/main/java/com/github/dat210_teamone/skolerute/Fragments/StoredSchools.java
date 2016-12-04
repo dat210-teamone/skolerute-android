@@ -21,6 +21,7 @@ public class StoredSchools extends Fragment {
     //private TextView finished;
     private LinearLayout storedSchoolsListContainer;
     private LinearLayout.LayoutParams listParameters;
+    private ImageView expandContainerButton;
 
     private final String EXPANDED = "expanded";
     private final String MINIMIZED = "minimized";
@@ -73,20 +74,37 @@ public class StoredSchools extends Fragment {
 
 
     private void setupExpandButton(View view) {
-        ImageView expandContainerButton = (ImageView) view.findViewById(R.id.stored_schools_expand);
+        expandContainerButton = (ImageView) view.findViewById(R.id.stored_schools_expand);
         expandContainerButton.setTag(EXPANDED);
         expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
-        expandContainerButton.setOnClickListener(v -> {
-            if (expandContainerButton.getTag() == EXPANDED) {
-                expandContainerButton.setTag(MINIMIZED);
-                expandContainerButton.setImageResource(R.drawable.ic_expand_more_white_24dp);
-                setContainerHeight(0);
-            } else {
-                expandContainerButton.setTag(EXPANDED);
-                expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
-                setContainerHeight(getContainerHeight());
-            }
-        });
+
+        expandContainerButton.setOnClickListener(v -> toggleCollapse());
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public void toggleCollapse(){
+        if (expandContainerButton.getTag() == EXPANDED){
+            collapse();
+        }
+        else{
+            expand();
+        }
+    }
+
+    public void collapse(){
+        if (expandContainerButton.getTag() == EXPANDED) {
+            expandContainerButton.setTag(MINIMIZED);
+            expandContainerButton.setImageResource(R.drawable.ic_expand_more_white_24dp);
+            setContainerHeight(0);
+        }
+    }
+
+    public void expand(){
+        if (expandContainerButton.getTag() == MINIMIZED){
+            expandContainerButton.setTag(EXPANDED);
+            expandContainerButton.setImageResource(R.drawable.ic_expand_less_white_24dp);
+            setContainerHeight(getContainerHeight());
+        }
     }
 
     private int getContainerHeight() {
@@ -108,20 +126,13 @@ public class StoredSchools extends Fragment {
             settingsMenu.inflate(R.menu.stored_schools_popup_menu);
 
             //If school should notify
-            if (mainActivity.schoolManager.getGlobalNotification()) {
-                settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(true);
-            } else {
-                settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(false);
-            }
+            settingsMenu.getMenu().findItem(R.id.itemNotification).setChecked(mainActivity.schoolManager.getGlobalNotification());
+
             settingsMenu.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.itemNotification) {
-                    if (item.isChecked()) {
-                        item.setChecked(false);
-                        mainActivity.schoolManager.setGlobalNotification(false);
-                    } else {
-                        item.setChecked(true);
-                        mainActivity.schoolManager.setGlobalNotification(true);
-                    }
+
+                    item.setChecked(!item.isChecked()); //Invert check
+                    mainActivity.schoolManager.setGlobalNotification(item.isChecked()); //Set new status
                 }
 
                 // start http://stackoverflow.com/a/31727213
@@ -151,21 +162,21 @@ public class StoredSchools extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        MainActivity mainActivity = (MainActivity) getActivity();
-        TextView addSchoolButton = (TextView) mainActivity.findViewById(R.id.go_to_add);
-        ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
-        addSchoolButton.setVisibility(View.INVISIBLE);
-        calendarViewToggle.setVisibility(View.INVISIBLE);
+        setVisibility(View.INVISIBLE);
         mainActivity.resetCalendarViewToggle();
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        setVisibility(View.VISIBLE);
+    }
+
+    private void setVisibility(int visible){
         MainActivity mainActivity = (MainActivity) getActivity();
         TextView addSchoolButton = (TextView) mainActivity.findViewById(R.id.go_to_add);
         ImageView calendarViewToggle = (ImageView) mainActivity.findViewById(R.id.calendar_view_toggle);
-        addSchoolButton.setVisibility(View.VISIBLE);
-        calendarViewToggle.setVisibility(View.VISIBLE);
+        addSchoolButton.setVisibility(visible);
+        calendarViewToggle.setVisibility(visible);
     }
 }

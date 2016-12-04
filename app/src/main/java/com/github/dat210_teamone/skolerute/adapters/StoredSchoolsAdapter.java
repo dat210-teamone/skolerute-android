@@ -43,11 +43,13 @@ public class StoredSchoolsAdapter extends ArrayAdapter<String> {
     @Override
     @NonNull
     public View getView(int position, View convertView,@NonNull ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         @SuppressLint("ViewHolder") View rowView = inflater.inflate(R.layout.stored_schools_layout, parent, false);
+
         TextView schoolName = (TextView) rowView.findViewById(R.id.school_name);
         schoolName.setText(values[position]);
+
         MainActivity mainActivity = (MainActivity)getContext();
 
         //CHECKBOX
